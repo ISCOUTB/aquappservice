@@ -1,0 +1,4 @@
+Flask==0.12.2
+Flask-Bootstrap==3.3.7.1
+flask-restplus==0.10.1
+PyMongo==3.6.1

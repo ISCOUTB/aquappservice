@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  database:
+    image: "mongo:latest"
+    ports:
+      - 27017:27017
+    volumes:
+      - ./database:/data/db
+
+  api:
+    build: ./api
+    ports:
+      - 5000:80
+    volumes:
+      - ./api:/usr/src/app
+    depends_on:
+      - database
+    command: "python /usr/src/app/runserver.py"
+
+  website:
+    image: "hitalos/laravel"
+    ports:
+      - 80:80
+    volumes:
+      - ./website:/var/www
+    depends_on:
+      - api
+    command: "sh /var/www/init.sh"
