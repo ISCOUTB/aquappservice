@@ -2,3 +2,5 @@ Flask==0.12.2
 Flask-Bootstrap==3.3.7.1
 flask-restplus==0.10.1
 PyMongo==3.6.1
+python-dotenv==0.8.2
+python-dateutil==2.7.2

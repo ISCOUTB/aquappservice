@@ -1,24 +1,22 @@
 from flask import Blueprint
 from flask_restplus import Api, Resource, Swagger
 
-from .apis.nodes_v1 import api as nodes
-from .apis.data_v1 import api as data
+from .apis.nodes import api as nodes
 
-blueprint = Blueprint('api', __name__, url_prefix="/api/v1")
+blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
 
-api = Api(blueprint, title="AquAppAPI", version="1.0.0",
-          description="API for AquApp clients")
+api = Api(blueprint, title='AquAppAPI', version='1.0.0',
+          description='API for AquApp clients')
 
-api.add_namespace(nodes, path="/")
-api.add_namespace(data, path="/")
+api.add_namespace(nodes, path='/nodes')
 
 
-@api.route("/schema")
+@api.route('/schema')
 class ApiSchema(Resource):
     _api_schema_cache = None
 
-    @api.doc(summary="Api schema in json format",
-             description="Schema of Api v1 as json")
+    @api.doc(summary='Api schema in json format',
+             description='Schema of Api v1 as json')
     def get(self):
         if ApiSchema._api_schema_cache:
             return ApiSchema._api_schema_cache
