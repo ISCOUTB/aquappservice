@@ -18,7 +18,7 @@ class Database:
         self.nodes = Database._default_db.nodes
         self.sensors = Database._default_db.sensors
         self.users = Database._default_db.users
-
+        self.sensor_data = Database._default_db.sensor_data
 
     def seed(self):
         # Create the admin user
@@ -33,7 +33,7 @@ class Database:
                                             "data/node_types.json")).read())]
             self.node_types.insert_many(node_types)
         except pymongo.errors.BulkWriteError:
-            pass
+            print('Could\'t load the node types')
 
         # Load all sensors into the "sensors" collection
         if not [sensor for sensor in self.sensors.find()]:
@@ -44,10 +44,19 @@ class Database:
 
         # Load all nodes into the "nodes" collection TODO wrap the try in an if to check for an empty db
         try:
-            nodes = [{**node, "_id": ObjectId(node["_id"]), 
-                      'sensors': [{**sensor, 'data': []} for sensor in self.node_types.find({'_id': ObjectId(node['node_type_id'])})[0]['sensors']]}
+            nodes = [{**node, "_id": ObjectId(node["_id"])}
                       for node in json.loads(open(os.path.join(os.path.dirname(__file__), "data/nodes.json")).read())]
-            # Load all seeds WIP
+            self.nodes.insert_many(nodes)
+        except pymongo.errors.BulkWriteError:
+            print('Couldn\'t load the nodes')
+
+        # Load all seeds WIP
+        if not [sensor_data for sensor_data in self.sensor_data.find()]:
+            sensor_data = []
+            for node in nodes:
+                for sensor in next(filter(lambda n: str(n['_id']) == str(node['node_type_id']), node_types))['sensors']:
+                    sensor_data.append({'node_id': str(node['_id']), 'variable': sensor['variable'], 'data': []})
+            
             for filename in os.listdir(os.path.join(os.path.dirname(__file__), 'data/nodes-data')):
                 try:
                     node = next(filter(lambda n: str(n['_id']) == filename[:-4], nodes))
@@ -59,14 +68,14 @@ class Database:
                 for line in open(os.path.join('data/nodes-data', filename)):
                     if line != '\n':
                         d = line.replace('\n', '').split(node_type['separator'])
-                        for i in range(1, len(d)):
+                        for sensor, value in zip(node_type['sensors'], d[1:]):
                             try:
-                                node['sensors'][i - 1]['data'].append({'date': date_parser.parse(d[0]), 'value': float(d[i])})
+                                next(filter(lambda sd: sd['variable'] == sensor['variable'] and sd['node_id'] == str(node['_id']), sensor_data))['data'].append({'date': date_parser.parse(d[0]), 'value': float(value)})
                             except ValueError:
                                 pass  # The value for that variable was not measured in that date
-            self.nodes.insert_many(nodes)
-        except pymongo.errors.BulkWriteError:
-            pass
+                            except StopIteration:
+                                pass
+            self.sensor_data.insert_many(sensor_data)
 
     def __new__(cls):  # Basic singleton pattern
         if cls._instance is None:
@@ -95,9 +104,15 @@ class Database:
         return [user for user in self.users.find(query)]
 
     def get_sensor_data(self, node_id, start_date, end_date, variable):  # Get sensor data
-        node = self.nodes.find({'_id': ObjectId(node_id)})[0]
-        sensor = next(filter(lambda v: v['variable'] == variable, node['sensors']))
         start_date = date_parser.parse(start_date)
         end_date = date_parser.parse(end_date)
-        data = [d for d in filter(lambda x: start_date <= x['date'] <= end_date , sensor['data'])]
-        return {'variable': variable, node_id: 'node_id', 'data': data}
+        try:
+            sensor = self.sensor_data.find({
+                'node_id': node_id,
+                'variable': variable
+            })[0]
+        except IndexError:
+            return []
+        return {'variable': variable, 'node_id': node_id, 'data': [
+            {**data, 'date': str(data['date'])} for data in filter(lambda s: start_date <= s['date'] <= end_date, sensor['data'])
+        ]}

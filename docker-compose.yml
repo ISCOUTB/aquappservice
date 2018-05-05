@@ -17,13 +17,3 @@ services:
     depends_on:
       - database
     command: "python /usr/src/app/runserver.py"
-
-  website:
-    image: "hitalos/laravel"
-    ports:
-      - 80:80
-    volumes:
-      - ./website:/var/www
-    depends_on:
-      - api
-    command: "sh /var/www/init.sh"
