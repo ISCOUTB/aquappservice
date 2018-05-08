@@ -4,3 +4,4 @@ flask-restplus==0.10.1
 PyMongo==3.6.1
 python-dotenv==0.8.2
 python-dateutil==2.7.2
+flask-cors==3.0.4

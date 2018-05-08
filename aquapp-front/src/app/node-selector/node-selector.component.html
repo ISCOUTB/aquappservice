@@ -1,0 +1,45 @@
+<mat-card>
+  <mat-card-title>Stations</mat-card-title>
+  <mat-radio-group class="node-type-selector" *ngFor="let node_type of node_types" [(ngModel)]="selected_node_type">
+      <mat-radio-button
+          [value]="node_type"
+          class="node-type">
+        {{ node_type }}
+      </mat-radio-button>
+  </mat-radio-group>
+  <!-- Date range
+    <mat-checkbox [(ngModel)]="use_date_range">Display available stations form within a date range</mat-checkbox>
+    <div *ngIf="use_date_range === true">
+      <mat-form-field class="example-full-width">
+        <input matInput [(ngModel)]="start_d" [min]="minDate" [max]="maxDate" [matDatepicker]="start" placeholder="Start date">
+        <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+        <mat-datepicker #start></mat-datepicker>
+      </mat-form-field> 
+      <mat-form-field class="example-full-width">
+        <input matInput [(ngModel)]="end_d" [min]="minDate" [max]="maxDate" [matDatepicker]="end" placeholder="End date">
+        <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+        <mat-datepicker #end></mat-datepicker>
+      </mat-form-field>
+    </div>
+  -->
+  <div id="mapid">
+    <div class="leaflet-control-container">
+      <div class="leaflet-top leaflet-left">
+        <div class="leaflet-control-zoom leaflet-bar leaflet-control">
+          <a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in">+</a>
+          <a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out">−</a>
+        </div>
+      </div>
+      <div class="leaflet-top leaflet-right"></div>
+      <div class="leaflet-bottom leaflet-left"></div>
+      <div class="leaflet-bottom leaflet-right"><div class="info legend leaflet-control">
+        <p class="text-center text-primary">ICAMpff values</p>
+        <i style="background:#FB1502"></i> Apalling (0–25)<br>
+        <i style="background:#F57702"></i> Inadequate (25–50)<br>
+        <i style="background:#F9F107"></i> Acceptable (50–70)<br>
+        <i style="background:#49C502"></i> Adequate (70–90)<br>
+        <i style="background:#0032FF"></i> Optimal (90 - 100)</div>
+      </div>
+    </div>
+  </div>
+</mat-card>
