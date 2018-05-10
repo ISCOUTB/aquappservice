@@ -3,9 +3,12 @@
     margin-top: 5px;
 }
 
+.side-navbar {
+    max-height: 100%;
+}
+
 #mapid {
-    height: 360px;
-    margin-top: 10px;
+    height: 100%;
 }
 
 /* Popup */

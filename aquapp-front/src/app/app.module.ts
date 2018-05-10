@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,7 +8,10 @@ import { MatButtonModule, MatCheckboxModule,
          MatRadioModule, MatFormFieldModule,
          MAT_DATE_LOCALE, 
          MatNativeDateModule,
-         MatInputModule} from '@angular/material';
+         MatInputModule,
+         MatSidenavModule,
+         MatTableModule,
+         MatIconModule, MatIconRegistry} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { NodeSelectorComponent } from './node-selector/node-selector.component';
@@ -40,6 +43,10 @@ import { HttpClientModule } from '@angular/common/http';
     MatRadioModule,
     MatCheckboxModule,
     MatFormFieldModule,
+    MatSidenavModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
     HttpClientModule
   ],
   providers: [
@@ -47,4 +54,10 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor (iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      'three-bar-menu',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/three-bar-menu.svg'));
+  }
+ }

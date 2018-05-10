@@ -1,12 +1,30 @@
-<mat-card>
-  <mat-card-title>Stations</mat-card-title>
-  <mat-radio-group class="node-type-selector" *ngFor="let node_type of node_types" [(ngModel)]="selected_node_type">
-      <mat-radio-button
-          [value]="node_type"
-          class="node-type">
-        {{ node_type }}
-      </mat-radio-button>
-  </mat-radio-group>
+<mat-toolbar [ngStyle]="{'height': '10%'}">
+  <div [ngStyle]="{'display': 'block', 'width': '100%'}">
+    <div [ngStyle]="{'display': 'block', 'float': 'left'}">AquApp</div>
+    <div [ngStyle]="{'display' : (screenWidth > 840) ? 'none' : 'block', 'float': 'right'}">
+      <button mat-button type="button" md-button (click)="sidenav.toggle()">
+        <mat-icon svgIcon="three-bar-menu"></mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+
+<mat-sidenav-container [ngStyle]="{'height': '90%'}">
+  <mat-sidenav #sidenav [opened]="screenWidth > 840" [mode]="(screenWidth > 840) ? 'side' : 'over'" class="side-navbar">
+    <mat-card>
+        <mat-card-title>Stations</mat-card-title>
+        <mat-radio-group (change)="resetMarkers()" class="node-type-selector" *ngFor="let node_type of node_types" [(ngModel)]="selected_node_type">
+            <mat-radio-button
+                [value]="node_type"
+                class="node-type">
+              {{ node_type }}
+            </mat-radio-button>
+        </mat-radio-group>
+        Real Time: <img src="assets/glyph-marker-icon-green.png" alt="Icon for real time station">
+        
+    </mat-card>
+    <app-export-selector></app-export-selector>
+  </mat-sidenav>
   <!-- Date range
     <mat-checkbox [(ngModel)]="use_date_range">Display available stations form within a date range</mat-checkbox>
     <div *ngIf="use_date_range === true">
@@ -22,24 +40,26 @@
       </mat-form-field>
     </div>
   -->
-  <div id="mapid">
-    <div class="leaflet-control-container">
-      <div class="leaflet-top leaflet-left">
-        <div class="leaflet-control-zoom leaflet-bar leaflet-control">
-          <a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in">+</a>
-          <a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out">−</a>
+  <mat-sidenav-content>
+      <div id="mapid">
+          <div class="leaflet-control-container">
+            <div class="leaflet-top leaflet-left">
+              <div class="leaflet-control-zoom leaflet-bar leaflet-control">
+                <a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in">+</a>
+                <a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out">−</a>
+              </div>
+            </div>
+            <div class="leaflet-top leaflet-right"></div>
+            <div class="leaflet-bottom leaflet-left"></div>
+            <div class="leaflet-bottom leaflet-right"><div class="info legend leaflet-control">
+              <p class="text-center text-primary">ICAMpff values</p>
+              <i style="background:#FB1502"></i> Apalling (0–25)<br>
+              <i style="background:#F57702"></i> Inadequate (25–50)<br>
+              <i style="background:#F9F107"></i> Acceptable (50–70)<br>
+              <i style="background:#49C502"></i> Adequate (70–90)<br>
+              <i style="background:#0032FF"></i> Optimal (90 - 100)</div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="leaflet-top leaflet-right"></div>
-      <div class="leaflet-bottom leaflet-left"></div>
-      <div class="leaflet-bottom leaflet-right"><div class="info legend leaflet-control">
-        <p class="text-center text-primary">ICAMpff values</p>
-        <i style="background:#FB1502"></i> Apalling (0–25)<br>
-        <i style="background:#F57702"></i> Inadequate (25–50)<br>
-        <i style="background:#F9F107"></i> Acceptable (50–70)<br>
-        <i style="background:#49C502"></i> Adequate (70–90)<br>
-        <i style="background:#0032FF"></i> Optimal (90 - 100)</div>
-      </div>
-    </div>
-  </div>
-</mat-card>
+  </mat-sidenav-content>
+</mat-sidenav-container>

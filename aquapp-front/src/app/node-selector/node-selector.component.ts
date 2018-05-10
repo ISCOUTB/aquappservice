@@ -5,9 +5,9 @@ import { Node } from '../node';
 import { Map, TileLayer, tileLayer, 
          featureGroup, FeatureGroup, 
          GeoJSON, geoJSON, Browser, 
-         Control, DomUtil,
-         Marker, marker,
-         Icon } from 'leaflet';
+         Control, Marker,
+         Icon, DivIcon } from 'leaflet';
+import { glyphIcon } from './glyph-icon';
 import { waterBodiesData } from './map-data';
 import { NodeType } from '../node-type';
 
@@ -19,7 +19,7 @@ import { NodeType } from '../node-type';
 
 export class NodeSelectorComponent implements OnInit {
   selected_node_type: string = 'all';
-  node_types: string[] = ['Water Quality', 'Hydro-Metereologic Factors', 'Weather Station', 'all'];
+  node_types: string[] = ['Water Quality', 'Hydro-Meteorologic Factors', 'Weather Station', 'all'];
   // use_date_range: boolean;
   // min_date: Date = new Date(2016, 0, 1);
   // max_date: Date = new Date();
@@ -30,13 +30,22 @@ export class NodeSelectorComponent implements OnInit {
   nodes: Node[];
   nodeTypes: NodeType[];
   map: Map;
-  markers: Marker[];
+  markers: Marker[] = [];
+  screenWidth: number;
   
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) { 
+    // set screenWidth on page load
+    this.screenWidth = window.innerWidth;
+    window.onresize = () => {
+      // set screenWidth on screen size change
+      this.screenWidth = window.innerWidth;
+    };
+  }
 
   ngOnInit() {
     this.getNodes();
-    this.map = new Map('mapid').setView([10.4261961, -75.5364990], 14);
+    this.map = new Map('mapid').setView([10.3861961, -75.4364990], 12);
+    
     tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
       maxZoom: 18,
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -62,13 +71,12 @@ export class NodeSelectorComponent implements OnInit {
       return layer.getAttribution();
     }).addTo(this.map);
     
-    var ico = new Icon({
-      iconUrl: 'assets/glyph-marker-icon-blue.png',
-      cssClass:'xolonium'
+    /**
+     *  var ico = new DivIcon({
+      html: '<img class="xolonium" src="assets/glyph-marker-icon-blue.png"/>'+
+            '<span class="xolonium">WS</span>'
     });
-    
-    var marker = new Marker([10.3336549, -75.5059747], {title: 'Ejemplo', icon: ico});
-    marker.addTo(this.map);
+     */
   }
 
   getNodes(): void {
@@ -79,7 +87,58 @@ export class NodeSelectorComponent implements OnInit {
 
   getNodeTypes(): void {
     this.apiService.getNodeTypes().subscribe(nodeTypes => this.nodeTypes = nodeTypes,
-                                             () => console.log("node-selector: Couldn't get the node types"));
+                                             () => console.log("node-selector: Couldn't get the node types"),
+                                             () => this.setMarkers());
+  }
+
+  setMarkers(): void {
+    this.nodes.forEach(node => {
+      var acronym: string[] = ["E", "E"];
+      var nodeType: string;
+      this.nodeTypes.forEach(nt => {
+        if (nt._id == node.node_type_id) {
+          acronym = nt.name.split(' ');
+          nodeType = nt.name;
+        }
+      });
+      
+      var ico_url: string;
+      switch (node.status) {
+        case 'Real Time':
+          ico_url = 'assets/glyph-marker-icon-green.png';
+          break;
+        case 'Non Real Time':
+          ico_url = 'assets/glyph-marker-icon-blue.png';
+          break;
+        case 'Off':
+          ico_url = 'assets/glyph-marker-icon-gray.png';
+          break;
+        default:
+          ico_url = 'assets/glyph-marker-icon-gray.png';
+          break;
+      }
+
+      var ico = glyphIcon({
+        className: 'xolonium',
+        glyph: acronym[0][0] + acronym[1][0],
+        iconUrl: ico_url
+      });
+
+      var marker = new Marker([node.coordinates[0], node.coordinates[1]], {title: node.name, icon: ico});
+      if (nodeType == this.selected_node_type || this.selected_node_type == 'all') {
+        marker.addTo(this.map);
+        this.markers.push(marker);
+      }
+    });
+  }
+
+  resetMarkers(): void {
+    console.log('Resetting markers...');
+    this.markers.forEach(marker => {
+      marker.removeFrom(this.map);
+    });
+    this.markers = [];
+    this.setMarkers();
   }
 
 }

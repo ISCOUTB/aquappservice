@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Node } from '../node';
 import { NodeType } from '../node-type';
 import { Observable } from 'rxjs';
+import { WaterBody } from '../water-body';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,10 @@ export class ApiService {
 
   getNodeTypes(): Observable<NodeType[]> {
     return this.http.get<NodeType[]>(this.apiUrl + "/nodes/types")
+  }
+
+  getWaterBodies(): Observable<WaterBody[]> {
+    return this.http.get<WaterBody[]>(this.apiUrl + "/water-bodies")
   }
 
   constructor(private http: HttpClient) { }

@@ -1,10 +1,10 @@
 export class Node {
     _id: string;
     name: string;
-    nodeTypeId: string;
+    node_type_id: string;
     location: string;
     coordinates: number[];
-    createdAt: Date;
-    lastUpdatedAt: Date;
+    created_at: Date;
+    last_updated_at: Date;
     status: string;
 }

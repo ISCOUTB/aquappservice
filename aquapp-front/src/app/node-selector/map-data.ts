@@ -4,7 +4,6 @@ export var waterBodiesData:any = [
         "id":"1",
         "properties":{
             "name":"Ciénaga de las Quintas",
-            
             "icam":9.851
         },
         "geometry":{
