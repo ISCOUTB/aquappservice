@@ -20,8 +20,19 @@
               {{ node_type }}
             </mat-radio-button>
         </mat-radio-group>
-        Real Time: <img src="assets/glyph-marker-icon-green.png" alt="Icon for real time station">
         
+        <table [ngStyle]="{'text-align': 'center', 'font-size': '12px', 'margin-top': '5px'}">
+          <tr>
+            <td>Real Time</td>
+            <td>Non Real Time</td>
+            <td>Off</td>
+          </tr>
+          <tr>
+            <td><img src="assets/glyph-marker-icon-green.png" alt="Icon for real time station"></td>
+            <td><img src="assets/glyph-marker-icon-blue.png" alt="Icon for real time station"></td>
+            <td><img src="assets/glyph-marker-icon-gray.png" alt="Icon for real time station"></td>
+          </tr>
+        </table>
     </mat-card>
     <app-export-selector></app-export-selector>
   </mat-sidenav>

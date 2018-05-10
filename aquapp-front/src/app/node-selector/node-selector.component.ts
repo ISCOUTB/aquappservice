@@ -70,13 +70,6 @@ export class NodeSelectorComponent implements OnInit {
     ).bindPopup((layer) => {
       return layer.getAttribution();
     }).addTo(this.map);
-    
-    /**
-     *  var ico = new DivIcon({
-      html: '<img class="xolonium" src="assets/glyph-marker-icon-blue.png"/>'+
-            '<span class="xolonium">WS</span>'
-    });
-     */
   }
 
   getNodes(): void {
