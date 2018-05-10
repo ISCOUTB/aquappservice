@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Node } from '../node';
+import { Data } from '../sensor-data';
 import { NodeType } from '../node-type';
 import { Observable } from 'rxjs';
 import { WaterBody } from '../water-body';
@@ -16,8 +17,14 @@ export class ApiService {
     return this.http.get<Node[]>(this.apiUrl + "/nodes")
   }
 
-  getNodeData(nodeId:string, startDate:Date, endDate:Date, variable:string) {
-    return []
+  getNodeData(nodeId:string, startDate:Date, endDate:Date, variable:string): Observable<Data[]> {
+    var parameters: HttpParams = new HttpParams();
+    parameters.set('start_date', startDate.toString());
+    parameters.set('end_date', endDate.toString());
+    parameters.set('variable', variable)
+    return this.http.get<Data[]>(this.apiUrl + "/" + nodeId + "/data", {
+      params: parameters
+    })
   }
 
   getNodeTypes(): Observable<NodeType[]> {

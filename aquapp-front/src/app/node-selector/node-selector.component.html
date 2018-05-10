@@ -9,32 +9,41 @@
   </div>
 </mat-toolbar>
 
-<mat-sidenav-container [ngStyle]="{'height': '90%'}">
+<mat-sidenav-container [ngStyle]="{'height': '90%', 'width': '100%'}">
   <mat-sidenav #sidenav [opened]="screenWidth > 840" [mode]="(screenWidth > 840) ? 'side' : 'over'" class="side-navbar">
-    <mat-card>
-        <mat-card-title>Stations</mat-card-title>
-        <mat-radio-group (change)="resetMarkers()" class="node-type-selector" *ngFor="let node_type of node_types" [(ngModel)]="selected_node_type">
-            <mat-radio-button
-                [value]="node_type"
-                class="node-type">
-              {{ node_type }}
-            </mat-radio-button>
-        </mat-radio-group>
-        
-        <table [ngStyle]="{'text-align': 'center', 'font-size': '12px', 'margin-top': '5px'}">
-          <tr>
-            <td>Real Time</td>
-            <td>Non Real Time</td>
-            <td>Off</td>
-          </tr>
-          <tr>
-            <td><img src="assets/glyph-marker-icon-green.png" alt="Icon for real time station"></td>
-            <td><img src="assets/glyph-marker-icon-blue.png" alt="Icon for real time station"></td>
-            <td><img src="assets/glyph-marker-icon-gray.png" alt="Icon for real time station"></td>
-          </tr>
-        </table>
-    </mat-card>
-    <app-export-selector></app-export-selector>
+      <mat-accordion>
+          <mat-expansion-panel [expanded]="defaultElementExpanded === true" (opened)="defaultElementExpanded = true" (closed)="defaultElementExpanded = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Stations</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-radio-group (change)="resetMarkers()" class="node-type-selector" *ngFor="let node_type of node_types" [(ngModel)]="selected_node_type">
+                <mat-radio-button
+                    [value]="node_type"
+                    class="node-type">
+                  {{ node_type }}
+                </mat-radio-button>
+            </mat-radio-group>
+            
+            <table [ngStyle]="{'text-align': 'center', 'font-size': '12px', 'margin-top': '5px'}">
+              <tr>
+                <td>Real Time</td>
+                <td>Non Real Time</td>
+                <td>Off</td>
+              </tr>
+              <tr>
+                <td><img src="assets/glyph-marker-icon-green.png" alt="Icon for real time station"></td>
+                <td><img src="assets/glyph-marker-icon-blue.png" alt="Icon for real time station"></td>
+                <td><img src="assets/glyph-marker-icon-gray.png" alt="Icon for real time station"></td>
+              </tr>
+            </table>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>Export</mat-panel-title>
+              </mat-expansion-panel-header>
+              <app-export-selector></app-export-selector>
+          </mat-expansion-panel>
+        </mat-accordion>
   </mat-sidenav>
   <!-- Date range
     <mat-checkbox [(ngModel)]="use_date_range">Display available stations form within a date range</mat-checkbox>
@@ -51,7 +60,7 @@
       </mat-form-field>
     </div>
   -->
-  <mat-sidenav-content>
+  <mat-sidenav-content class="sidenav-content">
       <div id="mapid">
           <div class="leaflet-control-container">
             <div class="leaflet-top leaflet-left">

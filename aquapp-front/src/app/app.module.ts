@@ -11,7 +11,7 @@ import { MatButtonModule, MatCheckboxModule,
          MatInputModule,
          MatSidenavModule,
          MatTableModule,
-         MatIconModule, MatIconRegistry} from '@angular/material';
+         MatIconModule, MatIconRegistry, MatExpansionModule, MatSelectModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { NodeSelectorComponent } from './node-selector/node-selector.component';
@@ -32,6 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
+    MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatCheckboxModule,
@@ -42,11 +43,12 @@ import { HttpClientModule } from '@angular/common/http';
     MatNativeDateModule,
     MatRadioModule,
     MatCheckboxModule,
-    MatFormFieldModule,
     MatSidenavModule,
     MatTableModule,
     MatButtonModule,
     MatIconModule,
+    MatExpansionModule,
+    MatSelectModule,
     HttpClientModule
   ],
   providers: [

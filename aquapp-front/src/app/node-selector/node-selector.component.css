@@ -6,10 +6,16 @@
 
 .side-navbar {
     max-height: 100%;
+    width: 300px;
+}
+
+.sidenav-content {
+    width: 100%;
 }
 
 #mapid {
     height: 100%;
+    width: 100%;
 }
 
 /* Popup */

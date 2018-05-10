@@ -32,6 +32,9 @@ export class NodeSelectorComponent implements OnInit {
   map: Map;
   markers: Marker[] = [];
   screenWidth: number;
+  // The first element of the accordion in the sidenav of the application
+  // Should be expanded when the page loads.
+  defaultElementExpanded: boolean = true;
   
   constructor(private apiService: ApiService) { 
     // set screenWidth on page load
@@ -43,6 +46,7 @@ export class NodeSelectorComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.resizeBy(window.innerWidth, window.innerHeight);
     this.getNodes();
     this.map = new Map('mapid').setView([10.3861961, -75.4364990], 12);
     
@@ -72,19 +76,19 @@ export class NodeSelectorComponent implements OnInit {
     }).addTo(this.map);
   }
 
-  getNodes(): void {
+  getNodes() {
     this.apiService.getNodes().subscribe(nodes => this.nodes = nodes, 
                                          () => console.log("node-selector: Couldn't get the nodes"), 
                                          () => this.getNodeTypes());
   }
 
-  getNodeTypes(): void {
+  getNodeTypes() {
     this.apiService.getNodeTypes().subscribe(nodeTypes => this.nodeTypes = nodeTypes,
                                              () => console.log("node-selector: Couldn't get the node types"),
                                              () => this.setMarkers());
   }
 
-  setMarkers(): void {
+  setMarkers() {
     this.nodes.forEach(node => {
       var acronym: string[] = ["E", "E"];
       var nodeType: string;
@@ -125,7 +129,7 @@ export class NodeSelectorComponent implements OnInit {
     });
   }
 
-  resetMarkers(): void {
+  resetMarkers() {
     console.log('Resetting markers...');
     this.markers.forEach(marker => {
       marker.removeFrom(this.map);

@@ -1,3 +1,16 @@
-<mat-card>
-  <mat-card-title>Export data</mat-card-title>
-</mat-card>
+<mat-form-field *ngIf="nodes">
+    <mat-select (selectionChange)="selectNode()" [(value)]="selectedNode" placeholder="Station">
+        <mat-option *ngFor="let node of nodes" [value]="node.name">{{ node.name }}</mat-option>
+    </mat-select>
+</mat-form-field>
+<mat-form-field [ngStyle]="{'display': 'block'}">
+        <input matInput [(ngModel)]="startDate" [matDatepicker]="sd" placeholder="Start date" disabled>
+        <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
+        <mat-datepicker touchUi="true" #sd startView="year" [startAt]="startDate" disabled="false"></mat-datepicker>
+</mat-form-field>
+<mat-form-field [ngStyle]="{'display': 'block'}">
+        <input matInput [(ngModel)]="endDate" [matDatepicker]="ed" placeholder="End date" disabled>
+        <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
+        <mat-datepicker touchUi="true" #ed startView="year" [startAt]="endDate" disabled="false"></mat-datepicker>
+</mat-form-field>
+
