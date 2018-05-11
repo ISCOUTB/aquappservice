@@ -1,5 +1,5 @@
-import 'dygraphs';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Data } from '../sensor-data';
 import { Node } from '../node';
 import { NodeType } from '../node-type';
@@ -14,7 +14,6 @@ import { ApiService } from '../api/api.service';
 export class ExportSelectorComponent implements OnInit {
   nodes: Node[];
   nodeTypes: NodeType[];
-  graph: Dygraph;
   nodeId: string;
   startDate: Date;
   endDate: Date;
@@ -26,7 +25,7 @@ export class ExportSelectorComponent implements OnInit {
   exportFormat: string;
   loadingData: boolean = false;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.apiService.getNodes().subscribe(nodes => this.nodes = nodes, 
@@ -81,6 +80,48 @@ export class ExportSelectorComponent implements OnInit {
       window.open(url);
     } else {
       // Open popup
+      this.openDialog();
     }
+  }
+
+  openDialog(): void {
+    // We need to convert the JSON data to csv
+    var csv_data:string = "Date," + this.data.variable + "\n";
+    console.log('export-selector: Converting data to csv')
+    this.data.data.forEach(datum => {
+      csv_data += datum.date.toString() + "," + datum.value.toString() + "\n";
+    });
+    console.log('export-selector: Data converted to csv, charting...')
+
+    let dialogRef = this.dialog.open(Dialog, {
+      width: '80%',
+      height: '80%',
+      data: {
+        'node_id': this.data.node_id, 
+        'variable': this.data.variable, 
+        'data': csv_data
+      }
+    });
+    console.log('export-selector: Chart ready!')
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+}
+
+@Component({
+  selector: 'dialog',
+  templateUrl: 'dialog.component.html',
+})
+
+export class Dialog {
+  constructor(
+    public dialogRef: MatDialogRef<Dialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }
