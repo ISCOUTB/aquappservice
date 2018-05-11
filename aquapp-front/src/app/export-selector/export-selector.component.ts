@@ -24,7 +24,7 @@ export class ExportSelectorComponent implements OnInit {
   actualSelectedNode: Node;
   variables: string[];
   exportFormat: string;
-  loadingData: boolean;
+  loadingData: boolean = false;
 
   constructor(private apiService: ApiService) { }
 
@@ -67,15 +67,18 @@ export class ExportSelectorComponent implements OnInit {
   }
 
   export() {
-    console.log("export-selector: exporting data...");
-    console.log("export-selector: selectedNode -> ", this.selectedNode);
-    console.log("export-selector: startDate -> ", this.startDate.toISOString());
-    console.log("export-selector: endDate -> ", this.endDate.toISOString());
-    console.log("export-selector: variable -> ", this.variable);
-    console.log("export-selector: exportFormat -> ", this.exportFormat);
-    console.log("export-selector: data's node id: ", this.data.node_id);
     if (this.exportFormat == 'csv') {
       // Convert JSON to csv and download
+      this.loadingData = true;
+      var data:string = "";
+      this.data.data.forEach(datum => {
+        data += datum.date + "," + datum.value + "\n";
+      });
+      this.loadingData = false;
+
+      var blob = new Blob([data], {type: 'text/csv'});
+      var url= window.URL.createObjectURL(blob);
+      window.open(url);
     } else {
       // Open popup
     }

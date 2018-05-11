@@ -53,7 +53,6 @@ export class NodeSelectorComponent implements OnInit {
     this.getNodes();
     this.map = new Map('mapid').setView([10.4861961, -75.5364990], 12);
     this.map.on('baselayerchange', function(e: any) {
-      console.log(e);
       this.map.fitBounds(e.layer);
     });
 
@@ -137,7 +136,6 @@ export class NodeSelectorComponent implements OnInit {
   }
 
   resetMarkers() {
-    console.log('Resetting markers...');
     this.markers.forEach(marker => {
       marker.removeFrom(this.map);
     });

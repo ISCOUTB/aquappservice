@@ -11,7 +11,7 @@ import { MatButtonModule, MatCheckboxModule,
          MatInputModule,
          MatSidenavModule,
          MatTableModule,
-         MatIconModule, MatIconRegistry, MatExpansionModule, MatSelectModule} from '@angular/material';
+         MatIconModule, MatIconRegistry, MatExpansionModule, MatSelectModule, MatProgressSpinnerModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { NodeSelectorComponent } from './node-selector/node-selector.component';
@@ -49,6 +49,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatIconModule,
     MatExpansionModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
     HttpClientModule
   ],
   providers: [
