@@ -34,7 +34,7 @@ export class NodeSelectorComponent implements OnInit {
   screenWidth: number;
   // The first element of the accordion in the sidenav of the application
   // Should be expanded when the page loads.
-  defaultElementExpanded: boolean = true;
+  defaultExpandedElement: boolean = true;
   
   constructor(private apiService: ApiService) { 
     // set screenWidth on page load
@@ -42,14 +42,21 @@ export class NodeSelectorComponent implements OnInit {
     window.onresize = () => {
       // set screenWidth on screen size change
       this.screenWidth = window.innerWidth;
+      if (this.map !== undefined) {
+        this.map.setView([10.4061961, -75.5364990], 12);
+      }
     };
   }
 
   ngOnInit() {
     window.resizeBy(window.innerWidth, window.innerHeight);
     this.getNodes();
-    this.map = new Map('mapid').setView([10.3861961, -75.4364990], 12);
-    
+    this.map = new Map('mapid').setView([10.4861961, -75.5364990], 12);
+    this.map.on('baselayerchange', function(e: any) {
+      console.log(e);
+      this.map.fitBounds(e.layer);
+    });
+
     tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
       maxZoom: 18,
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -120,7 +127,7 @@ export class NodeSelectorComponent implements OnInit {
         glyph: acronym[0][0] + acronym[1][0],
         iconUrl: ico_url
       });
-
+      
       var marker = new Marker([node.coordinates[0], node.coordinates[1]], {title: node.name, icon: ico});
       if (nodeType == this.selected_node_type || this.selected_node_type == 'all') {
         marker.addTo(this.map);
