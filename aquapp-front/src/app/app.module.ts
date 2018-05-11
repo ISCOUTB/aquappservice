@@ -1,3 +1,4 @@
+import './polyfills';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -49,48 +50,6 @@ import { MapComponent } from './map/map.component';
 import { ChartComponent } from './chart/chart.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgDygraphsModule } from 'ng-dygraphs';
-@NgModule({
-  exports: [
-    CdkTableModule,
-    MatAutocompleteModule,
-    MatBadgeModule,
-    MatBottomSheetModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatStepperModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatExpansionModule,
-    MatGridListModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatNativeDateModule,
-    MatPaginatorModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-    MatRippleModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatSliderModule,
-    MatSlideToggleModule,
-    MatSnackBarModule,
-    MatSortModule,
-    MatTableModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatTooltipModule,
-    MatTreeModule,
-    NgDygraphsModule
-  ]
-})
-export class DemoMaterialModule {}
 
 @NgModule({
   declarations: [
@@ -101,12 +60,11 @@ export class DemoMaterialModule {}
     MapComponent,
     ChartComponent
   ],
-  entryComponents: [ExportSelectorComponent, Dialog],
+  entryComponents: [Dialog, ExportSelectorComponent],
   imports: [
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
-    DemoMaterialModule,
     MatNativeDateModule,
     ReactiveFormsModule,
     MatFormFieldModule,

@@ -29,7 +29,7 @@
             ],
             "scripts": [
               "node_modules/leaflet/dist/leaflet-src.js",
-              "node_modules/dygraphs/index.js"
+              "node_modules/dygraphs/dist/dygraph.min.js"
             ]
           },
           "configurations": {

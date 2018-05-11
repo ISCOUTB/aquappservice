@@ -87,32 +87,27 @@ export class ExportSelectorComponent implements OnInit {
   openDialog(): void {
     // We need to convert the JSON data to csv
     var csv_data:string = "Date," + this.data.variable + "\n";
-    console.log('export-selector: Converting data to csv')
+    console.log('export-selector: Converting data to csv');
     this.data.data.forEach(datum => {
       csv_data += datum.date.toString() + "," + datum.value.toString() + "\n";
     });
-    console.log('export-selector: Data converted to csv, charting...')
+    console.log('export-selector: Data converted to csv, charting...');
 
-    let dialogRef = this.dialog.open(Dialog, {
+    this.dialog.open(Dialog, {
       width: '80%',
       height: '80%',
       data: {
         'node_id': this.data.node_id, 
-        'variable': this.data.variable, 
-        'data': csv_data
+        'variable': this.data.variable,
+        'sensor_data': csv_data
       }
-    });
-    console.log('export-selector: Chart ready!')
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 }
 
 @Component({
-  selector: 'dialog',
-  templateUrl: 'dialog.component.html',
+  selector: 'dialog-component',
+  templateUrl: './dialog.component.html',
 })
 
 export class Dialog {
