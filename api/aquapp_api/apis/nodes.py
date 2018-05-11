@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, abort
 from flask_restplus import Namespace, Resource, reqparse
 from .core.database import Database
 from .core.swagger_models import *
@@ -102,7 +102,7 @@ class NodeData(Resource):
     @api.doc(summary='Get node data', description='Get the node data according to the provided parameters',
              responses={200: ('Filtered data', data)})
     def get(self, node_id):
-        parser = reqparse.RequestParser()
+        parser = reqparse.RequestParser(bundle_errors=True)
         parser.add_argument('start_date', type=str, required=True, location='args')
         parser.add_argument('end_date', type=str, required=True, location='args')
         parser.add_argument('variable', type=str, required=True, location='args')

@@ -1,5 +1,5 @@
 import 'dygraphs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Data } from '../sensor-data';
 import { Node } from '../node';
 import { NodeType } from '../node-type';
@@ -19,9 +19,13 @@ export class ExportSelectorComponent implements OnInit {
   startDate: Date;
   endDate: Date;
   variable: string;
-  data: Data[];
+  data: Data;
   selectedNode: string;
   actualSelectedNode: Node;
+  variables: string[];
+  exportFormat: string;
+  loadingData: boolean;
+
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
@@ -36,12 +40,44 @@ export class ExportSelectorComponent implements OnInit {
   }
 
   getData() {
-    this.apiService.getNodeData(this.nodeId, this.startDate, this.endDate, this.variable).subscribe(data => this.data = data, 
-      () => console.log("export-selector: Couldn't get the nodes data"));
+    this.apiService.getNodeData(this.actualSelectedNode._id, this.startDate, this.endDate, this.variable).subscribe(data => this.data = data, 
+      () => console.log("export-selector: Couldn't get the nodes data"),
+      () => this.export());
   }
 
   selectNode() {
-    console.log("Selecting node")
+    console.log("Selecting node");
+    var nodeTypeId: string;
+    this.variables = [];
+    this.nodes.forEach(node => {
+      if (node.name == this.selectedNode) {
+        nodeTypeId = node.node_type_id;
+        this.actualSelectedNode = node;
+        return;
+      }
+    });
+
+    this.nodeTypes.forEach(nodeType => {
+      if (nodeType._id == nodeTypeId) {
+        nodeType.sensors.forEach(sensor => {
+          this.variables.push(sensor.variable);
+        });
+      }
+    });
   }
 
+  export() {
+    console.log("export-selector: exporting data...");
+    console.log("export-selector: selectedNode -> ", this.selectedNode);
+    console.log("export-selector: startDate -> ", this.startDate.toISOString());
+    console.log("export-selector: endDate -> ", this.endDate.toISOString());
+    console.log("export-selector: variable -> ", this.variable);
+    console.log("export-selector: exportFormat -> ", this.exportFormat);
+    console.log("export-selector: data's node id: ", this.data.node_id);
+    if (this.exportFormat == 'csv') {
+      // Convert JSON to csv and download
+    } else {
+      // Open popup
+    }
+  }
 }

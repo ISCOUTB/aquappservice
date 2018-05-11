@@ -1,7 +1,7 @@
 import { Datum } from './datum';
 
 export class Data {
-    nodeId: string;
+    node_id: string;
     variable: string;
     data: Datum[];
 }
