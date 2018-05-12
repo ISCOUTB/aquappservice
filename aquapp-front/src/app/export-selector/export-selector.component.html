@@ -5,33 +5,35 @@
             <mat-option *ngFor="let node of nodes" [value]="node.name">{{ node.name }}</mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field [ngStyle]="{'display': 'block'}">
-        <input matInput [(ngModel)]="startDate" [matDatepicker]="sd" placeholder="Start date" disabled>
+    <mat-form-field [ngStyle]="{'display': 'block'}" *ngIf="validDates">
+        <input matInput [matDatepickerFilter]="filter.dateFilter" [(ngModel)]="startDate" [matDatepicker]="sd" placeholder="Start date" disabled>
         <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
         <mat-datepicker touchUi="true" #sd startView="year" [startAt]="startDate" disabled="false"></mat-datepicker>
     </mat-form-field>
-    <mat-form-field [ngStyle]="{'display': 'block'}">
-        <input matInput [(ngModel)]="endDate" [matDatepicker]="ed" placeholder="End date" disabled>
+    <mat-form-field [ngStyle]="{'display': 'block'}" *ngIf="validDates">
+        <input matInput [matDatepickerFilter]="filter.dateFilter" [(ngModel)]="endDate" [matDatepicker]="ed" placeholder="End date" disabled>
         <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
         <mat-datepicker touchUi="true" #ed startView="year" [startAt]="endDate" disabled="false"></mat-datepicker>
     </mat-form-field>
     <mat-form-field *ngIf="variables">
-        <mat-select placeholder="variable" [(value)]="variable">
+        <mat-select (selectionChange)="getValidDates()" placeholder="variable" [(value)]="variable">
             <mat-option *ngFor="let variable of variables" [value]="variable">{{ variable }}</mat-option>
         </mat-select>
     </mat-form-field>
-    <h3>Export format</h3>
-    <mat-radio-group class="node-type-selector" [(ngModel)]="exportFormat">
-        <mat-radio-button
-            value="csv"
-            class="export-option">
-            csv
-        </mat-radio-button>
-        <mat-radio-button
-            value="chart"
-            class="export-option">
-            chart
-        </mat-radio-button>
-    </mat-radio-group>
-    <button mat-raised-button (click)="getData()" class="export-button">Export data</button>
+    <div *ngIf="startDate? endDate:false">
+        <p>Export format</p>
+        <mat-radio-group (change)="getData()" class="node-type-selector" [(ngModel)]="exportFormat">
+            <mat-radio-button
+                value="csv"
+                class="export-option">
+                csv
+            </mat-radio-button>
+            <mat-radio-button
+                value="chart"
+                class="export-option">
+                chart
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <button [disabled]="data === undefined" mat-raised-button (click)="export()" class="export-button">Export data</button>
 </div>

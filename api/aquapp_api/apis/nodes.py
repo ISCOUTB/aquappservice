@@ -2,6 +2,7 @@ from flask import request, abort
 from flask_restplus import Namespace, Resource, reqparse
 from .core.database import Database
 from .core.swagger_models import *
+from dateutil import parser as date_parser
 
 api = Namespace('nodes', description='Node related operations')
 
@@ -12,7 +13,7 @@ datum = api.schema_model('Datum', datum)
 node_type = api.schema_model('Node-Type', node_type)
 sensor = api.schema_model('Sensor', sensor)
 link = api.schema_model('Link', link)
-
+date_array = api.schema_model('DateArray', date_array)
 
 @api.route('/types')
 class NodeTypes(Resource):
@@ -107,5 +108,19 @@ class NodeData(Resource):
         parser.add_argument('end_date', type=str, required=True, location='args')
         parser.add_argument('variable', type=str, required=True, location='args')
         args = parser.parse_args()
-        return Database().get_sensor_data(node_id, args['start_date'], args['end_date'], args['variable'])
+        return Database().get_sensor_data(node_id, args['variable'], start_date=args['start_date'], end_date=args['end_date'])
 
+@api.route('/<string:node_id>/available-dates')
+@api.param('node_id', description='Unique node identifier to filter by',
+           _in='path', required=True, type='string')
+@api.param('variable', description='Sensor',
+           _in='query', required=True, type='string')
+class ValidRanges(Resource):
+    @api.doc(summary='Get the dates in which there were collected data',
+             responses={200: ('Dates', data)})
+    def get(self, node_id):
+        parser = reqparse.RequestParser(bundle_errors=True)
+        parser.add_argument('variable', type=str, required=True, location='args')
+        args = parser.parse_args()
+
+        return Database().get_sensor_data(node_id, args['variable'])

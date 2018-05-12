@@ -1,3 +1,11 @@
+date_array = {
+  'type': 'array',
+  'description': 'Array of dates as strings (in format mm/dd/yyyy)',
+  'items': {
+    'type': 'string'
+  }
+}
+
 sensor = {
   'type': 'object',
   'properties': {

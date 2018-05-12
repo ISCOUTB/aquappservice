@@ -14,7 +14,7 @@ import { ApiService } from '../api/api.service';
 export class ExportSelectorComponent implements OnInit {
   nodes: Node[];
   nodeTypes: NodeType[];
-  nodeId: string;
+  // nodeId: string;
   startDate: Date;
   endDate: Date;
   variable: string;
@@ -24,6 +24,7 @@ export class ExportSelectorComponent implements OnInit {
   variables: string[];
   exportFormat: string;
   loadingData: boolean = false;
+  validDates: string[];
 
   constructor(private apiService: ApiService, public dialog: MatDialog) { }
 
@@ -38,14 +39,17 @@ export class ExportSelectorComponent implements OnInit {
       () => console.log("export-selector: Couldn't get the node types"));
   }
 
+  getValidDates() {
+    this.apiService.getValidDates(this.actualSelectedNode._id, this.variable).subscribe(validDates => this.validDates = validDates, 
+      () => console.log("export-selector: Couldn't get the valid dates"));
+  }
+
   getData() {
     this.apiService.getNodeData(this.actualSelectedNode._id, this.startDate, this.endDate, this.variable).subscribe(data => this.data = data, 
-      () => console.log("export-selector: Couldn't get the nodes data"),
-      () => this.export());
+      () => console.log("export-selector: Couldn't get the nodes data"));
   }
 
   selectNode() {
-    console.log("Selecting node");
     var nodeTypeId: string;
     this.variables = [];
     this.nodes.forEach(node => {
@@ -102,6 +106,22 @@ export class ExportSelectorComponent implements OnInit {
         'sensor_data': csv_data
       }
     });
+  }
+  
+  filter = {
+    'validDates': this.validDates,
+    'dateFilter': (d: Date): boolean => {
+      var date_as_string: string = (d.getMonth() + 1).toString() + "/" + (d.getDate() + 1).toString() + "/" + d.getFullYear().toString();
+      var result = false;
+      this.validDates.forEach(valid_date => {
+        if (valid_date == date_as_string) {
+          result = true;
+          return;
+        }
+      });
+
+      return result;
+    }
   }
 }
 

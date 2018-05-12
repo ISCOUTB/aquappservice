@@ -20,13 +20,6 @@ import { NodeType } from '../node-type';
 export class NodeSelectorComponent implements OnInit {
   selected_node_type: string = 'all';
   node_types: string[] = ['Water Quality', 'Hydro-Meteorologic Factors', 'Weather Station', 'all'];
-  // use_date_range: boolean;
-  // min_date: Date = new Date(2016, 0, 1);
-  // max_date: Date = new Date();
-  // start_d: Date;
-  // end_d: Date;
-  // @ViewChild(MatDatepicker) start_date: MatDatepicker<Date>;
-  // @ViewChild(MatDatepicker) end_date: MatDatepicker<Date>;
   nodes: Node[];
   nodeTypes: NodeType[];
   map: Map;

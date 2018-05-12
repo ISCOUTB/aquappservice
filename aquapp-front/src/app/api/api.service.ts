@@ -35,5 +35,13 @@ export class ApiService {
     return this.http.get<WaterBody[]>(this.apiUrl + "/water-bodies")
   }
 
+  getValidDates(nodeId, variable): Observable<string[]> {
+    return this.http.get<string[]>(this.apiUrl + "/nodes/" + nodeId + "/available-dates", {
+      params: {
+        'variable': variable
+      }
+    });
+  }
+
   constructor(private http: HttpClient) { }
 }

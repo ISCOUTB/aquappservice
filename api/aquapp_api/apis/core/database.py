@@ -103,9 +103,7 @@ class Database:
     def get_user(self, query):  # Get a user
         return [user for user in self.users.find(query)]
 
-    def get_sensor_data(self, node_id, start_date, end_date, variable):  # Get sensor data
-        start_date = date_parser.parse(start_date)
-        end_date = date_parser.parse(end_date)
+    def get_sensor_data(self, node_id, variable, start_date="", end_date=""):  # Get sensor data
         try:
             sensor = self.sensor_data.find({
                 'node_id': node_id,
@@ -113,6 +111,12 @@ class Database:
             })[0]
         except IndexError:
             return []
-        return {'variable': variable, 'node_id': node_id, 'data': [
-            {**data, 'date': str(data['date'])} for data in filter(lambda s: start_date <= s['date'] <= end_date, sensor['data'])
-        ]}
+        if start_date and end_date:
+            start_date = date_parser.parse(start_date)
+            end_date = date_parser.parse(end_date)
+
+            return {'variable': variable, 'node_id': node_id, 'data': [
+                {**data, 'date': str(data['date'])} for data in filter(lambda s: start_date <= s['date'] <= end_date, sensor['data'])
+            ]}
+        else:
+            return list({str(datum['date'].month) + "/" + str(datum['date'].day) + "/" + str(datum['date'].year) for datum in sensor['data']})
