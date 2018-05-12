@@ -111,7 +111,7 @@ export class ExportSelectorComponent implements OnInit {
   filter = {
     'validDates': this.validDates,
     'dateFilter': (d: Date): boolean => {
-      var date_as_string: string = (d.getMonth() + 1).toString() + "/" + (d.getDate() + 1).toString() + "/" + d.getFullYear().toString();
+      var date_as_string: string = (d.getMonth() + 1).toString() + "/" + d.getDate().toString() + "/" + d.getFullYear().toString();
       var result = false;
       this.validDates.forEach(valid_date => {
         if (valid_date == date_as_string) {
