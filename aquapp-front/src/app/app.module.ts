@@ -87,6 +87,7 @@ import { NgDygraphsModule } from 'ng-dygraphs';
     MatProgressSpinnerModule,
     MatDialogModule,
     NgDygraphsModule,
+    MatSnackBarModule,
     HttpClientModule
   ],
   providers: [

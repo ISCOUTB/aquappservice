@@ -1,5 +1,5 @@
-<mat-toolbar [ngStyle]="{'height': '10%', 'background-color': '#007EE5'}">
-    <div [ngStyle]="{'width': '100%'}"> <!-- set height to 50px -->
+<mat-toolbar [ngStyle]="{'height': '54px', 'background-color': '#007EE5'}">
+    <div [ngStyle]="{'width': '100%'}">
         <div [ngStyle]="{'display' : 'block', 'float': 'left', 'width': '125px', 'height': '50px'}">
           <img [ngStyle]="{'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%'}" src="/assets/brand.png" alt="AquApp logo">
         </div>
@@ -75,14 +75,17 @@
               </div>
             </div>
             <div class="leaflet-top leaflet-right"></div>
-            <div class="leaflet-bottom leaflet-left"></div>
-            <div class="leaflet-bottom leaflet-right"><div class="info legend leaflet-control">
-              <p class="text-center text-primary">ICAMpff values</p>
-              <i style="background:#FB1502"></i> Apalling (0–25)<br>
-              <i style="background:#F57702"></i> Inadequate (25–50)<br>
-              <i style="background:#F9F107"></i> Acceptable (50–70)<br>
-              <i style="background:#49C502"></i> Adequate (70–90)<br>
-              <i style="background:#0032FF"></i> Optimal (90 - 100)</div>
+            <div class="leaflet-bottom leaflet-left">
+              <div class="info legend leaflet-control">
+                  <p class="text-center text-primary">ICAMpff values</p>
+                  <i style="background:#FB1502"></i> Apalling (0–25)<br>
+                  <i style="background:#F57702"></i> Inadequate (25–50)<br>
+                  <i style="background:#F9F107"></i> Acceptable (50–70)<br>
+                  <i style="background:#49C502"></i> Adequate (70–90)<br>
+                  <i style="background:#0032FF"></i> Optimal (90 - 100)
+                </div>
+            </div>
+            <div class="leaflet-bottom leaflet-right">
             </div>
           </div>
         </div>

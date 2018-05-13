@@ -19,6 +19,10 @@
     width: 100%;
 }
 
+.leaflet-control{
+    float: left;
+}
+
 /* Popup */
 .leaflet-popup-content{
     font-family: 'Lato', serif;

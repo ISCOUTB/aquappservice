@@ -22,7 +22,7 @@
     </mat-form-field>
     <div *ngIf="startDate? endDate:false">
         <p>Export format</p>
-        <mat-radio-group (change)="getData()" class="node-type-selector" [(ngModel)]="exportFormat">
+        <mat-radio-group class="node-type-selector" [(ngModel)]="exportFormat">
             <mat-radio-button
                 value="csv"
                 class="export-option">
@@ -35,5 +35,5 @@
             </mat-radio-button>
         </mat-radio-group>
     </div>
-    <button [disabled]="data === undefined" mat-raised-button (click)="export()" class="export-button">Export data</button>
+    <button mat-raised-button (click)="getData()" class="export-button">Export data</button>
 </div>

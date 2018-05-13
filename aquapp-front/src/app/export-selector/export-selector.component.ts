@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { Data } from '../sensor-data';
 import { Node } from '../node';
 import { NodeType } from '../node-type';
@@ -14,7 +14,6 @@ import { ApiService } from '../api/api.service';
 export class ExportSelectorComponent implements OnInit {
   nodes: Node[];
   nodeTypes: NodeType[];
-  // nodeId: string;
   startDate: Date;
   endDate: Date;
   variable: string;
@@ -26,7 +25,7 @@ export class ExportSelectorComponent implements OnInit {
   loadingData: boolean = false;
   validDates: string[];
 
-  constructor(private apiService: ApiService, public dialog: MatDialog) { }
+  constructor(private apiService: ApiService, public dialog: MatDialog, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.apiService.getNodes().subscribe(nodes => this.nodes = nodes, 
@@ -45,8 +44,15 @@ export class ExportSelectorComponent implements OnInit {
   }
 
   getData() {
+    if (this.actualSelectedNode === undefined || this.startDate === undefined || 
+        this.endDate === undefined || this.variable === undefined || 
+        this.exportFormat === undefined) {
+      this.openSnackBar('Invalid input', '')
+      return;
+    }
     this.apiService.getNodeData(this.actualSelectedNode._id, this.startDate, this.endDate, this.variable).subscribe(data => this.data = data, 
-      () => console.log("export-selector: Couldn't get the nodes data"));
+      () => console.log("export-selector: Couldn't get the nodes data"),
+      () => this.export());
   }
 
   selectNode() {
@@ -122,6 +128,12 @@ export class ExportSelectorComponent implements OnInit {
 
       return result;
     }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }
 

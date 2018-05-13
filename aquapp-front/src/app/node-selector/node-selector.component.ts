@@ -39,16 +39,19 @@ export class NodeSelectorComponent implements OnInit {
         this.map.setView([10.4061961, -75.5364990], 12);
       }
     };
+    window.onload = () => {
+      if (this.map !== undefined) {
+        this.map.invalidateSize();
+        this.map.setView([10.4061961, -75.5364990], 12);
+      }
+    }
   }
 
   ngOnInit() {
     window.resizeBy(window.innerWidth, window.innerHeight);
     this.getNodes();
     this.map = new Map('mapid').setView([10.4861961, -75.5364990], 12);
-    this.map.on('baselayerchange', function(e: any) {
-      this.map.fitBounds(e.layer);
-    });
-
+    
     tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
       maxZoom: 18,
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +

@@ -14,7 +14,7 @@ export class ApiService {
   private apiUrl:string = "http://localhost:5000/api/v1";
 
   getNodes(): Observable<Node[]> {
-    return this.http.get<Node[]>(this.apiUrl + "/nodes")
+    return this.http.get<Node[]>(this.apiUrl + "/nodes");
   }
 
   getNodeData(nodeId:string, startDate:Date, endDate:Date, variable:string): Observable<Data> {
@@ -28,11 +28,11 @@ export class ApiService {
   }
 
   getNodeTypes(): Observable<NodeType[]> {
-    return this.http.get<NodeType[]>(this.apiUrl + "/nodes/types")
+    return this.http.get<NodeType[]>(this.apiUrl + "/nodes/types");
   }
 
   getWaterBodies(): Observable<WaterBody[]> {
-    return this.http.get<WaterBody[]>(this.apiUrl + "/water-bodies")
+    return this.http.get<WaterBody[]>(this.apiUrl + "/water-bodies");
   }
 
   getValidDates(nodeId, variable): Observable<string[]> {
