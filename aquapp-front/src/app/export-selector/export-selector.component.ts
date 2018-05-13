@@ -40,7 +40,8 @@ export class ExportSelectorComponent implements OnInit {
 
   getValidDates() {
     this.apiService.getValidDates(this.actualSelectedNode._id, this.variable).subscribe(validDates => this.validDates = validDates, 
-      () => console.log("export-selector: Couldn't get the valid dates"));
+      () => console.log("export-selector: Couldn't get the valid dates"),
+      () => this.resetDates());
   }
 
   getData() {
@@ -134,6 +135,11 @@ export class ExportSelectorComponent implements OnInit {
     this.snackBar.open(message, action, {
       duration: 2000,
     });
+  }
+
+  resetDates() {
+    this.startDate = undefined;
+    this.endDate = undefined;
   }
 }
 
