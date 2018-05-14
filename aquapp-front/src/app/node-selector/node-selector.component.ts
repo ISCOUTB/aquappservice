@@ -37,11 +37,6 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
       this.screenWidth = window.innerWidth;
       this.fixMap();
     };
-    window.onload = () => {
-      if (this.map !== undefined) {
-          this.fixMap();
-      }
-    }
   }
 
   ngAfterViewInit() {
