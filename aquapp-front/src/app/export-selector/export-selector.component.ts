@@ -105,12 +105,16 @@ export class ExportSelectorComponent implements OnInit {
     console.log('export-selector: Data converted to csv, charting...');
 
     this.dialog.open(Dialog, {
-      width: '80%',
-      height: '80%',
+      width: '90%',
+      height: '90%',
       data: {
         'node_id': this.data.node_id, 
         'variable': this.data.variable,
-        'sensor_data': csv_data
+        'sensor_data': csv_data,
+        'options': {
+          'width': 500,
+          'height': 250
+        }
       }
     });
   }

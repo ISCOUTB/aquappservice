@@ -46,10 +46,10 @@ import { MatAutocompleteModule,
 import { AppComponent } from './app.component';
 import { NodeSelectorComponent } from './node-selector/node-selector.component';
 import { ExportSelectorComponent, Dialog } from './export-selector/export-selector.component';
-import { MapComponent } from './map/map.component';
-import { ChartComponent } from './chart/chart.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgDygraphsModule } from 'ng-dygraphs';
+import { AppRoutingModule } from './/app-routing.module';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -57,8 +57,7 @@ import { NgDygraphsModule } from 'ng-dygraphs';
     NodeSelectorComponent,
     ExportSelectorComponent,
     Dialog,
-    MapComponent,
-    ChartComponent
+    AboutComponent
   ],
   entryComponents: [Dialog, ExportSelectorComponent],
   imports: [
@@ -88,7 +87,8 @@ import { NgDygraphsModule } from 'ng-dygraphs';
     MatDialogModule,
     NgDygraphsModule,
     MatSnackBarModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},

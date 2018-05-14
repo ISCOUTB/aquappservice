@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { ApiService } from '../api/api.service';
 import { Node } from '../node';
@@ -17,7 +17,7 @@ import { NodeType } from '../node-type';
   styleUrls: ['./node-selector.component.css']
 })
 
-export class NodeSelectorComponent implements OnInit {
+export class NodeSelectorComponent implements OnInit, AfterViewInit {
   selected_node_type: string = 'all';
   node_types: string[] = ['Water Quality', 'Hydro-Meteorologic Factors', 'Weather Station', 'all'];
   nodes: Node[];
@@ -35,19 +35,30 @@ export class NodeSelectorComponent implements OnInit {
     window.onresize = () => {
       // set screenWidth on screen size change
       this.screenWidth = window.innerWidth;
-      if (this.map !== undefined) {
-        this.map.setView([10.4061961, -75.5364990], 12);
-      }
+      this.fixMap();
     };
     window.onload = () => {
       if (this.map !== undefined) {
-        this.map.invalidateSize();
-        this.map.setView([10.4061961, -75.5364990], 12);
+          this.fixMap();
       }
     }
   }
 
+  ngAfterViewInit() {
+    this.fixMap();
+  }
+
+  fixMap() {
+    this.map.invalidateSize();
+    this.map.setView([10.4061961, -75.5364990], 12);
+  }
+
   ngOnInit() {
+    console.log(this.map === undefined);
+    if (this.map !== undefined) {
+      this.fixMap();
+      return;
+    }
     window.resizeBy(window.innerWidth, window.innerHeight);
     this.getNodes();
     this.map = new Map('mapid').setView([10.4861961, -75.5364990], 12);

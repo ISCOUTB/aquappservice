@@ -3,7 +3,8 @@
 </h1>
 <div mat-dialog-content>
   <ng-dygraphs
-    [data]="data.sensor_data">
+    [data]="data.sensor_data"
+    [options]="data.options">
   </ng-dygraphs>
   <div mat-dialog-actions>
       <button mat-button (click)="onNoClick()" cdkFocusInitial>Close</button>

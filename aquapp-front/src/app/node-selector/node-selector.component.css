@@ -19,8 +19,9 @@
     width: 100%;
 }
 
-.leaflet-control{
+.leaflet-control {
     float: left;
+    margin-bottom: 20px;
 }
 
 /* Popup */
