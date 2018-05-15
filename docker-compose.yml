@@ -17,3 +17,10 @@ services:
     depends_on:
       - database
     command: "python /usr/src/app/runserver.py"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 80:80
+    depends_on:
+      - api
