@@ -182,3 +182,26 @@ data = {
     }
   }
 }
+
+water_body = {
+  'type': 'object',
+  'properties': {
+    'properties': {
+      'name': {
+        'type': 'string'
+      },
+      'id': {
+        'type': 'string'
+      }
+    },
+    'geometry': {
+      'type': 'string',
+      'coordinates': {
+        'type': 'array',
+        'items': {
+          'type': 'number'
+        }
+      }
+    }
+  }
+}

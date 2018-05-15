@@ -14,6 +14,7 @@ node_type = api.schema_model('Node-Type', node_type)
 sensor = api.schema_model('Sensor', sensor)
 link = api.schema_model('Link', link)
 date_array = api.schema_model('DateArray', date_array)
+water_body = api.schema_model('WaterBoty', water_body)
 
 @api.route('/types')
 class NodeTypes(Resource):

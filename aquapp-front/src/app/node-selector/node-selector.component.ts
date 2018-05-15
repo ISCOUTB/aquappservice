@@ -127,6 +127,11 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
       
       var marker = new Marker([node.coordinates[0], node.coordinates[1]], {title: node.name, icon: ico});
       if (nodeType == this.selected_node_type || this.selected_node_type == 'all') {
+        marker.bindPopup(
+          '<h1>' + node.name +'</h1>' +
+          '<p>Coordinates: ' + node.coordinates[0].toString() + ',' +
+            node.coordinates[1].toString() + '</p>'
+        )
         marker.addTo(this.map);
         this.markers.push(marker);
       }

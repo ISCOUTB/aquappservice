@@ -19,6 +19,7 @@ class Database:
         self.sensors = Database._default_db.sensors
         self.users = Database._default_db.users
         self.sensor_data = Database._default_db.sensor_data
+        self.water_bodies = Database._default_db.water_bodies
 
     def seed(self):
         # Create the admin user
