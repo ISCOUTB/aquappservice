@@ -87,7 +87,11 @@ import { AboutComponent } from './about/about.component';
     MatDialogModule,
     NgDygraphsModule,
     MatSnackBarModule,
+    MatTabsModule,
+    MatGridListModule,
+    MatDividerModule,
     HttpClientModule,
+    MatTooltipModule,
     AppRoutingModule
   ],
   providers: [

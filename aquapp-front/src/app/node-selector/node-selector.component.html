@@ -4,53 +4,55 @@
         <a routerLink="/" [ngStyle]="{'outline': '0'}"><img [ngStyle]="{'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%'}" src="/assets/brand.png" alt="AquApp logo"></a>
       </div>
       <div [ngStyle]="{'width': '125px', 'height': '50px', 'display' : (840 > screenWidth) ? 'none' : 'block', 'float': 'left'}">
-        <img [ngStyle]="{'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%'}" src="/assets/utb-white.png" alt="AquApp logo">
+        <a href="http://unitecnologica.edu.co">
+          <img [ngStyle]="{'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%'}" src="/assets/utb-white.png" alt="AquApp logo">
+        </a>
       </div>
-      <div [ngStyle]="{'width': '125px', 'height': '50px', 'display' : (840 > screenWidth) ? 'none' : 'block', 'float': 'left', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
+      <div [ngStyle]="{'width': '125px', 'height': '50px', 'display' : (840 > screenWidth) ? 'none' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
         <a routerLink="/about" [ngStyle]="{'outline': '0', 'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%', 'color': 'white', 'text-decoration': 'none'}" >About</a>
       </div>
       <div [ngStyle]="{'width': '125px', 'height': '50px', 'display' : (screenWidth > 840) ? 'none' : 'flex', 'float': 'right', 'align-items': 'center', 'justify-content': 'center'}">
-          <button [ngStyle]="{'display': 'block', 'margin-top': 'auto', 'margin-bottom': 'auto'}" mat-button type="button" md-button (click)="sidenav.toggle()">
-            <mat-icon  svgIcon="three-bar-menu"></mat-icon>
-          </button>
-        </div>
+        <button [ngStyle]="{'display': 'block', 'margin-top': 'auto', 'margin-bottom': 'auto'}" mat-button type="button" md-button (click)="sidenav.toggle()">
+          <mat-icon  svgIcon="three-bar-menu"></mat-icon>
+        </button>
+      </div>
   </div>
 </mat-toolbar>
 <mat-sidenav-container [ngStyle]="{'height': '90%', 'width': '100%'}">
   <mat-sidenav #sidenav [opened]="screenWidth > 840" [mode]="(screenWidth > 840) ? 'side' : 'over'" class="side-navbar">
       <mat-accordion>
-          <mat-expansion-panel [expanded]="defaultExpandedElement === true" (opened)="defaultExpandedElement = true" (closed)="defaultExpandedElement = false">
+        <mat-expansion-panel [expanded]="defaultExpandedElement === true" (opened)="defaultExpandedElement = true" (closed)="defaultExpandedElement = false">
+          <mat-expansion-panel-header>
+              <mat-panel-title>Stations</mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-radio-group (change)="resetMarkers()" class="node-type-selector" *ngFor="let node_type of node_types" [(ngModel)]="selected_node_type">
+              <mat-radio-button
+                  [value]="node_type"
+                  class="node-type">
+                {{ node_type }}
+              </mat-radio-button>
+          </mat-radio-group>
+          
+          <table [ngStyle]="{'text-align': 'center', 'font-size': '12px', 'margin-top': '5px'}">
+            <tr>
+              <td>Real Time</td>
+              <td>Non Real Time</td>
+              <td>Off</td>
+            </tr>
+            <tr>
+              <td><img src="assets/glyph-marker-icon-green.png" alt="Icon for real time station"></td>
+              <td><img src="assets/glyph-marker-icon-blue.png" alt="Icon for real time station"></td>
+              <td><img src="assets/glyph-marker-icon-gray.png" alt="Icon for real time station"></td>
+            </tr>
+          </table>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
             <mat-expansion-panel-header>
-                <mat-panel-title>Stations</mat-panel-title>
+                <mat-panel-title>Export</mat-panel-title>
             </mat-expansion-panel-header>
-            <mat-radio-group (change)="resetMarkers()" class="node-type-selector" *ngFor="let node_type of node_types" [(ngModel)]="selected_node_type">
-                <mat-radio-button
-                    [value]="node_type"
-                    class="node-type">
-                  {{ node_type }}
-                </mat-radio-button>
-            </mat-radio-group>
-            
-            <table [ngStyle]="{'text-align': 'center', 'font-size': '12px', 'margin-top': '5px'}">
-              <tr>
-                <td>Real Time</td>
-                <td>Non Real Time</td>
-                <td>Off</td>
-              </tr>
-              <tr>
-                <td><img src="assets/glyph-marker-icon-green.png" alt="Icon for real time station"></td>
-                <td><img src="assets/glyph-marker-icon-blue.png" alt="Icon for real time station"></td>
-                <td><img src="assets/glyph-marker-icon-gray.png" alt="Icon for real time station"></td>
-              </tr>
-            </table>
-          </mat-expansion-panel>
-          <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                  <mat-panel-title>Export</mat-panel-title>
-              </mat-expansion-panel-header>
-              <app-export-selector></app-export-selector>
-          </mat-expansion-panel>
-        </mat-accordion>
+            <app-export-selector></app-export-selector>
+        </mat-expansion-panel>
+      </mat-accordion>
   </mat-sidenav>
   <!-- Date range
     <mat-checkbox [(ngModel)]="use_date_range">Display available stations form within a date range</mat-checkbox>

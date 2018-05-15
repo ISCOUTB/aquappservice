@@ -3,9 +3,17 @@
 body {
     padding: 0;
     margin: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
 }
 
 html, body {
     height: 100%;
     width: 100vw;
+}
+
+a {
+    text-decoration: none;
 }

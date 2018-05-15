@@ -45,18 +45,14 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
 
   fixMap() {
     this.map.invalidateSize();
-    this.map.setView([10.4061961, -75.5364990], 12);
+    if (this.screenWidth > 840) this.map.setView([10.4061961, -75.4364990], 12);
+    else this.map .setView([10.4061961, -75.5364990], 12);
   }
 
   ngOnInit() {
-    console.log(this.map === undefined);
-    if (this.map !== undefined) {
-      this.fixMap();
-      return;
-    }
     window.resizeBy(window.innerWidth, window.innerHeight);
     this.getNodes();
-    this.map = new Map('mapid').setView([10.4861961, -75.5364990], 12);
+    this.map = new Map('mapid');
     
     tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
       maxZoom: 18,

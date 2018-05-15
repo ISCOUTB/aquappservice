@@ -1,3 +1,217 @@
-<p>
-  about works!
-</p>
+<mat-toolbar [ngStyle]="{'height': '54px', 'background-color': '#007EE5', 'width': '100%'}">
+  <div [ngStyle]="{'width': '100%'}">
+      <div [ngStyle]="{'display' : 'block', 'float': 'left', 'width': '125px', 'height': '50px'}">
+        <a routerLink="/" [ngStyle]="{'outline': '0'}"><img [ngStyle]="{'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%'}" src="/assets/brand.png" alt="AquApp logo"></a>
+      </div>
+      <div [ngStyle]="{'width': '125px', 'height': '50px', 'display' : (840 > screenWidth) ? 'none' : 'block', 'float': 'left'}">
+        <a href="http://unitecnologica.edu.co">
+            <img [ngStyle]="{'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%'}" src="/assets/utb-white.png" alt="AquApp logo">
+        </a>
+      </div>
+  </div>
+</mat-toolbar>
+<mat-tab-group class="tabs">
+  <mat-tab label="AquApp">
+    <div class="tabbed-content">
+      <h1>Project</h1>
+      <p>
+        Aquapp is a monitoring system of the quality of the different
+        water bodies in the city of Cartagena, Colombia.
+      </p>
+      <h1>Features</h1>
+      <mat-grid-list [cols]="breakpoint" rowHeight="250">
+          <mat-grid-tile>
+            <mat-card>
+              <mat-card-header>
+                  <mat-card-title>Real Data</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <p>
+                    Data is collected by UTB undergraduate students through a multi-parameter probe. 
+                    Monitoring is performed once a week, and data collection is expected to be 
+                    remotely in a second stage of the project     
+                </p>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Filtering</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <p>
+                    Available data can be filtered by picking a station type, date range, station, 
+                    and parameter using the form on the left side of the screen 
+                </p>
+              </mat-card-content>
+            </mat-card>
+          
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card>
+                <mat-card-header>
+                  <mat-card-title>Download</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <p>
+                      After filtering data, it can be downloaded as a Comma Separated Values (CSV) file, 
+                      or get a representation as a graph which you can download in different file formats as well 
+                  </p>
+                </mat-card-content>
+              </mat-card>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>No restrictions</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <p>
+                    Unlike other institutions with monitoring plans on water bodies of the internal 
+                    creeks and lakes system of Cartagena that restrict access to the data taken, 
+                    Aquapp provides information available for the entire community 
+                </p>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Cool</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <p>
+                    To guarantee a great experience, we developed a well-built website up-to-date, 
+                    with worthwhile content and an improved user interface with good navigation for 
+                    quick and easy travel throughout the entire website 
+                </p>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Cross Browser</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <p>
+                    We built this compatible with all modern browsers. 
+                    You are allow to use it in Chrome, 
+                    Firefox, Safari and Opera, feel free to prove it yourself 
+                </p>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+      </mat-grid-list>
+      <h1>Web Technologies</h1>
+      <mat-grid-list [cols]="breakpoint" rowHeight="250">
+        <mat-grid-tile><img matTooltip="HTML 5" class="ico" src="/assets/html5.svg" alt="HTML 5 logo"></mat-grid-tile>
+        <mat-grid-tile><img matTooltip="CSS 3" class="ico"src="/assets/css-3.svg" alt="CSS 3 logo"></mat-grid-tile>
+        <mat-grid-tile><img matTooltip="Angular 6" class="ico"src="/assets/angular-icon-1.svg" alt="Angular 6 logo"></mat-grid-tile>
+        <mat-grid-tile><img matTooltip="Flask" class="ico"src="/assets/flask.svg" alt="Flask logo"></mat-grid-tile>
+        <mat-grid-tile><img matTooltip="Python 3" class="ico"src="/assets/python-5.svg" alt="Python 3 logo"></mat-grid-tile>
+        <mat-grid-tile><img matTooltip="Git" class="ico"src="/assets/git-icon.svg" alt="Git logo"></mat-grid-tile>
+        <mat-grid-tile><img matTooltip="LeafletJS" class="ico-2"src="/assets/leaflet.svg" alt="leaflet logo"></mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </mat-tab>
+  <mat-tab label="Team">
+    <div class="tabbed-content">
+      <mat-grid-list [cols]="breakpoint" rowHeight="500">
+          <mat-grid-tile>
+            <mat-card>
+              <mat-card-header>
+                  <mat-card-title>Laura Schiatti</mat-card-title>
+                  <mat-card-subtitle>Developer</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image src="/assets/team/laura-schiatti.png" alt="Laura Schiatti">
+            </mat-card>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card>
+                <mat-card-header>
+                  <mat-card-title>Jairo Serrano</mat-card-title>
+                  <mat-card-subtitle>Researcher</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="/assets/team/jairo-serrano.png" alt="Jairo Serrano">
+              </mat-card>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Álvaro González</mat-card-title>
+                <mat-card-subtitle>Researcher</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image src="/assets/team/alvaro-gonzalez.png" alt="Álvaro González">
+            </mat-card>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Juan Carlos Martínez</mat-card-title>
+                <mat-card-subtitle>Researcher</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image src="/assets/team/juan-carlos-martinez.png" alt="Juan Carlos Martínez">
+            </mat-card>
+          </mat-grid-tile>
+          <mat-grid-tile>
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>Juan Pablo Rodríguez</mat-card-title>
+                  <mat-card-subtitle>Developer</mat-card-subtitle>
+                </mat-card-header>
+              </mat-card>
+            </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </mat-tab>
+  <mat-tab label="Terms and conditions">
+    <div class="tabbed-content">
+      <h1>Information</h1>
+
+      <p>
+        AquApp 2.0 is a platform supporting a program for monitoring water quality of 
+        Cartagena de Indias internal creeks and lakes system. Copyright © 2017 - All 
+        rights reserved. Universidad Tecnológica de Bolívar
+      </p>
+      <p>
+        This program is free software: you can redistribute it and/or modify it under 
+        the terms of the GNU Affero General Public License as published by the Free 
+        Software Foundation, either version 3 of the License, or (at your option) any 
+        later version.
+      </p>
+      <p>
+        This program is distributed in the hope that it will be useful, but WITHOUT 
+        ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+        FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+      </p>
+  
+      <p>
+        You should have received a copy of the GNU Affero General Public License along with 
+        this program. If not, see http://www.gnu.org/licenses
+        License
+      </p>
+      <p>GNU AFFERO GENERAL PUBLIC LICENSE</p>
+  
+      <p>Version 3, 19 November 2007</p>
+      <p>
+        Copyright © 2007 Free Software Foundation, Inc. http://fsf.org/ Everyone is permitted 
+        to copy and distribute verbatim copies of this license document, but changing it is not allowed. 
+      </p>
+    </div>
+  </mat-tab>
+  <mat-tab label="Contact">
+    <div class="tabbed-content">
+        <h1>Contact</h1>
+
+        <p>
+          You are free to drop us some lines by adding a comment on our project Wiki. 
+          Besides, esta wiki (on GitHub) will help you get in-depth information the project.
+        </p>
+        <p>
+          <a href="">Join the conversation</a>
+        </p>
+    </div>
+  </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,36 @@
+.tabs {
+    width: 100%;
+}
+
+.tabbed-content .description {
+    color: #2e2e2e;
+    font-weight: 300;
+}
+
+.sidenav-content {
+    width: 100%;
+}
+
+.tabbed-content {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+mat-card {
+    width: calc(100% - 70px);
+    height: calc(100% - 70px);
+    min-width: 200px;
+}
+
+mat-card-image {
+    margin: 0 auto;
+}
+
+.ico {
+    width: 100px;
+}
+
+.ico-2 {
+    width: 200px;
+}
