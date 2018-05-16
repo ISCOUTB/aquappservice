@@ -11,12 +11,11 @@ services:
   api:
     build: ./api
     ports:
-      - 5000:80
+      - 8080:8080
     volumes:
       - ./api:/usr/src/app
     depends_on:
       - database
-    command: "python /usr/src/app/runserver.py"
 
   frontend:
     build: ./frontend
