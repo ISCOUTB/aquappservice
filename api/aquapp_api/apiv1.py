@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask_restplus import Api, Resource, Swagger
 
 from .apis.nodes import api as nodes
+from .apis.water_bodies import api as water_bodies
 
 blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
 
@@ -9,6 +10,7 @@ api = Api(blueprint, title='AquAppAPI', version='1.0.0',
           description='API for AquApp clients')
 
 api.add_namespace(nodes, path='/nodes')
+api.add_namespace(water_bodies, path='/water-bodies')
 
 
 @api.route('/schema')

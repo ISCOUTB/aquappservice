@@ -10,6 +10,7 @@ import { Map, TileLayer, tileLayer,
 import { glyphIcon } from './glyph-icon';
 import { waterBodiesData } from './map-data';
 import { NodeType } from '../node-type';
+import { WaterBody } from '../water-body';
 
 @Component({
   selector: 'app-node-selector',
@@ -28,6 +29,10 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
   // The first element of the accordion in the sidenav of the application
   // Should be expanded when the page loads.
   defaultExpandedElement: boolean = true;
+  // The type has to be any because the geoJSON function only accepts
+  // this kind of object
+  waterBodies: any;
+  mapReady: boolean = false;
   
   constructor(private apiService: ApiService) { 
     // set screenWidth on page load
@@ -61,23 +66,44 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
       'Imagery © <a href="http://mapbox.com">Mapbox</a>',
       id: 'mapbox.streets'
     }).addTo(this.map);
+  }
 
+  getWaterBodies() {
+    this.apiService.getWaterBodies().subscribe(waterBodies => this.waterBodies = waterBodies,
+                                               () => console.log("Couldn't get the water bodies"),
+                                               () => this.drawWaterBodies())
+  }
+
+  drawWaterBodies() {
     var getColor = (d) => {
+      console.log(d);
       return d > 90 ? '#0032FF' : // blue
               d > 70 ? '#49C502' : // green
                 d > 50 ? '#F9F107' : // yellow
                   d > 25 ? '#F57702' : // orange
                     '#FB1502' ; // red
     }
-
-    var waterBodies:GeoJSON = geoJSON(waterBodiesData, {
+    this.waterBodies.forEach(waterBody => {
+      this.apiService.getICAMPff(waterBody._id).subscribe(icam => waterBody.properties.icam = icam, 
+                                () => console.log('node-selector: failed to get the ICAMpff'),
+                                () => geoJSON(waterBody, {
+                                  style: (feature) => {
+                                    return {color: getColor(feature.properties.icam)};
+                                  }
+                                }).bindPopup((layer) => {
+                                  return layer.getAttribution();
+                                }).addTo(this.map))
+    });
+    /*
+    var waterBodies:GeoJSON = geoJSON(this.waterBodies, {
         style: (feature) => {
-          return {color: getColor(feature.properties.icam)};
+          return {color: getColor(this.apiService.getICAMPff(feature.properties._id))};
         }
       }
     ).bindPopup((layer) => {
       return layer.getAttribution();
-    }).addTo(this.map);
+    }).addTo(this.map);*/
+    this.mapReady = true;
   }
 
   getNodes() {
@@ -93,6 +119,8 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
   }
 
   setMarkers() {
+    if (!this.mapReady)
+      this.getWaterBodies();
     this.nodes.forEach(node => {
       var acronym: string[] = ["E", "E"];
       var nodeType: string;
@@ -102,7 +130,7 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
           nodeType = nt.name;
         }
       });
-      
+      console.log(node._id);
       var ico_url: string;
       switch (node.status) {
         case 'Real Time':

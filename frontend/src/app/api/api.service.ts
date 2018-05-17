@@ -11,7 +11,7 @@ import { WaterBody } from '../water-body';
 })
 
 export class ApiService {
-  private apiUrl:string = "http://aquapp.utb.services:8080/api/v1";
+  private apiUrl:string = "http://localhost:8080/api/v1";
 
   getNodes(): Observable<Node[]> {
     return this.http.get<Node[]>(this.apiUrl + "/nodes");
@@ -41,6 +41,10 @@ export class ApiService {
         'variable': variable
       }
     });
+  }
+
+  getICAMPff(waterBodyId): Observable<number> {
+    return this.http.get<number>(this.apiUrl + "/water-bodies/" + waterBodyId + "/icampff");
   }
 
   constructor(private http: HttpClient) { }

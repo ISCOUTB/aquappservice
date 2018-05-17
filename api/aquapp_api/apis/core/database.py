@@ -22,7 +22,7 @@ class Database:
         self.water_bodies = Database._default_db.water_bodies
 
     def seed(self):
-        # Create the admin user
+        # Create the admin user (obviously, the initial password will be taken from the env in production)
         if not [user for user in self.users.find({'username': 'admin'})]:
             self.users.insert_one({'username': 'admin', 'password': 'n/r3t3'})
 
@@ -78,6 +78,13 @@ class Database:
                                 pass
             self.sensor_data.insert_many(sensor_data)
 
+        # Loading the water bodies
+        try:
+            water_bodies = [{**water_body, 'nodes': []} for water_body in json.loads(open(os.path.join(os.path.dirname(__file__), "data/water_bodies.json")).read())]
+            self.water_bodies.insert_many(water_bodies)
+        except pymongo.errors.BulkWriteError:
+            print('Couldn\'t load the water bodies')
+
     def __new__(cls):  # Basic singleton pattern
         if cls._instance is None:
             cls._instance = object.__new__(cls)
@@ -85,6 +92,114 @@ class Database:
 
     def get_nodes(self):  # Get a list with all the nodes
         return [node for node in self.nodes.find()]
+
+    def get_all_sensor_data(self, node_id):
+        try:
+            self.nodes.find({'_id': ObjectId(node_id)})[0]
+            return self.sensor_data.find({'node_id': node_id})
+        except IndexError:
+            return []
+        return True
+
+    def add_node(self, name, location, coordinates, status, node_type_id):
+        try:
+            self.node_types.find({'_id': ObjectId(node_type_id)})[0]
+            self.nodes.insert_one({'name': name, 'location': location, 'coordinates': coordinates, 'status': status, 'node_type_id': node_type_id})
+        except IndexError:
+            return False
+        return True
+
+    def edit_node(self, node_id, name, location, coordinates, status, node_type_id):
+        try:
+            node = self.nodes.find({'_id': ObjectId(node_id)})[0]
+            if node_type_id != node["node_type_id"]:
+                self.sensor_data.delete_many({'node_id': node_id})
+            self.nodes.update_one({'_id': ObjectId(node_id)}, {'$set': {'name': name, 'location': location, 'coordinates': coordinates, 'status': status, 'node_type_id': node_type_id}})
+        except IndexError:
+            return False
+        return True
+
+    def add_sensor_data(self, node_id, variable):
+        try:
+            node = self.nodes.find({'_id': ObjectId(node_id)})[0]
+            node_type = self.node_types.find({'_id': ObjectId(node['node_type_id'])})[0]
+            if variable in [sensor["variable"] for sensor in node_type["sensors"]]:
+                try:
+                    self.sensor_data.find({'node_id': node_id, 'variable': variable})[0]
+                except KeyError:
+                    return False
+                except IndexError:
+                    self.sensor_data.insert_one({
+                        'variable': variable,
+                        'node_id': node_id,
+                        'data': []
+                    })
+                    return True
+        except KeyError:
+            return False
+        except IndexError:
+            return False
+        return False
+
+    def add_datum(self, node_id, datum):
+        try:
+            node = self.nodes.find({'_id': ObjectId(node_id)})[0]
+            node_type = self.node_types.find({'_id': ObjectId(node['node_type_id'])})[0]
+            if datum['variable'] in [sensor["variable"] for sensor in node_type["sensors"]]:
+                try:
+                    self.sensor_data.find({'node_id': node_id, 'variable': datum["variable"]})[0]
+                    self.sensor_data.update_one({'node_id': node_id, 'variable': datum["variable"]}, {
+                        '$push': {'data': {"value": datum["value"], "date": date_parser.parse(datum["date"])}}
+                    })
+                except KeyError:
+                    return False
+                except IndexError:
+                    return False
+        except KeyError:
+            return False
+        return True
+
+    def delete_node(self, node_id):
+        try:
+            self.nodes.find({'_id': ObjectId(node_id)})[0]
+            self.nodes.delete_one({'_id': ObjectId(node_id)})
+        except IndexError:
+            return False
+        return True
+
+    def add_water_body(self):
+        pass
+
+    def get_water_bodies(self): # Get a list with all the water bodies
+        return [water_body for water_body in self.water_bodies.find()]
+
+    def get_water_body_nodes(self, water_body_id):
+        try:
+            water_body = self.water_bodies.find({'_id': ObjectId(water_body_id)})[0]
+            return water_body['nodes']
+        except IndexError:
+            return []
+    
+    def add_node_to_water_body(self, node_id, water_body_id):
+        try:
+            node = self.nodes.find({'_id': ObjectId(node_id)})[0]
+            water_body = self.water_bodies.find({'_id': ObjectId(water_body_id)})[0]
+            if node_id in water_body['nodes'] or node['node_type_id'] != '59c9d9019a892016ca4be412':
+                return False
+            self.water_bodies.update({'_id': ObjectId(water_body_id)},{'$push': {'nodes': node_id}})
+        except IndexError:
+            return False
+        return True
+
+    def remove_nodes_from_water_body(self, water_body_id, node_ids):
+        try:
+            self.water_bodies.find({'_id': ObjectId(water_body_id)})
+            self.water_bodies.update_one({'_id': ObjectId(water_body_id)}, 
+                {'$pull': {'nodes': {'$in': node_ids}}})
+        except IndexError:
+            return False
+        return True
+
 
     def get_node_types(self):  # Get a list with all the node types
         return [node_type for node_type in self.node_types.find()]
