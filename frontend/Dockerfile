@@ -22,6 +22,9 @@ RUN npm install -g @angular/cli
 
 RUN npm install
 
+RUN ng build
+#RUN ng build --prod --build-optimizer
+
 RUN apt-get clean
 
 EXPOSE 80
