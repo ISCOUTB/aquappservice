@@ -7,16 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutComponent implements OnInit {
   breakpoint: number;
+  screenWidth: number;
   constructor() { 
-
-  }
-
-  ngOnInit() {
     this.breakpoint = (window.innerWidth <= 743)? 1:((window.innerWidth >= 1000)? 3:2);
     window.onresize = () => {
       this.breakpoint = (window.innerWidth <= 743)? 1:((window.innerWidth >= 1000)? 3:2);
       console.log(window.innerWidth);
+      this.screenWidth = window.innerWidth;
     }
+  }
+
+  ngOnInit() {
+    
   }
 
 }
