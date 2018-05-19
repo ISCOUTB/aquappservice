@@ -19,8 +19,8 @@ services:
 
   frontend:
     build: ./frontend
-    volumes:
-      - ./frontend:/frontend
+    # volumes:  # docker-compose will discard all changes made in build time when using volumes
+    #   - ./frontend:/frontend
     ports:
       - 80:80
     depends_on:

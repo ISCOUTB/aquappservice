@@ -7,6 +7,7 @@ from bson.objectid import ObjectId
 
 os.chdir('/usr/src/app/aquapp_api/apis/core')
 
+# The methods are ordered by the operation type (CRUD) and the objects involved (node, node_type, water_body, data and datum)
 class Database:
     _db_client = pymongo.MongoClient('mongodb://database:27017/')
     _default_db = _db_client.db
@@ -24,6 +25,7 @@ class Database:
     def seed(self):
         # Create the admin user (obviously, the initial password will be taken from the env in production)
         if not [user for user in self.users.find({'username': 'admin'})]:
+            print("Adding admin user")
             self.users.insert_one({'username': 'admin', 'password': 'n/r3t3'})
 
            # Load all node types into the "node_types" collection
@@ -38,6 +40,7 @@ class Database:
 
         # Load all sensors into the "sensors" collection
         if not [sensor for sensor in self.sensors.find()]:
+            print("Adding sensors")
             sensors = json.loads(
                 open(os.path.join(os.path.dirname(__file__),
                                   "data/sensors.json")).read())
@@ -53,6 +56,7 @@ class Database:
 
         # Load all seeds WIP
         if not [sensor_data for sensor_data in self.sensor_data.find()]:
+            print("loading the seeds")
             sensor_data = []
             for node in nodes:
                 for sensor in next(filter(lambda n: str(n['_id']) == str(node['node_type_id']), node_types))['sensors']:
@@ -90,24 +94,45 @@ class Database:
             cls._instance = object.__new__(cls)
         return cls._instance
 
-    def get_nodes(self):  # Get a list with all the nodes
-        return [node for node in self.nodes.find()]
-
-    def get_all_sensor_data(self, node_id):
-        try:
-            self.nodes.find({'_id': ObjectId(node_id)})[0]
-            return self.sensor_data.find({'node_id': node_id})
-        except IndexError:
-            return []
-        return True
-
-    def add_node(self, name, location, coordinates, status, node_type_id):
+    def add_node(self, name, location, coordinates, status, node_type_id):  # CHANGE TO CREATE NODES
         try:
             self.node_types.find({'_id': ObjectId(node_type_id)})[0]
             self.nodes.insert_one({'name': name, 'location': location, 'coordinates': coordinates, 'status': status, 'node_type_id': node_type_id})
         except IndexError:
             return False
         return True
+
+    def get_nodes(self):  # Get a list with all the nodes
+        return [node for node in self.nodes.find()]
+
+    def get_nodes_by_node_type_id(self, id):  # Get all nodes with node_type = id
+        return [node for node in self.nodes.find({"node_type_id": id})]
+
+    def get_all_sensor_data(self, node_id):
+        try:
+            self.nodes.find({'_id': ObjectId(node_id)})[0]
+            return self.sensor_data.find_one({'node_id': node_id})
+        except IndexError:
+            return None  # TODO: CHANGE IN THE API, NONE MAPS TO NULL WHEN ITS CONVERTED TO JSON
+        return True
+
+    def get_sensor_data(self, node_id, variable, start_date="", end_date=""):  # Get sensor data
+        try:
+            sensor = self.sensor_data.find({
+                'node_id': node_id,
+                'variable': variable
+            })[0]
+        except IndexError:
+            return []
+        if start_date and end_date:
+            start_date = date_parser.parse(start_date)
+            end_date = date_parser.parse(end_date)
+
+            return {'variable': variable, 'node_id': node_id, 'data': [
+                {**data, 'date': str(data['date'])} for data in filter(lambda s: start_date <= s['date'] <= end_date, sensor['data'])
+            ]}
+        else:
+            return list({str(datum['date'].month) + "/" + str(datum['date'].day) + "/" + str(datum['date'].year) for datum in sensor['data']})
 
     def edit_node(self, node_id, name, location, coordinates, status, node_type_id):
         try:
@@ -200,6 +225,8 @@ class Database:
             return False
         return True
 
+    def add_node_types(self):  # Add a list of node types
+        pass
 
     def get_node_types(self):  # Get a list with all the node types
         return [node_type for node_type in self.node_types.find()]
@@ -210,29 +237,8 @@ class Database:
     def get_node(self, id):  # Get the node with the provided id
         return self.nodes.find({"_id": ObjectId(id)})
 
-    def get_nodes_by_node_type_id(self, id):  # Get all nodes with node_type = id
-        return [node for node in self.nodes.find({"node_type_id": id})]
-
     def add_user(self):  # Add a new user to the users collection
         pass
 
     def get_user(self, query):  # Get a user
-        return [user for user in self.users.find(query)]
-
-    def get_sensor_data(self, node_id, variable, start_date="", end_date=""):  # Get sensor data
-        try:
-            sensor = self.sensor_data.find({
-                'node_id': node_id,
-                'variable': variable
-            })[0]
-        except IndexError:
-            return []
-        if start_date and end_date:
-            start_date = date_parser.parse(start_date)
-            end_date = date_parser.parse(end_date)
-
-            return {'variable': variable, 'node_id': node_id, 'data': [
-                {**data, 'date': str(data['date'])} for data in filter(lambda s: start_date <= s['date'] <= end_date, sensor['data'])
-            ]}
-        else:
-            return list({str(datum['date'].month) + "/" + str(datum['date'].day) + "/" + str(datum['date'].year) for datum in sensor['data']})
+        return self.users.find_one(query)
