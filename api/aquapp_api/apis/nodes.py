@@ -1,7 +1,7 @@
 from flask import request, abort
 from flask_restplus import Namespace, Resource, reqparse
 from .core.database import Database
-from .core.marshmallow_models import NodeSchema, NewNodeSchema, EditNodeSchema
+from .core.marshmallow_models import NodeSchema, NewNodeSchema, EditNodeSchema, DatumSchema, NodeTypeSchema
 from .core.swagger_models import node, data, datum, node_type, sensor, link, date_array, new_node, new_datum
 from dateutil import parser as date_parser
 from marshmallow import Schema
@@ -20,16 +20,25 @@ link = api.schema_model('Link', link)
 date_array = api.schema_model('DateArray', date_array)
 
 
-@api.route('/types/add')  # DATABASE METHOD MISSING
+@api.route('/types/add')
 class AddNodeType(Resource):
     @api.doc(summary='Add new node types',
              description='Add new node types',
              responses={201: 'Node type added successfully'},
              security=['apikey', 'oauth2'])
-    @api.expect([node_type], validate=True)
+    @api.expect([node_type])
     def post(self):
-        print(request.get_json())
-        return 201
+        node_types, errors = NodeTypeSchema(many=True).load(request.get_json())
+        if errors:
+            node_types = [node_types[i] for i in (set(range(len(node_types))) - set(errors.keys()))]
+        Database().add_node_types(node_types)
+        return {
+            'message':
+                ('Node types added successfully' if not errors else 
+                    ('Some node types were not added due to errors, check your input.' if node_types else 
+                        'Error, invalid input')), 
+            **errors
+        }, 201 if node_types else 400
 
 
 @api.route('/types')
@@ -87,7 +96,7 @@ class AddNode(Resource):
         # deserialized object and the second the errors.
         nodes, errors = NewNodeSchema(many=True).load(request.get_json())
         if errors:  # There are validation errors, the nodes without valid data are 
-            safe_nodes = [nodes[i] for i in (set(range(nodes)) - set(errors.keys()))]
+            safe_nodes = [nodes[i] for i in (set(range(len(nodes))) - set(errors.keys()))]
             Database().add_nodes(safe_nodes)
             return {'message': 'ERROR: failed to create the nodes, check input' if not safe_nodes else 'WARNING: some nodes were not added, check the errors attribute in this response', **errors}, 400
         Database().add_nodes(nodes)
@@ -130,8 +139,8 @@ class NodeData(Resource):
              responses={200: ('Filtered data', data)})
     def get(self, node_id):
         parser = reqparse.RequestParser(bundle_errors=True)
-        parser.add_argument('start_date', type=str, required=False, location='args')
-        parser.add_argument('end_date', type=str, required=False, location='args')
+        parser.add_argument('start_date', type=str, required=True, location='args')
+        parser.add_argument('end_date', type=str, required=True, location='args')
         parser.add_argument('variable', type=str, required=True, location='args')
         args = parser.parse_args()
         try:
@@ -175,21 +184,29 @@ class EditNode(Resource):
         if new_node_data:
             Database().edit_node(node_id, new_node_data)
             return {'message': 'Node edited successfully'}, 200
-        return {"'message': 'There's nothing to change!"}, 400
+        return {'message': "There is no data to update the node with"}, 400
 
 
-@api.route('<string:node_id>/add-sensor-datum')
-class AddNodeSensorDatum(Resource):
-    @api.doc(description='Register a new meassure to the sensor of a node',
+@api.route('<string:node_id>/add-sensor-data')
+@api.param('variable', description='Sensor',
+           _in='query', required=True, type='string')
+class AddNodeSensorData(Resource):
+    @api.doc(description='Register new meassures of the sensor of a node',
              responses={201: 'Datum created'})
              # security=['apikey', 'oauth2'])
-    @api.expect(new_datum)
+    @api.expect([new_datum])
     def post(self, node_id):
-        datum = request.get_json()
-        if Database().add_datum(node_id, datum):
-            return {'message': 'Sensor datum added successfully'}, 201
-        else:
-            return {'message': 'Error creating the datum, verify your input'}, 400
+        variable = reqparse.RequestParser().add_argument('variable', type=str, required=True, location='args').parse_args()['variable']
+        data, errors = DatumSchema(many=True).load(request.get_json())
+        if errors:
+            data = [data[i] for i in (set(range(len(data))) - set(errors.keys()))]
+        Database().add_sensor_data(node_id, variable, data)
+        return {
+                'message': 
+                    ('Data added successfully') if not errors else 
+                        ("Some data could'nt be added due to errors, check error report." 
+                            if data else "Failed to add data, check error report")
+        }, 200 if not errors else (200 if data else 400)
 
 
 @api.route('/<string:node_id>/delete')

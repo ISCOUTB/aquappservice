@@ -26,12 +26,6 @@ sensor = {
       'type': 'string',
       'description': 'Measured unit',
       'example': 'NMP/100ml'
-    },
-    'data': {
-      'type': 'array',
-      'items': {
-        '$ref': '#/definitions/Data'
-    }
     }
   }
 }
@@ -189,16 +183,6 @@ new_node = {
       'description': 'Node type unique identifier',
       'example': '59c9d9019a892016ca4be412'
     },
-    'updated_at': {
-      'type': 'string',
-      'description': 'Node last update date',
-      'example': '2017-07-27T19:05:11.000Z'
-    },
-    'created_at': {
-      'type': 'string',
-      'description': 'Node storing date',
-      'example': '2017-07-27T19:05:11.000Z'
-    },
     'links': {
       'type': 'array',
       'items': {
@@ -233,7 +217,8 @@ new_datum = {
     },
     'date': {
       'type': 'string',
-      'description': 'collecting date iso formatted'
+      'description': 'collecting date ISO formatted',
+      'example': '2018-05-20 07:00:46.070929'
     },
     'value': {
       'type': 'number',

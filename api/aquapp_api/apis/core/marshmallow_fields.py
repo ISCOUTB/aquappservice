@@ -53,3 +53,8 @@ class DateTimeField(fields.Field):
             return datetime.utcnow()  # If no date time provided, return the current date time.
         except ValueError:
             raise ValidationError("The string hasn't a valid datetime format (use ISO format).")
+
+
+class SensorField(fields.Field):
+    variable = fields.Str(required=True)
+    unit = fields.Str(required=True)

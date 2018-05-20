@@ -10,7 +10,7 @@
 """
 
 from marshmallow import Schema, pprint, fields
-from .marshmallow_fields import CoordinatesField, DateTimeField, ObjectIdField
+from .marshmallow_fields import CoordinatesField, DateTimeField, ObjectIdField, SensorField
 
 
 class NodeSchema(Schema):
@@ -35,3 +35,15 @@ class EditNodeSchema(Schema):
     location = fields.Str(required=False)
     coordinates = CoordinatesField(required=False)
     node_type_id = fields.Str(required=False)
+
+
+class DatumSchema(Schema):
+    date = fields.DateTime(required=True)
+    value = fields.Float(required=True)
+
+
+class NodeTypeSchema(Schema):
+    _id = ObjectIdField(required=True)
+    name = fields.Str(required=True)
+    separator = fields.Str(required=True)
+    sensors = fields.List(SensorField(), required=True)

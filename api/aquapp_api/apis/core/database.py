@@ -21,6 +21,7 @@ class Database:
         self.users = Database._default_db.users
         self.sensor_data = Database._default_db.sensor_data
         self.water_bodies = Database._default_db.water_bodies
+        self.icampff_caches = Database._default_db.icampff_caches
 
     def seed(self):
         # Create the admin user (obviously, the initial password will be taken from the env in production)
@@ -36,7 +37,7 @@ class Database:
                                             "data/node_types.json")).read())]
             self.node_types.insert_many(node_types)
         except pymongo.errors.BulkWriteError:
-            print('Could\'t load the node types')
+            print('Failed load the node types')
 
         # Load all sensors into the "sensors" collection
         if not [sensor for sensor in self.sensors.find()]:
@@ -48,14 +49,21 @@ class Database:
 
         # Load all nodes into the "nodes" collection TODO wrap the try in an if to check for an empty db
         try:
+            # This line is to make sure that every node has different coordinates
+            self.nodes.create_index({'coordinates': 1}, unique=True)
+
             nodes = [{**node, "_id": ObjectId(node["_id"])}
                       for node in json.loads(open(os.path.join(os.path.dirname(__file__), "data/nodes.json")).read())]
             self.nodes.insert_many(nodes)
         except pymongo.errors.BulkWriteError:
-            print('Couldn\'t load the nodes')
+            print('Failed to load the nodes')
 
-        # Load all seeds WIP
+        # Load all seeds
         if not [sensor_data for sensor_data in self.sensor_data.find()]:
+            # The following line cretes an index that enforces uniqueness for the combination
+            # of the variable and the node_id fields for the documents in the sensor_data collection
+            self.sensor_data.create_index({'node_id': 1, 'variable': 1}, unique=True)
+
             print("loading the seeds")
             sensor_data = []
             for node in nodes:
@@ -75,7 +83,8 @@ class Database:
                         d = line.replace('\n', '').split(node_type['separator'])
                         for sensor, value in zip(node_type['sensors'], d[1:]):
                             try:
-                                next(filter(lambda sd: sd['variable'] == sensor['variable'] and sd['node_id'] == str(node['_id']), sensor_data))['data'].append({'date': date_parser.parse(d[0]), 'value': float(value)})
+                                v = float(value)
+                                next(filter(lambda sd: sd['variable'] == sensor['variable'] and sd['node_id'] == str(node['_id']), sensor_data))['data'].append({'date': date_parser.parse(d[0]), 'value': v})
                             except ValueError:
                                 pass  # The value for that variable was not measured in that date
                             except StopIteration:
@@ -87,7 +96,7 @@ class Database:
             water_bodies = [{**water_body, 'nodes': []} for water_body in json.loads(open(os.path.join(os.path.dirname(__file__), "data/water_bodies.json")).read())]
             self.water_bodies.insert_many(water_bodies)
         except pymongo.errors.BulkWriteError:
-            print('Couldn\'t load the water bodies')
+            print('Failed to load the water bodies')
 
     def __new__(cls):  # Basic singleton pattern
         if cls._instance is None:
@@ -95,6 +104,8 @@ class Database:
         return cls._instance
 
     def add_nodes(self, nodes):  # Now it adds a list of nodes instead of a single one for efficiency
+        if not nodes:
+            return
         # TODO when a node is excluded, we need to tell the user!
         nodes = list(filter(lambda node: self.node_types.find_one({'_id': ObjectId(node['node_type_id'])}), nodes))
         result = self.nodes.insert_many(nodes)  # insert_many() is preferred to multiple insert_one()
@@ -148,45 +159,20 @@ class Database:
             return False
         return True
 
-    def add_sensor_data(self, node_id, variable):
-        try:
-            node = self.nodes.find({'_id': ObjectId(node_id)})[0]
-            node_type = self.node_types.find({'_id': ObjectId(node['node_type_id'])})[0]
-            if variable in [sensor["variable"] for sensor in node_type["sensors"]]:
-                try:
-                    self.sensor_data.find({'node_id': node_id, 'variable': variable})[0]
-                except KeyError:
-                    return False
-                except IndexError:
-                    self.sensor_data.insert_one({
-                        'variable': variable,
-                        'node_id': node_id,
-                        'data': []
-                    })
-                    return True
-        except KeyError:
-            return False
-        except IndexError:
-            return False
-        return False
-
-    def add_datum(self, node_id, datum):
-        try:
-            node = self.nodes.find({'_id': ObjectId(node_id)})[0]
-            node_type = self.node_types.find({'_id': ObjectId(node['node_type_id'])})[0]
-            if datum['variable'] in [sensor["variable"] for sensor in node_type["sensors"]]:
-                try:
-                    self.sensor_data.find({'node_id': node_id, 'variable': datum["variable"]})[0]
-                    self.sensor_data.update_one({'node_id': node_id, 'variable': datum["variable"]}, {
-                        '$push': {'data': {"value": datum["value"], "date": date_parser.parse(datum["date"])}}
-                    })
-                except KeyError:
-                    return False
-                except IndexError:
-                    return False
-        except KeyError:
-            return False
-        return True
+    def add_sensor_data(self, node_id, variable, data):
+        node = self.nodes.find_one({'_id': ObjectId(node_id)})
+        node_type = self.node_types.find_one({'_id': ObjectId(node['node_type_id'])})
+        # If the node doesn't exist, the node type doesn't exist or the variable is not in the
+        # list of sensors of the node type, the operation is cancelled.
+        if not node or not node_type or variable not in [sensor['variable'] for sensor in node_type['sensors']]:
+            return
+        self.sensor_data.update_one({'node_id': node_id, 'variable': variable}, {
+            '$push': {
+                '$each': {
+                    'data': data
+                }
+            }
+        })
 
     def delete_node(self, node_id):
         try:
@@ -208,6 +194,32 @@ class Database:
             return water_body['nodes']
         except IndexError:
             return []
+
+    def get_icampff_cache(self, water_body_id, node_id):
+        return self.icampff_caches.find_one({
+            'water_body_id': water_body_id,
+            'node_id': node_id
+        })
+    
+    def check_icampff_hash(self, water_body_id, node_id, h):
+        cache = self.icampff_caches.find_one({
+            'water_body_id': water_body_id,
+            'node_id': node_id
+        })
+        return cache['hash'] == h if cache else False
+
+    def set_icampff_cache(self, water_body_id, node_id, h, icampff):
+        self.icampff_caches.update_one(
+            {
+                'water_body_id': water_body_id,
+                'node_id': node_id
+            }, 
+            {
+                '$set': {
+                    'icampff': icampff,
+                    'hash': h
+                }
+            }, upsert=True)
     
     def add_node_to_water_body(self, node_id, water_body_id):
         try:
@@ -229,8 +241,9 @@ class Database:
             return False
         return True
 
-    def add_node_types(self):  # Add a list of node types
-        pass
+    def add_node_types(self, node_types):  # Add a list of node types
+        if node_types:
+            self.node_types.insert_many(node_types)
 
     def get_node_types(self):  # Get a list with all the node types
         return [node_type for node_type in self.node_types.find()]
