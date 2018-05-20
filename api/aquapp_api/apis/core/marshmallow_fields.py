@@ -58,3 +58,33 @@ class DateTimeField(fields.Field):
 class SensorField(fields.Field):
     variable = fields.Str(required=True)
     unit = fields.Str(required=True)
+
+
+class WBCoordinatesField(fields.Field):
+    default_error_messages = {
+        'invalid': 'Invalid coordinates.',
+    }
+    def _deserialize(self, value, attr, data):
+        dim_count = 0
+        aux = value['coordinates']
+        while True:
+            if type(aux) == list:
+                if len(aux):
+                    aux = aux[0]
+                    dim_count += 1
+                    continue
+                else:
+                    dim_count += 1
+                    break
+            break
+        return dim_count == 3 if value['type'] == 'Polygon' else dim_count == 4
+
+
+class WBGeometryField(fields.Field):
+    type = fields.Str(required=True)
+    coordinates = WBCoordinatesField(required=True)
+
+
+class WBPropertiesField(fields.Field):
+    name = fields.Str(required=True)
+    id = fields.Str(required=True)

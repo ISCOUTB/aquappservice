@@ -3,6 +3,7 @@ from flask import request, abort
 from flask_restplus import Namespace, Resource, reqparse
 from .core.database import Database
 from .core.swagger_models import water_body, node, string_array
+from .core.marshmallow_models import NewWaterBodySchema
 from dateutil import parser as date_parser
 from functools import reduce
 from datetime import datetime
@@ -13,6 +14,24 @@ api = Namespace('water-bodies', description='Water bodies related operations')
 water_body = api.schema_model('WaterBody', water_body)
 node = api.schema_model('Node', node)
 string_array = api.schema_model('StringArray', string_array)
+
+@api.route('/add')
+class AddWaterBody(Resource):
+    @api.doc(summary='Add water bodies to the water bodies collection')
+    @api.expect([water_body])
+    def post(self):
+        new_water_bodies, errors = NewWaterBodySchema(many=True).load(request.get_json())
+        if errors:
+            new_water_bodies = [wb for wb in (set(range(len(new_water_bodies)) - set(errors.keys())))]
+        if new_water_bodies:
+            Database().add_water_bodies(new_water_bodies)
+        return {
+            'message': 
+                ('Water bodies added successfully') if not errors else 
+                    ('Some water bodies were excluded due to errrors' if new_water_bodies else 
+                        'Error, no water body were added due to errors')
+        }, 201 if new_water_bodies else 400
+
 
 @api.route('/')
 class WaterBody(Resource):
@@ -103,11 +122,11 @@ class RemoveNodesFromWaterBody(Resource):
     @api.expect(string_array)
     def put(self, water_body_id):
         args = request.get_json()
-        if type(args) != list:
+        if type(args) != list:  # Making a marshmallow schema for this is a waste unless we need to do the same in another endpoint
             return {'message': 'Wrong data format'}, 400
         elif len(args) == 1 and type(args[0]) != str:
             return {'message': 'Wrong data format'}, 400
-        elif len(args) > 1 and reduce(lambda x, y: str if type(x) == type(y) == str else False,args) != str:
+        elif len(args) > 1 and reduce(lambda x, y: str if type(x) == type(y) == str else False, args) != str:
             return {'message': 'Wrong data format'}, 400
         if Database().remove_nodes_from_water_body(water_body_id, args):
             return {'message': 'Water body updated successfully'}, 200

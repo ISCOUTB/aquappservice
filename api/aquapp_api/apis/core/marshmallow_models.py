@@ -10,7 +10,7 @@
 """
 
 from marshmallow import Schema, pprint, fields
-from .marshmallow_fields import CoordinatesField, DateTimeField, ObjectIdField, SensorField
+from .marshmallow_fields import CoordinatesField, DateTimeField, ObjectIdField, SensorField, WBGeometryField, WBPropertiesField
 
 
 class NodeSchema(Schema):
@@ -47,3 +47,22 @@ class NodeTypeSchema(Schema):
     name = fields.Str(required=True)
     separator = fields.Str(required=True)
     sensors = fields.List(SensorField(), required=True)
+
+
+class NewNodeTypeSchema(Schema):
+    _id = ObjectIdField(required=False)
+    name = fields.Str(required=True)
+    separator = fields.Str(required=True)
+    sensors = fields.List(SensorField(), required=True)
+
+
+class EditNodeTypeSchema(Schema):
+    _id = ObjectIdField(required=False)
+    name = fields.Str(required=False)
+    separator = fields.Str(required=False)
+    sensors = fields.List(SensorField(), required=False)
+
+
+class NewWaterBodySchema(Schema):
+    properties = WBPropertiesField()
+    geometry = WBGeometryField()

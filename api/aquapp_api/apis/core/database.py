@@ -49,9 +49,6 @@ class Database:
 
         # Load all nodes into the "nodes" collection TODO wrap the try in an if to check for an empty db
         try:
-            # This line is to make sure that every node has different coordinates
-            self.nodes.create_index({'coordinates': 1}, unique=True)
-
             nodes = [{**node, "_id": ObjectId(node["_id"])}
                       for node in json.loads(open(os.path.join(os.path.dirname(__file__), "data/nodes.json")).read())]
             self.nodes.insert_many(nodes)
@@ -60,10 +57,6 @@ class Database:
 
         # Load all seeds
         if not [sensor_data for sensor_data in self.sensor_data.find()]:
-            # The following line cretes an index that enforces uniqueness for the combination
-            # of the variable and the node_id fields for the documents in the sensor_data collection
-            self.sensor_data.create_index({'node_id': 1, 'variable': 1}, unique=True)
-
             print("loading the seeds")
             sensor_data = []
             for node in nodes:
@@ -104,8 +97,6 @@ class Database:
         return cls._instance
 
     def add_nodes(self, nodes):  # Now it adds a list of nodes instead of a single one for efficiency
-        if not nodes:
-            return
         # TODO when a node is excluded, we need to tell the user!
         nodes = list(filter(lambda node: self.node_types.find_one({'_id': ObjectId(node['node_type_id'])}), nodes))
         result = self.nodes.insert_many(nodes)  # insert_many() is preferred to multiple insert_one()
@@ -116,6 +107,9 @@ class Database:
 
     def get_nodes(self):  # Get a list with all the nodes
         return [node for node in self.nodes.find()]
+
+    def get_node(self, id):  # Get the node with the provided id
+        return self.nodes.find({"_id": ObjectId(id)})
 
     def get_nodes_by_node_type_id(self, id):  # Get all nodes with node_type = id
         return [node for node in self.nodes.find({"node_type_id": id})]
@@ -150,13 +144,13 @@ class Database:
         
 
     def edit_node(self, node_id, new_node_data):
-        try:
-            node = self.nodes.find({'_id': ObjectId(node_id)})[0]
-            if new_node_data["node_type_id"] != node["node_type_id"]:
-                self.sensor_data.delete_many({'node_id': node_id})
-            self.nodes.update_one({'_id': ObjectId(node_id)}, {'$set': {**new_node_data}})
-        except IndexError:
+        node = self.nodes.find_one({'_id': ObjectId(node_id)})
+        if not node:
             return False
+        if new_node_data["node_type_id"] != node["node_type_id"]:
+            self.sensor_data.delete_many({'node_id': node_id})
+            # TODO if it was a WQ node, remove the caches as well 
+        self.nodes.update_one({'_id': ObjectId(node_id)}, {'$set': {**new_node_data}})
         return True
 
     def add_sensor_data(self, node_id, variable, data):
@@ -182,8 +176,8 @@ class Database:
             return False
         return True
 
-    def add_water_body(self):
-        pass
+    def add_water_bodies(self, water_bodies):
+        self.water_bodies.insert_many(water_bodies)
 
     def get_water_bodies(self): # Get a list with all the water bodies
         return [water_body for water_body in self.water_bodies.find()]
@@ -251,8 +245,22 @@ class Database:
     def get_node_type(self, id):  # Get the node type with the provided id 
         return self.node_types.find({"_id": ObjectId(id)})
 
-    def get_node(self, id):  # Get the node with the provided id
-        return self.nodes.find({"_id": ObjectId(id)})
+    def edit_node_type(self, node_type_id, new_node_type_data):
+        self.node_types.update_one(
+            {
+                '_id': ObjectId(node_type_id)
+            },
+            {
+                '$set': {
+                    **new_node_type_data
+                }
+            }
+        )
+
+    def delete_node_type(self, node_type_id):
+        self.node_types.delete_one({'_id': ObjectId(node_type_id)})
+        # Remove all the nodes with that node type as well
+        self.nodes.delete_many({'node_type_id': node_type_id})
 
     def add_user(self):  # Add a new user to the users collection
         pass

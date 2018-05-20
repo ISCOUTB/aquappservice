@@ -1,7 +1,7 @@
 from flask import request, abort
 from flask_restplus import Namespace, Resource, reqparse
 from .core.database import Database
-from .core.marshmallow_models import NodeSchema, NewNodeSchema, EditNodeSchema, DatumSchema, NodeTypeSchema
+from .core.marshmallow_models import NodeSchema, NewNodeSchema, EditNodeSchema, DatumSchema, NodeTypeSchema, EditNodeTypeSchema, NewNodeTypeSchema
 from .core.swagger_models import node, data, datum, node_type, sensor, link, date_array, new_node, new_datum
 from dateutil import parser as date_parser
 from marshmallow import Schema
@@ -34,9 +34,9 @@ class AddNodeType(Resource):
         Database().add_node_types(node_types)
         return {
             'message':
-                ('Node types added successfully' if not errors else 
+                ('Node types added successfully') if not errors else 
                     ('Some node types were not added due to errors, check your input.' if node_types else 
-                        'Error, invalid input')), 
+                        'Error, invalid input'), 
             **errors
         }, 201 if node_types else 400
 
@@ -83,7 +83,27 @@ class NodesByNodeType(Resource):
                 for nd in Database().get_nodes_by_node_type_id(node_type_id)]
 
 
-# MISSING UPDATE AND DELETE FOR NODE-TYPES
+@api.route('/<string:node_type_id>/edit')
+@api.param('node_id',
+           description='Id of the node type you are going to edit',
+           _in='path',
+           required=True,
+           type='string')
+class EditNodeType(Resource):
+    @api.doc(description='Edit a node type',
+             responses={200: 'Node type updated'})
+             # security=['apikey', 'oauth2'])
+    @api.expect(new_node)
+    def put(self, node_id):
+        new_node_data, errors = EditNodeTypeSchema().load(request.get_json())
+        if errors:
+            return {'message': 'ERROR: failed to edit the node, check input', **errors}, 400
+        if new_node_data:
+            Database().edit_node(node_id, new_node_data)
+            return {'message': 'Node edited successfully'}, 200
+        return {'message': "There is no data to update the node with"}, 400
+
+# MISSING DELETE FOR NODE-TYPES
 
 
 @api.route('/add')
@@ -97,7 +117,8 @@ class AddNode(Resource):
         nodes, errors = NewNodeSchema(many=True).load(request.get_json())
         if errors:  # There are validation errors, the nodes without valid data are 
             safe_nodes = [nodes[i] for i in (set(range(len(nodes))) - set(errors.keys()))]
-            Database().add_nodes(safe_nodes)
+            if safe_nodes:
+                Database().add_nodes(safe_nodes)
             return {'message': 'ERROR: failed to create the nodes, check input' if not safe_nodes else 'WARNING: some nodes were not added, check the errors attribute in this response', **errors}, 400
         Database().add_nodes(nodes)
         return {'message': 'Nodes created successfully'}, 201
@@ -183,8 +204,12 @@ class EditNode(Resource):
             return {'message': 'ERROR: failed to edit the node, check input', **errors}, 400
         if new_node_data:
             Database().edit_node(node_id, new_node_data)
-            return {'message': 'Node edited successfully'}, 200
-        return {'message': "There is no data to update the node with"}, 400
+        return {
+            'message': 
+                ('Node edited successfully') if not errors else 
+                    ('Some fields were not updated due to errors' if new_node_data else 
+                        'There is no data to update the node with')
+        }, 201 if new_node_data else 400
 
 
 @api.route('<string:node_id>/add-sensor-data')
@@ -206,7 +231,7 @@ class AddNodeSensorData(Resource):
                     ('Data added successfully') if not errors else 
                         ("Some data could'nt be added due to errors, check error report." 
                             if data else "Failed to add data, check error report")
-        }, 200 if not errors else (200 if data else 400)
+        }, 200 if data else 400
 
 
 @api.route('/<string:node_id>/delete')
