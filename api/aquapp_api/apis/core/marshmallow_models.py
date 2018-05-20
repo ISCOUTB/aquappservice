@@ -10,47 +10,28 @@
 """
 
 from marshmallow import Schema, pprint, fields
-from datetime import datetime
-from dateutil import parser
-from marshmallow_fields import *
-
-
-class NodeType:
-    def __init__(self, _id, name, separator, sensors, created_at, updated_at, links):
-        self._id = _id
-        self.name = name
-        self.separator = separator
-        self.sensors = sensors
-        self.created_at = datetime.utcnow()
-        self.updated_at = parser.parse(updated_at)
-        self.links = links
-
-
-class NodeTypeSchema(Schema):
-    _id = fields.Str()
-    name = fields.Str()
-    separator = fields.Str()
-    sensors = fields.List(SensorField())
-    created_at = fields.DateTime()
-    updated_at = fields.DateTime()
-
-
-class Node:
-    def __init__(self, _id, name, location, coordinates, updated_at, node_type_id):
-        self._id = _id
-        self.name = name
-        self.location = location
-        self.coordinates = coordinates
-        self.created_at = datetime.utcnow()
-        self.updated_at = parser.parse(updated_at)
-        self.node_type_id = node_type_id
+from .marshmallow_fields import CoordinatesField, DateTimeField, ObjectIdField
 
 
 class NodeSchema(Schema):
-    _id = fields.Str()
-    name = fields.Str()
-    location = fields.Str()
-    coordinates = fields.List(fields.Float())
-    created_at = fields.DateTime()
-    updated_at = fields.DateTime()
-    node_type_id = fields.Str()
+    _id = ObjectIdField(required=True)
+    name = fields.Str(required=True)
+    location = fields.Str(required=True)
+    coordinates = CoordinatesField(required=True)
+    created_at = DateTimeField(required=True)
+    updated_at = DateTimeField(required=True)
+    node_type_id = fields.Str(required=True)
+
+
+class NewNodeSchema(Schema):
+    name = fields.Str(required=True)
+    location = fields.Str(required=True)
+    coordinates = CoordinatesField(required=True)
+    node_type_id = fields.Str(required=True)
+
+
+class EditNodeSchema(Schema):
+    name = fields.Str(required=False)
+    location = fields.Str(required=False)
+    coordinates = CoordinatesField(required=False)
+    node_type_id = fields.Str(required=False)

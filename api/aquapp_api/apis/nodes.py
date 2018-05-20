@@ -1,8 +1,10 @@
 from flask import request, abort
 from flask_restplus import Namespace, Resource, reqparse
 from .core.database import Database
+from .core.marshmallow_models import NodeSchema, NewNodeSchema, EditNodeSchema
 from .core.swagger_models import node, data, datum, node_type, sensor, link, date_array, new_node, new_datum
 from dateutil import parser as date_parser
+from marshmallow import Schema
 
 api = Namespace('nodes', description='Node related operations')
 
@@ -81,11 +83,15 @@ class AddNode(Resource):
              responses={201: 'Node added successfully'})
     @api.expect([new_node])
     def post(self):
-        args = request.get_json()
-        if 'name' in args and 'location' in args and 'coordinates' in args and 'status' in args and 'node_type_id' in args:
-            if Database().add_node(args['name'], args['location'], args['coordinates'], args['status'], args['node_type_id']):
-                return {'message': 'Node created successfully'}, 201
-        return {'message': 'failed to create the node, check input'}, 400
+        # The result of the load() method is of type UnMarshallResult, it's an array with two elements, the first is the
+        # deserialized object and the second the errors.
+        nodes, errors = NewNodeSchema(many=True).load(request.get_json())
+        if errors:  # There are validation errors, the nodes without valid data are 
+            safe_nodes = [nodes[i] for i in (set(range(nodes)) - set(errors.keys()))]
+            Database().add_nodes(safe_nodes)
+            return {'message': 'ERROR: failed to create the nodes, check input' if not safe_nodes else 'WARNING: some nodes were not added, check the errors attribute in this response', **errors}, 400
+        Database().add_nodes(nodes)
+        return {'message': 'Nodes created successfully'}, 201
 
 
 @api.route('/')
@@ -101,7 +107,7 @@ class Nodes(Resource):
 @api.route('/<string:node_id>')
 @api.param('node_id', description='ID of node to return', _in='path',
            required=True, type='string')
-class Node(Resource):
+class NodeById(Resource):
     @api.doc(summary='Get a node by ID', description='Returns a single node',
              responses={200: ('A node object', node), 404: 'Node not found'})
     def get(self, node_id):
@@ -116,19 +122,24 @@ class Node(Resource):
            description='Initial date to filter by', _in='query',
            required=True, type='string')
 @api.param('end_date', description='End date to filter by',
-           _in='query', required=True, type='string')
+           _in='query', required=False, type='string')
 @api.param('variable', description='Sensor',
-           _in='query', required=True, type='string')
+           _in='query', required=False, type='string')
 class NodeData(Resource):
     @api.doc(summary='Get node data', description='Get the node data according to the provided parameters',
              responses={200: ('Filtered data', data)})
     def get(self, node_id):
         parser = reqparse.RequestParser(bundle_errors=True)
-        parser.add_argument('start_date', type=str, required=True, location='args')
-        parser.add_argument('end_date', type=str, required=True, location='args')
+        parser.add_argument('start_date', type=str, required=False, location='args')
+        parser.add_argument('end_date', type=str, required=False, location='args')
         parser.add_argument('variable', type=str, required=True, location='args')
         args = parser.parse_args()
-        return Database().get_sensor_data(node_id, args['variable'], start_date=args['start_date'], end_date=args['end_date'])
+        try:
+            sd = date_parser.parse(args["start_date"])
+            ed = date_parser.parse(args["end_date"])
+        except ValueError:
+            return {'message': 'The dates are in the wrong format!, start_date={}, end_date={}'.format(args["start_date"], args["end_date"])}, 400
+        return Database().get_sensor_data(node_id, args['variable'], sd, ed), 200
 
 
 @api.route('/<string:node_id>/available-dates')
@@ -143,8 +154,7 @@ class ValidRanges(Resource):
         parser = reqparse.RequestParser(bundle_errors=True)
         parser.add_argument('variable', type=str, required=True, location='args')
         args = parser.parse_args()
-
-        return Database().get_sensor_data(node_id, args['variable'])
+        return Database().get_available_dates(node_id, args['variable'])
 
 
 @api.route('/<string:node_id>/edit')
@@ -159,36 +169,13 @@ class EditNode(Resource):
              # security=['apikey', 'oauth2'])
     @api.expect(new_node)
     def put(self, node_id):
-        args = request.get_json()
-        if 'name' in args and 'location' in args and 'coordinates' in args and 'status' in args and 'node_type_id' in args:
-            if Database().edit_node(node_id, args['name'], args['location'], args['coordinates'], args['status'], args['node_type_id']):
-                return {'message': 'Node edited successfully'}, 201
-        return {'message': 'failed to update the node, check input'}, 400
-
-
-@api.route('<string:node_id>/add-sensor-data')
-@api.param('variable',
-           description='Sensor to add',
-           _in='query',
-           required=True,
-           type='string')
-@api.param('node_id',
-           description='Id of the node you are adding the sensor data definition to',
-           _in='path',
-           required=True,
-           type='string')
-class AddNodeSensorData(Resource):
-    @api.doc(description='Add a sensor data definition to a node',
-             responses={201: 'Sensor data definition added successfully'})
-             # security=['apikey', 'oauth2'])
-    def post(self, node_id):
-        parser = reqparse.RequestParser()
-        parser.add_argument('variable', location="args", required=True, type=str)
-        args = parser.parse_args()
-        if Database().add_sensor_data(node_id, args['variable']):
-            return {'message': 'Sensor data added successfully'}, 201
-        else:
-            return {'message': 'Error creating the sensor data, verify your input'}, 400
+        new_node_data, errors = EditNodeSchema().load(request.get_json())
+        if errors:
+            return {'message': 'ERROR: failed to edit the node, check input', **errors}, 400
+        if new_node_data:
+            Database().edit_node(node_id, new_node_data)
+            return {'message': 'Node edited successfully'}, 200
+        return {"'message': 'There's nothing to change!"}, 400
 
 
 @api.route('<string:node_id>/add-sensor-datum')

@@ -94,13 +94,14 @@ class Database:
             cls._instance = object.__new__(cls)
         return cls._instance
 
-    def add_node(self, name, location, coordinates, status, node_type_id):  # CHANGE TO CREATE NODES
-        try:
-            self.node_types.find({'_id': ObjectId(node_type_id)})[0]
-            self.nodes.insert_one({'name': name, 'location': location, 'coordinates': coordinates, 'status': status, 'node_type_id': node_type_id})
-        except IndexError:
-            return False
-        return True
+    def add_nodes(self, nodes):  # Now it adds a list of nodes instead of a single one for efficiency
+        # TODO when a node is excluded, we need to tell the user!
+        nodes = list(filter(lambda node: self.node_types.find_one({'_id': ObjectId(node['node_type_id'])}), nodes))
+        result = self.nodes.insert_many(nodes)  # insert_many() is preferred to multiple insert_one()
+        for node, _id in zip(nodes, result.inserted_ids):  # Adding the sensor_data definitions (refer to the data model in swagger_models.py in the same directory)
+            node_type = self.node_types.find_one({'_id': ObjectId(node['node_type_id'])})
+            sensor_data_definitions = [{'variable': sensor['variable'], 'node_id': str(_id), 'data': []} for sensor in node_type['sensors']]
+            self.sensor_data.insert_many(sensor_data_definitions)
 
     def get_nodes(self):  # Get a list with all the nodes
         return [node for node in self.nodes.find()]
@@ -116,30 +117,33 @@ class Database:
             return None  # TODO: CHANGE IN THE API, NONE MAPS TO NULL WHEN ITS CONVERTED TO JSON
         return True
 
-    def get_sensor_data(self, node_id, variable, start_date="", end_date=""):  # Get sensor data
-        try:
-            sensor = self.sensor_data.find({
-                'node_id': node_id,
-                'variable': variable
-            })[0]
-        except IndexError:
+    def get_sensor_data(self, node_id, variable, start_date, end_date):  # Get sensor data
+        sensor = self.sensor_data.find_one({
+            'node_id': node_id,
+            'variable': variable
+        })
+        if not sensor:  # No sensor data registered
             return []
-        if start_date and end_date:
-            start_date = date_parser.parse(start_date)
-            end_date = date_parser.parse(end_date)
+        return {'variable': variable, 'node_id': node_id, 'data': [
+            {**datum, 'date': str(datum['date'])} for datum in filter(lambda s: start_date <= s['date'] <= end_date, sensor['data'])
+        ]}
 
-            return {'variable': variable, 'node_id': node_id, 'data': [
-                {**data, 'date': str(data['date'])} for data in filter(lambda s: start_date <= s['date'] <= end_date, sensor['data'])
-            ]}
-        else:
-            return list({str(datum['date'].month) + "/" + str(datum['date'].day) + "/" + str(datum['date'].year) for datum in sensor['data']})
+    def get_available_dates(self, node_id, variable):
+        sensor = self.sensor_data.find_one({
+            'node_id': node_id,
+            'variable': variable
+        })
+        if not sensor:  # No sensor data registered
+            return []
+        return list({str(datum['date'].month) + "/" + str(datum['date'].day) + "/" + str(datum['date'].year) for datum in sensor['data']})
+        
 
-    def edit_node(self, node_id, name, location, coordinates, status, node_type_id):
+    def edit_node(self, node_id, new_node_data):
         try:
             node = self.nodes.find({'_id': ObjectId(node_id)})[0]
-            if node_type_id != node["node_type_id"]:
+            if new_node_data["node_type_id"] != node["node_type_id"]:
                 self.sensor_data.delete_many({'node_id': node_id})
-            self.nodes.update_one({'_id': ObjectId(node_id)}, {'$set': {'name': name, 'location': location, 'coordinates': coordinates, 'status': status, 'node_type_id': node_type_id}})
+            self.nodes.update_one({'_id': ObjectId(node_id)}, {'$set': {**new_node_data}})
         except IndexError:
             return False
         return True
