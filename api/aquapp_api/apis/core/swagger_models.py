@@ -272,3 +272,17 @@ water_body = {
     }
   }
 }
+
+user = {
+  'type': 'object',
+  'properties': {
+    'username': {
+      'type': 'string',
+      'example': 'Admin'
+    },
+    'password': {
+      'type': 'string',
+      'example': 'aiv4r0lc0$C0'
+    }
+  }
+}

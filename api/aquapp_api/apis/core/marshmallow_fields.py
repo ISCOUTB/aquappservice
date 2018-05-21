@@ -76,8 +76,11 @@ class WBCoordinatesField(fields.Field):
                 else:
                     dim_count += 1
                     break
-            break
-        return dim_count == 3 if value['type'] == 'Polygon' else dim_count == 4
+            break 
+        if (value['type'] == 'Polygon' and dim_count == 3) or (value['type'] == 'MultiPolygon' and dim_count == 4):
+            return value
+        return ValidationError('Invalid data, check input.')    
+        
 
 
 class WBGeometryField(fields.Field):
@@ -88,3 +91,27 @@ class WBGeometryField(fields.Field):
 class WBPropertiesField(fields.Field):
     name = fields.Str(required=True)
     id = fields.Str(required=True)
+
+
+class BcryptHashablePasswordField(fields.Field):
+    default_error_messages = {
+        'invalid': 'Invalid password.',
+    }
+    def _deserialize(self, value, attr, data):
+        if type(value) != str:
+            raise ValidationError('password must be a string.')
+        if not 12 <= len(value) <= 72:
+            raise ValidationError('passowrd must be 12 to 72 characters long.')
+        return value
+
+
+class UsernameField(fields.Field):
+    default_error_messages = {
+        'invalid': 'Invalid password.',
+    }
+    def _deserialize(self, value, attr, data):
+        if type(value) != str:
+            raise ValidationError('username must be a string.')
+        if not 6 <= len(value) <= 24:
+            raise ValidationError('username must be 6 to 24 characters long.')
+        return value

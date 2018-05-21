@@ -4,6 +4,7 @@ from flask_restplus import Namespace, Resource, reqparse
 from .core.database import Database
 from .core.swagger_models import water_body, node, string_array
 from .core.marshmallow_models import NewWaterBodySchema
+from .core.utils import token_required
 from dateutil import parser as date_parser
 from functools import reduce
 from datetime import datetime
@@ -17,8 +18,9 @@ string_array = api.schema_model('StringArray', string_array)
 
 @api.route('/add')
 class AddWaterBody(Resource):
-    @api.doc(summary='Add water bodies to the water bodies collection')
+    @api.doc(summary='Add water bodies to the water bodies collection', security="apikey")
     @api.expect([water_body])
+    @token_required
     def post(self):
         new_water_bodies, errors = NewWaterBodySchema(many=True).load(request.get_json())
         if errors:
@@ -104,7 +106,10 @@ class WaterBodyICAMpff(Resource):
 @api.param('node_id', description='Node id of the node to add', _in='query', required=True, type='string')
 @api.param('water_body_id', description='Id of the water body', _in='path', required=True, type='string')
 class AddNodeToWaterBody(Resource):
-    @api.doc(summary='Update the node list of a water body', responses={200: ('Water body updated successfully')})
+    @api.doc(summary='Update the node list of a water body', 
+             responses={200: ('Water body updated successfully')},
+             security="apikey")
+    @token_required
     def post(self, water_body_id):
         parser = reqparse.RequestParser()
         parser.add_argument('node_id', type=str, required=True, location='args')
@@ -118,8 +123,11 @@ class AddNodeToWaterBody(Resource):
 @api.route('/<string:water_body_id>/remove_nodes')
 @api.param('water_body_id', description='Id of the water body', _in='path', required=True, type='string')
 class RemoveNodesFromWaterBody(Resource):
-    @api.doc(summary='Update the node list of a water body', responses={200: ('Water body updated successfully')})
+    @api.doc(summary='Update the node list of a water body', 
+             responses={200: ('Water body updated successfully')}, 
+             security="apikey")
     @api.expect(string_array)
+    @token_required
     def put(self, water_body_id):
         args = request.get_json()
         if type(args) != list:  # Making a marshmallow schema for this is a waste unless we need to do the same in another endpoint

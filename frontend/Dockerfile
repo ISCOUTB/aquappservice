@@ -18,7 +18,7 @@ RUN ln -s /etc/nginx/sites-available/frontend.conf /etc/nginx/sites-enabled/fron
 
 RUN rm /etc/nginx/sites-enabled/default
 
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@6.0.0
 
 RUN npm install
 

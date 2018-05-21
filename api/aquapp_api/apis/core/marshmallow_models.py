@@ -10,7 +10,7 @@
 """
 
 from marshmallow import Schema, pprint, fields
-from .marshmallow_fields import CoordinatesField, DateTimeField, ObjectIdField, SensorField, WBGeometryField, WBPropertiesField
+from .marshmallow_fields import BcryptHashablePasswordField, UsernameField, CoordinatesField, DateTimeField, ObjectIdField, SensorField, WBGeometryField, WBPropertiesField
 
 
 class NodeSchema(Schema):
@@ -66,3 +66,8 @@ class EditNodeTypeSchema(Schema):
 class NewWaterBodySchema(Schema):
     properties = WBPropertiesField()
     geometry = WBGeometryField()
+
+
+class UserSchema(Schema):
+    username = UsernameField(required=True)
+    password = BcryptHashablePasswordField(required=True)

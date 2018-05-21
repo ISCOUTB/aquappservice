@@ -1,6 +1,7 @@
 import pymongo
 import json
 import os
+import bcrypt
 from datetime import datetime
 from dateutil import parser as date_parser
 from bson.objectid import ObjectId
@@ -24,12 +25,12 @@ class Database:
         self.icampff_caches = Database._default_db.icampff_caches
 
     def seed(self):
-        # Create the admin user (obviously, the initial password will be taken from the env in production)
-        if not [user for user in self.users.find({'username': 'admin'})]:
+        # Create the admin user
+        if not [user for user in self.users.find({'username': os.getenv('ADMIN_USERNAME')})]:
             print("Adding admin user")
-            self.users.insert_one({'username': 'admin', 'password': 'n/r3t3'})
+            self.users.insert_one({'username': os.getenv('ADMIN_USERNAME'), 'password': bcrypt.hashpw(os.getenv('DEFAULT_ADMIN_KEY').encode('utf-8'), bcrypt.gensalt())})
 
-           # Load all node types into the "node_types" collection
+        # Load all node types into the "node_types" collection
         try:
             node_types = [{**node_type, "_id": ObjectId(node_type["_id"])}
                           for node_type in json.loads(
@@ -58,11 +59,6 @@ class Database:
         # Load all seeds
         if not [sensor_data for sensor_data in self.sensor_data.find()]:
             print("loading the seeds")
-            sensor_data = []
-            for node in nodes:
-                for sensor in next(filter(lambda n: str(n['_id']) == str(node['node_type_id']), node_types))['sensors']:
-                    sensor_data.append({'node_id': str(node['_id']), 'variable': sensor['variable'], 'data': []})
-            
             for filename in os.listdir(os.path.join(os.path.dirname(__file__), 'data/nodes-data')):
                 try:
                     node = next(filter(lambda n: str(n['_id']) == filename[:-4], nodes))
@@ -71,18 +67,28 @@ class Database:
                     continue
                 node_type = next(filter(lambda nt: str(nt['_id']) == node['node_type_id'], node_types))
                 print('loading seed ' + filename)
-                for line in open(os.path.join('data/nodes-data', filename)):
-                    if line != '\n':
-                        d = line.replace('\n', '').split(node_type['separator'])
-                        for sensor, value in zip(node_type['sensors'], d[1:]):
-                            try:
-                                v = float(value)
-                                next(filter(lambda sd: sd['variable'] == sensor['variable'] and sd['node_id'] == str(node['_id']), sensor_data))['data'].append({'date': date_parser.parse(d[0]), 'value': v})
-                            except ValueError:
-                                pass  # The value for that variable was not measured in that date
-                            except StopIteration:
-                                pass
-            self.sensor_data.insert_many(sensor_data)
+                data = [d.split(node_type["separator"]) for d in open(os.path.join('data/nodes-data', filename)).read().split("\n")]
+                new_sensor_data = [
+                    {
+                        'variable': sensor['variable'],
+                        'node_id': str(node['_id']),
+                        'data': []
+                    } for sensor in node_type['sensors']
+                ]
+                for i in range(len(data)):
+                    date = date_parser.parse(data[i][0])
+                    for j in range(1, len(data[i])):
+                        if data[i][j] == "---":  # No data registered for this sensor at this date
+                            continue
+                        
+                        try:
+                            value = float(data[i][j])
+                        except ValueError:
+                            value = data[i][j]  # The value is a string
+
+                        new_sensor_data[j - 1]['data'].append({'date': date, 'value': value})
+
+                self.sensor_data.insert_many(new_sensor_data)
 
         # Loading the water bodies
         try:
@@ -262,8 +268,8 @@ class Database:
         # Remove all the nodes with that node type as well
         self.nodes.delete_many({'node_type_id': node_type_id})
 
-    def add_user(self):  # Add a new user to the users collection
-        pass
+    def add_user(self, username):  # Add a new user to the users collection
+        return self.users.find_one({'username': username})
 
-    def get_user(self, query):  # Get a user
-        return self.users.find_one(query)
+    def get_user(self, username):  # Get a user
+        return self.users.find_one({'username': username})

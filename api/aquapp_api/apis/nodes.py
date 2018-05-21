@@ -3,6 +3,7 @@ from flask_restplus import Namespace, Resource, reqparse
 from .core.database import Database
 from .core.marshmallow_models import NodeSchema, NewNodeSchema, EditNodeSchema, DatumSchema, NodeTypeSchema, EditNodeTypeSchema, NewNodeTypeSchema
 from .core.swagger_models import node, data, datum, node_type, sensor, link, date_array, new_node, new_datum
+from .core.utils import token_required
 from dateutil import parser as date_parser
 from marshmallow import Schema
 
@@ -25,8 +26,9 @@ class AddNodeType(Resource):
     @api.doc(summary='Add new node types',
              description='Add new node types',
              responses={201: 'Node type added successfully'},
-             security=['apikey', 'oauth2'])
+             security='apikey')
     @api.expect([node_type])
+    @token_required
     def post(self):
         node_types, errors = NodeTypeSchema(many=True).load(request.get_json())
         if errors:
@@ -91,9 +93,10 @@ class NodesByNodeType(Resource):
            type='string')
 class EditNodeType(Resource):
     @api.doc(description='Edit a node type',
-             responses={200: 'Node type updated'})
-             # security=['apikey', 'oauth2'])
+             responses={200: 'Node type updated'},
+             security='apikey')
     @api.expect(new_node)
+    @token_required
     def put(self, node_id):
         new_node_data, errors = EditNodeTypeSchema().load(request.get_json())
         if errors:
@@ -109,8 +112,10 @@ class EditNodeType(Resource):
 @api.route('/add')
 class AddNode(Resource):
     @api.doc(description='Add new nodes',
-             responses={201: 'Node added successfully'})
+             responses={201: 'Node added successfully'},
+             security="apikey")
     @api.expect([new_node])
+    @token_required
     def post(self):
         # The result of the load() method is of type UnMarshallResult, it's an array with two elements, the first is the
         # deserialized object and the second the errors.
@@ -195,9 +200,10 @@ class ValidRanges(Resource):
            type='string')
 class EditNode(Resource):
     @api.doc(description='Edit a node',
-             responses={200: 'Node updated'})
-             # security=['apikey', 'oauth2'])
+             responses={200: 'Node updated'},
+             security='apikey')
     @api.expect(new_node)
+    @token_required
     def put(self, node_id):
         new_node_data, errors = EditNodeSchema().load(request.get_json())
         if errors:
@@ -217,9 +223,10 @@ class EditNode(Resource):
            _in='query', required=True, type='string')
 class AddNodeSensorData(Resource):
     @api.doc(description='Register new meassures of the sensor of a node',
-             responses={201: 'Datum created'})
-             # security=['apikey', 'oauth2'])
+             responses={201: 'Datum created'},
+             security='apikey')
     @api.expect([new_datum])
+    @token_required
     def post(self, node_id):
         variable = reqparse.RequestParser().add_argument('variable', type=str, required=True, location='args').parse_args()['variable']
         data, errors = DatumSchema(many=True).load(request.get_json())
@@ -239,7 +246,9 @@ class AddNodeSensorData(Resource):
            required=True, type='string')
 class DeleteNode(Resource):
     @api.doc(summary='Delete a node by ID', description='Deletes a single node',
-             responses={200: ('A node object', node), 404: 'Node not found'})
+             responses={200: ('A node object', node), 404: 'Node not found'},
+             security='apikey')
+    @token_required
     def delete(self, node_id):
         if Database().delete_node(node_id):
             return {'message': 'node deleted successfully'}, 200
