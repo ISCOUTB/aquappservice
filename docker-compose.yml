@@ -12,8 +12,6 @@ services:
     build: ./api
     ports:
       - 8080:8080
-    volumes:
-      - ./api:/usr/src/app
     depends_on:
       - database
 
