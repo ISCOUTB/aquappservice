@@ -62,5 +62,75 @@
     "coordinates": [10.3336549, -75.5059747],
     "status": "Non Real Time",
     "node_type_id": "5a16342a9a8920290056a542"
+  },
+  {
+    "_id": "5b02af2b08de6a000d4bc0e4",
+    "location": "Puente Román, Laguna de San Lázaro",
+    "coordinates": [
+      10.4162931,
+      -75.5452592
+    ],
+    "name": "Laguna de San Lázaro 1",
+    "node_type_id": "59c9d9019a892016ca4be412"
+  },
+  {
+    "_id": "5b02af2b08de6a000d4bc0e5",
+    "location": "Puente Heredia, Laguna de San Lázaro",
+    "coordinates": [
+      10.422268,
+      -75.542683
+    ],
+    "name": "Laguna de San Lázaro 2",
+    "node_type_id": "59c9d9019a892016ca4be412"
+  },
+  {
+    "_id": "5b02af2b08de6a000d4bc0e6",
+    "location": "Sector Caribe Plaza, Ciénaga de las Quintas",
+    "coordinates": [
+      10.413022,
+      -75.5324627
+    ],
+    "name": "Ciénaga de las Quintas 1",
+    "node_type_id": "59c9d9019a892016ca4be412"
+  },
+  {
+    "_id": "5b02af2b08de6a000d4bc0e7",
+    "location": "Peaje de Manga, Ciénaga de las Quintas",
+    "coordinates": [
+      10.407163,
+      -75.5279817
+    ],
+    "name": "Ciénaga de las Quintas 2",
+    "node_type_id": "59c9d9019a892016ca4be412"
+  },
+  {
+    "_id": "5b02af2b08de6a000d4bc0e8",
+    "location": "Puente de chambacú, laguna de chambacú",
+    "coordinates": [
+      10.426821,
+      -75.543696
+    ],
+    "name": "Laguna de Chambacú 1",
+    "node_type_id": "59c9d9019a892016ca4be412"
+  },
+  {
+    "_id": "5b02af2b08de6a000d4bc0e9",
+    "location": "Cabrero, Laguna del Cabrero",
+    "coordinates": [
+      10.430926,
+      -75.542428
+    ],
+    "name": "Laguna del Cabrero 1",
+    "node_type_id": "59c9d9019a892016ca4be412"
+  },
+  {
+    "_id": "5b02af2b08de6a000d4bc0ea",
+    "location": "Aeropuerto, Caño Juan Angola",
+    "coordinates": [
+      10.44262,
+      -75.5216947
+    ],
+    "name": "Caño Juan Angola 1",
+    "node_type_id": "59c9d9019a892016ca4be412"
   }
 ]

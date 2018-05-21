@@ -14,6 +14,9 @@ class Database:
     _default_db = _db_client.db
     _instance = None
 
+    def __del__(self):
+        Database._db_client.close()
+
     def __init__(self):
         # Shortcuts to the db collections
         self.node_types = Database._default_db.node_types
@@ -92,7 +95,7 @@ class Database:
 
         # Loading the water bodies
         try:
-            water_bodies = [{**water_body, 'nodes': []} for water_body in json.loads(open(os.path.join(os.path.dirname(__file__), "data/water_bodies.json")).read())]
+            water_bodies = [{**water_body, '_id': ObjectId(water_body['_id'])} for water_body in json.loads(open(os.path.join(os.path.dirname(__file__), "data/water_bodies.json")).read())]
             self.water_bodies.insert_many(water_bodies)
         except pymongo.errors.BulkWriteError:
             print('Failed to load the water bodies')

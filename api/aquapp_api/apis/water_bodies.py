@@ -77,23 +77,24 @@ class WaterBodyICAMpff(Resource):
         def icampff(node_id):
             sd = date_parser.parse("2016-01-01 00:00:00")
             d = [
-                Database().get_sensor_data(node_id, "Dissolved Oxygen (DO)", start_date=sd, end_date=datetime.utcnow())["data"][-1] or -1,
-                Database().get_sensor_data(node_id, "Nitrate (NO3)", start_date=sd, end_date=datetime.utcnow())["data"][-1] or -1,
-                Database().get_sensor_data(node_id, "Total Suspended Solids (TSS)", start_date=sd, end_date=datetime.utcnow())["data"][-1] or -1,
-                Database().get_sensor_data(node_id, "Thermotolerant Coliforms", start_date=sd, end_date=datetime.utcnow())["data"][-1] or -1,
-                Database().get_sensor_data(node_id, "pH", start_date=sd, end_date=datetime.utcnow())["data"][-1] or -1,
-                Database().get_sensor_data(node_id, "Phosphates (PO4)", start_date=sd, end_date=datetime.utcnow())["data"][-1] or -1,
-                Database().get_sensor_data(node_id, "Biochemical Oxygen Demand (BOD)", start_date=sd, end_date=datetime.utcnow())["data"][-1] or -1,
-                Database().get_sensor_data(node_id, "Chrolophyll A (CLA)", start_date=sd, end_date=datetime.utcnow())["data"][-1] or -1
+                Database().get_sensor_data(node_id, "Dissolved Oxygen (DO)", start_date=sd, end_date=datetime.utcnow()),
+                Database().get_sensor_data(node_id, "Nitrate (NO3)", start_date=sd, end_date=datetime.utcnow()),
+                Database().get_sensor_data(node_id, "Total Suspended Solids (TSS)", start_date=sd, end_date=datetime.utcnow()),
+                Database().get_sensor_data(node_id, "Thermotolerant Coliforms", start_date=sd, end_date=datetime.utcnow()),
+                Database().get_sensor_data(node_id, "pH", start_date=sd, end_date=datetime.utcnow()),
+                Database().get_sensor_data(node_id, "Phosphates (PO4)", start_date=sd, end_date=datetime.utcnow()),
+                Database().get_sensor_data(node_id, "Biochemical Oxygen Demand (BOD)", start_date=sd, end_date=datetime.utcnow()),
+                Database().get_sensor_data(node_id, "Chrolophyll A (CLA)", start_date=sd, end_date=datetime.utcnow())
             ]
-            date_hash = hash(reduce(lambda x, y: x + y, [dm['date'] for dm in d]))
+            d = [((obj['data'][-1]['value'] if len(obj['data']) else -1) if 'data' in obj else -1) for obj in d]
+            new_hash = hash(reduce(lambda x, y: str(x) + str(y), d))
             # Now we need to check the date of the cache in the water body
             # to see if it's current
-            if Database().check_icampff_hash(water_body_id, node_id, date_hash):
+            if Database().check_icampff_hash(water_body_id, node_id, new_hash):
                 return Database().get_icampff_cache(water_body_id, node_id)['icampff']
-
-            new_icampff = requests.get("http://buritaca.invemar.org.co/ICAMWebService/calculate-icam-ae/od/{}/no3/{}/sst/{}/ctt/{}/ph/{}/po4/{}/dbo/{}/cla/{}".format(*[v['value'] for v in d])).json()['value']
-            Database().set_icampff_cache(water_body_id, node_id, date_hash, new_icampff)
+            
+            new_icampff = requests.get("http://buritaca.invemar.org.co/ICAMWebService/calculate-icam-ae/od/{}/no3/{}/sst/{}/ctt/{}/ph/{}/po4/{}/dbo/{}/cla/{}".format(*d)).json()['value']
+            Database().set_icampff_cache(water_body_id, node_id, new_hash, new_icampff)
             return new_icampff
         
         ics = [icampff(nid) for nid in Database().get_water_body_nodes(water_body_id)]

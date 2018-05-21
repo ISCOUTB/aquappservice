@@ -1,5 +1,7 @@
 [
     {
+        "_id": "5b02c0c808de6a0008cc0a28",
+        "nodes": ["5b02af2b08de6a000d4bc0e6", "5b02af2b08de6a000d4bc0e7"],
         "type":"Feature",
         "id":"1",
         "properties":{
@@ -22,6 +24,8 @@
         }
     },
     {
+        "_id": "5b02c0c808de6a0008cc0a29",
+        "nodes": ["59b75c5f9a8920223f2eabe8"],
         "type":"Feature",
         "id":"2",
         "properties": {
@@ -36,6 +40,8 @@
         }
     },
     {
+        "_id": "5b02c0c808de6a0008cc0a2a",
+        "nodes": ["5b02af2b08de6a000d4bc0e4", "5b02af2b08de6a000d4bc0e5"],
         "type":"Feature",
         "id":"3",
         "properties": {
@@ -50,6 +56,8 @@
         }
     },
     {
+        "_id": "5b02c0c808de6a0008cc0a2b",
+        "nodes": ["5b02af2b08de6a000d4bc0e8"],
         "type":"Feature",
         "id":"4",
         "properties": {
@@ -69,6 +77,8 @@
         }
     },
     {
+        "_id": "5b02c0c808de6a0008cc0a2c",
+        "nodes": ["5b02af2b08de6a000d4bc0e9"],
         "type":"Feature",
         "id":"5",
         "properties": {
@@ -83,6 +93,8 @@
         }
     },
     {
+        "_id": "5b02c0c808de6a0008cc0a2d",
+        "nodes": ["5b02af2b08de6a000d4bc0ea"],
         "type":"Feature",
         "id":"6",
         "properties": {
