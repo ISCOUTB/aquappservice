@@ -12,7 +12,7 @@ import { WaterBody } from '../water-body';
 
 export class ApiService {
   // IT'S http://aquapp.utb.services:8080/api/v1 FOR PRODUCTION!
-  private apiUrl:string = "http://localhost:8080/api/v1";
+  private apiUrl:string = "http://aquapp.utb.services:8080/api/v1";
 
   getNodes(): Observable<Node[]> {
     return this.http.get<Node[]>(this.apiUrl + "/nodes");
