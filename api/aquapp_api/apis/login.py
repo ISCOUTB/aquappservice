@@ -23,11 +23,12 @@ class Login(Resource):
         if not errors:
             u = Database().get_user(user['username'])
             if u and bcrypt.checkpw(user['password'].encode('utf-8'), u['password']):
+                # The token expires in one day
                 return {
                     'message': 'Login successful',
                     'API-TOKEN': jwt.encode({
                         'user': user['username'],
-                        'exp': datetime.utcnow() + timedelta(minutes=30)
+                        'exp': datetime.utcnow() + timedelta(minutes=1440)
                     }, os.getenv('SECRET_KEY')).decode('utf-8')
                 }, 200
         return {'message': 'Login failed, check your username and password', **errors}, 400

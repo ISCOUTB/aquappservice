@@ -98,9 +98,7 @@ class WaterBodyICAMpff(Resource):
             return new_icampff
         
         ics = [icampff(nid) for nid in Database().get_water_body_nodes(water_body_id)]
-        if not ics:
-            return 0
-        return round(sum(ics) / len(ics))
+        return round(sum(ics) / len(ics)) if ics else 0
 
 
 @api.route('/<string:water_body_id>/add-node')

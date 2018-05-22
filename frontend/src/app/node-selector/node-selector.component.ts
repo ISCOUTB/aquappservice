@@ -19,8 +19,8 @@ import { WaterBody } from '../water-body';
 })
 
 export class NodeSelectorComponent implements OnInit, AfterViewInit {
-  selected_node_type: string = 'all';
-  node_types: string[] = ['Water Quality', 'Hydro-Meteorologic Factors', 'Weather Station', 'all'];
+  selected_node_type: string = 'All';
+  node_types: string[] = ['Water Quality', 'Hydro-Metereologic Factors', 'Weather Station', 'All'];
   nodes: Node[];
   nodeTypes: NodeType[];
   map: Map;
@@ -154,7 +154,7 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
       });
       
       var marker = new Marker([node.coordinates[0], node.coordinates[1]], {title: node.name, icon: ico});
-      if (nodeType == this.selected_node_type || this.selected_node_type == 'all') {
+      if (nodeType == this.selected_node_type || this.selected_node_type == 'All') {
         marker.bindPopup(
           '<h1>' + node.name +'</h1>' +
           '<p>Coordinates: ' + node.coordinates[0].toString() + ',' +

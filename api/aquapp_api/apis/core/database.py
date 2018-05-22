@@ -14,9 +14,6 @@ class Database:
     _default_db = _db_client.db
     _instance = None
 
-    def __del__(self):
-        Database._db_client.close()
-
     def __init__(self):
         # Shortcuts to the db collections
         self.node_types = Database._default_db.node_types
