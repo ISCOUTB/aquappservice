@@ -86,7 +86,10 @@ class WaterBodyICAMpff(Resource):
                 Database().get_sensor_data(node_id, "Biochemical Oxygen Demand (BOD)", start_date=sd, end_date=datetime.utcnow()),
                 Database().get_sensor_data(node_id, "Chrolophyll A (CLA)", start_date=sd, end_date=datetime.utcnow())
             ]
-            d = [((obj['data'][-1]['value'] if len(obj['data']) else -1) if 'data' in obj else -1) for obj in d]
+            # TODO DEBUG THE FOLLOWING TWO LINES
+            last_date = max([((obj['data'][-1]['date'] if len(obj['data']) else date_parser.parse("1900-01-01 00:00:00")) for obj in d)]) 
+            d = [(((obj['data'][-1]['value'] if obj['data'][-1]['date'] == last_date else -1) if len(obj['data']) else -1) if 'data' in obj else -1) for obj in d]
+            
             new_hash = hash(reduce(lambda x, y: str(x) + str(y), d))
             # Now we need to check the date of the cache in the water body
             # to see if it's current
