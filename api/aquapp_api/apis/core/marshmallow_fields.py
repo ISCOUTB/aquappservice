@@ -101,7 +101,7 @@ class BcryptHashablePasswordField(fields.Field):
         if type(value) != str:
             raise ValidationError('password must be a string.')
         if not 12 <= len(value) <= 72:
-            raise ValidationError('passowrd must be 12 to 72 characters long.')
+            raise ValidationError('password must be 12 to 72 characters long.')
         return value
 
 
