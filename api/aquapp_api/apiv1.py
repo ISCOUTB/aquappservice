@@ -16,7 +16,7 @@ api.add_namespace(water_bodies, path='/water-bodies')
 api.add_namespace(login, path='/login')
 
 
-@api.route('/schema')
+@api.route('/schema/')
 class ApiSchema(Resource):
     _api_schema_cache = None
 

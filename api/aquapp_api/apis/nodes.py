@@ -30,7 +30,7 @@ class AddNodeType(Resource):
     @api.expect([node_type])
     @token_required
     def post(self):
-        node_types, errors = NodeTypeSchema(many=True).load(request.get_json())
+        node_types, errors = NodeTypeSchema(many=True).load(request.get_json() or {})
         if errors:
             node_types = [node_types[i] for i in (set(range(len(node_types))) - set(errors.keys()))]
         Database().add_node_types(node_types)
@@ -98,7 +98,7 @@ class EditNodeType(Resource):
     @api.expect(new_node)
     @token_required
     def put(self, node_id):
-        new_node_data, errors = EditNodeTypeSchema().load(request.get_json())
+        new_node_data, errors = EditNodeTypeSchema().load(request.get_json() or {})
         if errors:
             return {'message': 'ERROR: failed to edit the node, check input', **errors}, 400
         if new_node_data:
@@ -119,7 +119,7 @@ class AddNode(Resource):
     def post(self):
         # The result of the load() method is of type UnMarshallResult, it's an array with two elements, the first is the
         # deserialized object and the second the errors.
-        nodes, errors = NewNodeSchema(many=True).load(request.get_json())
+        nodes, errors = NewNodeSchema(many=True).load(request.get_json() or {})
         if errors:  # There are validation errors, the nodes without valid data are 
             safe_nodes = [nodes[i] for i in (set(range(len(nodes))) - set(errors.keys()))]
             if safe_nodes:
@@ -205,7 +205,7 @@ class EditNode(Resource):
     @api.expect(new_node)
     @token_required
     def put(self, node_id):
-        new_node_data, errors = EditNodeSchema().load(request.get_json())
+        new_node_data, errors = EditNodeSchema().load(request.get_json() or {})
         if errors:
             return {'message': 'ERROR: failed to edit the node, check input', **errors}, 400
         if new_node_data:
@@ -229,7 +229,7 @@ class AddNodeSensorData(Resource):
     @token_required
     def post(self, node_id):
         variable = reqparse.RequestParser().add_argument('variable', type=str, required=True, location='args').parse_args()['variable']
-        data, errors = DatumSchema(many=True).load(request.get_json())
+        data, errors = DatumSchema(many=True).load(request.get_json() or {})
         if errors:
             data = [data[i] for i in (set(range(len(data))) - set(errors.keys()))]
         Database().add_sensor_data(node_id, variable, data)

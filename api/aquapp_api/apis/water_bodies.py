@@ -22,7 +22,7 @@ class AddWaterBody(Resource):
     @api.expect([water_body])
     @token_required
     def post(self):
-        new_water_bodies, errors = NewWaterBodySchema(many=True).load(request.get_json())
+        new_water_bodies, errors = NewWaterBodySchema(many=True).load(request.get_json() or {})
         if errors:
             new_water_bodies = [wb for wb in (set(range(len(new_water_bodies)) - set(errors.keys())))]
         if new_water_bodies:
