@@ -12,9 +12,7 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 
 RUN apt install -y --no-install-recommends nodejs nginx
 
-COPY ./config/frontend.conf /etc/nginx/sites-available/frontend.conf
-
-RUN ln -s /etc/nginx/sites-available/frontend.conf /etc/nginx/sites-enabled/frontend
+COPY ./config/frontend.conf /etc/nginx/sites-enabled/frontend
 
 RUN rm /etc/nginx/sites-enabled/default
 

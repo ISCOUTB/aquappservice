@@ -8,8 +8,8 @@ services:
     volumes:
       - ./database:/data/db
 
-  api:
-    build: ./api
+  backend:
+    build: ./backend
     ports:
       - 8080:8080
     depends_on:
@@ -17,9 +17,7 @@ services:
 
   frontend:
     build: ./frontend
-    # volumes:  # docker-compose will discard all changes made in build time when using volumes
-    #   - ./frontend:/frontend
     ports:
       - 80:80
     depends_on:
-      - api
+      - backend
