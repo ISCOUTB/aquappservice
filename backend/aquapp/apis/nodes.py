@@ -174,7 +174,12 @@ class NodeData(Resource):
             ed = date_parser.parse(args["end_date"])
         except ValueError:
             return {'message': 'The dates are in the wrong format!, start_date={}, end_date={}'.format(args["start_date"], args["end_date"])}, 400
-        return Database().get_sensor_data(node_id, args['variable'], sd, ed), 200
+        sensor_data = Database().get_sensor_data(node_id, args['variable'], sd, ed) or {'variable': args['variable'], 'node_id': node_id, 'data': []}
+        return {
+            'variable': sensor_data['variable'], 
+            'node_id': sensor_data['node_id'], 
+            'data': [{**datum, 'date': str(datum['date'])} for datum in sensor_data['data']]
+        }, 200
 
 
 @api.route('/<string:node_id>/available-dates')

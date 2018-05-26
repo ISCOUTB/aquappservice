@@ -136,7 +136,7 @@ class Database:
         if not sensor:  # No sensor data registered
             return []
         return {'variable': variable, 'node_id': node_id, 'data': [
-            {**datum, 'date': str(datum['date'])} for datum in filter(lambda s: start_date <= s['date'] <= end_date, sensor['data'])
+            datum for datum in filter(lambda s: start_date <= s['date'] <= end_date, sensor['data'])
         ]}
 
     def get_available_dates(self, node_id, variable):
