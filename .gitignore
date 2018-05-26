@@ -1,10 +1,9 @@
 database/*
 .vscode/
-api/venv
 new_stuff/
-api/.env
-api/Pipfile
-api/Pipfile.lock
+backend/.env
+backend/Pipfile
+backend/Pipfile.lock
 docker-compose2.yml
 */**/__pycache__/*
 */**/*.pyc
