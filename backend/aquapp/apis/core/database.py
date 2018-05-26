@@ -6,7 +6,7 @@ from datetime import datetime
 from dateutil import parser as date_parser
 from bson.objectid import ObjectId
 
-os.chdir('/usr/src/app/aquapp_api/apis/core')
+os.chdir('/backend/aquapp/apis/core')
 
 # The methods are ordered by the operation type (CRUD) and the objects involved (node, node_type, water_body, data and datum)
 class Database:
@@ -80,7 +80,7 @@ class Database:
                     for j in range(1, len(data[i])):
                         if data[i][j] == "---":  # No data registered for this sensor at this date
                             continue
-                        
+
                         try:
                             value = float(data[i][j])
                         except ValueError:
@@ -147,7 +147,7 @@ class Database:
         if not sensor:  # No sensor data registered
             return []
         return list({str(datum['date'].month) + "/" + str(datum['date'].day) + "/" + str(datum['date'].year) for datum in sensor['data']})
-        
+
 
     def edit_node(self, node_id, new_node_data):
         node = self.nodes.find_one({'_id': ObjectId(node_id)})
@@ -155,7 +155,7 @@ class Database:
             return False
         if new_node_data["node_type_id"] != node["node_type_id"]:
             self.sensor_data.delete_many({'node_id': node_id})
-            # TODO if it was a WQ node, remove the caches as well 
+            # TODO if it was a WQ node, remove the caches as well
         self.nodes.update_one({'_id': ObjectId(node_id)}, {'$set': {**new_node_data}})
         return True
 
@@ -200,7 +200,7 @@ class Database:
             'water_body_id': water_body_id,
             'node_id': node_id
         })
-    
+
     def check_icampff_hash(self, water_body_id, node_id, h):
         cache = self.icampff_caches.find_one({
             'water_body_id': water_body_id,
@@ -213,14 +213,14 @@ class Database:
             {
                 'water_body_id': water_body_id,
                 'node_id': node_id
-            }, 
+            },
             {
                 '$set': {
                     'icampff': icampff,
                     'hash': h
                 }
             }, upsert=True)
-    
+
     def add_node_to_water_body(self, node_id, water_body_id):
         try:
             node = self.nodes.find({'_id': ObjectId(node_id)})[0]
@@ -235,7 +235,7 @@ class Database:
     def remove_nodes_from_water_body(self, water_body_id, node_ids):
         try:
             self.water_bodies.find({'_id': ObjectId(water_body_id)})
-            self.water_bodies.update_one({'_id': ObjectId(water_body_id)}, 
+            self.water_bodies.update_one({'_id': ObjectId(water_body_id)},
                 {'$pull': {'nodes': {'$in': node_ids}}})
         except IndexError:
             return False
@@ -248,7 +248,7 @@ class Database:
     def get_node_types(self):  # Get a list with all the node types
         return [node_type for node_type in self.node_types.find()]
 
-    def get_node_type(self, id):  # Get the node type with the provided id 
+    def get_node_type(self, id):  # Get the node type with the provided id
         return self.node_types.find({"_id": ObjectId(id)})
 
     def edit_node_type(self, node_type_id, new_node_type_data):

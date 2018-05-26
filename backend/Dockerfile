@@ -26,6 +26,8 @@ RUN apt-get clean
 
 COPY ./config/supervisor_app.conf /etc/supervisor/conf.d/
 
+RUN chown -R www-data:www-data /backend
+
 EXPOSE 8080
 
 CMD ["supervisord"]

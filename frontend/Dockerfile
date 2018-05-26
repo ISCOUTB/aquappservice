@@ -16,12 +16,12 @@ COPY ./config/frontend.conf /etc/nginx/sites-enabled/frontend
 
 RUN rm /etc/nginx/sites-enabled/default
 
+RUN npm i npm@latest -g
 RUN npm install -g @angular/cli@6.0.0
-
 RUN npm install
 
-RUN ng build
-#RUN ng build --prod --build-optimizer
+#RUN ng build
+RUN ng build --prod --build-optimizer
 
 RUN apt-get clean
 

@@ -10,6 +10,8 @@ CORS(app)
 
 app.register_blueprint(apiv1)  # Added v1 of the api
 
+"""
 from .apis.core.database import Database
 
 Database().seed()
+"""
