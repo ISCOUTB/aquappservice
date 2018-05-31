@@ -1,16 +1,19 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Inject } from '@angular/core';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
 import { ApiService } from '../api/api.service';
 import { Node } from '../node';
 import { Map, TileLayer, tileLayer, 
          featureGroup, FeatureGroup, 
-         GeoJSON, geoJSON, Browser, 
+         GeoJSON, Browser, 
          Control, Marker,
-         Icon, DivIcon } from 'leaflet';
+         Icon, DivIcon, geoJSON } from 'leaflet';
 import { glyphIcon } from './glyph-icon';
 import { waterBodiesData } from './map-data';
 import { NodeType } from '../node-type';
 import { WaterBody } from '../water-body';
+import { Sensor } from '../sensor';
+import { ExportSelectorComponent } from '../export-selector/export-selector.component';
 
 @Component({
   selector: 'app-node-selector',
@@ -19,12 +22,12 @@ import { WaterBody } from '../water-body';
 })
 
 export class NodeSelectorComponent implements OnInit, AfterViewInit {
-  selected_node_type: string = 'All';
-  node_types: string[] = ['Water Quality', 'Hydro-Metereologic Factors', 'Weather Station', 'All'];
+  selectedNodeType: string = 'All';
   nodes: Node[];
   nodeTypes: NodeType[];
   map: Map;
   markers: Marker[] = [];
+  selectedWaterBody: string[];  // ['name', 'icampff']
   screenWidth: number;
   // The first element of the accordion in the sidenav of the application
   // Should be expanded when the page loads.
@@ -33,8 +36,12 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
   // this kind of object
   waterBodies: any;
   mapReady: boolean = false;
+  selectedNode: Node;
+  selectedNodeSensors: Sensor[];
+  data: string[] = ["dd", "asdf"];  // The data that will be passed to the node-selector component [node_id, variable]
+  @ViewChild(ExportSelectorComponent) exportSelector: ExportSelectorComponent;
   
-  constructor(private apiService: ApiService) { 
+  constructor(private apiService: ApiService, public dialog: MatDialog, public snackBar: MatSnackBar) { 
     // set screenWidth on page load
     this.screenWidth = window.innerWidth;
     window.onresize = () => {
@@ -42,6 +49,14 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
       this.screenWidth = window.innerWidth;
       this.fixMap();
     };
+  }
+
+  openDialog(variable) {
+    this.dialog.open(Dialog, {
+      width: '90%',
+      height: '90%',
+      data: [this.selectedNode._id, variable]
+    });
   }
 
   ngAfterViewInit() {
@@ -76,7 +91,6 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
 
   drawWaterBodies() {
     var getColor = (d) => {
-      console.log(d);
       return d > 90 ? '#0032FF' : // blue
               d > 70 ? '#49C502' : // green
                 d > 50 ? '#F9F107' : // yellow
@@ -130,7 +144,6 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
           nodeType = nt.name;
         }
       });
-      console.log(node._id);
       var ico_url: string;
       switch (node.status) {
         case 'Real Time':
@@ -154,19 +167,27 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
       });
       
       var marker = new Marker([node.coordinates[0], node.coordinates[1]], {title: node.name, icon: ico});
-      if (nodeType == this.selected_node_type || this.selected_node_type == 'All') {
+      if (nodeType == this.selectedNodeType || this.selectedNodeType == 'All') {
         marker.bindPopup(
           '<h1>' + node.name +'</h1>' +
           '<p>Coordinates: ' + node.coordinates[0].toString() + ',' +
             node.coordinates[1].toString() + '</p>'
         )
+        marker.on('click', () => {
+          this.selectedNode = node;
+          this.nodeTypes.forEach(nodeType => {
+            if (nodeType._id == node.node_type_id)
+              this.selectedNodeSensors = nodeType.sensors
+          });
+        });
         marker.addTo(this.map);
         this.markers.push(marker);
       }
     });
   }
 
-  resetMarkers() {
+  resetMarkers(nodeType) {
+    this.selectedNodeType = nodeType;
     this.markers.forEach(marker => {
       marker.removeFrom(this.map);
     });
@@ -174,4 +195,20 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
     this.setMarkers();
   }
 
+}
+
+@Component({
+  selector: 'dialog-component',
+  templateUrl: './dialog.component.html',
+})
+
+export class Dialog {
+  constructor(
+    public dialogRef: MatDialogRef<Dialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }

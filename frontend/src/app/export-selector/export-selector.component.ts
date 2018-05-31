@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject, Input } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { Data } from '../sensor-data';
 import { Node } from '../node';
@@ -12,79 +12,45 @@ import { ApiService } from '../api/api.service';
 })
 
 export class ExportSelectorComponent implements OnInit {
-  nodes: Node[];
-  nodeTypes: NodeType[];
   startDate: Date;
   endDate: Date;
-  variable: string;
-  data: Data;
-  selectedNode: string;
-  actualSelectedNode: Node;
-  variables: string[];
   exportFormat: string;
-  loadingData: boolean = false;
   validDates: string[];
+  @Input() dataFromNodeSelector: string[];
+  data: Data;
 
   constructor(private apiService: ApiService, public dialog: MatDialog, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.apiService.getNodes().subscribe(nodes => this.nodes = nodes, 
-      () => console.log("export-selector: Couldn't get the nodes"),
-      () => this.getNodeTypes());
-  }
-
-  getNodeTypes() {
-    this.apiService.getNodeTypes().subscribe(nodeTypes => this.nodeTypes = nodeTypes, 
-      () => console.log("export-selector: Couldn't get the node types"));
+    this.getValidDates();
   }
 
   getValidDates() {
-    this.apiService.getValidDates(this.actualSelectedNode._id, this.variable).subscribe(validDates => this.validDates = validDates, 
-      () => console.log("export-selector: Couldn't get the valid dates"),
+    console.log(this.dataFromNodeSelector);
+    this.apiService.getValidDates(this.dataFromNodeSelector[0], this.dataFromNodeSelector[1]).subscribe(validDates => this.validDates = validDates, 
+      () => this.openSnackBar("export-selector: Couldn't get the valid dates", ""),
       () => this.resetDates());
   }
 
   getData() {
-    if (this.actualSelectedNode === undefined || this.startDate === undefined || 
-        this.endDate === undefined || this.variable === undefined || 
+    if (this.startDate === undefined || 
+        this.endDate === undefined || 
         this.exportFormat === undefined) {
       this.openSnackBar('Invalid input', '')
       return;
     }
-    this.apiService.getNodeData(this.actualSelectedNode._id, this.startDate, this.endDate, this.variable).subscribe(data => this.data = data, 
+    this.apiService.getNodeData(this.dataFromNodeSelector[0], this.startDate, this.endDate, this.dataFromNodeSelector[1]).subscribe(data => this.data = data, 
       () => console.log("export-selector: Couldn't get the nodes data"),
       () => this.export());
-  }
-
-  selectNode() {
-    var nodeTypeId: string;
-    this.variables = [];
-    this.nodes.forEach(node => {
-      if (node.name == this.selectedNode) {
-        nodeTypeId = node.node_type_id;
-        this.actualSelectedNode = node;
-        return;
-      }
-    });
-
-    this.nodeTypes.forEach(nodeType => {
-      if (nodeType._id == nodeTypeId) {
-        nodeType.sensors.forEach(sensor => {
-          this.variables.push(sensor.variable);
-        });
-      }
-    });
   }
 
   export() {
     if (this.exportFormat == 'csv') {
       // Convert JSON to csv and download
-      this.loadingData = true;
       var data:string = "";
       this.data.data.forEach(datum => {
         data += datum.date + "," + datum.value + "\n";
       });
-      this.loadingData = false;
 
       var blob = new Blob([data], {type: 'text/csv'});
       var url= window.URL.createObjectURL(blob);
@@ -108,8 +74,8 @@ export class ExportSelectorComponent implements OnInit {
       width: '90%',
       height: '90%',
       data: {
-        'node_id': this.data.node_id, 
-        'variable': this.data.variable,
+        'node_id': this.dataFromNodeSelector[0], 
+        'variable': this.dataFromNodeSelector[1],
         'sensor_data': csv_data,
         'options': {
           'width': 500,
@@ -142,6 +108,7 @@ export class ExportSelectorComponent implements OnInit {
   }
 
   resetDates() {
+    console.log(this.validDates);
     this.startDate = undefined;
     this.endDate = undefined;
   }

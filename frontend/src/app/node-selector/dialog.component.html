@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>
+        Export data
+</h1>
+<div mat-dialog-content>
+    <app-export-selector #exportSelector [dataFromNodeSelector]="data"></app-export-selector>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()" cdkFocusInitial>Close</button>
+</div>

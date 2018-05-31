@@ -23,7 +23,6 @@ import { MatAutocompleteModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
-  MatMenuModule,
   MatNativeDateModule,
   MatPaginatorModule,
   MatProgressBarModule,
@@ -41,10 +40,11 @@ import { MatAutocompleteModule,
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatTreeModule } from '@angular/material';
+  MatTreeModule, 
+  MatMenuModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { NodeSelectorComponent } from './node-selector/node-selector.component';
+import { NodeSelectorComponent, Dialog as NSDialog } from './node-selector/node-selector.component';
 import { ExportSelectorComponent, Dialog } from './export-selector/export-selector.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgDygraphsModule } from 'ng-dygraphs';
@@ -57,9 +57,10 @@ import { AboutComponent } from './about/about.component';
     NodeSelectorComponent,
     ExportSelectorComponent,
     Dialog,
-    AboutComponent
+    AboutComponent,
+    NSDialog
   ],
-  entryComponents: [Dialog, ExportSelectorComponent],
+  entryComponents: [Dialog, ExportSelectorComponent, NSDialog, NodeSelectorComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -92,6 +93,7 @@ import { AboutComponent } from './about/about.component';
     MatDividerModule,
     HttpClientModule,
     MatTooltipModule,
+    MatMenuModule,
     AppRoutingModule
   ],
   providers: [
@@ -102,7 +104,7 @@ import { AboutComponent } from './about/about.component';
 export class AppModule { 
   constructor (iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
-      'three-bar-menu',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/three-bar-menu.svg'));
+      'filter',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/filter.svg'));
   }
  }
