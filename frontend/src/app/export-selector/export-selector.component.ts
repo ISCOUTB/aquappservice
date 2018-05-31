@@ -69,8 +69,9 @@ export class ExportSelectorComponent implements OnInit {
     });
 
     this.dialog.open(Dialog, {
-      width: '90%',
-      height: '90%',
+      width: '70%',
+      height: '70%',
+      minHeight: "450px",
       data: {
         'node_id': this.dataFromNodeSelector[0], 
         'variable': this.dataFromNodeSelector[1],
@@ -125,5 +126,13 @@ export class Dialog {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  expand() {
+    this.dialogRef.updateSize("90%", "90%");
+  }
+  
+  reduce() {
+    this.dialogRef.updateSize("70%", "70%")
   }
 }
