@@ -71,8 +71,8 @@ export class ExportSelectorComponent implements OnInit {
     console.log('export-selector: Data converted to csv, charting...');
 
     this.dialog.open(Dialog, {
-      width: '90%',
-      height: '90%',
+      width: '95%',
+      height: '95%',
       data: {
         'node_id': this.dataFromNodeSelector[0], 
         'variable': this.dataFromNodeSelector[1],
