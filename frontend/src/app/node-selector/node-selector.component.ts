@@ -58,8 +58,8 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
 
   openDialog(variable) {
     this.dialog.open(Dialog, {
-      width: '95%',
-      height: '95%',
+      width: '90%',
+      height: '90%',
       data: [this.selectedNode._id, variable]
     });
   }
