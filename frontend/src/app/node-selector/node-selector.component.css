@@ -4,15 +4,11 @@
     font-size: 12px;
 }
 
-.leaflet-bottom {
-    bottom: 20px;
-}
-
 .export-menu-label {
     line-height: 24px;
     font-size: 16px;
     font-weight: bold;
-    padding-left: 20px;
+    text-align: center;
 }
 
 .export-menu {
@@ -53,8 +49,9 @@
 
 .placeholder {
     text-align: center;
-    font-size: 12px;
+    font-size: 24px;
     width: 100%;
+    font-weight: bold;
     height: 100%;
     overflow: scroll;
 }
@@ -84,7 +81,6 @@
 
 .leaflet-control {
     float: left;
-    margin-bottom: 20px;
 }
 
 /* Popup */
@@ -103,7 +99,7 @@
     /* font: 16px 'Lato', serif; */
     font-size: 12px;
     background: white;
-    background: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,1);
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     border-radius: 5px;
 }
@@ -123,7 +119,7 @@
     height: 18px;
     float: left;
     margin-right: 8px;
-    opacity: 0.7;
+    /*opacity: 0.7;*/
 }
 
 .legend p{

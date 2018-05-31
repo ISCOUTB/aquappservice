@@ -75,9 +75,8 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
     
     tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
       maxZoom: 18,
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-      '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-      'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+      '© <a href="http://mapbox.com">Mapbox</a>',
       id: 'mapbox.streets'
     }).addTo(this.map);
   }
@@ -104,13 +103,23 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
                                     style: (feature) => {
                                       return {color: getColor(feature.properties.icam)};
                                     }
-                                  })
+                                  });
 
-                                  wb.on('click', () => {
-                                    console.log("wb: ", waterBody);
+                                  wb.on('mouseover click', () => {
                                     this.selectedWaterBody = waterBody;
-                                  })
+                                    wb.setStyle({
+                                      weight: 2   ,
+                                      opacity: 1,
+                                      color: 'grey',
+                                      dashArray: '',
+                                      fillOpacity: 1
+                                    });
+                                  });
                                   
+                                  wb.on('mouseout', () => {
+                                    wb.resetStyle(wb);
+                                  });
+
                                   wb.addTo(this.map);
                                 })
     });

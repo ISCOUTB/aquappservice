@@ -93,6 +93,7 @@ import { AboutComponent } from './about/about.component';
     MatDividerModule,
     HttpClientModule,
     MatTooltipModule,
+    MatDividerModule,
     MatMenuModule,
     AppRoutingModule
   ],

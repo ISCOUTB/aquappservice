@@ -23,17 +23,17 @@
     </div>
     <div class="leaflet-top leaflet-right">
       <div class="legend info leaflet-control">
-        <p>ICAMpff (estuary) values</p>
+        <div *ngIf="selectedWaterBody">
+          <p><b>{{ selectedWaterBody.properties.name }}</b></p>
+          <p>ICAMpff: &nbsp; &nbsp; &nbsp;<b [ngStyle]="{'font-size': '16px'}">{{ selectedWaterBody.properties.icam }}</b></p>
+        </div>
+        <mat-divider *ngIf="selectedWaterBody"></mat-divider>
+        <div><p><b>ICAMpff (estuary) values</b></p></div>
         <i style="background:#FB1502"></i> Poor (0–25)<br>
         <i style="background:#F57702"></i> Inadequate (26–50)<br>
         <i style="background:#F9F107"></i> Acceptable (51–70)<br>
         <i style="background:#49C502"></i> Adequate (71–90)<br>
         <i style="background:#0032FF"></i> Optimal (91 - 100)
-        <div *ngIf="selectedWaterBody">
-          <br>
-          <p>{{ selectedWaterBody.properties.name }}</p>
-          <p>Icampff: {{ selectedWaterBody.properties.icam }}</p>
-        </div>
       </div>
     </div>
     <div class="leaflet-bottom leaflet-left floating-controls">
@@ -52,7 +52,7 @@
 </div>
 <div class="export-menu">
   <div *ngIf="!selectedNode" class="placeholder">
-    <p>Please select a station!</p>
+    <p>Please, select a station</p>
   </div>
   <div *ngIf="selectedNode" class="export-menu-label">
     <span>{{ selectedNode.name }}</span>
