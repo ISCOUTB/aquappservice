@@ -99,25 +99,45 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
       this.apiService.getICAMPff(waterBody._id).subscribe(icam => waterBody.properties.icam = icam, 
                                 () => console.log('node-selector: failed to get the ICAMpff'),
                                 () => {
-                                  var wb = geoJSON(waterBody, {
-                                    style: (feature) => {
-                                      return {color: getColor(feature.properties.icam)};
-                                    }
-                                  });
-
-                                  wb.on('mouseover click', () => {
+                                  var highlight = (e) => {
                                     this.selectedWaterBody = waterBody;
-                                    wb.setStyle({
-                                      weight: 2   ,
+                                    e.target.setStyle({
+                                      weight: 2,
                                       opacity: 1,
                                       color: 'grey',
                                       dashArray: '',
                                       fillOpacity: 1
                                     });
-                                  });
-                                  
-                                  wb.on('mouseout', () => {
-                                    wb.resetStyle(wb);
+                                  }
+
+                                  var resetHightlight = (e) => {
+                                    e.target.setStyle({
+                                      weight: 2,
+                                      opacity: 1,
+                                      dashArray: '',
+                                      fillOpacity: 1,
+                                      color: getColor(e.target.feature.properties.icam)
+                                    });
+                                  }
+
+                                  var onEachFeature = (feature, layer) => {
+                                    layer.on({
+                                      mouseover: highlight,
+                                      mouseout: resetHightlight
+                                    });
+                                  }
+
+                                  var wb = geoJSON(waterBody, {
+                                    style: (feature) => {
+                                      return {
+                                        weight: 2,
+                                        opacity: 1,
+                                        dashArray: '',
+                                        fillOpacity: 1,
+                                        color: getColor(feature.properties.icam)
+                                      };
+                                    },
+                                    onEachFeature: onEachFeature
                                   });
 
                                   wb.addTo(this.map);
