@@ -64,7 +64,7 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
 
   fixMap() {
     this.map.invalidateSize();
-    if (this.screenWidth > 840) this.map.setView([10.4061961, -75.4364990], 12);
+    if (this.screenWidth > 840) this.map.setView([10.4061961, -75.4864990], 12);
     else this.map .setView([10.4061961, -75.5364990], 12);
   }
 

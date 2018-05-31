@@ -100,7 +100,8 @@
 /* Uper info window & bottom legend */
 .info {
     padding: 10px;
-    font: 16px 'Lato', serif;
+    /* font: 16px 'Lato', serif; */
+    font-size: 12px;
     background: white;
     background: rgba(255,255,255,0.8);
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
@@ -116,7 +117,6 @@
     line-height: 20px;
     color: #000;
     min-width:100px;
-    top: 10px;
 }
 .legend i {
     width: 20px;
