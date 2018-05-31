@@ -50,6 +50,12 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
     };
   }
 
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
+
   openDialog(variable) {
     this.dialog.open(Dialog, {
       width: '95%',
@@ -83,7 +89,7 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
 
   getWaterBodies() {
     this.apiService.getWaterBodies().subscribe(waterBodies => this.waterBodies = waterBodies,
-                                               () => console.log("Couldn't get the water bodies"),
+                                               () => this.openSnackBar("Failed to fetch the data, check your internet connection", ""),
                                                () => this.drawWaterBodies())
   }
 
@@ -97,7 +103,7 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
     }
     this.waterBodies.forEach(waterBody => {
       this.apiService.getICAMPff(waterBody._id).subscribe(icam => waterBody.properties.icam = icam, 
-                                () => console.log('node-selector: failed to get the ICAMpff'),
+                                () => this.openSnackBar("Failed to fetch the data, check your internet connection", ""),
                                 () => {
                                   var highlight = (e) => {
                                     this.selectedWaterBody = waterBody;
@@ -148,13 +154,13 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
 
   getNodes() {
     this.apiService.getNodes().subscribe(nodes => this.nodes = nodes, 
-                                         () => console.log("node-selector: Couldn't get the nodes"), 
+                                         () => this.openSnackBar("Failed to fetch the data, check your internet connection", ""), 
                                          () => this.getNodeTypes());
   }
 
   getNodeTypes() {
     this.apiService.getNodeTypes().subscribe(nodeTypes => this.nodeTypes = nodeTypes,
-                                             () => console.log("node-selector: Couldn't get the node types"),
+                                             () => this.openSnackBar("Failed to fetch the data, check your internet connection", ""),
                                              () => this.setMarkers());
   }
 

@@ -28,7 +28,7 @@ export class ExportSelectorComponent implements OnInit {
   getValidDates() {
     console.log(this.dataFromNodeSelector);
     this.apiService.getValidDates(this.dataFromNodeSelector[0], this.dataFromNodeSelector[1]).subscribe(validDates => this.validDates = validDates, 
-      () => this.openSnackBar("export-selector: Couldn't get the valid dates", ""),
+      () => this.openSnackBar("Failed to fetch the data, check your internet connection", ""),
       () => this.resetDates());
   }
 
@@ -40,7 +40,7 @@ export class ExportSelectorComponent implements OnInit {
       return;
     }
     this.apiService.getNodeData(this.dataFromNodeSelector[0], this.startDate, this.endDate, this.dataFromNodeSelector[1]).subscribe(data => this.data = data, 
-      () => console.log("export-selector: Couldn't get the nodes data"),
+      () => this.openSnackBar("Failed to fetch the data, check your internet connection", ""),
       () => this.export());
   }
 
@@ -64,11 +64,9 @@ export class ExportSelectorComponent implements OnInit {
   openDialog(): void {
     // We need to convert the JSON data to csv
     var csv_data:string = "Date," + this.data.variable + "\n";
-    console.log('export-selector: Converting data to csv');
     this.data.data.forEach(datum => {
       csv_data += datum.date.toString() + "," + datum.value.toString() + "\n";
     });
-    console.log('export-selector: Data converted to csv, charting...');
 
     this.dialog.open(Dialog, {
       width: '95%',
