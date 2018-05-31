@@ -5,6 +5,6 @@ export class WaterBody {
     _id: string;
     id: string;
     type: string;
-    property: WaterBodyProperty;
+    properties: WaterBodyProperty;
     geometry: WaterBodyGeometry;
 }

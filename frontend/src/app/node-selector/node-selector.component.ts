@@ -27,7 +27,7 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
   nodeTypes: NodeType[];
   map: Map;
   markers: Marker[] = [];
-  selectedWaterBody: string[];  // ['name', 'icampff']
+  selectedWaterBody: WaterBody;
   screenWidth: number;
   // The first element of the accordion in the sidenav of the application
   // Should be expanded when the page loads.
@@ -38,7 +38,7 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
   mapReady: boolean = false;
   selectedNode: Node;
   selectedNodeSensors: Sensor[];
-  data: string[] = ["dd", "asdf"];  // The data that will be passed to the node-selector component [node_id, variable]
+  data: string[] = ["node_id", "variable"];  // The data that will be passed to the node-selector component [node_id, variable]
   
   constructor(private apiService: ApiService, public dialog: MatDialog, public snackBar: MatSnackBar) { 
     // set screenWidth on page load
@@ -99,23 +99,21 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
     this.waterBodies.forEach(waterBody => {
       this.apiService.getICAMPff(waterBody._id).subscribe(icam => waterBody.properties.icam = icam, 
                                 () => console.log('node-selector: failed to get the ICAMpff'),
-                                () => geoJSON(waterBody, {
-                                  style: (feature) => {
-                                    return {color: getColor(feature.properties.icam)};
-                                  }
-                                }).bindPopup((layer) => {
-                                  return layer.getAttribution();
-                                }).addTo(this.map))
+                                () => {
+                                  var wb = geoJSON(waterBody, {
+                                    style: (feature) => {
+                                      return {color: getColor(feature.properties.icam)};
+                                    }
+                                  })
+
+                                  wb.on('click', () => {
+                                    console.log("wb: ", waterBody);
+                                    this.selectedWaterBody = waterBody;
+                                  })
+                                  
+                                  wb.addTo(this.map);
+                                })
     });
-    /*
-    var waterBodies:GeoJSON = geoJSON(this.waterBodies, {
-        style: (feature) => {
-          return {color: getColor(this.apiService.getICAMPff(feature.properties._id))};
-        }
-      }
-    ).bindPopup((layer) => {
-      return layer.getAttribution();
-    }).addTo(this.map);*/
     this.mapReady = true;
   }
 
