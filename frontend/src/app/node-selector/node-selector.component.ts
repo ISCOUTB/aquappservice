@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
 import { ApiService } from '../api/api.service';
@@ -39,7 +39,6 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
   selectedNode: Node;
   selectedNodeSensors: Sensor[];
   data: string[] = ["dd", "asdf"];  // The data that will be passed to the node-selector component [node_id, variable]
-  @ViewChild(ExportSelectorComponent) exportSelector: ExportSelectorComponent;
   
   constructor(private apiService: ApiService, public dialog: MatDialog, public snackBar: MatSnackBar) { 
     // set screenWidth on page load
@@ -168,11 +167,6 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
       
       var marker = new Marker([node.coordinates[0], node.coordinates[1]], {title: node.name, icon: ico});
       if (nodeType == this.selectedNodeType || this.selectedNodeType == 'All') {
-        marker.bindPopup(
-          '<h1>' + node.name +'</h1>' +
-          '<p>Coordinates: ' + node.coordinates[0].toString() + ',' +
-            node.coordinates[1].toString() + '</p>'
-        )
         marker.on('click', () => {
           this.selectedNode = node;
           this.nodeTypes.forEach(nodeType => {

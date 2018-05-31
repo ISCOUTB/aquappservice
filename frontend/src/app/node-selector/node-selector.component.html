@@ -65,7 +65,9 @@
   <div *ngIf="selectedNode" class="export-menu-label">
     <span>{{ selectedNode.name }}</span>
   </div>
-  <div *ngIf="selectedNode" class="sensors">
-      <button mat-button *ngFor="let sensor of selectedNodeSensors" (click)="openDialog(sensor.variable)">{{ sensor.variable }}</button>
+  <div class="sensors-container">
+    <div *ngIf="selectedNode" class="sensors">
+      <button mat-button *ngFor="let sensor of selectedNodeSensors" (click)="openDialog(sensor.variable)" class="sensor">{{ sensor.variable }}</button>
+    </div>
   </div>
 </div>
