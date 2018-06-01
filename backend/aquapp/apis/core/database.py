@@ -49,37 +49,9 @@ class Database:
 
         # Load all seeds
         if not [sensor_data for sensor_data in self.sensor_data.find()]:
-            print("loading the seeds")
-            for filename in os.listdir(os.path.join(os.path.dirname(__file__), 'data/nodes-data')):
-                try:
-                    node = next(filter(lambda n: str(n['_id']) == filename[:-4], nodes))
-                except StopIteration:
-                    print('Node:', filename[:-4], 'not found')
-                    continue
-                node_type = next(filter(lambda nt: str(nt['_id']) == node['node_type_id'], node_types))
-                print('loading seed ' + filename)
-                data = [d.split(node_type["separator"]) for d in open(os.path.join('data/nodes-data', filename)).read().split("\n")]
-                new_sensor_data = [
-                    {
-                        'variable': sensor['variable'],
-                        'node_id': str(node['_id']),
-                        'data': []
-                    } for sensor in node_type['sensors']
-                ]
-                for i in range(len(data)):
-                    date = date_parser.parse(data[i][0])
-                    for j in range(1, len(data[i])):
-                        if data[i][j] == "---":  # No data registered for this sensor at this date
-                            continue
-
-                        try:
-                            value = float(data[i][j])
-                        except ValueError:
-                            value = data[i][j]  # The value is a string
-
-                        new_sensor_data[j - 1]['data'].append({'date': date, 'value': value})
-
-                self.sensor_data.insert_many(new_sensor_data)
+            for i in range(10):
+                self.sensor_data.insert_many(json.loads(open(os.path.join(os.path.dirname(__file__),
+                                                "data/sensor_data{}.json".format(i))).read()))
 
         # Loading the water bodies
         try:
@@ -130,7 +102,7 @@ class Database:
             }
         
         return {**sensor, 'data': [
-            datum for datum in filter(lambda s: start_date <= s['date'] <= end_date, sensor['data'])
+            datum for datum in filter(lambda s: start_date <= date_parser.parse(s['date']) <= end_date, sensor['data'])
         ]}
 
     def get_available_dates(self, node_id, variable):
