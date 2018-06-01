@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>
-  {{ data.variable }} over time
+  {{ data.variable | translate }} {{ 'over time' | translate }}
 </h1>
 <div mat-dialog-content [ngStyle]="{'height': '80%'}">
   <ng-dygraphs
@@ -8,7 +8,7 @@
   </ng-dygraphs>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()" cdkFocusInitial>Close</button>
-  <button mat-button (click)="expand()">Maximize</button>
-  <button mat-button (click)="reduce()">Minimize</button>
+  <button mat-button (click)="onNoClick()" cdkFocusInitial>{{ 'Close' | translate }}</button>
+  <button mat-button (click)="expand()">{{ 'Maximize' | translate }}</button>
+  <button mat-button (click)="reduce()">{{ 'Minimize' | translate }}</button>
 </div>

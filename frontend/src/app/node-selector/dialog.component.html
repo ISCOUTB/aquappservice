@@ -1,10 +1,10 @@
 <h1 mat-dialog-title>
-        Export data
+        {{ 'Export data' | translate }}
 </h1>
 <div mat-dialog-content [ngStyle]="{'height': '80%'}">
     <app-export-selector #exportSelector [dataFromNodeSelector]="data"></app-export-selector>
 </div>
 
 <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()" cdkFocusInitial>Close</button>
+    <button mat-button (click)="onNoClick()" cdkFocusInitial>{{ 'Close'  | translate}}</button>
 </div>

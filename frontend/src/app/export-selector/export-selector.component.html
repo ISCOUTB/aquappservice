@@ -8,7 +8,7 @@
     <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
     <mat-datepicker touchUi="true" #ed startView="year" [startAt]="endDate" disabled="false"></mat-datepicker>
 </mat-form-field>
-<p>{{ 'Export format' | translate }}</p>
+<p>{{ 'Format' | translate }}</p>
 <mat-radio-group class="node-type-selector" [(ngModel)]="exportFormat">
     <mat-radio-button
         value="csv"

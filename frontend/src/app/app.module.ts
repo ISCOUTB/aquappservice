@@ -114,5 +114,11 @@ export class AppModule {
     iconRegistry.addSvgIcon(
       'three-bar-menu',
       sanitizer.bypassSecurityTrustResourceUrl('assets/three-bar-menu.svg'));
+    iconRegistry.addSvgIcon(
+      'questionmark',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/questionmark.svg'));
+    iconRegistry.addSvgIcon(
+      'dialog',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/dialog.svg'));
   }
  }

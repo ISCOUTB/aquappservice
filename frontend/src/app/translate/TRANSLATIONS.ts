@@ -47,6 +47,14 @@ export const TRANSLATIONS = [
     {
         en: 'Please, select a station',
         es: 'Por favor, seleccione una estación'
+    },
+    {
+        en: 'Export data',
+        es: 'Exportar datos'
+    },
+    {
+        en: 'Close',
+        es: 'Cerrar'
     }, // Node sensors
     {
         en: 'Dissolved Oxygen (DO)',
@@ -93,7 +101,7 @@ export const TRANSLATIONS = [
         es: 'Temperatura exterior'
     },
     {
-        en: 'High Temperatura',
+        en: 'High Temperature',
         es: 'Temperatura máxima'
     },
     {
@@ -247,6 +255,22 @@ export const TRANSLATIONS = [
     {
         en: 'Export',
         es: 'Exportar'
+    },
+    {
+        en: 'over time',
+        es: 'en el tiempo'
+    },
+    {
+        en: 'Format',
+        es: 'Formato'
+    },
+    {
+        en: 'Maximize',
+        es: 'Maximizar'
+    },
+    {
+        en: 'Minimize',
+        es: 'Minimizar'
     },  // Node types
     {
         en: 'Water Quality',
