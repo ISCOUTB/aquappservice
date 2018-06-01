@@ -111,5 +111,8 @@ export class AppModule {
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('assets/filter.svg'));
+    iconRegistry.addSvgIcon(
+      'three-bar-menu',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/three-bar-menu.svg'));
   }
  }

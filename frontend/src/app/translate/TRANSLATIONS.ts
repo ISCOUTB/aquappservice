@@ -2,7 +2,7 @@ export const TRANSLATIONS = [
     // node-selector component translations
     {
         en: 'ICAMpff (estuary) values',
-        es: 'valores (estuarios) ICAMpff'
+        es: 'valores ICAMpff (estuarios)'
     },
     {
         en: 'Menu',
