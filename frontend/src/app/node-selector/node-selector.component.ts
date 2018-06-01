@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
 import { ApiService } from '../api/api.service';
+import { TranslateService } from '../translate/translate.service';
 import { Node } from '../node';
 import { Map, TileLayer, tileLayer, 
          featureGroup, FeatureGroup, 
@@ -40,7 +41,7 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
   selectedNodeSensors: Sensor[];
   data: string[] = ["node_id", "variable"];  // The data that will be passed to the node-selector component [node_id, variable]
   
-  constructor(private apiService: ApiService, public dialog: MatDialog, public snackBar: MatSnackBar) { 
+  constructor(private apiService: ApiService, private translateService: TranslateService, public dialog: MatDialog, public snackBar: MatSnackBar) { 
     // set screenWidth on page load
     this.screenWidth = window.innerWidth;
     window.onresize = () => {
@@ -48,6 +49,10 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
       this.screenWidth = window.innerWidth;
       this.fixMap();
     };
+  }
+
+  selectLanguage(str) {
+    return this.translateService.selectLanguage(str);
   }
 
   openSnackBar(message: string, action: string) {

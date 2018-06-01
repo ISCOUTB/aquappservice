@@ -18,7 +18,6 @@ class Database:
         # Shortcuts to the db collections
         self.node_types = Database._default_db.node_types
         self.nodes = Database._default_db.nodes
-        self.sensors = Database._default_db.sensors
         self.users = Database._default_db.users
         self.sensor_data = Database._default_db.sensor_data
         self.water_bodies = Database._default_db.water_bodies
@@ -39,14 +38,6 @@ class Database:
             self.node_types.insert_many(node_types)
         except pymongo.errors.BulkWriteError:
             print('Failed load the node types')
-
-        # Load all sensors into the "sensors" collection
-        if not [sensor for sensor in self.sensors.find()]:
-            print("Adding sensors")
-            sensors = json.loads(
-                open(os.path.join(os.path.dirname(__file__),
-                                  "data/sensors.json")).read())
-            self.sensors.insert_many(sensors)
 
         # Load all nodes into the "nodes" collection TODO wrap the try in an if to check for an empty db
         try:

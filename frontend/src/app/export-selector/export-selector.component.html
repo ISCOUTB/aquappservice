@@ -1,14 +1,14 @@
 <mat-form-field [ngStyle]="{'display': 'block'}" *ngIf="validDates">
-    <input matInput [matDatepickerFilter]="filter.dateFilter" [(ngModel)]="startDate" [matDatepicker]="sd" placeholder="Start date" disabled>
+    <input matInput [matDatepickerFilter]="filter.dateFilter" [(ngModel)]="startDate" [matDatepicker]="sd" placeholder="{{ 'Start date' | translate }}" disabled>
     <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
     <mat-datepicker touchUi="true" #sd startView="year" [startAt]="startDate" disabled="false"></mat-datepicker>
 </mat-form-field>
 <mat-form-field [ngStyle]="{'display': 'block'}" *ngIf="validDates">
-    <input matInput [matDatepickerFilter]="filter.dateFilter" [(ngModel)]="endDate" [matDatepicker]="ed" placeholder="End date" disabled>
+    <input matInput [matDatepickerFilter]="filter.dateFilter" [(ngModel)]="endDate" [matDatepicker]="ed" placeholder="{{ 'End date' | translate }}" disabled>
     <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
     <mat-datepicker touchUi="true" #ed startView="year" [startAt]="endDate" disabled="false"></mat-datepicker>
 </mat-form-field>
-<p>Export format</p>
+<p>{{ 'Export format' | translate }}</p>
 <mat-radio-group class="node-type-selector" [(ngModel)]="exportFormat">
     <mat-radio-button
         value="csv"
@@ -18,7 +18,7 @@
     <mat-radio-button
         value="chart"
         class="export-option">
-        chart
+        {{ 'chart' | translate }}
     </mat-radio-button>
 </mat-radio-group>
-<button mat-raised-button (click)="getData()" class="export-button">Export data</button>
+<button mat-raised-button (click)="getData()" class="export-button">{{ 'Export' | translate }}</button>

@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>
         Export data
 </h1>
-<div mat-dialog-content>
+<div mat-dialog-content [ngStyle]="{'height': '80%'}">
     <app-export-selector #exportSelector [dataFromNodeSelector]="data"></app-export-selector>
 </div>
 

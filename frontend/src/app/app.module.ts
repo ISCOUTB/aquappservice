@@ -50,6 +50,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgDygraphsModule } from 'ng-dygraphs';
 import { AppRoutingModule } from './/app-routing.module';
 import { AboutComponent } from './about/about.component';
+import { TranslatePipe } from './translate/translate.pipe';
+import { TranslateService } from './translate/translate.service';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,8 @@ import { AboutComponent } from './about/about.component';
     ExportSelectorComponent,
     Dialog,
     AboutComponent,
-    NSDialog
+    NSDialog,
+    TranslatePipe
   ],
   entryComponents: [Dialog, ExportSelectorComponent, NSDialog, NodeSelectorComponent],
   imports: [
@@ -99,6 +102,7 @@ import { AboutComponent } from './about/about.component';
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+    TranslateService
   ],
   bootstrap: [AppComponent]
 })

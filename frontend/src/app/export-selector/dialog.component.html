@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>
   {{ data.variable }} over time
 </h1>
-<div mat-dialog-content>
+<div mat-dialog-content [ngStyle]="{'height': '80%'}">
   <ng-dygraphs
     [data]="data.sensor_data"
     [options]="data.options">
