@@ -287,6 +287,133 @@ export const TRANSLATIONS = [
     {
         en: 'All',
         es: 'Todas'
+    },  // About component
+    {
+        en: 'Project',
+        es: 'Proyecto'
     },
-    // About component
+    {
+        en: 'Features',
+        es: 'Características'
+    },
+    {
+        en: 'Real data',
+        es: 'Datos reales'
+    },
+    {
+        en: `Aquapp is a monitoring system of the quality of the different water bodies in the city of Cartagena, Colombia.`,
+        es: `Aquapp es un sistema de monitoreo de la calidad dle agua de los
+        distintos cuerpos de agua de la ciudad de Cartagena de Indias.`
+    },
+    {
+        en: 'Data is collected by UTB undergraduate students through a multi-parameter probe. Monitoring is performed once a week, and data collection is expected to be remotely in a second stage of the project',
+        es: `La información es recolectada por estudiantes no graduados de la UTB a través de una sonda multi parámetro.
+             El monitoreo es realizado una vez por semana, y la recolección de datos se espera que sea remota
+             en la segunda etapa del proyecto.`
+    },
+    {
+        en: `Filtering`,
+        es: `Filtrado`
+    },
+    {
+        en: 'Available data can be filtered by picking a station type, date range, station, and parameter using the form on the bottom toolbar and the floating controls',
+        es: `La información disponible puede ser filtrada eligiendo un tipo de estación, rango de fechas
+             y parámetro usando la barra de tareas en la parte inferior y los contorles flotantes`
+    },
+    {
+        en: 'Download',
+        es: `Descarga`
+    },
+    {
+        en: 'After filtering data, it can be downloaded as a Comma Separated Values (CSV) file, or get a representation as a graph',
+        es: `Luego de filtrar la información, esta puede ser descargada en el formato de texto separado por comas (csv)
+             o como un gráfico.`
+    },
+    {
+        en: 'No restrictions',
+        es: `Sin restricciones`
+    },
+    {
+        en: 'Unlike other institutions with monitoring plans on water bodies of the internal creeks and lakes system of Cartagena that restrict access to the data taken, Aquapp provides information available for the entire community',
+        es: `A diferencia de otras instituciones con planes de monitoreo de los cuerpos de
+             agua de Cartagena, los cuales restringen el acceso a la informacióń obtenida,
+             AquApp deja su información disponible para toda la comunidad`
+    },
+    {
+        en: 'Cool',
+        es: `Atractivo`
+    },
+    {
+        en: 'To guarantee a great experience, we developed a well-built website up-to-date, with worthwhile content and an improved user interface with good navigation for quick and easy travel throughout the entire website',
+        es: `Para garantizar una gran experiencia, desarrollamos un sitio web
+             bien construído y al día, con contenido útil y una interfaz de usuario
+             mejorada con buena navegación`
+    },
+    {
+        en: 'Cross Browser',
+        es: `Multi navegador`
+    },
+    {
+        en: 'We built this compatible with all modern browsers. You are allow to use it in Chrome, Firefox, Safari and Opera, feel free to prove it yourself',
+        es: `Este sitio fue construído de modo que sea compatible con todos los
+             navegadores modernos. Puedes usarlo en Chrome, Firefox, Safari y Opera`
+    },
+    {
+        en: 'Web Technologies',
+        es: `Tecnologías web`
+    },
+    {
+        en: 'Developer',
+        es: `Desarrollador`
+    },
+    {
+        en: 'Researcher',
+        es: `Investigador`
+    },
+    {
+        en: 'Information',
+        es: `Información`
+    },
+    {
+        en: 'AquApp is a platform supporting a program for monitoring water quality of Cartagena de Indias internal creeks and lakes system. Copyright © 2017 - All rights reserved. Universidad Tecnológica de Bolívar',
+        es: `AquApp es una plataforma que soporta un programa de monitoreo
+             del sistema de lagos y arroyos de Cartagena de Indias. Copyright © 2017 - 
+             Todos los derechos reservados. Universidad Tecnológica de Bolívar`
+    },
+    {
+        en: 'This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.',
+        es: `Este programa es software libre: usted puede resdistribuírlo y/o
+             modificarlo bajo los términos de la licencia GNU Affero General Public License, u
+             opcionalemente cualquier versión posterior.`
+    },
+    {
+        en: 'For more information, click ',
+        es: `Para más información haga click `
+    },
+    {
+        en: 'here',
+        es: `aquí`
+    },
+    {
+        en: ' to read the GNU Affero General Public License',
+        es: ` para leer la licencia GNU Affero General Public License`
+    },
+    {
+        en: 'Contact',
+        es: `Contacto`
+    },
+    {
+        en: 'You are free to drop us some lines by adding a comment on our project Wiki. Besides, esta wiki (on GitHub) will help you get in-depth information the project.',
+        es: `Usted es libre de escribirnos agregando un mensaje en nuestra wiki.
+             En esta wiki (alojada en Github) podemos además brindarle información
+             a fondo sobre el proyecto.`
+    },
+    {
+        en: 'Team',
+        es: 'Equipo'
+    },
+    {
+        en: 'Join the conversation',
+        es: 'Únase a la conversación'
+    }
 ]

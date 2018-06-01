@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '../translate/translate.service';
 
 @Component({
   selector: 'app-about',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class AboutComponent implements OnInit {
   breakpoint: number;
   screenWidth: number;
-  constructor() { 
+  constructor(private translateService: TranslateService) { 
     this.breakpoint = (window.innerWidth <= 743)? 1:((window.innerWidth >= 1000)? 3:2);
     window.onresize = () => {
       this.breakpoint = (window.innerWidth <= 743)? 1:((window.innerWidth >= 1000)? 3:2);
@@ -19,6 +20,10 @@ export class AboutComponent implements OnInit {
 
   ngOnInit() {
     
+  }
+
+  selectLanguage(str) {
+    return this.translateService.selectLanguage(str);
   }
 
 }
