@@ -231,22 +231,38 @@ export const TRANSLATIONS = [
     {
         en: 'Arc. Int',
         es: 'Arc. Int'  // TODO find a proper translation
-    },// Export selector
+    },  // Export selector
     {
         en: 'Start date',
-        es: 'Fecha de inicio'  // TODO find a proper translation
+        es: 'Fecha de inicio'
     },
     {
         en: 'End date',
-        es: 'Fecha de finalización'  // TODO find a proper translation
+        es: 'Fecha de finalización'
     },
     {
         en: 'chart',
-        es: 'gráfica'  // TODO find a proper translation
+        es: 'gráfica'
     },
     {
         en: 'Export',
-        es: 'Exportar'  // TODO find a proper translation
+        es: 'Exportar'
+    },  // Node types
+    {
+        en: 'Water Quality',
+        es: 'Calidad del agua'
+    },
+    {
+        en: 'Hydro-Metereologic Factors',
+        es: 'Factores hidrometereológicos'
+    },
+    {
+        en: 'Weather Station',
+        es: 'Estación del clima'
+    },
+    {
+        en: 'All',
+        es: 'Todas'
     },
     // About component
 ]

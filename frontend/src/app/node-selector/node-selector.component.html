@@ -53,8 +53,8 @@
         <span></span>
       </button>
       <mat-menu #filterMenu="matMenu">
-        <button mat-menu-item *ngFor="let nodeType of nodeTypes" (click)="resetMarkers(nodeType.name)">{{ nodeType.name }}</button>
-        <button mat-menu-item (click)="resetMarkers('All')">All</button>
+        <button mat-menu-item *ngFor="let nodeType of nodeTypes" (click)="resetMarkers(nodeType.name)">{{ nodeType.name | translate }}</button>
+        <button mat-menu-item (click)="resetMarkers('All')">{{ 'All' | translate}}</button>
       </mat-menu>  
     </div>
     <div class="leaflet-bottom leaflet-right">

@@ -6,7 +6,7 @@ import { filterQueryId } from '@angular/core/src/view/util';
   providedIn: 'root'
 })
 export class TranslateService {
-  private currentLanguage = 'en';
+  private currentLanguage = 'es';
   
   constructor() { }
 
