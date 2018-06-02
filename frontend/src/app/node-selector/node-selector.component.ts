@@ -86,17 +86,16 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
     this.getNodes();
     this.map = new Map('mapid');
     
-    tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
-      attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-      '© <a href="http://mapbox.com">Mapbox</a>',
+      attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
       id: 'mapbox.streets'
     }).addTo(this.map);
   }
 
   getWaterBodies() {
     this.apiService.getWaterBodies().subscribe(waterBodies => this.waterBodies = waterBodies,
-                                               () => this.openSnackBar("Failed to fetch the data, check your internet connection", ""),
+                                               () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
                                                () => this.drawWaterBodies())
   }
 
@@ -110,7 +109,7 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
     }
     this.waterBodies.forEach(waterBody => {
       this.apiService.getICAMPff(waterBody._id).subscribe(icam => waterBody.properties.icam = icam, 
-                                () => this.openSnackBar("Failed to fetch the data, check your internet connection", ""),
+                                () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
                                 () => {
                                   var highlight = (e) => {
                                     this.selectedWaterBody = waterBody;
@@ -161,13 +160,13 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
 
   getNodes() {
     this.apiService.getNodes().subscribe(nodes => this.nodes = nodes, 
-                                         () => this.openSnackBar("Failed to fetch the data, check your internet connection", ""), 
+                                         () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""), 
                                          () => this.getNodeTypes());
   }
 
   getNodeTypes() {
     this.apiService.getNodeTypes().subscribe(nodeTypes => this.nodeTypes = nodeTypes,
-                                             () => this.openSnackBar("Failed to fetch the data, check your internet connection", ""),
+                                             () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
                                              () => this.setMarkers());
   }
 

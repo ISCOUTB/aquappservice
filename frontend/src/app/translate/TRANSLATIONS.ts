@@ -5,6 +5,10 @@ export const TRANSLATIONS = [
         es: 'valores ICAMpff (estuarios)'
     },
     {
+        en: 'Failed to fetch the data, check your internet connection',
+        es: 'No se pudieron cargar los datos, revise su conección a internet'
+    },
+    {
         en: 'Menu',
         es: 'Menú'
     },
