@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { TRANSLATIONS } from './TRANSLATIONS';
-import { filterQueryId } from '@angular/core/src/view/util';
 
 @Injectable({
   providedIn: 'root'
 })
+/**
+ * This service translate text and switches the
+ * applicaiton language using a list of translations.
+ */
 export class TranslateService {
-  private currentLanguage = 'es';
+  private currentLanguage: string = 'es';
   
   constructor() { }
 
@@ -17,5 +20,9 @@ export class TranslateService {
 
   selectLanguage(language: string) {
     this.currentLanguage = language;
+  }
+
+  getCurrentLanguage(): string {
+    return this.currentLanguage;
   }
 }

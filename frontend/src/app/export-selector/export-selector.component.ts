@@ -1,49 +1,98 @@
-import { Component, OnInit, ViewChild, ElementRef, Inject, Input } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { Data } from '../sensor-data';
 import { Node } from '../node';
 import { NodeType } from '../node-type';
 import { ApiService } from '../api/api.service';
+import { TranslateService } from '../translate/translate.service';
 
 @Component({
   selector: 'app-export-selector',
   templateUrl: './export-selector.component.html',
-  styleUrls: ['./export-selector.component.css']
+  styleUrls: ['./export-selector.component.css'],
 })
 
 export class ExportSelectorComponent implements OnInit {
+  /**
+   * Start and end of the date range that will be used
+   * to get the data from the api.
+   */
   startDate: Date;
   endDate: Date;
-  exportFormat: string;
+
+  exportFormat: string;  // 'csv' or 'chart'
+
+  /**
+   * A list of dates (with granularity of one day) in
+   * which there is data collected
+   */
   validDates: string[];
+
+  /**
+   * The id of the node which data will be exported
+   * and the variable of the sensor.
+   */
   @Input() dataFromNodeSelector: string[];
+
+  // The data that will be exported
   data: Data;
 
-  constructor(private apiService: ApiService, public dialog: MatDialog, public snackBar: MatSnackBar) { }
+  /**
+   * 
+   * @param apiService The api service connects to the backend and brings information
+   * about the nodes and water bodies.
+   * 
+   * @param dialog An Angular Material Dialog instance used to display the export-selector
+   * component
+   * 
+   * @param snackBar An angular Material SnackBar instance used to display error messages
+   * (more info at: https://material.angular.io/components/snack-bar/overview)
+   * 
+   * @param translateService This service translates text accross the app. (here is used
+   * to translate the snackbar messages)
+   * 
+   * @param adapter Used to change the locale of the date pickers to match with the page
+   * current language.
+   */
+  constructor(private apiService: ApiService, public dialog: MatDialog, public snackBar: MatSnackBar, private translateService: TranslateService) { }
 
+  /**
+   * When the component is rendered the valid dates are taken from the
+   * backend.
+   */
   ngOnInit() {
     this.getValidDates();
   }
 
+  /**
+   * Get the valid dates, displayes an error message if it fails
+   */
   getValidDates() {
     console.log(this.dataFromNodeSelector);
     this.apiService.getValidDates(this.dataFromNodeSelector[0], this.dataFromNodeSelector[1]).subscribe(validDates => this.validDates = validDates, 
-      () => this.openSnackBar("Failed to fetch the data, check your internet connection", ""),
-      () => this.resetDates());
+      () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""));
   }
 
+  /**
+   * Takes the data from the backend or displays an error message if
+   * not alll the fields were filled.
+   */
   getData() {
     if (this.startDate === undefined || 
         this.endDate === undefined || 
         this.exportFormat === undefined) {
-      this.openSnackBar('Invalid input', '')
+      this.openSnackBar(this.translateService.translate("Invalid input, make sure to fill all the fields"), '')
       return;
     }
     this.apiService.getNodeData(this.dataFromNodeSelector[0], this.startDate, this.endDate, this.dataFromNodeSelector[1]).subscribe(data => this.data = data, 
-      () => this.openSnackBar("Failed to fetch the data, check your internet connection", ""),
+      () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
       () => this.export());
   }
 
+  /**
+   * Exports the data in csv or as a chart using dygraphs
+   * (more info at http://dygraphs.com/)
+   */
   export() {
     if (this.exportFormat == 'csv') {
       // Convert JSON to csv and download
@@ -61,6 +110,11 @@ export class ExportSelectorComponent implements OnInit {
     }
   }
 
+  /**
+   * Opens the Dialog instance with the data to export that
+   * will be used in the ng-dygraph directive in 
+   * export-selector.component.html.
+   */
   openDialog(): void {
     // We need to convert the JSON data to csv
     var csv_data:string = "Date," + this.data.variable + "\n";
@@ -77,13 +131,31 @@ export class ExportSelectorComponent implements OnInit {
         'variable': this.dataFromNodeSelector[1],
         'sensor_data': csv_data,
         'options': {
-          'width': 500,
+          'width': 1000,
           'height': 250
         }
       }
     });
   }
   
+  /**
+   * This object was created with the sole purpose of taking
+   * advantage of the TypeScript scope of the variables.
+   * 
+   * To filter the dates in the date pickers we need a
+   * callback that checks a given date and returns
+   * true if the date is valid and false if not.
+   * The big problem is that the filter function needs
+   * the validDates property from ExportSelectorComponent,
+   * but the 'this' pointer no longers
+   * points to ExportSelectorComponent but to the
+   * datepicker instance, so, the solution was to
+   * wrap the filter callback into this object that
+   * has the validDates property from this component,
+   * this way, the 'this' pointer in dateFilter refers 
+   * to the filter property of this component instead 
+   * of the datepicker.
+   */
   filter = {
     'validDates': this.validDates,
     'dateFilter': (d: Date): boolean => {
@@ -100,16 +172,20 @@ export class ExportSelectorComponent implements OnInit {
     }
   }
 
+  /**
+   * It opens the snackbar instance of this object and displays
+   * a message (with an optional action)
+   * More info at: https://material.angular.io/components/snack-bar/overview
+   * 
+   * @param message The message (here is used currently to display
+   * error messages only) to be displayed
+   * @param action The label for the snackbar action that the user 
+   * can perform.
+   */
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 2000,
     });
-  }
-
-  resetDates() {
-    console.log(this.validDates);
-    this.startDate = undefined;
-    this.endDate = undefined;
   }
 }
 
@@ -124,6 +200,10 @@ export class Dialog {
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
+  /**
+   * When the user clicks outside the bounds of the Dialog
+   * if closes.
+   */
   onNoClick(): void {
     this.dialogRef.close();
   }

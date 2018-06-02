@@ -1,3 +1,7 @@
+/**
+ * Translation for the texts in the whole application.
+ */
+
 export const TRANSLATIONS = [
     // node-selector component translations
     {
@@ -275,6 +279,10 @@ export const TRANSLATIONS = [
     {
         en: 'Minimize',
         es: 'Minimizar'
+    },
+    {
+        en: 'Invalid input, make sure to fill all the fields',
+        es: 'Datos erróneos, asegúrese de llenar todos los campos'
     },  // Node types
     {
         en: 'Water Quality',
