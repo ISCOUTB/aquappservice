@@ -63,7 +63,8 @@
     width: 100%;
     font-weight: bold;
     height: 100%;
-    overflow: scroll;
+    overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 .placeholder p {
