@@ -5,6 +5,8 @@ import { Node } from '../node';
 import { NodeType } from '../node-type';
 import { ApiService } from '../api/api.service';
 import { TranslateService } from '../translate/translate.service';
+// import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-export-selector',
@@ -54,7 +56,7 @@ export class ExportSelectorComponent implements OnInit {
    * @param adapter Used to change the locale of the date pickers to match with the page
    * current language.
    */
-  constructor(private apiService: ApiService, public dialog: MatDialog, public snackBar: MatSnackBar, private translateService: TranslateService) { }
+  constructor(private apiService: ApiService, public dialog: MatDialog, public snackBar: MatSnackBar, private translateService: TranslateService, private adapter: DateAdapter<any>) { }
 
   /**
    * When the component is rendered the valid dates are taken from the
@@ -62,6 +64,14 @@ export class ExportSelectorComponent implements OnInit {
    */
   ngOnInit() {
     this.getValidDates();
+    switch(this.translateService.getCurrentLanguage()) {
+      case "en":
+        this.adapter.setLocale("en-GB");
+        break;
+      case "es":
+        this.adapter.setLocale("es-CO");
+        break;
+    }
   }
 
   /**
