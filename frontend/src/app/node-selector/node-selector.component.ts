@@ -48,7 +48,7 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
    * about the nodes and water bodies.
    * 
    * @param translateService This service translates text accross the app. (here is used
-   * to translate the snackbar messages)
+   * to translate the snackbar messages and to change the language of the app)
    * 
    * @param dialog An Angular Material Dialog instance used to display the export-selector
    * component

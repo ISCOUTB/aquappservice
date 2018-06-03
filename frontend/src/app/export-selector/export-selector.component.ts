@@ -60,7 +60,8 @@ export class ExportSelectorComponent implements OnInit {
 
   /**
    * When the component is rendered the valid dates are taken from the
-   * backend.
+   * backend. This method also changes the locale depending on the language
+   * of the application.
    */
   ngOnInit() {
     this.getValidDates();
