@@ -105,7 +105,7 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
       width: '40%',
       height: '50%',
       minWidth: 300,
-      minHeight: 500,
+      minHeight: 300,
       data: [this.selectedNode._id, variable]
     });
   }

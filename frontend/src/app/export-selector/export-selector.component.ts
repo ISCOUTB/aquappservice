@@ -136,7 +136,7 @@ export class ExportSelectorComponent implements OnInit {
     this.dialog.open(Dialog, {
       width: '70%',
       height: '70%',
-      minHeight: "450px",
+      minHeight: "300px",
       data: {
         'node_id': this.dataFromNodeSelector[0], 
         'variable': this.dataFromNodeSelector[1],
