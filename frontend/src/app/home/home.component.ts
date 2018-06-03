@@ -9,18 +9,17 @@ import { Map, tileLayer,
          GeoJSON, Control,
          Marker, geoJSON } from 'leaflet';
 import { glyphIcon } from './glyph-icon';
-import { waterBodiesData } from './map-data';
 import { NodeType } from '../node-type';
 import { WaterBody } from '../water-body';
 import { Sensor } from '../sensor';
 
 @Component({
-  selector: 'app-node-selector',
-  templateUrl: './node-selector.component.html',
-  styleUrls: ['./node-selector.component.css']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
 
-export class NodeSelectorComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   selectedNodeType: string = 'All';  // Which node types have to be displayed on the map
   nodes: Node[];  // The nodes pulled from the backend
   nodeTypes: NodeType[];  // The node types pulled from the backend
@@ -39,7 +38,7 @@ export class NodeSelectorComponent implements OnInit, AfterViewInit {
   selectedNode: Node;  // The node selected by the user
   selectedNodeSensors: Sensor[];  // The sensors of the node selected by the user
   
-  // The data that will be passed to the node-selector component [node_id, variable]
+  // The data that will be passed to the home component component [node_id, variable]
   data: string[] = ["node_id", "variable"];
 
   /**

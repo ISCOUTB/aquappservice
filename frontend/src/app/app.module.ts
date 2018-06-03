@@ -44,8 +44,8 @@ import { MatAutocompleteModule,
   MatMenuModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { NodeSelectorComponent, Dialog as NSDialog } from './node-selector/node-selector.component';
-import { ExportSelectorComponent, Dialog } from './export-selector/export-selector.component';
+import { HomeComponent, Dialog as NSDialog } from './home/home.component';
+import { ExportComponent, Dialog } from './export/export.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgDygraphsModule } from 'ng-dygraphs';
 import { AppRoutingModule } from './/app-routing.module';
@@ -56,14 +56,14 @@ import { TranslateService } from './translate/translate.service';
 @NgModule({
   declarations: [
     AppComponent,
-    NodeSelectorComponent,
-    ExportSelectorComponent,
+    HomeComponent,
+    ExportComponent,
     Dialog,
     AboutComponent,
     NSDialog,
     TranslatePipe
   ],
-  entryComponents: [Dialog, ExportSelectorComponent, NSDialog, NodeSelectorComponent],
+  entryComponents: [Dialog, ExportComponent, NSDialog, HomeComponent],
   imports: [
     BrowserModule,
     FormsModule,

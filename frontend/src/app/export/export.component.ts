@@ -5,16 +5,15 @@ import { Node } from '../node';
 import { NodeType } from '../node-type';
 import { ApiService } from '../api/api.service';
 import { TranslateService } from '../translate/translate.service';
-// import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import { DateAdapter } from '@angular/material/core';
 
 @Component({
-  selector: 'app-export-selector',
-  templateUrl: './export-selector.component.html',
-  styleUrls: ['./export-selector.component.css'],
+  selector: 'app-export',
+  templateUrl: './export.component.html',
+  styleUrls: ['./export.component.css'],
 })
 
-export class ExportSelectorComponent implements OnInit {
+export class ExportComponent implements OnInit {
   /**
    * Start and end of the date range that will be used
    * to get the data from the api.
@@ -34,7 +33,7 @@ export class ExportSelectorComponent implements OnInit {
    * The id of the node which data will be exported
    * and the variable of the sensor.
    */
-  @Input() dataFromNodeSelector: string[];
+  @Input() dataFromHomeComponent: string[];
 
   // The data that will be exported
   data: Data;
@@ -79,8 +78,8 @@ export class ExportSelectorComponent implements OnInit {
    * Get the valid dates, displayes an error message if it fails
    */
   getValidDates() {
-    console.log(this.dataFromNodeSelector);
-    this.apiService.getValidDates(this.dataFromNodeSelector[0], this.dataFromNodeSelector[1]).subscribe(validDates => this.validDates = validDates, 
+    console.log(this.dataFromHomeComponent);
+    this.apiService.getValidDates(this.dataFromHomeComponent[0], this.dataFromHomeComponent[1]).subscribe(validDates => this.validDates = validDates, 
       () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""));
   }
 
@@ -95,7 +94,7 @@ export class ExportSelectorComponent implements OnInit {
       this.openSnackBar(this.translateService.translate("Invalid input, make sure to fill all the fields"), '')
       return;
     }
-    this.apiService.getNodeData(this.dataFromNodeSelector[0], this.startDate, this.endDate, this.dataFromNodeSelector[1]).subscribe(data => this.data = data, 
+    this.apiService.getNodeData(this.dataFromHomeComponent[0], this.startDate, this.endDate, this.dataFromHomeComponent[1]).subscribe(data => this.data = data, 
       () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
       () => this.export());
   }
@@ -138,8 +137,8 @@ export class ExportSelectorComponent implements OnInit {
       height: '70%',
       minHeight: "300px",
       data: {
-        'node_id': this.dataFromNodeSelector[0], 
-        'variable': this.dataFromNodeSelector[1],
+        'node_id': this.dataFromHomeComponent[0], 
+        'variable': this.dataFromHomeComponent[1],
         'sensor_data': csv_data,
         'options': {
           'width': 1000,
