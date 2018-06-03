@@ -65,6 +65,7 @@
     height: 100%;
     overflow-x: scroll;
     overflow-y: hidden;
+    white-space: nowrap;
 }
 
 .placeholder p {
@@ -79,6 +80,7 @@
     height: 54px;
     background-color: #007EE5;
     z-index: 10000;
+    min-width: 290px;
 }
 
 .example-marker {

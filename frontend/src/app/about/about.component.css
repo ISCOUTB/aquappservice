@@ -1,3 +1,10 @@
+.toolbar {
+    height: 54px;
+    background-color: #007EE5;
+    z-index: 10000;
+    min-width: 290px;
+}
+
 .tabs {
     width: 100%;
 }
