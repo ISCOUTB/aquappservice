@@ -101,8 +101,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
    */
   openDialog(variable) {
     this.dialog.open(Dialog, {
-      width: '40%',
-      height: '50%',
+      width: '30%',
+      height: '90%',
       minWidth: 300,
       minHeight: 300,
       data: [this.selectedNode._id, variable]
