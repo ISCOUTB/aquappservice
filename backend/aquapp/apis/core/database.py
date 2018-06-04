@@ -1,3 +1,10 @@
+"""
+    This module defines the Database class that
+    handles all the database operations. The class
+    follows the singleton pattern to reduce the
+    waste of resources.
+"""
+
 import pymongo
 import json
 import os
@@ -10,6 +17,13 @@ os.chdir('/backend/aquapp/apis/core')
 
 # The methods are ordered by the operation type (CRUD) and the objects involved (node, node_type, water_body, data and datum)
 class Database:
+    """
+        The database connection. The uri works because
+        docker creates bridges between the containers when
+        using docker-compose, so 'database' refers to the
+        database service declared in docker-compose.yml at
+        the root of the project directory.
+    """
     _db_client = pymongo.MongoClient('mongodb://database:27017/')
     _default_db = _db_client.db
     _instance = None
@@ -23,6 +37,10 @@ class Database:
         self.water_bodies = Database._default_db.water_bodies
         self.icampff_caches = Database._default_db.icampff_caches
 
+    # This method is for loading some initial data
+    # that the application needs in order to be
+    # functional: The admin user, nodes, node types,
+    # sensor data and the water bodies.
     def seed(self):
         # Create the admin user
         if not [user for user in self.users.find({'username': os.getenv('ADMIN_USERNAME')})]:
@@ -30,23 +48,19 @@ class Database:
             self.users.insert_one({'username': os.getenv('ADMIN_USERNAME'), 'password': bcrypt.hashpw(os.getenv('DEFAULT_ADMIN_KEY').encode('utf-8'), bcrypt.gensalt())})
 
         # Load all node types into the "node_types" collection
-        try:
+        if not [node_type for node_type in self.node_types.find()]:
             node_types = [{**node_type, "_id": ObjectId(node_type["_id"])}
                           for node_type in json.loads(
                           open(os.path.join(os.path.dirname(__file__),
                                             "data/node_types.json")).read())]
             self.node_types.insert_many(node_types)
-        except pymongo.errors.BulkWriteError:
-            print('Failed load the node types')
 
-        # Load all nodes into the "nodes" collection TODO wrap the try in an if to check for an empty db
-        try:
+        # Load all nodes into the "nodes" collection
+        if not [node for node in self.nodes.find()]:
             nodes = [{**node, "_id": ObjectId(node["_id"])}
-                      for node in json.loads(open(os.path.join(os.path.dirname(__file__), "data/nodes.json")).read())]
+                    for node in json.loads(open(os.path.join(os.path.dirname(__file__), "data/nodes.json")).read())]
             self.nodes.insert_many(nodes)
-        except pymongo.errors.BulkWriteError:
-            print('Failed to load the nodes')
-
+        
         # Load all seeds
         if not [sensor_data for sensor_data in self.sensor_data.find()]:
             for i in range(10):
@@ -54,18 +68,16 @@ class Database:
                                                 "data/sensor_data{}.json".format(i))).read()))
 
         # Loading the water bodies
-        try:
+        if not [water_body for water_body in self.water_bodies.find()]
             water_bodies = [{**water_body, '_id': ObjectId(water_body['_id'])} for water_body in json.loads(open(os.path.join(os.path.dirname(__file__), "data/water_bodies.json")).read())]
             self.water_bodies.insert_many(water_bodies)
-        except pymongo.errors.BulkWriteError:
-            print('Failed to load the water bodies')
 
     def __new__(cls):  # Basic singleton pattern
         if cls._instance is None:
             cls._instance = object.__new__(cls)
         return cls._instance
 
-    def add_nodes(self, nodes):  # Now it adds a list of nodes instead of a single one for efficiency
+    def add_nodes(self, nodes):
         # TODO when a node is excluded, we need to tell the user!
         nodes = list(filter(lambda node: self.node_types.find_one({'_id': ObjectId(node['node_type_id'])}), nodes))
         result = self.nodes.insert_many(nodes)  # insert_many() is preferred to multiple insert_one()
@@ -83,29 +95,22 @@ class Database:
     def get_nodes_by_node_type_id(self, id):  # Get all nodes with node_type = id
         return [node for node in self.nodes.find({"node_type_id": id})]
 
-    def get_all_sensor_data(self, node_id):
-        try:
-            self.nodes.find({'_id': ObjectId(node_id)})[0]
-            return self.sensor_data.find_one({'node_id': node_id})
-        except IndexError:
-            return None  # TODO: CHANGE IN THE API, NONE MAPS TO NULL WHEN ITS CONVERTED TO JSON
-        return True
-
     def get_sensor_data(self, node_id, variable, start_date, end_date):  # Get sensor data
         sensor = self.sensor_data.find_one({
             'node_id': node_id,
             'variable': variable
-        }) or {
-                'variable': variable, 
-                'node_id': node_id,
-                'data': []
-            }
-        
-        return {**sensor, 'data': [
-            datum for datum in filter(lambda s: start_date <= date_parser.parse(s['date']) <= end_date, sensor['data'])
+        })
+
+        return {'node_id': node_id, 'variable': variable, 'data': [
+            datum for datum in filter(lambda s: start_date <= date_parser.parse(s['date']) <= end_date, sensor['data'] if sensor else [])
         ]}
 
     def get_available_dates(self, node_id, variable):
+        """
+            This method is used to get a list of dates in which
+            there is data recorded. The dates are in the format
+            mm/dd/yyyy.
+        """
         sensor = self.sensor_data.find_one({
             'node_id': node_id,
             'variable': variable
@@ -121,7 +126,10 @@ class Database:
             return False
         if new_node_data["node_type_id"] != node["node_type_id"]:
             self.sensor_data.delete_many({'node_id': node_id})
-            # TODO if it was a WQ node, remove the caches as well
+            # If the node was of type WQ then the icampff caches have
+            # to be removed
+            if node["node_type_id"] == "59c9d9019a892016ca4be412":
+                self.icampff_caches.delete_many({'node_id': node_id})
         self.nodes.update_one({'_id': ObjectId(node_id)}, {'$set': {**new_node_data}})
         return True
 

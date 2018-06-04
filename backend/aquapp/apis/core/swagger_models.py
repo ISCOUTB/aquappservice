@@ -1,3 +1,8 @@
+"""
+  Data definitions for the swagger documentation in JSON
+  flask-restplus.readthedocs.io/en/stable/marshalling.html#define-model-using-json-schema
+"""
+
 date_array = {
   'type': 'array',
   'description': 'Array of dates as strings (in format mm/dd/yyyy)',

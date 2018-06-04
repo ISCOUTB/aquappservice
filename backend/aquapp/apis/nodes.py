@@ -1,3 +1,14 @@
+"""
+    Operations regarding nodes: adding,
+    listing, modifying, and deleting.
+    
+    All the files (excluding __init__.py) in this
+    directory performs api operation according to
+    their names using marshmallow to validate
+    the input:
+    https://marshmallow.readthedocs.io/en/latest/
+"""
+
 from flask import request, abort
 from flask_restplus import Namespace, Resource, reqparse
 from .core.database import Database
@@ -9,7 +20,7 @@ from marshmallow import Schema
 
 api = Namespace('nodes', description='Node related operations')
 
-# API schemas
+# Swagger schemas
 node = api.schema_model('Node', node)
 new_node = api.schema_model('InputNode', new_node)
 data = api.schema_model('Data', data)
@@ -32,6 +43,7 @@ class AddNodeType(Resource):
     def post(self):
         node_types, errors = NodeTypeSchema(many=True).load(request.get_json() or {})
         if errors:
+            # The node_types that were created with errors are removed
             node_types = [node_types[i] for i in (set(range(len(node_types))) - set(errors.keys()))]
         Database().add_node_types(node_types)
         return {
@@ -211,15 +223,15 @@ class EditNode(Resource):
     @token_required
     def put(self, node_id):
         new_node_data, errors = EditNodeSchema().load(request.get_json() or {})
-        if errors:
-            return {'message': 'ERROR: failed to edit the node, check input', **errors}, 400
-        if new_node_data:
-            Database().edit_node(node_id, new_node_data)
+        if new_node_data and new_node_data:
+            if not Database().edit_node(node_id, new_node_data):
+                return {'message': 'ERROR: Node not found!', **errors}, 404
         return {
             'message': 
                 ('Node edited successfully') if not errors else 
                     ('Some fields were not updated due to errors' if new_node_data else 
-                        'There is no data to update the node with')
+                        'There is no data to update the node with'),
+            **errors
         }, 201 if new_node_data else 400
 
 
@@ -251,11 +263,11 @@ class AddNodeSensorData(Resource):
            required=True, type='string')
 class DeleteNode(Resource):
     @api.doc(summary='Delete a node by ID', description='Deletes a single node',
-             responses={200: ('A node object', node), 404: 'Node not found'},
+             responses={200: 'Node deleted successfully', 404: 'Node not found'},
              security='apikey')
     @token_required
     def delete(self, node_id):
         if Database().delete_node(node_id):
-            return {'message': 'node deleted successfully'}, 200
+            return {'message': 'Node deleted successfully'}, 200
         else:
-            return {'message': 'node not found'}, 404
+            return {'message': 'Node not found'}, 404

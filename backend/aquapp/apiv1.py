@@ -1,3 +1,9 @@
+"""
+    This is the first version of the aquapp api,
+    it's built following the pattern provided in
+    the "scaling your project" in the flask-restplus
+    tutorial: http://flask-restplus.readthedocs.io/en/stable/scaling.html
+"""
 from flask import Blueprint
 from flask_restplus import Api, Resource, Swagger
 
@@ -15,7 +21,8 @@ api.add_namespace(nodes, path='/nodes')
 api.add_namespace(water_bodies, path='/water-bodies')
 api.add_namespace(login, path='/login')
 
-
+""" Comment this line if you want to use this functionality
+# This route is for getting the swagger documentation of the api in json format
 @api.route('/schema/')
 class ApiSchema(Resource):
     _api_schema_cache = None
@@ -33,3 +40,4 @@ class ApiSchema(Resource):
 
         ApiSchema._api_schema_cache = ApiSchema._api_schema_cache.as_dict()
         return ApiSchema._api_schema_cache
+# """

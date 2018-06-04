@@ -1,11 +1,23 @@
-import requests
+"""
+    Operations regarding water bodies: adding,
+    listing, modifying, deleting and calculating
+    their ICAMpff value.
+    
+    All the files (excluding __init__.py) in this
+    directory performs api operation according to
+    their names using marshmallow to validate
+    the input:
+    https://marshmallow.readthedocs.io/en/latest/
+"""
+
+import requests  # Python 3 requests module: http://docs.python-requests.org/en/master/
 from flask import request, abort
 from flask_restplus import Namespace, Resource, reqparse
 from .core.database import Database
 from .core.swagger_models import water_body, node, string_array
 from .core.marshmallow_models import NewWaterBodySchema
 from .core.utils import token_required
-from dateutil import parser as date_parser
+from dateutil import parser as date_parser  # python-dateutil module: https://dateutil.readthedocs.io/en/stable/
 from functools import reduce
 from datetime import datetime
 
@@ -90,16 +102,27 @@ class WaterBodyICAMpff(Resource):
             last_date = max([(date_parser.parse(obj['data'][-1]['date']) if len(obj['data']) else date_parser.parse("1900-01-01 00:00:00")) for obj in d]) 
             d = [((obj['data'][-1]['value'] if date_parser.parse(obj['data'][-1]['date']) == last_date else -1) if len(obj['data']) else -1) for obj in d]
             
+            if reduce(lambda x, y: (-1 if x == -1 or y == -1 else 1), d) == -1:
+                abort(404)  # There is no data for calculating the icampff
+
             new_hash = hash(reduce(lambda x, y: str(x) + str(y), d))
             # Now we need to check the date of the cache in the water body
             # to see if it's current
             if Database().check_icampff_hash(water_body_id, node_id, new_hash):
                 return Database().get_icampff_cache(water_body_id, node_id)['icampff']
+
+            # If there's no cache registered then the ICAMpff value is taken from the invemar api
             try:
                 new_icampff = requests.get("http://buritaca.invemar.org.co/ICAMWebService/calculate-icam-ae/od/{}/no3/{}/sst/{}/ctt/{}/ph/{}/po4/{}/dbo/{}/cla/{}".format(*d)).json()['value']
             except KeyError:
-                new_icampff = 0
                 print('Error loading the icampff value from invemar!!!')
+                """
+                    This approach is better and more transparent
+                    with the user than just returning 0 when
+                    we are unable to return the value from Invemar.
+                """
+                abort(404)
+            # Once taken the ICAMpff from Invemar, the value is stored in the database
             Database().set_icampff_cache(water_body_id, node_id, new_hash, new_icampff)
             return new_icampff
         

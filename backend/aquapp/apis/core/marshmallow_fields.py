@@ -60,6 +60,8 @@ class SensorField(fields.Field):
     unit = fields.Str(required=True)
 
 
+# This field checks if the coordinates fields is
+# a valid leaflet Polygon or MultiPolygon
 class WBCoordinatesField(fields.Field):
     default_error_messages = {
         'invalid': 'Invalid coordinates.',
@@ -77,10 +79,27 @@ class WBCoordinatesField(fields.Field):
                     dim_count += 1
                     break
             break 
+        # Polygons must be 3D arrays and MultiPolygons 4D arrays
         if (value['type'] == 'Polygon' and dim_count == 3) or (value['type'] == 'MultiPolygon' and dim_count == 4):
-            return value
-        return ValidationError('Invalid data, check input.')    
-        
+            # Every coordinate in the polygons must be checked
+            if dim_count == 3:
+                for w in value:
+                    for x in w:
+                        for y in x:
+                            if type(y) == list and not ((y[0] in range(-90, 91) and y[1] in range (-180, 181)) and len(y) == 2):
+                                break
+                else:
+                    return value
+            else:
+                for w in value:
+                    for x in w:
+                        for y in x:
+                            for z in y:
+                                if type(y) == list and not (((y[0] in range(-90, 91)) and (y[1] in range (-180, 181))) and len(y) == 2):
+                                    break
+                else:    
+                    return value           
+        raise ValidationError('The data is not a valid Polygon or MultiPolygon.')    
 
 
 class WBGeometryField(fields.Field):
@@ -93,6 +112,12 @@ class WBPropertiesField(fields.Field):
     id = fields.Str(required=True)
 
 
+# Bcrypt can only hash strings up to 72 characters long
+# so this checks if the provided string is > than 12
+# and less than 72 characters.
+# If in the future it's needed to use longer passwords
+# then use the solution provided in marshmallow_models.py
+# in the UserSchema
 class BcryptHashablePasswordField(fields.Field):
     default_error_messages = {
         'invalid': 'Invalid password.',
@@ -105,6 +130,7 @@ class BcryptHashablePasswordField(fields.Field):
         return value
 
 
+# This checks if the username length is between 6 and 24 characters
 class UsernameField(fields.Field):
     default_error_messages = {
         'invalid': 'Invalid password.',

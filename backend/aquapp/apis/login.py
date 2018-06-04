@@ -1,3 +1,16 @@
+"""
+    This namespace is only meant for logging into
+    the api. The credentials are passed to
+    login/ in the request payload and if they're
+    valid a token is returned.
+    
+    All the files (excluding __init__.py) in this
+    directory performs api operation according to
+    their names using marshmallow to validate
+    the input:
+    https://marshmallow.readthedocs.io/en/latest/
+"""
+
 import jwt
 import os
 import bcrypt

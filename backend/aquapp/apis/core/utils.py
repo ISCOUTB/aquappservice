@@ -1,8 +1,20 @@
+"""
+    This module is for utilities that can be used in all the
+    apis
+"""
+
 import jwt
 import os
 from flask import request
 from functools import wraps
 
+"""
+    Decorator function that checks if the token stored in the
+    'API-KEY' field in the request header is valid and it's
+    not expired.
+    We use pyjwt to use JSON Web Tokens:
+    https://pyjwt.readthedocs.io/en/latest/
+"""
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):

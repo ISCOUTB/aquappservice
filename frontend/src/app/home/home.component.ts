@@ -180,7 +180,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
      */
     this.waterBodies.forEach(waterBody => {
       this.apiService.getICAMPff(waterBody._id).subscribe(icam => waterBody.properties.icam = icam, 
-                                () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
+                                () => console.log("failed to get the ICAMpff value for ", waterBody._id),
                                 () => {
                                   var highlight = (e) => {
                                     this.selectedWaterBody = waterBody;
