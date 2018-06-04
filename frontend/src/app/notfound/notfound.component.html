@@ -1,0 +1,14 @@
+<div class="content">
+  <div [ngStyle]="{'display' : 'block', 'float': 'left', 'width': '125px', 'height': '50px'}">
+    <a routerLink="/" [ngStyle]="{'outline': '0'}"><img [ngStyle]="{'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%'}" src="/assets/brand.png" alt="AquApp logo"></a>
+  </div>
+  <div [ngStyle]="{'width': '125px', 'height': '50px', 'display' : (840 > screenWidth) ? 'none' : 'block', 'float': 'left'}">
+    <a href="http://unitecnologica.edu.co">
+      <img [ngStyle]="{'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%'}" src="/assets/utb-white.png" alt="AquApp logo">
+    </a>
+  </div>
+  <br>
+  <br>
+  <h1 class="title">{{ 'Page not found' | translate }}</h1>
+  <mat-icon svgIcon="road-closure" class="road-closure"></mat-icon>
+</div>

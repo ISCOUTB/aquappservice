@@ -427,5 +427,13 @@ export const TRANSLATIONS = [
     {
         en: 'Join the conversation',
         es: 'Únase a la conversación'
+    },  // Notfound component
+    {
+        en: 'Page not found',
+        es: 'Página no encontrada'
+    },
+    {
+        en: 'Get back to homepage',
+        es: 'Regresar a la página principal'
     }
 ]

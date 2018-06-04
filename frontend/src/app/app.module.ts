@@ -53,6 +53,7 @@ import { AboutComponent } from './about/about.component';
 import { TranslatePipe } from './translate/translate.pipe';
 import { TranslateService } from './translate/translate.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AboutComponent,
     NSDialog,
     TranslatePipe,
-    DashboardComponent
+    DashboardComponent,
+    NotfoundComponent
   ],
   entryComponents: [Dialog, ExportComponent, NSDialog, HomeComponent],
   imports: [
@@ -122,5 +124,8 @@ export class AppModule {
     iconRegistry.addSvgIcon(
       'dialog',
       sanitizer.bypassSecurityTrustResourceUrl('assets/dialog.svg'));
+    iconRegistry.addSvgIcon(
+      'road-closure',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/road-closure.svg'));
   }
- }
+}
