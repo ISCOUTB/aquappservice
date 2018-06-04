@@ -1,0 +1,38 @@
+.toolbar {
+    height: 54px;
+    background-color: #007EE5;
+    z-index: 10000;
+    min-width: 290px;
+}
+
+.menu-element {
+    max-height: 100%; 
+    max-width: 100%; 
+    color: white; 
+    text-decoration: none;
+    vertical-align: middle;
+    font-size: 16px;
+    line-height: 16px;
+}
+
+#mapid {
+    height: calc(100% - 126px);
+    width: 100%;
+}
+
+.dashmenu {
+    /*position: relative;*/
+    height: 72px;
+    float: left;
+    width: 100%;
+    overflow: hidden;
+    background-color: #007EE5;
+    color: white;
+}
+
+.dashmenu-label {
+    line-height: 24px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}

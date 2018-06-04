@@ -435,5 +435,21 @@ export const TRANSLATIONS = [
     {
         en: 'Get back to homepage',
         es: 'Regresar a la página principal'
+    },  // Dashboard component
+    {
+        en: 'Authenticate',
+        es: 'Autenticarse'
+    },
+    {
+        en: 'Login',
+        es: 'Iniciar sesión'
+    },
+    {
+        en: 'Username',
+        es: 'Nombre de usuario'
+    },
+    {
+        en: 'Password',
+        es: 'Contraseña'
     }
 ]

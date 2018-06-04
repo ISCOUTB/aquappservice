@@ -52,7 +52,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { AboutComponent } from './about/about.component';
 import { TranslatePipe } from './translate/translate.pipe';
 import { TranslateService } from './translate/translate.service';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent, Dialog as DBDialog } from './dashboard/dashboard.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
@@ -64,10 +64,11 @@ import { NotfoundComponent } from './notfound/notfound.component';
     AboutComponent,
     NSDialog,
     TranslatePipe,
+    DBDialog,
     DashboardComponent,
     NotfoundComponent
   ],
-  entryComponents: [Dialog, ExportComponent, NSDialog, HomeComponent],
+  entryComponents: [Dialog, ExportComponent, NSDialog, HomeComponent, DBDialog, DashboardComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -127,5 +128,8 @@ export class AppModule {
     iconRegistry.addSvgIcon(
       'road-closure',
       sanitizer.bypassSecurityTrustResourceUrl('assets/road-closure.svg'));
+    iconRegistry.addSvgIcon(
+      'authenticate',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/authenticate.svg'));
   }
 }

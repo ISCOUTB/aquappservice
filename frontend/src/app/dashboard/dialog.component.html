@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>
+        {{ 'Authenticate' | translate }}
+</h1>
+<div mat-dialog-content [ngStyle]="{'height': '80%'}">
+    <form>
+        <mat-form-field>
+            <input matInput placeholder="{{ 'Username' | translate}}" [(ngModel)]="username" name="username">
+        </mat-form-field>
+        
+        <mat-form-field>
+            <input matInput placeholder="{{ 'Password' | translate}}" [(ngModel)]="password" name="password">
+        </mat-form-field>
+        
+        <button mat-button (click)="login()">{{ 'Login' | translate}}</button>    
+    </form> 
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()" cdkFocusInitial>{{ 'Close'  | translate }}</button>
+</div>

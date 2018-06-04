@@ -8,7 +8,7 @@ import { Map, tileLayer,
          featureGroup, FeatureGroup,
          GeoJSON, Control,
          Marker, geoJSON } from 'leaflet';
-import { glyphIcon } from './glyph-icon';
+import { glyphIcon } from '../glyph-icon';
 import { NodeType } from '../node-type';
 import { WaterBody } from '../water-body';
 import { Sensor } from '../sensor';

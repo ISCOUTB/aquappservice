@@ -68,7 +68,7 @@ class Database:
                                                 "data/sensor_data{}.json".format(i))).read()))
 
         # Loading the water bodies
-        if not [water_body for water_body in self.water_bodies.find()]
+        if not [water_body for water_body in self.water_bodies.find()]:
             water_bodies = [{**water_body, '_id': ObjectId(water_body['_id'])} for water_body in json.loads(open(os.path.join(os.path.dirname(__file__), "data/water_bodies.json")).read())]
             self.water_bodies.insert_many(water_bodies)
 
