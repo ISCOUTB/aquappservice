@@ -48,8 +48,8 @@ export class ApiService {
     return this.http.get<number>(this.apiUrl + "/water-bodies/" + waterBodyId + "/icampff");
   }
 
-  login(username, password): Observable<string> {
-    return this.http.get<string>(this.apiUrl + "/login", {
+  login(username, password): Observable<any> {
+    return this.http.get<any>(this.apiUrl + "/login", {
       headers: {
         'username': username,
         'password': password

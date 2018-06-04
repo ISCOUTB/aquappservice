@@ -304,9 +304,13 @@ export class Dialog {
   }
   
   login() {
-    this.apiService.login(this.username, this.password).subscribe(token => this.token,
+    this.apiService.login(this.username, this.password).subscribe(response => this.token = response['API-KEY'],
         () => console.log('failed to login'),
-        () => this.onNoClick()
+        () => {
+          if (this.token !== undefined)
+            this.onNoClick();
+          else console.log('failed to login');
+        }
       );
   }
   /**

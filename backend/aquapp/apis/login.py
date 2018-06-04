@@ -29,9 +29,9 @@ user = api.schema_model('User', user)
 @api.route('/')
 class Login(Resource):
     @api.doc(summary='Login to the API',
-             responses={201: 'Login successful'})
+             responses={200: 'Login successful'})
     @api.expect(user)
-    def post(self):
+    def get(self):
         user, errors = UserSchema().load(request.get_json())
         if not errors:
             u = Database().get_user(user['username'])

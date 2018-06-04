@@ -99,11 +99,15 @@ class WaterBodyICAMpff(Resource):
                 Database().get_sensor_data(node_id, "Chrolophyll A (CLA)", start_date=sd, end_date=datetime.utcnow())
             ]
             # This two lines ensure that only the last meassurements are taken into account.
-            last_date = max([(date_parser.parse(obj['data'][-1]['date']) if len(obj['data']) else date_parser.parse("1900-01-01 00:00:00")) for obj in d]) 
-            d = [((obj['data'][-1]['value'] if date_parser.parse(obj['data'][-1]['date']) == last_date else -1) if len(obj['data']) else -1) for obj in d]
+            last_date = max([(obj['data'][-1]['date'] if len(obj['data']) else date_parser.parse("1900-01-01 00:00:00")) for obj in d]) 
+            d = [((obj['data'][-1]['value'] if obj['data'][-1]['date'] == last_date else -1) if len(obj['data']) else -1) for obj in d]
             
-            if reduce(lambda x, y: (-1 if x == -1 or y == -1 else 1), d) == -1:
-                abort(404)  # There is no data for calculating the icampff
+            # Checking if there's data for calculating the ICAMpff
+            for value in d:
+                if value != -1:
+                    break
+            else:
+                abort(404)  # It's better to abort rather than giving useless data
 
             new_hash = hash(reduce(lambda x, y: str(x) + str(y), d))
             # Now we need to check the date of the cache in the water body

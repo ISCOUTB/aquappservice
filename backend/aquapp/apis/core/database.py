@@ -9,6 +9,7 @@ import pymongo
 import json
 import os
 import bcrypt
+import time
 from datetime import datetime
 from dateutil import parser as date_parser
 from bson.objectid import ObjectId
@@ -49,6 +50,7 @@ class Database:
 
         # Load all node types into the "node_types" collection
         if not [node_type for node_type in self.node_types.find()]:
+            print("Adding node types")
             node_types = [{**node_type, "_id": ObjectId(node_type["_id"])}
                           for node_type in json.loads(
                           open(os.path.join(os.path.dirname(__file__),
@@ -57,18 +59,46 @@ class Database:
 
         # Load all nodes into the "nodes" collection
         if not [node for node in self.nodes.find()]:
+            print("Adding nodes")
             nodes = [{**node, "_id": ObjectId(node["_id"])}
                     for node in json.loads(open(os.path.join(os.path.dirname(__file__), "data/nodes.json")).read())]
             self.nodes.insert_many(nodes)
         
         # Load all seeds
         if not [sensor_data for sensor_data in self.sensor_data.find()]:
-            for i in range(10):
-                self.sensor_data.insert_many(json.loads(open(os.path.join(os.path.dirname(__file__),
-                                                "data/sensor_data{}.json".format(i))).read()))
+            print("Adding sensor data")
+            for filename in os.listdir(os.path.join(os.path.dirname(__file__), 'data/nodes-data')):
+                try:
+                    node = next(filter(lambda n: str(n['_id']) == filename[:-4], nodes))
+                except StopIteration:
+                    print('Node:', filename[:-4], 'not found')
+                    continue
+                node_type = next(filter(lambda nt: str(nt['_id']) == node['node_type_id'], node_types))
+                print('loading seed ' + filename)
+                data = [d.split(node_type["separator"]) for d in open(os.path.join('data/nodes-data', filename)).read().split("\n")]
+                new_sensor_data = [
+                    {
+                        'variable': sensor['variable'],
+                        'node_id': str(node['_id']),
+                        'data': []
+                    } for sensor in node_type['sensors']
+                ]
+                for i in range(len(data)):
+                    date = date_parser.parse(data[i][0])
+                    for j in range(1, len(data[i])):
+                        if data[i][j] == "---":  # No data registered for this sensor at this date
+                            continue
+                        try:
+                            value = float(data[i][j])
+                        except ValueError:
+                            value = data[i][j]  # The value is a string
+
+                        new_sensor_data[j - 1]['data'].append({'date': date, 'value': value})
+                self.sensor_data.insert_many(new_sensor_data)
 
         # Loading the water bodies
         if not [water_body for water_body in self.water_bodies.find()]:
+            print("Adding water bodies")
             water_bodies = [{**water_body, '_id': ObjectId(water_body['_id'])} for water_body in json.loads(open(os.path.join(os.path.dirname(__file__), "data/water_bodies.json")).read())]
             self.water_bodies.insert_many(water_bodies)
 
@@ -102,7 +132,7 @@ class Database:
         })
 
         return {'node_id': node_id, 'variable': variable, 'data': [
-            datum for datum in filter(lambda s: start_date <= date_parser.parse(s['date']) <= end_date, sensor['data'] if sensor else [])
+            datum for datum in filter(lambda s: start_date <= s['date'] <= end_date, sensor['data'] if sensor else [])
         ]}
 
     def get_available_dates(self, node_id, variable):

@@ -8,7 +8,7 @@
         </mat-form-field>
         
         <mat-form-field>
-            <input matInput placeholder="{{ 'Password' | translate}}" [(ngModel)]="password" name="password">
+            <input matInput type="password" placeholder="{{ 'Password' | translate}}" [(ngModel)]="password" name="password">
         </mat-form-field>
         
         <button mat-button (click)="login()">{{ 'Login' | translate}}</button>    

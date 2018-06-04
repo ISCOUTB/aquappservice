@@ -249,7 +249,7 @@ class AddNodeSensorData(Resource):
         data, errors = DatumSchema(many=True).load(request.get_json() or {})
         if errors:
             data = [data[i] for i in (set(range(len(data))) - set(errors.keys()))]
-        Database().add_sensor_data(node_id, variable, [{**datum, 'date': str(datum['date'])} for datum in data])
+        Database().add_sensor_data(node_id, variable, data)
         return {
                 'message': 
                     ('Data added successfully') if not errors else 
