@@ -31,8 +31,8 @@ class Login(Resource):
     @api.doc(summary='Login to the API',
              responses={200: 'Login successful'})
     @api.expect(user)
-    def get(self):
-        user, errors = UserSchema().load(request.get_json())
+    def post(self):
+        user, errors = UserSchema().load(request.get_json() or {})
         if not errors:
             u = Database().get_user(user['username'])
             if u and bcrypt.checkpw(user['password'].encode('utf-8'), u['password']):
