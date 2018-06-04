@@ -52,6 +52,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { AboutComponent } from './about/about.component';
 import { TranslatePipe } from './translate/translate.pipe';
 import { TranslateService } from './translate/translate.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { TranslateService } from './translate/translate.service';
     Dialog,
     AboutComponent,
     NSDialog,
-    TranslatePipe
+    TranslatePipe,
+    DashboardComponent
   ],
   entryComponents: [Dialog, ExportComponent, NSDialog, HomeComponent],
   imports: [
