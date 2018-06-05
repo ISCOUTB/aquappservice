@@ -40,9 +40,6 @@
   </mat-toolbar>
 <div id="mapid"></div>
 <div class="dashmenu">
-  <div *ngIf="!selectedNode" class="placeholder">
-    <p>{{ 'Please, select a station' | translate}}</p>
-  </div>
   <div *ngIf="selectedNode" class="dashmenu-label">
     <span>{{ selectedNode.name }}</span>
   </div>

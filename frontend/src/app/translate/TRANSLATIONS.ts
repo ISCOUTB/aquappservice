@@ -451,5 +451,13 @@ export const TRANSLATIONS = [
     {
         en: 'Password',
         es: 'Contraseña'
+    },  // The dialog in the dashboard component
+    {
+        en: 'Failed to login',
+        es: 'Fallo al iniciar sesión'
+    },
+    {
+        en: 'Login successful',
+        es: 'Sesión iniciada'
     }
 ]

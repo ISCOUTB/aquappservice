@@ -5,13 +5,28 @@ import { Data } from '../sensor-data';
 import { NodeType } from '../node-type';
 import { Observable } from 'rxjs';
 import { WaterBody } from '../water-body';
+// import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+
+
+class User {
+  username: string;
+  password: string;
+  constructor(u, p) {
+    this.username = u;
+    this.password = p;
+  }
+}
+
+class Response {
+  message: string;
+  TOKEN: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ApiService {
-  // IT'S http://aquapp.utb.services:8080/api/v1 FOR PRODUCTION!
   private apiUrl:string = "http://aquapp.utb.services:8080/api/v1";
 
   getNodes(): Observable<Node[]> {
@@ -48,11 +63,11 @@ export class ApiService {
     return this.http.get<number>(this.apiUrl + "/water-bodies/" + waterBodyId + "/icampff");
   }
 
-  login(username, password): Observable<any> {
-    return this.http.get<any>(this.apiUrl + "/login", {
+  login(username: string, password: string): Observable<Response> {
+    // "{'username': " + username.toString() + ", 'password':" + password.toString() + "}"
+    return this.http.post<Response>(this.apiUrl + "/login/", new User(username, password), {
       headers: {
-        'username': username,
-        'password': password
+        'Content-Type': 'text/plain'
       }
     });
   }

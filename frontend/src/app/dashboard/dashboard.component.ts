@@ -281,7 +281,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.apiToken = result;
-      console.log(this.apiToken);
     });
   }
 }
@@ -300,16 +299,25 @@ export class Dialog {
   constructor(
     public dialogRef: MatDialogRef<Dialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private apiService: ApiService) {
+    private apiService: ApiService,
+    private snackBar: MatSnackBar,
+    private translateService: TranslateService) {
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
   
   login() {
-    this.apiService.login(this.username, this.password).subscribe(response => this.token = response['API-KEY'],
-        () => console.log('failed to login'),
+    this.apiService.login(this.username, this.password).subscribe(response => this.token = response.TOKEN? response.TOKEN:this.token,
+        () => this.openSnackBar(this.translateService.translate('Failed to login'), ''),
         () => {
-          if (this.token !== undefined)
+          if (this.token !== undefined) {
             this.onNoClick();
-          else console.log('failed to login');
+            this.openSnackBar(this.translateService.translate('Login successful', ), '');
+          }
         }
       );
   }

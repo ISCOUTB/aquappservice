@@ -32,14 +32,14 @@ class Login(Resource):
              responses={200: 'Login successful'})
     @api.expect(user)
     def post(self):
-        user, errors = UserSchema().load(request.get_json() or {})
+        user, errors = UserSchema().load(request.get_json(force=True) or {})
         if not errors:
             u = Database().get_user(user['username'])
             if u and bcrypt.checkpw(user['password'].encode('utf-8'), u['password']):
                 # The token expires in one day
                 return {
                     'message': 'Login successful',
-                    'API-TOKEN': jwt.encode({
+                    'TOKEN': jwt.encode({
                         'user': user['username'],
                         'exp': datetime.utcnow() + timedelta(minutes=1440)
                     }, os.getenv('SECRET_KEY')).decode('utf-8')
