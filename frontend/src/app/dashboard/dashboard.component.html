@@ -41,6 +41,11 @@
 <div id="mapid"></div>
 <div class="dashmenu">
   <div *ngIf="selectedNode" class="dashmenu-label">
-    <span>{{ selectedNode.name }}</span>
+    <form>
+      <mat-form-field>
+        <input matInput placeholder="{{ 'Name' | translate}}" [(ngModel)]="selectedNode.name" name="name">
+      </mat-form-field>
+    </form>
+    <button mat-form-field (click)="update()">{{ 'Update' | translate}}</button>
   </div>
 </div>
