@@ -481,6 +481,10 @@ export const TRANSLATIONS = [
         es: 'Error al actualizar el nodo, revise su conección'
     },
     {
+        en: 'Node updated successfully',
+        es: 'Nodo actualizado con éxito'
+    },
+    {
         en: 'Location',
         es: 'Ubicación'
     },  // The dialog in the dashboard component

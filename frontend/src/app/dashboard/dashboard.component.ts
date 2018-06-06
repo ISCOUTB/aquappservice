@@ -294,7 +294,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.selectedNode.status,
       this.selectedNode.node_type_id
     ).subscribe(
-      result => { },
+      result => { 
+        this.openSnackBar(this.translateService.translate('Node updated successfully'), '')
+      },
       () => this.openSnackBar(this.translateService.translate('Failed to update the node, check your connection'), '')
     );
     console.log(this.selectedNode._id);
