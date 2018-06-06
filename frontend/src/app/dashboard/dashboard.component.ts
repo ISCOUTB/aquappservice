@@ -314,11 +314,26 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.selectedNode.node_type_id
     ).subscribe(
       result => { 
-        this.openSnackBar(this.translateService.translate('Node updated successfully'), '')
+        this.openSnackBar(this.translateService.translate('Node updated successfully'), '');
       },
       () => this.openSnackBar(this.translateService.translate('Failed to update the node, check your connection'), '')
     );
-    console.log(this.selectedNode._id);
+  }
+
+  create() {
+    this.apiService.createNode(
+      this.apiToken,
+      this.newNodeName,
+      this.newNodeLocation,
+      [this.newNodeLat, this.newNodeLng],
+      this.newNodeStatus,
+      this.newNodeType
+    ).subscribe(
+      result => {
+        this.openSnackBar(this.translateService.translate('Node created successfully'), '');
+      },
+      () => this.openSnackBar(this.translateService.translate('Failed to create the node, check your connection'), '')
+    );
   }
 }
 
