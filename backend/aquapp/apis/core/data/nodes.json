@@ -70,6 +70,7 @@
       10.4172,
       -75.5438
     ],
+    "status": "Off",
     "name": "Laguna de San Lázaro 1",
     "node_type_id": "59c9d9019a892016ca4be412"
   },
@@ -80,6 +81,7 @@
       10.4192,
       -75.5411
     ],
+    "status": "Off",
     "name": "Laguna de San Lázaro 2",
     "node_type_id": "59c9d9019a892016ca4be412"
   },
@@ -90,6 +92,7 @@
       10.4142,
       -75.5322
     ],
+    "status": "Off",
     "name": "Ciénaga de las Quintas 1",
     "node_type_id": "59c9d9019a892016ca4be412"
   },
@@ -99,6 +102,7 @@
     "coordinates": [
       10.40613,-75.52434
     ],
+    "status": "Off",
     "name": "Ciénaga de las Quintas 2",
     "node_type_id": "59c9d9019a892016ca4be412"
   },
@@ -109,6 +113,7 @@
       10.4268,
       -75.5438
     ],
+    "status": "Off",
     "name": "Laguna de Chambacú 1",
     "node_type_id": "59c9d9019a892016ca4be412"
   },
@@ -119,6 +124,7 @@
       10.4336,
       -75.5364
     ],
+    "status": "Off",
     "name": "Laguna del Cabrero 1",
     "node_type_id": "59c9d9019a892016ca4be412"
   },
@@ -129,6 +135,7 @@
       10.4414,
       -75.516
     ],
+    "status": "Off",
     "name": "Caño Juan Angola 1",
     "node_type_id": "59c9d9019a892016ca4be412"
   }
