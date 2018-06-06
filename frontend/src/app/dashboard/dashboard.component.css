@@ -30,6 +30,10 @@
     color: white;
 }
 
+::ng-deep .sensor .mat-form-field-label {
+    color: white;
+}
+
 .sensor {
     display: inline-block;
     margin-right: 10px;
