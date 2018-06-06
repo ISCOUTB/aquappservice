@@ -29,6 +29,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   selectedNode: Node;
   selectedNodeSensors: Sensor[];
   apiToken: string;
+
+  newNodeName: string = "";
+  newNodeLocation: string = "";
+  newNodeStatus: string = "Off";
+  newNodeType: string = "";
+  newNodeLat: number = 0;
+  newNodeLng: number = 0;
+
   /**
    * 
    * @param apiService The api service connects to the backend and brings information
@@ -57,6 +65,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.getNodes();
     this.map = new Map('mapid');
+
+    var wrapper: any = {
+      'newNodeLat': this.newNodeLat,
+      'newNodeLng': this.newNodeLng,
+      func: (e: any) => {
+        this.newNodeLat = e.latlng.lat;
+        this.newNodeLng = e.latlng.lng;
+      }
+    }
+
+    this.map.on('click', wrapper.func);
     
     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,

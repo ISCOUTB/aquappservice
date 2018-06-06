@@ -4,6 +4,21 @@
     right: 2px;
 }
 
+.floating-control-field {
+    width: 130px;
+}
+
+.floating-controls {
+    background-color: white;
+    width: 150px;
+    padding: 10px;
+    text-align: center;
+    z-index: 80000;
+    top: 64px;
+    right: 10px;
+    position: fixed;
+}
+
 .sensor {
     display: inline-block;
     margin-right: 10px;

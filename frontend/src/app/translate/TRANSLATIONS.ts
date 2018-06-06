@@ -487,6 +487,10 @@ export const TRANSLATIONS = [
     {
         en: 'Location',
         es: 'Ubicación'
+    },
+    {
+        en: 'Create new node',
+        es: 'Crear nuevo nodo'
     },  // The dialog in the dashboard component
     {
         en: 'Failed to login',

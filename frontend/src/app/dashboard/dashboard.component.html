@@ -1,43 +1,74 @@
 <mat-toolbar class="toolbar">
-    <div [ngStyle]="{'width': '100%'}">
-        <div [ngStyle]="{'display' : 'block', 'float': 'left', 'width': '125px', 'height': '50px'}">
-          <a routerLink="/" [ngStyle]="{'outline': '0'}"><img [ngStyle]="{'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%'}" src="/assets/brand.png" alt="AquApp logo"></a>
-        </div>
-        <div [ngStyle]="{'width': '125px', 'height': '50px', 'display' : (840 > screenWidth) ? 'none' : 'block', 'float': 'left'}">
-          <a href="http://unitecnologica.edu.co">
-            <img [ngStyle]="{'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%'}" src="/assets/utb-white.png" alt="AquApp logo">
-          </a>
-        </div>
-        <div *ngIf="screenWidth > 840" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
-          <button mat-menu-item [matMenuTriggerFor]="languageMenu" class="menu-element"><mat-icon svgIcon="dialog"></mat-icon><span>{{ 'Language' | translate }}</span></button>
-          <mat-menu #languageMenu="matMenu">
-            <button mat-menu-item (click)="selectLanguage('es')">{{ 'Spanish' | translate }}</button>
-            <button mat-menu-item (click)="selectLanguage('en')">{{ 'English' | translate }}</button>
-          </mat-menu>
-        </div>
-        <div *ngIf="screenWidth > 840" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
-          <a routerLink="/about"><button mat-menu-item class="menu-element"><mat-icon svgIcon="questionmark"></mat-icon><span>{{ 'About' | translate }}</span></button></a>
-        </div>
-        <div *ngIf="screenWidth > 840" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
-          <button mat-menu-item class="menu-element" (click)="authenticate()"><mat-icon svgIcon="authenticate"></mat-icon><span>{{ 'Authenticate' | translate }}</span></button>
-        </div>
-        <!--Menu button-->
-        <div *ngIf="840 > screenWidth" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
-          <button mat-button [matMenuTriggerFor]="mainMenu" class="menu-element"><mat-icon svgIcon="three-bar-menu"></mat-icon></button>
-          <mat-menu #mainMenu="matMenu">
-            <a routerLink="/about"><button mat-menu-item><mat-icon svgIcon="questionmark"></mat-icon><span>{{ 'About' | translate }}</span></button></a>
-            <button mat-menu-item (click)="authenticate()"><mat-icon svgIcon="authenticate"></mat-icon><span>{{ 'Authenticate' | translate }}</span></button>
-            <button mat-menu-item [matMenuTriggerFor]="languageMenu"><mat-icon svgIcon="dialog"></mat-icon><span>{{ 'Language' | translate }}</span></button>
-          </mat-menu>
-  
-          <!--Language menu-->
-          <mat-menu #languageMenu="matMenu">
-            <button mat-menu-item (click)="selectLanguage('es')">{{ 'Spanish' | translate }}</button>
-            <button mat-menu-item (click)="selectLanguage('en')">{{ 'English' | translate }}</button>
-          </mat-menu>
-        </div>
+  <div [ngStyle]="{'width': '100%'}">
+    <div [ngStyle]="{'display' : 'block', 'float': 'left', 'width': '125px', 'height': '50px'}">
+      <a routerLink="/" [ngStyle]="{'outline': '0'}"><img [ngStyle]="{'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%'}" src="/assets/brand.png" alt="AquApp logo"></a>
     </div>
-  </mat-toolbar>
+    <div [ngStyle]="{'width': '125px', 'height': '50px', 'display' : (840 > screenWidth) ? 'none' : 'block', 'float': 'left'}">
+      <a href="http://unitecnologica.edu.co">
+        <img [ngStyle]="{'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%'}" src="/assets/utb-white.png" alt="AquApp logo">
+      </a>
+    </div>
+    <div *ngIf="screenWidth > 840" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
+      <button mat-menu-item [matMenuTriggerFor]="languageMenu" class="menu-element"><mat-icon svgIcon="dialog"></mat-icon><span>{{ 'Language' | translate }}</span></button>
+      <mat-menu #languageMenu="matMenu">
+        <button mat-menu-item (click)="selectLanguage('es')">{{ 'Spanish' | translate }}</button>
+        <button mat-menu-item (click)="selectLanguage('en')">{{ 'English' | translate }}</button>
+      </mat-menu>
+    </div>
+    <div *ngIf="screenWidth > 840" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
+      <a routerLink="/about"><button mat-menu-item class="menu-element"><mat-icon svgIcon="questionmark"></mat-icon><span>{{ 'About' | translate }}</span></button></a>
+    </div>
+    <div *ngIf="screenWidth > 840" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
+      <button mat-menu-item class="menu-element" (click)="authenticate()"><mat-icon svgIcon="authenticate"></mat-icon><span>{{ 'Authenticate' | translate }}</span></button>
+    </div>
+    <!--Menu button-->
+    <div *ngIf="840 > screenWidth" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
+      <button mat-button [matMenuTriggerFor]="mainMenu" class="menu-element"><mat-icon svgIcon="three-bar-menu"></mat-icon></button>
+      <mat-menu #mainMenu="matMenu">
+        <a routerLink="/about"><button mat-menu-item><mat-icon svgIcon="questionmark"></mat-icon><span>{{ 'About' | translate }}</span></button></a>
+        <button mat-menu-item (click)="authenticate()"><mat-icon svgIcon="authenticate"></mat-icon><span>{{ 'Authenticate' | translate }}</span></button>
+        <button mat-menu-item [matMenuTriggerFor]="languageMenu"><mat-icon svgIcon="dialog"></mat-icon><span>{{ 'Language' | translate }}</span></button>
+      </mat-menu>
+
+      <!--Language menu-->
+      <mat-menu #languageMenu="matMenu">
+        <button mat-menu-item (click)="selectLanguage('es')">{{ 'Spanish' | translate }}</button>
+        <button mat-menu-item (click)="selectLanguage('en')">{{ 'English' | translate }}</button>
+      </mat-menu>
+    </div>
+</div>
+</mat-toolbar>
+
+
+<div class="floating-controls">
+  <form>
+    <mat-form-field class="floating-control-field">
+      <input matInput placeholder="{{ 'Name' | translate }}" [(ngModel)]="newNodeName" name="new_node_name">
+    </mat-form-field>
+
+    <mat-form-field class="floating-control-field">
+      <input matInput placeholder="{{ 'Location' | translate }}" [(ngModel)]="newNodeLocation" name="new_node_loc">
+    </mat-form-field>
+    
+    <mat-form-field class="floating-control-field">
+      <input matInput placeholder="{{ 'Latitude' | translate }}" [(ngModel)]="newNodeLat" name="new_node_lat">
+    </mat-form-field>
+
+    <mat-form-field class="floating-control-field">
+      <input matInput placeholder="{{ 'Longitude' | translate }}" [(ngModel)]="newNodeLng" name="new_node_lng">
+    </mat-form-field>
+  
+    <mat-form-field class="floating-control-field">
+      <input matInput placeholder="{{ 'Status' | translate }}" [(ngModel)]="newNodeStatus" name="new_node_status">
+    </mat-form-field>
+
+    <mat-form-field class="floating-control-field">
+      <input matInput placeholder="{{ 'Node type id' | translate }}" [(ngModel)]="newNodeType" name="new_node_type">
+    </mat-form-field>
+  </form>
+  <button mat-button class="create-button" (click)="create()">{{ 'Create new node' | translate }}</button>
+</div>
+
 <div id="mapid"></div>
 <div class="dashmenu">
   <div *ngIf="selectedNode" class="dashmenu-label">
