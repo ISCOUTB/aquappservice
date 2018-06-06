@@ -359,6 +359,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       result => {
         this.openSnackBar(this.translateService.translate('Node deleted successfully'), '');
         this.getNodes();
+        this.selectedNode = undefined;
       },
       () => this.openSnackBar(this.translateService.translate('Failed to delete the node, check your connection'), '') 
     )
