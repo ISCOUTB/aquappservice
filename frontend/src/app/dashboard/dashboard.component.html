@@ -41,7 +41,7 @@
 
 
 <div class="floating-controls">
-  <form>
+  <form *ngIf="nodes">
     <mat-form-field class="floating-control-field">
       <input matInput placeholder="{{ 'Name' | translate }}" [(ngModel)]="newNodeName" name="new_node_name">
     </mat-form-field>
@@ -63,8 +63,13 @@
     </mat-form-field>
 
     <mat-form-field class="floating-control-field">
-      <input matInput placeholder="{{ 'Node type id' | translate }}" [(ngModel)]="newNodeType" name="new_node_type">
+      <mat-select placeholder="{{ 'Node type' | translate }}" [(value)]="newNodeType">
+        <mat-option *ngFor="let nodeType of nodeTypes" [value]="nodeType._id">
+          {{ nodeType.name | translate }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
+    
   </form>
   <button mat-button class="create-button" (click)="create()">{{ 'Create new node' | translate }}</button>
 </div>
@@ -92,11 +97,25 @@
           </mat-form-field>
 
           <mat-form-field class="sensor">
-            <input matInput placeholder="{{ 'Status' | translate }}" [(ngModel)]="selectedNode.status" name="status">
+            <mat-select placeholder="{{ 'Status' | translate }}" [(value)]="selectedNode.status">
+              <mat-option [value]="'Off'">
+                {{ 'Off' | translate }}
+              </mat-option>
+              <mat-option [value]="'Non Real Time'">
+                {{ 'Non Real Time' | translate }}
+              </mat-option>
+              <mat-option [value]="'Real Time'">
+                {{ 'Real Time' | translate }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
           
           <mat-form-field class="sensor">
-            <input matInput placeholder="{{ 'Node type id' | translate }}" [(ngModel)]="selectedNode.node_type_id" name="type_id">
+            <mat-select placeholder="{{ 'Node type' | translate }}" [(value)]="selectedNode.node_type_id">
+              <mat-option *ngFor="let nodeType of nodeTypes" [value]="nodeType._id">
+                {{ nodeType.name | translate }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </form>
       </div>
