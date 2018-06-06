@@ -17,7 +17,7 @@
       </div>
   </div>
 </mat-toolbar>
-<div (swipeleft)="swipe(selectedIndex, $event)" (swiperight)="swipe(selectedIndex, $event)">
+<div class="content" (swipeleft)="swipe(selectedIndex, $event)" (swiperight)="swipe(selectedIndex, $event)">
   <mat-tab-group class="tabs" [(selectedIndex)]="selectedIndex">
     <mat-tab label="AquApp">
       <div class="tabbed-content">
