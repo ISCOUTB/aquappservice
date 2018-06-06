@@ -104,9 +104,9 @@ export class ApiService {
   }
 
   createNode(token: string, name: string, location: string, coordinates: number[], status: string, node_type_id: string) {
-    return this.http.put<Response>(
+    return this.http.post<Response>(
       this.apiUrl + "/nodes/add",
-      new EditNode(name, location, coordinates, status, node_type_id),
+      [new EditNode(name, location, coordinates, status, node_type_id)],
       {
         headers: {
           'Content-Type': 'text/plain',
