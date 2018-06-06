@@ -80,22 +80,27 @@ export class ApiService {
 
   login(username: string, password: string): Observable<Response> {
     // "{'username': " + username.toString() + ", 'password':" + password.toString() + "}"
-    return this.http.post<Response>(this.apiUrl + "/login/", new User(username, password), {
-      headers: {
-        'Content-Type': 'text/plain'
+    return this.http.post<Response>(
+      this.apiUrl + "/login/", new User(username, password), 
+      {
+        headers: {
+          'Content-Type': 'text/plain'
+        }
       }
-    });
+    );
   }
 
-  editNode(token, _id: string, name: string, location: string, coordinates: number[], status: string, node_type_id: string) {
-    return this.http.post<Response>(this.apiUrl + "/nodes", 
-    new EditNode(name, location, coordinates, status, node_type_id),
-    {
-      headers: {
-        'Content-Type': 'text/plain',
-        'TOKEN': token
+  editNode(token, _id: string, name: string, location: string, coordinates: number[], status: string, node_type_id: string): Observable<Response> {
+    return this.http.put<Response>(
+      this.apiUrl + "/nodes/" + _id + "/edit", 
+      new EditNode(name, location, coordinates, status, node_type_id),
+      {
+        headers: {
+          'Content-Type': 'text/plain',
+          'TOKEN': token
+        }
       }
-    });
+    );
   }
 
   constructor(private http: HttpClient) { }
