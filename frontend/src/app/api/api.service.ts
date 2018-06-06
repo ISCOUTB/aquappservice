@@ -90,9 +90,22 @@ export class ApiService {
     );
   }
 
-  editNode(token, _id: string, name: string, location: string, coordinates: number[], status: string, node_type_id: string): Observable<Response> {
+  editNode(token: string, _id: string, name: string, location: string, coordinates: number[], status: string, node_type_id: string): Observable<Response> {
     return this.http.put<Response>(
       this.apiUrl + "/nodes/" + _id + "/edit", 
+      new EditNode(name, location, coordinates, status, node_type_id),
+      {
+        headers: {
+          'Content-Type': 'text/plain',
+          'TOKEN': token
+        }
+      }
+    );
+  }
+
+  createNode(token: string, name: string, location: string, coordinates: number[], status: string, node_type_id: string) {
+    return this.http.put<Response>(
+      this.apiUrl + "/nodes/add",
       new EditNode(name, location, coordinates, status, node_type_id),
       {
         headers: {
