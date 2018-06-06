@@ -497,6 +497,10 @@ export const TRANSLATIONS = [
         es: 'Nodo creado con éxito'
     },
     {
+        en: 'Node deleted successfully',
+        es: 'Nodo borrado con éxito'
+    },
+    {
         en: 'Location',
         es: 'Ubicación'
     },
