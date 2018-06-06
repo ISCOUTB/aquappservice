@@ -469,8 +469,8 @@ export const TRANSLATIONS = [
         es: 'Longitud'
     },
     {
-        en: 'Node type id',
-        es: 'Id del tipo de nodo'
+        en: 'Node type',
+        es: 'Tipo de nodo'
     },
     {
         en: 'Status',
@@ -511,6 +511,18 @@ export const TRANSLATIONS = [
     {
         en: 'Delete',
         es: 'Eliminar'
+    },
+    {
+        en: 'Off',
+        es: 'Apagado'
+    },
+    {
+        en: 'Non Real Time',
+        es: 'No en tiempo real'
+    },
+    {
+        en: 'Real Time',
+        es: 'En tiempo real'
     },  // The dialog in the dashboard component
     {
         en: 'Failed to login',
