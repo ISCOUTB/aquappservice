@@ -335,6 +335,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       () => this.openSnackBar(this.translateService.translate('Failed to create the node, check your connection'), '')
     );
   }
+
+  delete() {
+    this.apiService.deleteNode(
+      this.apiToken,
+      this.selectedNode._id
+    ).subscribe(
+      result => {
+        this.openSnackBar(this.translateService.translate('Node deleted successfully'), '');
+      },
+      () => this.openSnackBar(this.translateService.translate('Failed to delete the node, check your connection'), '') 
+    )
+  }
 }
 
 @Component({
