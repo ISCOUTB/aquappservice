@@ -61,21 +61,30 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccccccc" />
     <path
-       style="fill:#dcdcdc;fill-rule:evenodd;stroke-width:0.99999994"
-       d="m 106.11523,127.61914 c -0.15098,-3.8e-4 -0.294,0.0114 -0.43945,0.0176 a 77.276671,44.446712 0 0 0 0.15039,0.0996 c 0.0912,-0.0348 0.20204,-0.0857 0.28906,-0.11719 z"
+       style="fill:#dcdcdc;fill-rule:evenodd;stroke-width:0.22200093"
+       d="m 77.132911,152.25115 c -0.03352,-8e-5 -0.06527,0.003 -0.09756,0.004 a 17.155494,9.8672118 0 0 0 0.03339,0.0221 c 0.02025,-0.008 0.04486,-0.019 0.06417,-0.026 z"
        id="path956"
-       inkscape:connector-curvature="0"
-       transform="matrix(0.26458333,0,0,0.26458333,47.128726,119.51963)" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:34.44227219px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.86105669"
-       x="75.04155"
-       y="147.77513"
-       id="text6292"><tspan
-         sodipodi:role="line"
-         id="tspan6290"
-         x="75.04155"
-         y="147.77513"
-         style="fill:#ffffff;stroke-width:0.86105669">...</tspan></text>
+       inkscape:connector-curvature="0" />
+    <ellipse
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:3.82055736;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+       id="path1962"
+       cx="81.223091"
+       cy="146.1608"
+       rx="1.1998328"
+       ry="1.134977" />
+    <ellipse
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:3.82055736;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+       id="path1962-3"
+       cx="90.950058"
+       cy="146.04187"
+       rx="1.1998328"
+       ry="1.134977" />
+    <ellipse
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:3.82055736;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+       id="path1962-6"
+       cx="100.70224"
+       cy="145.9626"
+       rx="1.1998328"
+       ry="1.134977" />
   </g>
 </svg>
