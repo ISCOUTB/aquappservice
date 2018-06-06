@@ -485,6 +485,14 @@ export const TRANSLATIONS = [
         es: 'Nodo actualizado con éxito'
     },
     {
+        en: 'Failed to create the node, check your connection',
+        es: 'Error al crear el nodo, revise su conección'
+    },
+    {
+        en: 'Node created successfully',
+        es: 'Nodo creado con éxito'
+    },
+    {
         en: 'Location',
         es: 'Ubicación'
     },
