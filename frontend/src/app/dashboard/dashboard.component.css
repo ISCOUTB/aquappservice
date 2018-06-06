@@ -4,6 +4,12 @@
     right: 2px;
 }
 
+.delete-button {
+    position: fixed;
+    bottom: 41px;
+    right: 112px;
+}
+
 .floating-control-field {
     width: 130px;
 }
