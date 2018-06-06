@@ -41,7 +41,7 @@ class AddNodeType(Resource):
     @api.expect([node_type])
     @token_required
     def post(self):
-        node_types, errors = NodeTypeSchema(many=True).load(request.get_json() or {})
+        node_types, errors = NodeTypeSchema(many=True).load(request.get_json(force=True) or {})
         if errors:
             # The node_types that were created with errors are removed
             node_types = [node_types[i] for i in (set(range(len(node_types))) - set(errors.keys()))]
@@ -96,29 +96,7 @@ class NodesByNodeType(Resource):
         return [{**nd, '_id': str(nd['_id'])}
                 for nd in Database().get_nodes_by_node_type_id(node_type_id)]
 
-
-@api.route('/<string:node_type_id>/edit')
-@api.param('node_id',
-           description='Id of the node type you are going to edit',
-           _in='path',
-           required=True,
-           type='string')
-class EditNodeType(Resource):
-    @api.doc(description='Edit a node type',
-             responses={200: 'Node type updated'},
-             security='apikey')
-    @api.expect(new_node)
-    @token_required
-    def put(self, node_id):
-        new_node_data, errors = EditNodeTypeSchema().load(request.get_json() or {})
-        if errors:
-            return {'message': 'ERROR: failed to edit the node, check input', **errors}, 400
-        if new_node_data:
-            Database().edit_node(node_id, new_node_data)
-            return {'message': 'Node edited successfully'}, 200
-        return {'message': "There is no data to update the node with"}, 400
-
-# MISSING DELETE FOR NODE-TYPES
+# MISSING DELETE AND EDIT FOR NODE-TYPES
 
 
 @api.route('/add')
@@ -131,7 +109,7 @@ class AddNode(Resource):
     def post(self):
         # The result of the load() method is of type UnMarshallResult, it's an array with two elements, the first is the
         # deserialized object and the second the errors.
-        nodes, errors = NewNodeSchema(many=True).load(request.get_json() or {})
+        nodes, errors = NewNodeSchema(many=True).load(request.get_json(force=True) or {})
         if errors:  # There are validation errors, the nodes without valid data are 
             safe_nodes = [nodes[i] for i in (set(range(len(nodes))) - set(errors.keys()))]
             if safe_nodes:
@@ -222,17 +200,17 @@ class EditNode(Resource):
     @api.expect(new_node)
     @token_required
     def put(self, node_id):
-        new_node_data, errors = EditNodeSchema().load(request.get_json() or {})
+        new_node_data, errors = EditNodeSchema().load(request.get_json(force=True) or {})
         if new_node_data and new_node_data:
             if not Database().edit_node(node_id, new_node_data):
                 return {'message': 'ERROR: Node not found!', **errors}, 404
         return {
             'message': 
-                ('Node edited successfully') if not errors else 
+                ('Node edited successfully') if not errors and new_node_data else 
                     ('Some fields were not updated due to errors' if new_node_data else 
                         'There is no data to update the node with'),
             **errors
-        }, 201 if new_node_data else 400
+        }, 200 if new_node_data else 400  # 200 HTTP code makes more sense since we're not creating a new node
 
 
 @api.route('<string:node_id>/add-sensor-data')
@@ -246,7 +224,7 @@ class AddNodeSensorData(Resource):
     @token_required
     def post(self, node_id):
         variable = reqparse.RequestParser().add_argument('variable', type=str, required=True, location='args').parse_args()['variable']
-        data, errors = DatumSchema(many=True).load(request.get_json() or {})
+        data, errors = DatumSchema(many=True).load(request.get_json(force=True) or {})
         if errors:
             data = [data[i] for i in (set(range(len(data))) - set(errors.keys()))]
         Database().add_sensor_data(node_id, variable, data)
