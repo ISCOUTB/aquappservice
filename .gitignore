@@ -8,3 +8,4 @@ docker-compose2.yml
 */**/__pycache__/*
 */**/*.pyc
 build/*
+tests/
