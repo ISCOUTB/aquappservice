@@ -33,6 +33,7 @@ class NewNodeSchema(Schema):
     location = fields.Str(required=True)
     coordinates = CoordinatesField(required=True)
     node_type_id = fields.Str(required=True)
+    status = NodeStatusField(required=True)
 
 
 # This is the schema used when creating new nodes,
