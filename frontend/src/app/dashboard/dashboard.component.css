@@ -26,6 +26,10 @@
     font-size: 12px;
 }
 
+::ng-deep .sensor .mat-select-value-text {
+    color: white;
+}
+
 .sensor {
     display: inline-block;
     margin-right: 10px;
