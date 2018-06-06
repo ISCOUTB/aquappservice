@@ -5,6 +5,7 @@ import { TranslateService } from '../translate/translate.service';
 import { NodeType } from '../node-type';
 import { WaterBody } from '../water-body';
 import { Node } from '../node';
+import { Sensor } from '../sensor';
 import { Map, tileLayer,
   featureGroup, FeatureGroup,
   GeoJSON, Control,
@@ -26,6 +27,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   markers: Marker[] = [];
   mapReady: boolean;
   selectedNode: Node;
+  selectedNodeSensors: Sensor[];
   apiToken: string;
   /**
    * 
@@ -166,13 +168,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       var marker = new Marker([node.coordinates[0], node.coordinates[1]], {title: node.name, icon: ico});
       marker.on('click', () => {
         this.selectedNode = node;
-        /**
-         * 
+        
         this.nodeTypes.forEach(nodeType => {
           if (nodeType._id == node.node_type_id)
             this.selectedNodeSensors = nodeType.sensors
         });
-         */
       });
       marker.addTo(this.map);
       this.markers.push(marker);
@@ -282,6 +282,21 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       this.apiToken = result;
     });
+  }
+
+  update() {
+    this.apiService.editNode(
+      this.apiToken,
+      this.selectedNode._id,
+      this.selectedNode.name,
+      this.selectedNode.location,
+      this.selectedNode.coordinates,
+      this.selectedNode.status,
+      this.selectedNode.node_type_id
+    ).subscribe(
+      result => {},
+      () => this.openSnackBar(this.translateService.translate('Failed to update the node, check your connection'), '')
+    );
   }
 }
 

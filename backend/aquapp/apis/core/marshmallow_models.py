@@ -10,7 +10,7 @@
 """
 
 from marshmallow import Schema, fields
-from .marshmallow_fields import BcryptHashablePasswordField, UsernameField, CoordinatesField, DateTimeField, ObjectIdField, SensorField, WBGeometryField, WBPropertiesField
+from .marshmallow_fields import NodeStatusField, BcryptHashablePasswordField, UsernameField, CoordinatesField, DateTimeField, ObjectIdField, SensorField, WBGeometryField, WBPropertiesField
 
 
 # This schema not only validates the input but it also
@@ -44,6 +44,7 @@ class EditNodeSchema(Schema):
     location = fields.Str(required=False)
     coordinates = CoordinatesField(required=False)
     node_type_id = fields.Str(required=False)
+    status = NodeStatusField(required=False)
 
 
 class DatumSchema(Schema):

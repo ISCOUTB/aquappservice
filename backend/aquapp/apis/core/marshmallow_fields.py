@@ -18,6 +18,29 @@ class ObjectIdField(fields.Field):
             return ObjectId(value)
         except InvalidId:
             raise ValidationError("Invalid ID")
+        return ObjectId(value)
+
+
+class ValidMongoIdField(fields.Field):
+    default_error_messages = {
+        'invalid': 'Invalid ID.',
+    }
+    def _deserialize(self, value, attr, data):
+        try:
+            return ObjectId(value)
+        except InvalidId:
+            raise ValidationError("Invalid ID")
+        return value
+
+
+class NodeStatusField(fields.Field):
+    default_error_messages = {
+        'invalid': "Invalid status, must be one of ['Off', 'Non Real Time', 'Real Time'].",
+    }
+    def _deserialize(self, value, attr, data):
+        if value not in ['Off', 'Non Real Time', 'Real Time']:
+            raise ValidationError("Invalid status, must be one of ['Off', 'Non Real Time', 'Real Time']")
+        return value
 
 
 class CoordinatesField(fields.Field):

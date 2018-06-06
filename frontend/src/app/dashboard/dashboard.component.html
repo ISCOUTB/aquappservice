@@ -41,11 +41,35 @@
 <div id="mapid"></div>
 <div class="dashmenu">
   <div *ngIf="selectedNode" class="dashmenu-label">
-    <form>
-      <mat-form-field>
-        <input matInput placeholder="{{ 'Name' | translate}}" [(ngModel)]="selectedNode.name" name="name">
-      </mat-form-field>
-    </form>
-    <button mat-form-field (click)="update()">{{ 'Update' | translate}}</button>
+    <div class="sensors-container">
+      <div class="sensors">
+        <form>
+          <mat-form-field class="sensor">
+            <input matInput placeholder="{{ 'Name' | translate }}" [(ngModel)]="selectedNode.name" name="name">
+          </mat-form-field>
+          
+          <mat-form-field class="sensor">
+            <input matInput placeholder="{{ 'Location' | translate }}" [(ngModel)]="selectedNode.location" name="loc">
+          </mat-form-field>
+          
+          <mat-form-field class="sensor">
+            <input matInput placeholder="{{ 'Latitude' | translate }}" [(ngModel)]="selectedNode.coordinates[0]" name="lat">
+          </mat-form-field>
+          
+          <mat-form-field class="sensor">
+            <input matInput placeholder="{{ 'Longitude' | translate }}" [(ngModel)]="selectedNode.coordinates[1]" name="long">
+          </mat-form-field>
+
+          <mat-form-field class="sensor">
+            <input matInput placeholder="{{ 'Status' | translate }}" [(ngModel)]="selectedNode.status" name="status">
+          </mat-form-field>
+          
+          <mat-form-field class="sensor">
+            <input matInput placeholder="{{ 'Node type id' | translate }}" [(ngModel)]="selectedNode.node_type_id" name="type_id">
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+    <button mat-button class="update-button" (click)="update()">{{ 'Update' | translate}}</button>
   </div>
 </div>

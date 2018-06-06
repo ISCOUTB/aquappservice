@@ -17,6 +17,21 @@ class User {
   }
 }
 
+class EditNode {
+  name: string; 
+  location: string; 
+  coordinates: number[]; 
+  status: string; 
+  node_type_id: string
+  constructor(name: string, location: string, coordinates: number[], status: string, node_type_id: string) {
+    this.name = name;
+    this.location = location;
+    this.coordinates = coordinates;
+    this.status = status;
+    this.node_type_id = node_type_id;
+  }
+}
+
 class Response {
   message: string;
   TOKEN: string;
@@ -68,6 +83,17 @@ export class ApiService {
     return this.http.post<Response>(this.apiUrl + "/login/", new User(username, password), {
       headers: {
         'Content-Type': 'text/plain'
+      }
+    });
+  }
+
+  editNode(token, _id: string, name: string, location: string, coordinates: number[], status: string, node_type_id: string) {
+    return this.http.post<Response>(this.apiUrl + "/nodes", 
+    new EditNode(name, location, coordinates, status, node_type_id),
+    {
+      headers: {
+        'Content-Type': 'text/plain',
+        'TOKEN': token
       }
     });
   }

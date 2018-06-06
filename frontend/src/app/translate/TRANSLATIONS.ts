@@ -455,6 +455,34 @@ export const TRANSLATIONS = [
     {
         en: 'Name',
         es: 'Nombre'
+    },
+    {
+        en: 'Update',
+        es: 'Actualizar'
+    },
+    {
+        en: 'Latitude',
+        es: 'Latitud'
+    },
+    {
+        en: 'Longitude',
+        es: 'Longitud'
+    },
+    {
+        en: 'Node type id',
+        es: 'Id del tipo de nodo'
+    },
+    {
+        en: 'Status',
+        es: 'Estado'
+    },
+    {
+        en: 'Failed to update the node, check your connection',
+        es: 'Error al actualizar el nodo, revise su conección'
+    },
+    {
+        en: 'Location',
+        es: 'Ubicación'
     },  // The dialog in the dashboard component
     {
         en: 'Failed to login',
