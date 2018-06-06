@@ -2,11 +2,9 @@ FROM esperantodeparture/python3-uwsgi-nginx
 
 COPY ./requirements.txt .
 
+RUN mkdir /backend
+
 RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . /backend
-
-WORKDIR /backend/aquapp
 
 COPY ./config/supervisor_app.conf /etc/supervisor/conf.d/
 
@@ -19,5 +17,9 @@ EXPOSE 8080
 ENV PYTHONPATH=/backend/
 
 COPY ./config/env.default /backend/aquapp/.env
+
+COPY . /backend
+
+WORKDIR /backend/aquapp
 
 CMD ["supervisord"]
