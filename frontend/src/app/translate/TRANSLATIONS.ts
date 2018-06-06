@@ -478,7 +478,7 @@ export const TRANSLATIONS = [
     },
     {
         en: 'Failed to update the node, check your connection',
-        es: 'Error al actualizar el nodo, revise su conección'
+        es: 'Error al actualizar el nodo, compruebe su conección'
     },
     {
         en: 'Node updated successfully',
@@ -486,7 +486,11 @@ export const TRANSLATIONS = [
     },
     {
         en: 'Failed to create the node, check your connection',
-        es: 'Error al crear el nodo, revise su conección'
+        es: 'Error al crear el nodo, compruebe su conección'
+    },
+    {
+        en: 'Failed to delete the node, check your connection',
+        es: 'Error al borrar el nodo, compruebe su conección'
     },
     {
         en: 'Node created successfully',
@@ -499,6 +503,10 @@ export const TRANSLATIONS = [
     {
         en: 'Create new node',
         es: 'Crear nuevo nodo'
+    },
+    {
+        en: 'Delete',
+        es: 'Eliminar'
     },  // The dialog in the dashboard component
     {
         en: 'Failed to login',
