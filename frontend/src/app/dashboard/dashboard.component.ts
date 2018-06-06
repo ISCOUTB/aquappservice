@@ -294,7 +294,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   authenticate() {
     let dialogRef = this.dialog.open(Dialog, {
       width: '30%',
-      height: '90%',
+      height: '30%',
       minWidth: 300,
       minHeight: 300
     });
