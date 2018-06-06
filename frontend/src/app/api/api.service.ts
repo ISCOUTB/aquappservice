@@ -116,5 +116,16 @@ export class ApiService {
     );
   }
 
+  deleteNode(token: string, _id) {
+    return this.http.delete<Response>(
+      this.apiUrl + "/nodes/" + _id + "/delete",
+      {
+        headers: {
+          'TOKEN': token
+        }
+      }
+    );
+  }
+
   constructor(private http: HttpClient) { }
 }
