@@ -142,7 +142,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   getNodeTypes() {
     this.apiService.getNodeTypes().subscribe(nodeTypes => this.nodeTypes = nodeTypes,
                                              () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
-                                             () => this.setMarkers());
+                                             () => this.resetMarkers());
+  }
+
+  /**
+   * Deletes all the markers, and creates them again
+   * with setMarkers (useful when needing to show
+   * new changes)
+   */
+  resetMarkers() {
+    this.markers.forEach(marker => {
+      marker.removeFrom(this.map);
+    });
+    this.markers = [];
+    this.setMarkers();
   }
 
   /**
@@ -315,6 +328,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     ).subscribe(
       result => { 
         this.openSnackBar(this.translateService.translate('Node updated successfully'), '');
+        this.getNodes();
       },
       () => this.openSnackBar(this.translateService.translate('Failed to update the node, check your connection'), '')
     );
@@ -331,6 +345,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     ).subscribe(
       result => {
         this.openSnackBar(this.translateService.translate('Node created successfully'), '');
+        this.getNodes();
       },
       () => this.openSnackBar(this.translateService.translate('Failed to create the node, check your connection'), '')
     );
@@ -343,6 +358,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     ).subscribe(
       result => {
         this.openSnackBar(this.translateService.translate('Node deleted successfully'), '');
+        this.getNodes();
       },
       () => this.openSnackBar(this.translateService.translate('Failed to delete the node, check your connection'), '') 
     )
