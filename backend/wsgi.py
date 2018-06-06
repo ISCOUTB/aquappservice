@@ -7,7 +7,7 @@ load_dotenv(dotenv_path='/backend/aquapp/.env', verbose=True)
 
 # This is only done when the application is being initialized
 from aquapp.apis.core.database import Database
-Database().seed()
+Database().createAdminUser()
 
 from aquapp.api import app
 

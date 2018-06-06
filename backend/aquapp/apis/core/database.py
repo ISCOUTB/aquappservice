@@ -38,6 +38,12 @@ class Database:
         self.water_bodies = Database._default_db.water_bodies
         self.icampff_caches = Database._default_db.icampff_caches
 
+    def createAdminUser():
+        # Create the admin user
+        if not [user for user in self.users.find({'username': os.getenv('ADMIN_USERNAME')})]:
+            print("Adding admin user")
+            self.users.insert_one({'username': os.getenv('ADMIN_USERNAME'), 'password': bcrypt.hashpw(os.getenv('DEFAULT_ADMIN_KEY').encode('utf-8'), bcrypt.gensalt())})
+
     def __new__(cls):  # Basic singleton pattern
         if cls._instance is None:
             cls._instance = object.__new__(cls)
