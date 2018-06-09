@@ -38,7 +38,7 @@ class Database:
         self.water_bodies = Database._default_db.water_bodies
         self.icampff_caches = Database._default_db.icampff_caches
 
-    def createAdminUser():
+    def createAdminUser(self):
         # Create the admin user
         if not [user for user in self.users.find({'username': os.getenv('ADMIN_USERNAME')})]:
             print("Adding admin user")
