@@ -135,11 +135,8 @@ class Database:
         return [water_body for water_body in self.water_bodies.find()]
 
     def get_water_body_nodes(self, water_body_id):
-        try:
-            water_body = self.water_bodies.find({'_id': ObjectId(water_body_id)})[0]
-            return water_body['nodes']
-        except IndexError:
-            return []
+        water_body = self.water_bodies.find_one({'_id': ObjectId(water_body_id)})
+        return water_body['nodes'] if water_body else []
 
     def get_icampff_cache(self, water_body_id, node_id):
         return self.icampff_caches.find_one({
