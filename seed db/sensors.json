@@ -1,0 +1,202 @@
+[
+  {
+    "variable": "Dissolved Oxygen",
+    "description": "A measure of the amount of oxygen in the water",
+    "unit": "mg/L"
+  },
+  {
+    "variable": "Nitrate",
+    "description": "Nitrate concentration on water",
+    "unit": "µg/L"
+  },
+  {
+    "variable": "Total Suspended Solids",
+    "description": "Particles that are larger than 2 microns found in the water column",
+    "unit": "mg/L"
+  },
+  {
+    "variable": "Thermotolerant Coliforms",
+    "description": "Used as bacterial indicator for sanitary quality of water",
+    "unit": "NMP/100ml"
+  },
+  {
+    "variable": "pH",
+    "description": "Measures the alkalinity or acidity of water. ",
+    "unit": "pH units"
+  },
+  {
+    "variable": "Chrolophyll A",
+    "description": "An estimate of the biomass of planktonic algae in the water",
+    "unit": "µg/L"
+  },
+  {
+    "variable": "Biochemical Oxygen Demand",
+    "description": "Measure of the dissolved oxygen consumed by microorganisms",
+    "unit": "mg/L"
+  },
+  {
+    "variable": "Phosphates",
+    "description": "Phosphates concentration on water",
+    "unit": "µg/L"
+  },
+  {
+    "variable": "Water Depth",
+    "description": "Vertical distance between the sea floor and still water level",
+    "unit": "m"
+  },
+  {
+    "variable": "Water Temperature",
+    "description": "Physical property expressing how hot or cold water is",
+    "unit": "°C"
+  },
+  {
+    "variable": "Temperature Out",
+    "description": "Temperature measured outside the station",
+    "unit": "°C"
+  },
+  {
+    "variable": "High Temperature",
+    "description": "Highest temperature recorded so far",
+    "unit": "°C"
+  },
+  {
+    "variable": "Low Temperature",
+    "description": "Lowest temperature recorded so far",
+    "unit": "°C"
+  },
+  {
+    "variable": "Out Humidity",
+    "description": "Percentage of humidity in air",
+    "unit": "%"
+  },
+  {
+    "variable": "Dew Point",
+    "description": "Dew point or spray temperature recorded at that time",
+    "unit": "°C"
+  },
+  {
+    "variable": "Wind Speed",
+    "description": "Wind flow velocity",
+    "unit": "m/s"
+  },
+  {
+    "variable": "Wind Direction",
+    "description": "Wind direction",
+    "unit": "N,S,SE, etc."
+  },
+  {
+    "variable": "Wind Run",
+    "description": "How much wind has happened in a certain time",
+    "unit": "m"
+  },
+  {
+    "variable": "High Speed",
+    "description": "Maximum speed reached by the winds up at a certain time",
+    "unit": "m/s"
+  },
+  {
+    "variable": "Highiest Direction",
+    "description": "Direction of the maximum speed of the wind captured so far",
+    "unit": "N,S,SE, etc."
+  },
+  {
+    "variable": "Wind Chill",
+    "description": "Thermal sensation related to wind",
+    "unit": "°C"
+  },
+  {
+    "variable": "Heat Index",
+    "description": "Thermal humidity index",
+    "unit": "°C"
+  },
+  {
+    "variable": "THW Index",
+    "description": "Uses the values of humidity, temperature and wind, to give an approximate cooling temperature in a time",
+    "unit": "°C"
+  },
+  {
+    "variable": "THSW Index",
+    "description": "Uses humidity and temperature to calculate an apparent temperature",
+    "unit": "°C"
+  },
+  {
+    "variable": "Bar",
+    "description": "Atmospheric pressure",
+    "unit": "mmHg"
+  },
+  {
+    "variable": "Rain",
+    "description": "Amount of rain precipitated at that instant of time",
+    "unit": "mm"
+  },
+  {
+    "variable": "Rain Rate",
+    "description": "How fast is the rain falling in a certain time",
+    "unit": "mm/h"
+  },
+  {
+    "variable": "Solar Rad",
+    "description": "Solar radiation captured by the station",
+    "unit": "W/m2"
+  },
+  {
+    "variable": "Internal Air Density",
+    "description": "Air density captured by the station",
+    "unit": "Kg/cu.m"
+  },
+  {
+    "variable": "Solar Energy",
+    "description": "Solar radiation measure",
+    "unit": "Ly"
+  },
+  {
+    "variable": "Higthiest Solar radiation",
+    "description": "Maximum solar radiation captured up to that instant of time",
+    "unit": "Ly"
+  },
+  {
+    "variable": "UV Index",
+    "description": "Intensity of ultraviolet radiation from the Sun on the Earth's surface",
+    "unit": "UV units"
+  },
+  {
+    "variable": "UV Dose",
+    "description": "Amount of sun exposure needed to create a barely perceptible redness of the skin within 24 hours after exposure to the sun",
+    "unit": "MEDs"
+  },
+  {
+    "variable": "Highest UV",
+    "description": "Maximum amount of solar radiation captured so far",
+    "unit": "UV units"
+  },
+  {
+    "variable": "Heat D-D",
+    "description": "Degree of winter severity of a locality",
+    "unit": "°C"
+  },
+  {
+    "variable": "Cool D-D",
+    "description": "Indicates when people perceive it is necessary to cool the places where they are",
+    "unit": "°C"
+  },
+  {
+    "variable": "Internal Temperature",
+    "description": "Station internal temperature",
+    "unit": "°C"
+  },
+  {
+    "variable": "Internal Humidity",
+    "description": "Station internal humidity",
+    "unit": "°C"
+  },
+  {
+    "variable": "Internal Dew Point",
+    "description": "Station internal dew point",
+    "unit": "°C"
+  },
+  {
+    "variable": "Internal Heat",
+    "description": "Station internal heat",
+    "unit": "°C"
+  }
+]
