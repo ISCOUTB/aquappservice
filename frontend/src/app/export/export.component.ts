@@ -1,8 +1,6 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { Data } from '../sensor-data';
-import { Node } from '../node';
-import { NodeType } from '../node-type';
 import { ApiService } from '../api/api.service';
 import { TranslateService } from '../translate/translate.service';
 import { DateAdapter } from '@angular/material/core';
@@ -78,7 +76,6 @@ export class ExportComponent implements OnInit {
    * Get the valid dates, displayes an error message if it fails
    */
   getValidDates() {
-    console.log(this.dataFromHomeComponent);
     this.apiService.getValidDates(this.dataFromHomeComponent[0], this.dataFromHomeComponent[1]).subscribe(validDates => this.validDates = validDates, 
       () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""));
   }
@@ -127,7 +124,15 @@ export class ExportComponent implements OnInit {
    */
   openDialog(): void {
     // We need to convert the JSON data to csv
-    var csv_data:string = "Date," + this.data.variable + "\n";
+    var csv_data:string = "Date," + this.translateService.translate(this.data.variable) + "\n";
+    
+    // If the data is cathegorical it can't be represented graphically with
+    // dygraphs, so, an error message is displayed instead.
+    if(isNaN(parseFloat(this.data.data[0].value.toString()))){
+      this.openSnackBar(this.translateService.translate("Use csv to export cathegorical data"), "");
+      return;
+    }
+    
     this.data.data.forEach(datum => {
       csv_data += datum.date.toString() + "," + datum.value.toString() + "\n";
     });

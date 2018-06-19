@@ -283,6 +283,10 @@ export const TRANSLATIONS = [
     {
         en: 'Invalid input, make sure to fill all the fields',
         es: 'Datos erróneos, asegúrese de llenar todos los campos'
+    },
+    {
+        en: 'Use csv to export cathegorical data',
+        es: 'Use csv para exportar datos categóricos'
     },  // Node types
     {
         en: 'Water Quality',
