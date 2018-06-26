@@ -309,6 +309,10 @@ export const TRANSLATIONS = [
         es: 'Agradecimientos especiales'
     },
     {
+        en: 'Thanks to invemar for giving us access to their API.',
+        es: 'Gracias a invemar por darnos acceso a su API.'
+    },
+    {
         en: 'Project',
         es: 'Proyecto'
     },
