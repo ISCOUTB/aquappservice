@@ -10,7 +10,7 @@ import json
 import os
 import bcrypt
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from dateutil import parser as date_parser
 from bson.objectid import ObjectId
 
@@ -72,6 +72,9 @@ class Database:
             'node_id': node_id,
             'variable': variable
         })
+
+        if start_date == end_date:
+            end_date += timedelta(days=1)
 
         return {'node_id': node_id, 'variable': variable, 'data': [
             datum for datum in filter(lambda s: start_date <= s['date'] <= end_date, sensor['data'] if sensor else [])
