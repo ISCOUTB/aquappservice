@@ -268,7 +268,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         if (nt._id == node.node_type_id) {
           acronym = this.translateService.translate(nt.name).toUpperCase().split(' ');
           if (acronym.length == 3)
-            acronym = [acronym[0], acronym[2]]
+            acronym = [acronym[0], acronym[2]];
           nodeType = nt.name;
         }
       });

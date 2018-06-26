@@ -103,7 +103,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   selectLanguage(language) {
-    return this.translateService.selectLanguage(language);
+    this.translateService.selectLanguage(language);
+    this.resetMarkers();
   }
 
   /**
@@ -176,7 +177,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       var nodeType: string;
       this.nodeTypes.forEach(nt => {
         if (nt._id == node.node_type_id) {
-          acronym = nt.name.split(' ');
+          acronym = this.translateService.translate(nt.name).toUpperCase().split(' ');
+          if (acronym.length == 3)
+            acronym = [acronym[0], acronym[2]];
           nodeType = nt.name;
         }
       });
