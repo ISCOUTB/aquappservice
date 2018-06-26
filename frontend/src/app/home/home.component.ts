@@ -73,7 +73,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
    * translate service.
    */
   selectLanguage(language) {
-    return this.translateService.selectLanguage(language);
+    this.translateService.selectLanguage(language);
+    this.resetMarkers(this.selectedNodeType);
   }
 
   /**
@@ -265,7 +266,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
       var nodeType: string;
       this.nodeTypes.forEach(nt => {
         if (nt._id == node.node_type_id) {
-          acronym = nt.name.split(' ');
+          acronym = this.translateService.translate(nt.name).toUpperCase().split(' ');
+          if (acronym.length == 3)
+            acronym = [acronym[0], acronym[2]]
           nodeType = nt.name;
         }
       });
