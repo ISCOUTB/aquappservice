@@ -316,8 +316,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     let dialogRef = this.dialog.open(Dialog, {
       width: '30%',
       height: '30%',
-      minWidth: 300,
-      minHeight: 300
+      minWidth: 240,
+      maxWidth: 240,
+      minHeight: 340,
+      maxHeight: 340
     });
     dialogRef.afterClosed().subscribe(result => {
       this.apiToken = result;
