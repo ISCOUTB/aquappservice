@@ -137,6 +137,10 @@ export class ExportComponent implements OnInit {
       csv_data += datum.date.toString() + "," + datum.value.toString() + "\n";
     });
 
+    var aux: any = {
+      
+    };
+
     this.dialog.open(Dialog, {
       width: '70%',
       height: '70%',
@@ -147,7 +151,18 @@ export class ExportComponent implements OnInit {
         'sensor_data': csv_data,
         'options': {
           'width': 1000,
-          'height': 250
+          'height': 250,
+          'legend': 'always',
+          'axes': {
+            y: {
+              valueFormatter: (v) => {
+                return v + this.dataFromHomeComponent[2];  // controls formatting in the legend/mouseover
+              },
+              axisLabelFormatter: (v) => {
+                return v + this.dataFromHomeComponent[2];  // controls formatting of the y-axis labels
+              }
+            }
+          }
         }
       }
     });

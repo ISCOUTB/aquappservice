@@ -101,12 +101,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
    * export using the export-selector
    */
   openDialog(variable) {
+    var unit;
+
+    this.selectedNodeSensors.forEach(sensor => {
+      if (sensor.variable == variable) {
+        unit = sensor.unit;
+      }
+    });
+
     this.dialog.open(Dialog, {
       width: '30%',
       height: '90%',
       minWidth: 300,
       minHeight: 300,
-      data: [this.selectedNode._id, variable]
+      data: [this.selectedNode._id, variable, unit]
     });
   }
 
