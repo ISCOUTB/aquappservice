@@ -116,10 +116,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
    * @param action The label for the snackbar action that the user 
    * can perform.
    */
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 2000,
-    });
+  openSnackBar(message: string, action: string, obj?: any, f?: string) {
+    if (f !== undefined && obj !== undefined)
+      this.snackBar.open(message, action, {
+        duration: 2000,
+      }).afterDismissed().subscribe((dismissedWithAction) => {
+        if (dismissedWithAction)
+          obj[f]();
+      });
+    else this.snackBar.open(message, action, {duration: 2000});
   }
 
   /**
@@ -349,6 +354,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       },
       () => this.openSnackBar(this.translateService.translate('Failed to create the node, check your connection'), '')
     );
+  }
+
+  confirmDeletion() {
+    this.openSnackBar(this.translateService.translate('Are you sure to delete?'), 'delete', this, "delete");
   }
 
   delete() {
