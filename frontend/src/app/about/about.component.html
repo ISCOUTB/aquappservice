@@ -122,13 +122,18 @@
           <mat-grid-tile><img matTooltip="Git" class="ico"src="/assets/git-icon.svg" alt="Git logo"></mat-grid-tile>
           <mat-grid-tile><img matTooltip="LeafletJS" class="ico-2"src="/assets/leaflet.svg" alt="leaflet logo"></mat-grid-tile>
         </mat-grid-list>
+        <h1>{{ 'Special thanks' | translate }}</h1>
+        <p>
+          {{ "Thanks to invemar for giving us access to their API." | translate }}
+        </p>
+        <a href="http://www.invemar.org.co/inicio"><img src="/assets/logoInvemar.png" alt="Logo invemar"></a>
       </div>
     </mat-tab>
     <mat-tab label="{{ 'Team' | translate }}">
       <div class="tabbed-content">
         <mat-grid-list [cols]="breakpoint" rowHeight="500">
             <mat-grid-tile>
-              <mat-card>
+              <mat-card class="team-member">
                 <mat-card-header>
                     <mat-card-title>Laura Schiatti</mat-card-title>
                     <mat-card-subtitle>{{ 'Developer' | translate }}</mat-card-subtitle>
@@ -137,7 +142,7 @@
               </mat-card>
             </mat-grid-tile>
             <mat-grid-tile>
-              <mat-card>
+              <mat-card class="team-member">
                 <mat-card-header>
                   <mat-card-title>Juan Pablo Rodríguez</mat-card-title>
                   <mat-card-subtitle>{{ 'Developer' | translate }}</mat-card-subtitle>
@@ -146,7 +151,7 @@
               </mat-card>
             </mat-grid-tile>
             <mat-grid-tile>
-              <mat-card>
+              <mat-card class="team-member">
                   <mat-card-header>
                     <mat-card-title>Jairo Serrano</mat-card-title>
                     <mat-card-subtitle>{{ 'Researcher' | translate }}</mat-card-subtitle>
@@ -155,7 +160,7 @@
                 </mat-card>
             </mat-grid-tile>
             <mat-grid-tile>
-              <mat-card>
+              <mat-card class="team-member">
                 <mat-card-header>
                   <mat-card-title>Álvaro González</mat-card-title>
                   <mat-card-subtitle>{{ 'Researcher' | translate }}</mat-card-subtitle>
@@ -164,7 +169,7 @@
               </mat-card>
             </mat-grid-tile>
             <mat-grid-tile>
-              <mat-card>
+              <mat-card class="team-member">
                 <mat-card-header>
                   <mat-card-title>Juan Carlos Martínez</mat-card-title>
                   <mat-card-subtitle>{{ 'Researcher' | translate }}</mat-card-subtitle>

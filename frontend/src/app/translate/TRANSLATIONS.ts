@@ -305,6 +305,10 @@ export const TRANSLATIONS = [
         es: 'Todas'
     },  // About component
     {
+        en: 'Special thanks',
+        es: 'Agradecimientos especiales'
+    },
+    {
         en: 'Project',
         es: 'Proyecto'
     },
