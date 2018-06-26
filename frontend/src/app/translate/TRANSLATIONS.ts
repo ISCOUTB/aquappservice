@@ -454,7 +454,7 @@ export const TRANSLATIONS = [
     },
     {
         en: 'Login',
-        es: 'Iniciar sesión'
+        es: 'Ingresar'
     },
     {
         en: 'Username',
