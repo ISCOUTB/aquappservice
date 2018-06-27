@@ -449,6 +449,10 @@ export const TRANSLATIONS = [
         es: 'Regresar a la página principal'
     },  // Dashboard component
     {
+        en: 'Are you sure you want to delete?',
+        es: '¿Seguro que quieres borrar?'
+    },
+    {
         en: 'Authenticate',
         es: 'Autenticarse'
     },
