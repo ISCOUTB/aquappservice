@@ -41,6 +41,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   newNodeLat: number = 0;
   newNodeLng: number = 0;
 
+  dateFilter: any = (d: Date) => {
+    return d <= new Date();
+  }
+
   /**
    * 
    * @param apiService The api service connects to the backend and brings information

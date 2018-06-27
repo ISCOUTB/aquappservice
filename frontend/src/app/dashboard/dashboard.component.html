@@ -150,17 +150,17 @@
               </mat-form-field>
 
               <mat-form-field class="sensor">
-                <input matInput [(ngModel)]="date" [matDatepicker]="sd" placeholder="{{ 'Date' | translate }}" disabled>
+                <input matInput [matDatepickerFilter]="dateFilter" name="date" [(ngModel)]="date" [matDatepicker]="sd" placeholder="{{ 'Date' | translate }}" disabled>
                 <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
                 <mat-datepicker touchUi="true" #sd startView="year" disabled="false"></mat-datepicker>
               </mat-form-field>
 
               <mat-form-field>
-                <input matInput [(ngModel)]="hour" placeholder="{{ 'Hour (HH:MM:SS)' | translate }}" disabled>
+                <input matInput [(ngModel)]="hour" placeholder="{{ 'Hour (HH:MM:SS)' | translate }}" name="hour">
               </mat-form-field>
 
               <mat-form-field>
-                <input matInput [(ngModel)]="value" placeholder="{{ 'Value' | translate }}" disabled>
+                <input matInput [(ngModel)]="value" placeholder="{{ 'Value' | translate }}" name="value">
               </mat-form-field>
             </form>
           </div>
