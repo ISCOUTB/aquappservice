@@ -121,8 +121,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     if (f !== undefined && obj !== undefined)
       this.snackBar.open(message, action, {
         duration: 2000,
-      }).afterDismissed().subscribe((dismissedWithAction) => {
-        if (dismissedWithAction)
+      }).afterDismissed().subscribe((matDismiss) => {
+        if (matDismiss.dismissedByAction)
           obj[f]();
       });
     else this.snackBar.open(message, action, {duration: 2000});
