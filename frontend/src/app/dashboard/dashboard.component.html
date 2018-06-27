@@ -86,51 +86,87 @@
 
 <div id="mapid"></div>
 <div class="dashmenu">
-  <div *ngIf="selectedNode" class="dashmenu-label">
-    <div class="sensors-container">
-      <div class="sensors">
-        <form>
-          <mat-form-field class="sensor">
-            <input matInput placeholder="{{ 'Name' | translate }}" [(ngModel)]="selectedNode.name" name="name">
-          </mat-form-field>
-          
-          <mat-form-field class="sensor">
-            <input matInput placeholder="{{ 'Location' | translate }}" [(ngModel)]="selectedNode.location" name="loc">
-          </mat-form-field>
-          
-          <mat-form-field class="sensor">
-            <input matInput placeholder="{{ 'Latitude' | translate }}" [(ngModel)]="selectedNode.coordinates[0]" name="lat">
-          </mat-form-field>
-          
-          <mat-form-field class="sensor">
-            <input matInput placeholder="{{ 'Longitude' | translate }}" [(ngModel)]="selectedNode.coordinates[1]" name="long">
-          </mat-form-field>
-
-          <mat-form-field class="sensor">
-            <mat-select placeholder="{{ 'Status' | translate }}" [(value)]="selectedNode.status">
-              <mat-option [value]="'Off'">
-                {{ 'Off' | translate }}
-              </mat-option>
-              <mat-option [value]="'Non Real Time'">
-                {{ 'Non Real Time' | translate }}
-              </mat-option>
-              <mat-option [value]="'Real Time'">
-                {{ 'Real Time' | translate }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          
-          <mat-form-field class="sensor">
-            <mat-select placeholder="{{ 'Node type' | translate }}" [(value)]="selectedNode.node_type_id">
-              <mat-option *ngFor="let nodeType of nodeTypes" [value]="nodeType._id">
-                {{ nodeType.name | translate }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </form>
+  <mat-tab-group *ngIf="selectedNode">
+    <mat-tab label="{{ 'Edit' | translate }}">
+      <div class="dashmenu-label">
+        <div class="sensors-container">
+          <div class="sensors">
+            <form>
+              <mat-form-field class="sensor">
+                <input matInput placeholder="{{ 'Name' | translate }}" [(ngModel)]="selectedNode.name" name="name">
+              </mat-form-field>
+              
+              <mat-form-field class="sensor">
+                <input matInput placeholder="{{ 'Location' | translate }}" [(ngModel)]="selectedNode.location" name="loc">
+              </mat-form-field>
+              
+              <mat-form-field class="sensor">
+                <input matInput placeholder="{{ 'Latitude' | translate }}" [(ngModel)]="selectedNode.coordinates[0]" name="lat">
+              </mat-form-field>
+              
+              <mat-form-field class="sensor">
+                <input matInput placeholder="{{ 'Longitude' | translate }}" [(ngModel)]="selectedNode.coordinates[1]" name="long">
+              </mat-form-field>
+    
+              <mat-form-field class="sensor">
+                <mat-select placeholder="{{ 'Status' | translate }}" [(value)]="selectedNode.status">
+                  <mat-option [value]="'Off'">
+                    {{ 'Off' | translate }}
+                  </mat-option>
+                  <mat-option [value]="'Non Real Time'">
+                    {{ 'Non Real Time' | translate }}
+                  </mat-option>
+                  <mat-option [value]="'Real Time'">
+                    {{ 'Real Time' | translate }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              
+              <mat-form-field class="sensor">
+                <mat-select placeholder="{{ 'Node type' | translate }}" [(value)]="selectedNode.node_type_id">
+                  <mat-option *ngFor="let nodeType of nodeTypes" [value]="nodeType._id">
+                    {{ nodeType.name | translate }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+          </div>
+        </div>
+        <button mat-button class="update-button" (click)="update()">{{ 'Update' | translate }}</button>
+        <button mat-button class="delete-button" (click)="confirmDeletion()">{{ 'Delete' | translate }}</button>
       </div>
-    </div>
-    <button mat-button class="update-button" (click)="update()">{{ 'Update' | translate }}</button>
-    <button mat-button class="delete-button" (click)="confirmDeletion()">{{ 'Delete' | translate }}</button>
-  </div>
+    </mat-tab>
+    <mat-tab label="{{ 'Add data' | translate}}">
+      <div class="dashmenu-label">
+        <div class="sensors-container">
+          <div class="sensors">
+            <form>
+              <mat-form-field class="sensor">
+                <mat-select placeholder="{{ 'Variable' | translate }}" [(value)]="newNodeType">
+                  <mat-option *ngFor="let sensor of selectedNodeSensors" [value]="sensor.variable">
+                    {{ sensor.variable | translate }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="sensor">
+                <input matInput [(ngModel)]="date" [matDatepicker]="sd" placeholder="{{ 'Date' | translate }}" disabled>
+                <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
+                <mat-datepicker touchUi="true" #sd startView="year" disabled="false"></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput [(ngModel)]="hour" placeholder="{{ 'Hour (HH:MM:SS)' | translate }}" disabled>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput [(ngModel)]="value" placeholder="{{ 'Value' | translate }}" disabled>
+              </mat-form-field>
+            </form>
+          </div>
+        </div>
+        <button mat-button class="update-button" (click)="addData()">{{ 'Add data' | translate }}</button>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>

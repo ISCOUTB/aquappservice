@@ -30,6 +30,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   selectedNodeSensors: Sensor[];
   apiToken: string;
 
+  date: Date;
+  value: number;
+  hour: string;
+
   newNodeName: string = "";
   newNodeLocation: string = "";
   newNodeStatus: string = "Off";
