@@ -24,6 +24,9 @@
     right: 10px;
     position: fixed;
     font-size: 12px;
+    height: calc(100% - 250px);
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 ::ng-deep .sensor .mat-select-value-text {
@@ -87,6 +90,7 @@
     overflow: hidden;
     background-color: #007EE5;
     color: white;
+    z-index: 1000;
 }
 
 .dashmenu-label {
