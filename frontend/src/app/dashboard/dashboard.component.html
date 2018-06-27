@@ -59,7 +59,17 @@
     </mat-form-field>
   
     <mat-form-field class="floating-control-field">
-      <input matInput placeholder="{{ 'Status' | translate }}" [(ngModel)]="newNodeStatus" name="new_node_status">
+      <mat-select placeholder="{{ 'Status' | translate }}" [(value)]="newNodeStatus">
+        <mat-option [value]="'Off'">
+          {{ 'Off' | translate }}
+        </mat-option>
+        <mat-option [value]="'Non Real Time'">
+          {{ 'Non Real Time' | translate }}
+        </mat-option>
+        <mat-option [value]="'Real Time'">
+          {{ 'Real Time' | translate }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field class="floating-control-field">
