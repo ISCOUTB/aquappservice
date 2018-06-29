@@ -108,25 +108,32 @@ class Database:
         self.nodes.update_one({'_id': ObjectId(node_id)}, {'$set': {**new_node_data}})
         return True
 
-    def add_sensor_data(self, node_id, variable, data):
+    def add_sensor_data(self, node_id, data):
         node = self.nodes.find_one({'_id': ObjectId(node_id)})
         node_type = self.node_types.find_one({'_id': ObjectId(node['node_type_id'])})
         # If the node doesn't exist, the node type doesn't exist or the variable is not in the
         # list of sensors of the node type, the operation is cancelled.
-        if not node or not node_type or variable not in [sensor['variable'] for sensor in node_type['sensors']]:
+        if not node or not node_type:
             return
-        self.sensor_data.update_one({'node_id': node_id, 'variable': variable}, {
-            '$push': {
-                '$each': {
-                    'data': data
-                }
+
+        data = filter(lambda datum: datum["variable"] in [sensor['variable'] for sensor in node_type['sensors']], data)
+
+        for datum in data:
+            d = {
+                "value": datum["value"],
+                "date": datum["date"]
             }
-        })
+            self.sensor_data.update_one({'node_id': node_id, 'variable': datum["variable"]}, {
+                '$push': {
+                    'data': d
+                }
+            })
 
     def delete_node(self, node_id):
         try:
             self.nodes.find({'_id': ObjectId(node_id)})[0]
             self.nodes.delete_one({'_id': ObjectId(node_id)})
+            self.sensor_data.delete_many({'node_id': node_id})
         except IndexError:
             return False
         return True

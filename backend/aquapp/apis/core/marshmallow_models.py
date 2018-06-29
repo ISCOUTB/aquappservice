@@ -51,6 +51,7 @@ class EditNodeSchema(Schema):
 class DatumSchema(Schema):
     date = fields.DateTime(required=True)
     value = fields.Float(required=True)
+    variable = fields.Str(required=True)
 
 
 # As the NodeSchema, this also converts the id

@@ -37,6 +37,17 @@ class Response {
   TOKEN: string;
 }
 
+class Datum {
+  value: string | number;
+  date: string;
+  variable: string;
+  constructor(value: string | number, date: string, variable: string) {
+    this.value = value;
+    this.date = date;
+    this.variable = variable;
+  }
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -122,6 +133,19 @@ export class ApiService {
       {
         headers: {
           'TOKEN': token
+        }
+      }
+    );
+  }
+
+  addData(token: string, variable: string, date: string, value: number | string, _id: string) {
+    return this.http.post<Response>(
+      this.apiUrl + "/nodes/" + _id + "/add-sensor-data",
+      [new Datum(value, new Date(Date.parse(date)).toISOString(), variable)],
+      {
+        headers: {
+          'Content-Type': 'text/plain',
+          'TOKEN': token,
         }
       }
     );

@@ -142,7 +142,7 @@
           <div class="sensors">
             <form>
               <mat-form-field class="sensor">
-                <mat-select placeholder="{{ 'Variable' | translate }}" [(value)]="newNodeType">
+                <mat-select placeholder="{{ 'Variable' | translate }}" [(value)]="variable">
                   <mat-option *ngFor="let sensor of selectedNodeSensors" [value]="sensor.variable">
                     {{ sensor.variable | translate }}
                   </mat-option>

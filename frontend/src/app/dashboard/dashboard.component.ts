@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   selectedNodeSensors: Sensor[];
   apiToken: string;
 
+  variable: string;
   date: Date;
   value: number;
   hour: string;
@@ -371,6 +372,28 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   confirmDeletion() {
     this.openSnackBar(this.translateService.translate('Are you sure you want to delete?'), this.translateService.translate('delete'), this, "delete");
+  }
+
+  addData() {
+    this.apiService.addData(
+      this.apiToken, 
+      this.variable, 
+      this.date.getFullYear().toString() + "/" + 
+        this.date.getMonth().toString() + "/" + 
+        this.date.getDay().toString() + 
+        " " + 
+        this.hour, 
+      this.value, 
+      this.selectedNode._id).subscribe(
+        () => {
+
+        },
+        () => {
+          this.openSnackBar(this.translateService.translate("Error adding the data, check your connection"), "");
+        },
+        () => {
+          this.openSnackBar(this.translateService.translate("Data added successfully"), "");
+        });
   }
 
   delete() {

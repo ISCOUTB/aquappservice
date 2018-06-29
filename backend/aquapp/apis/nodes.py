@@ -213,9 +213,7 @@ class EditNode(Resource):
         }, 200 if new_node_data else 400  # 200 HTTP code makes more sense since we're not creating a new node
 
 
-@api.route('<string:node_id>/add-sensor-data')
-@api.param('variable', description='Sensor',
-           _in='query', required=True, type='string')
+@api.route('/<string:node_id>/add-sensor-data')
 class AddNodeSensorData(Resource):
     @api.doc(description='Register new meassures of the sensor of a node',
              responses={201: 'Datum created'},
@@ -223,17 +221,17 @@ class AddNodeSensorData(Resource):
     @api.expect([new_datum])
     @token_required
     def post(self, node_id):
-        variable = reqparse.RequestParser().add_argument('variable', type=str, required=True, location='args').parse_args()['variable']
+        # variable = reqparse.RequestParser().add_argument('variable', type=str, required=True, location='args').parse_args()['variable']
         data, errors = DatumSchema(many=True).load(request.get_json(force=True) or {})
         if errors:
             data = [data[i] for i in (set(range(len(data))) - set(errors.keys()))]
-        Database().add_sensor_data(node_id, variable, data)
+        Database().add_sensor_data(node_id, data)
         return {
-                'message': 
-                    ('Data added successfully') if not errors else 
-                        ("Some data could'nt be added due to errors, check error report." 
-                            if data else "Failed to add data, check error report")
-        }, 200 if data else 400
+            'message': 
+                ('Data added successfully') if not errors else 
+                    ("Some data couldn't be added due to errors, check error report." 
+                        if data else "Failed to add data, check error report")
+        , **errors}, 200 if data else 400
 
 
 @api.route('/<string:node_id>/delete')
