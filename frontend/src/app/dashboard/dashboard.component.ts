@@ -379,8 +379,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.apiToken, 
       this.variable, 
       this.date.getFullYear().toString() + "/" + 
-        this.date.getMonth().toString() + "/" + 
-        this.date.getDay().toString() + 
+        (this.date.getMonth() + 1).toString() + "/" + 
+        (this.date.getDay() + 1).toString() + 
         " " + 
         this.hour, 
       this.value, 
