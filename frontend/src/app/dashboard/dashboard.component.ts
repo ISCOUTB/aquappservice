@@ -371,7 +371,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   confirmDeletion() {
-    this.openSnackBar(this.translateService.translate('Are you sure you want to delete?'), this.translateService.translate('delete'), this, "delete");
+    this.openSnackBar(this.translateService.translate('Are you sure you want to delete?'), this.translateService.translate('Delete'), this, "delete");
   }
 
   addData() {

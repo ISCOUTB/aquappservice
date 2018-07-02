@@ -453,6 +453,10 @@ export const TRANSLATIONS = [
         es: '¿Seguro que quieres borrar?'
     },
     {
+        en: 'Delete',
+        es: 'Borrar'
+    },
+    {
         en: 'Authenticate',
         es: 'Autenticarse'
     },
