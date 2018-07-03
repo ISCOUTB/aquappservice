@@ -249,6 +249,10 @@ export const TRANSLATIONS = [
         es: 'Arc. Int'  // TODO find a proper translation
     },  // Export selector
     {
+        en: 'Date',
+        es: 'Fecha'
+    },
+    {
         en: 'Start date',
         es: 'Fecha de inicio'
     },

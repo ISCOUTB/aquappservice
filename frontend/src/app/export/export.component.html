@@ -8,6 +8,44 @@
     <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
     <mat-datepicker touchUi="true" #ed startView="year" [startAt]="endDate" disabled="false"></mat-datepicker>
 </mat-form-field>
+
+<mat-checkbox [(ngModel)]="comparativeGraph">{{ 'Second station' | translate }}</mat-checkbox>
+
+<div *ngIf="comparativeGraph">
+    <div *ngIf="nodes">
+        <form>
+            <mat-form-field>
+                <mat-select placeholder="{{ 'Second Station' | translate }}" [(value)]="secondNodeId">
+                    <mat-option *ngFor="let node of nodes" [value]="node._id">
+                    {{ node.name | translate }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </div>
+    <div *ngIf="secondNodeId">
+        <mat-form-field [ngStyle]="{'display': 'block'}" *ngIf="validDates2">
+            <input matInput [matDatepickerFilter]="filter.dateFilter" [(ngModel)]="startDate2" [matDatepicker]="sd2" placeholder="{{ 'Start date' | translate }}" disabled>
+            <mat-datepicker-toggle matSuffix [for]="sd2"></mat-datepicker-toggle>
+            <mat-datepicker touchUi="true" #sd2 startView="year" [startAt]="startDate2" disabled="false"></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field [ngStyle]="{'display': 'block'}" *ngIf="validDates2">
+            <input matInput [matDatepickerFilter]="filter.dateFilter" [(ngModel)]="endDate2" [matDatepicker]="ed2" placeholder="{{ 'End date' | translate }}" disabled>
+            <mat-datepicker-toggle matSuffix [for]="ed2"></mat-datepicker-toggle>
+            <mat-datepicker touchUi="true" #ed2 startView="year" [startAt]="endDate" disabled="false"></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="sensors">
+            <mat-select placeholder="{{ 'Variable' | translate }}" [(value)]="variable">
+                <mat-option (click)="getValidDates2()" *ngFor="let sensor of sensors" [value]="sensor.variable">
+                    {{ sensor.variable | translate }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+
 <p>{{ 'Format' | translate }}</p>
 <mat-radio-group class="node-type-selector" [(ngModel)]="exportFormat">
     <mat-radio-button

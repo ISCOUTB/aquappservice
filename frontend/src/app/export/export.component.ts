@@ -1,6 +1,9 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { Data } from '../sensor-data';
+import { Node } from '../node';
+import { NodeType } from '../node-type';
+import { Sensor } from '../sensor';
 import { ApiService } from '../api/api.service';
 import { TranslateService } from '../translate/translate.service';
 import { DateAdapter } from '@angular/material/core';
@@ -19,7 +22,28 @@ export class ExportComponent implements OnInit {
   startDate: Date;
   endDate: Date;
 
+  // For the second y-axis, if any
+  startDate2: Date;
+  endDate2: Date;
+
+  // Whether there is a y-axis graph or not
+  comparativeGraph: boolean = false;
+  
+  validDates2: string[];
+
+  data2: Data;
+
   exportFormat: string;  // 'csv' or 'chart'
+
+  sensors: Sensor[];
+  secondNodeId: string;
+  nodes: Node[];
+  nodeTypes: NodeType[];
+  variable: string;
+
+  // TODO: USE UNITS IN CSV
+  unit: string;
+  unit2: string;
 
   /**
    * A list of dates (with granularity of one day) in
@@ -61,7 +85,29 @@ export class ExportComponent implements OnInit {
    * of the application.
    */
   ngOnInit() {
-    this.getValidDates();
+    
+    this.apiService.getNodes().subscribe(nodes => this.nodes = nodes,
+      () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
+      () => {
+        this.apiService.getNodeTypes().subscribe(nodeTypes => this.nodeTypes = nodeTypes,
+          () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
+          () => {
+            this.secondNodeId = this.nodes[0]._id;
+            this.nodeTypes.forEach(nodeType => {
+              if (nodeType._id == this.nodes[0].node_type_id) {
+                this.sensors = nodeType.sensors;
+                return;
+              }
+            });
+
+            this.variable = this.sensors[0].variable;
+            this.getValidDates2(this.secondNodeId, this.variable);
+          }
+        );
+      }
+    );
+
+    this.getValidDates(this.dataFromHomeComponent[0], this.dataFromHomeComponent[1]);
     switch(this.translateService.getCurrentLanguage()) {
       case "en":
         this.adapter.setLocale("en-GB");
@@ -75,8 +121,13 @@ export class ExportComponent implements OnInit {
   /**
    * Get the valid dates, displayes an error message if it fails
    */
-  getValidDates() {
-    this.apiService.getValidDates(this.dataFromHomeComponent[0], this.dataFromHomeComponent[1]).subscribe(validDates => this.validDates = validDates, 
+  getValidDates(_id: string, variable: string) {
+    this.apiService.getValidDates(_id, variable).subscribe(validDates => this.validDates = validDates,
+      () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""));
+  }
+
+  getValidDates2(_id: string, variable: string) {
+    this.apiService.getValidDates(_id, variable).subscribe(validDates => this.validDates2 = validDates,
       () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""));
   }
 
@@ -96,11 +147,29 @@ export class ExportComponent implements OnInit {
       () => this.export());
   }
 
+  getSecondData() {
+    if (this.startDate === undefined || 
+        this.endDate === undefined || 
+        this.exportFormat === undefined) {
+      this.openSnackBar(this.translateService.translate("Invalid input, make sure to fill all the fields"), '')
+      return;
+    }
+
+    this.apiService.getNodeData(this.secondNodeId, this.startDate2, this.endDate2, this.variable).subscribe(data2 => this.data2 = data2, 
+      () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
+      () => this.export2());
+  }
+
   /**
    * Exports the data in csv or as a chart using dygraphs
    * (more info at http://dygraphs.com/)
    */
   export() {
+    if (this.comparativeGraph) {
+      this.getSecondData();
+      return;
+    }
+
     if (this.exportFormat == 'csv') {
       // Convert JSON to csv and download
       var data:string = "";
@@ -114,6 +183,64 @@ export class ExportComponent implements OnInit {
     } else {
       // Open popup
       this.openDialog();
+    }
+  }
+
+  // When there is a second y-axis
+  export2() {
+
+    if (this.exportFormat == 'csv') {
+      // Convert JSON to csv and download
+      // TODO: HEADERS
+      var data:string = "";
+      
+      var dates: Date[] = [];
+
+      this.data.data.forEach(datum => {
+        dates.push(datum.date);
+      });
+
+      this.data2.data.forEach(datum => {
+        var found: boolean = false;
+        dates.forEach(date => {
+          if (datum.date == date) {
+            found = true;
+            return;
+          }
+        });
+        if (!found)
+          dates.push(datum.date);
+      });
+
+      dates.forEach(date => {
+        data += date + ",";
+        var found: boolean = false;
+        this.data.data.forEach(datum => {
+          if (date == datum.date) {
+            found = true;
+            data += datum.value + ",";
+            return;
+          }
+        });
+
+        var found2: boolean = true;
+        this.data2.data.forEach(datum => {
+          if (date == datum.date) {
+            found2 = true;
+            data += (found? "" : "---,") + datum.value + ",";
+            return;
+          }
+        });
+
+        data += (found? "" : "---,") + (found2? "" : "0") + "\n";
+      });
+
+      var blob = new Blob([data], {type: 'text/csv'});
+      var url= window.URL.createObjectURL(blob);
+      window.open(url);
+    } else {
+      // Open popup
+      this.openDialog2();
     }
   }
 
@@ -137,10 +264,6 @@ export class ExportComponent implements OnInit {
       csv_data += datum.date.toString() + "," + datum.value.toString() + "\n";
     });
 
-    var aux: any = {
-      
-    };
-
     this.dialog.open(Dialog, {
       width: '70%',
       height: '70%',
@@ -163,6 +286,137 @@ export class ExportComponent implements OnInit {
               }
             }
           }
+        }
+      }
+    });
+  }
+
+  // When there's a second variable
+  openDialog2(): void {
+    // We need to convert the JSON data to csv
+    var data:string = "Date," + this.translateService.translate(this.data.variable) + "," + this.translateService.translate(this.data2.variable) + "\n";
+    
+    // If the data is cathegorical it can't be represented graphically with
+    // dygraphs, so, an error message is displayed instead.
+    if(isNaN(parseFloat(this.data.data[0].value.toString()))){
+      this.openSnackBar(this.translateService.translate("Use csv to export cathegorical data"), "");
+      return;
+    }
+    
+    var data:string = "";
+    
+    var dates: Date[] = [];
+
+    this.data.data.forEach(datum => {
+      dates.push(datum.date);
+    });
+
+    this.data2.data.forEach(datum => {
+      var found: boolean = false;
+      dates.forEach(date => {
+        if (datum.date == date) {
+          found = true;
+          return;
+        }
+      });
+      if (!found)
+        dates.push(datum.date);
+    });
+
+    dates.forEach(date => {
+      data += date + ",";
+
+      var found: boolean = false;
+      this.data.data.forEach(datum => {
+        if (date == datum.date) {
+          found = true;
+          data += datum.value + ",";
+          return;
+        }
+      });
+
+      var found2: boolean = false;
+      
+      this.data2.data.forEach(datum => {
+        if (date == datum.date) {
+          found2 = true;
+          data += (found? "" : "0,") + datum.value;
+          return;
+        }
+      });
+
+      data += ((!found && !found2)? "0,0" : (!found2? "0" : "")) + "\n";
+    });
+
+    this.unit2 = "";
+    var node2: string;
+    
+    this.nodes.forEach(node => {
+      if (node._id == this.secondNodeId) {
+        node2 = node.name;
+        this.nodeTypes.forEach(nodeType => {
+          if (nodeType._id == node.node_type_id) {
+            nodeType.sensors.forEach(sensor => {
+              if (sensor.variable == this.variable) {
+                this.unit2 = sensor.unit;
+                return;
+              }
+            });
+          }
+        });
+        return;
+      }
+    });
+
+    var node1: string;
+    this.nodes.forEach(node => {
+      if (node._id == this.dataFromHomeComponent[0]) {
+        node1 = node.name;
+      }
+    });
+    
+    this.dialog.open(Dialog, {
+      width: '70%',
+      height: '70%',
+      minHeight: "300px",
+      data: {
+        'node_id': this.dataFromHomeComponent[0], 
+        'variable': this.dataFromHomeComponent[1],
+        'sensor_data': data,
+        'options': {
+          'width': 1000,
+          'height': 250,
+          'legend': 'always',
+          'axes': {
+            x: {
+                axisLabelFormatter: function (x) {
+                    var aux = new Date(x);
+                    return aux.toDateString();
+                },
+                valueFormatter: function (y) {
+                    var aux = new Date(y); 
+                    return aux.toISOString(); //Hide legend label
+                }
+            },
+            y: {
+              valueFormatter: (v) => {
+                return v + this.dataFromHomeComponent[2];  // controls formatting in the legend/mouseover
+              },
+              axisLabelFormatter: (v) => {
+                return v + this.dataFromHomeComponent[2];  // controls formatting of the y-axis labels
+              }
+            },
+            y2: {
+              valueFormatter: (v) => {
+                return v + this.unit2;  // controls formatting in the legend/mouseover
+              },
+              axisLabelFormatter: (v) => {
+                return v + this.unit2;  // controls formatting of the y-axis labels
+              }
+            }
+          },
+          labels: ["Date", node1, node2],
+          colors: ["#007ee5ff", "#0028c0ff"]
         }
       }
     });
@@ -192,6 +446,22 @@ export class ExportComponent implements OnInit {
       var date_as_string: string = (d.getMonth() + 1).toString() + "/" + d.getDate().toString() + "/" + d.getFullYear().toString();
       var result = false;
       this.validDates.forEach(valid_date => {
+        if (valid_date == date_as_string) {
+          result = true;
+          return;
+        }
+      });
+
+      return result;
+    }
+  }
+
+  filter2 = {
+    'validDates': this.validDates2,
+    'dateFilter': (d: Date): boolean => {
+      var date_as_string: string = (d.getMonth() + 1).toString() + "/" + d.getDate().toString() + "/" + d.getFullYear().toString();
+      var result = false;
+      this.validDates2.forEach(valid_date => {
         if (valid_date == date_as_string) {
           result = true;
           return;
