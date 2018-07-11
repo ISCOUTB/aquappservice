@@ -1,5 +1,13 @@
+class Icam {
+    date: Date;
+    icampff_avg: number;
+    icampffs: number[];
+    nodes: string[];
+}
+
 export class WaterBodyProperty {
     type: string;
-    icam: number;
     name:string;
+    icamfs: Icam[];
+    icam: number;
 }

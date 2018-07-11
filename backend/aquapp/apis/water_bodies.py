@@ -86,17 +86,17 @@ class WaterBodyICAMpff(Resource):
              responses={200: 'Icampff value as an integer',
                         404: 'Node type not found'})
     def get(self, water_body_id):
-        def icampff(node_id):
+        def icampff(node_id, date):
             sd = date_parser.parse("2016-01-01 00:00:00")
             d = [
-                Database().get_sensor_data(node_id, "Dissolved Oxygen (DO)", start_date=sd, end_date=datetime.utcnow()),
-                Database().get_sensor_data(node_id, "Nitrate (NO3)", start_date=sd, end_date=datetime.utcnow()),
-                Database().get_sensor_data(node_id, "Total Suspended Solids (TSS)", start_date=sd, end_date=datetime.utcnow()),
-                Database().get_sensor_data(node_id, "Thermotolerant Coliforms", start_date=sd, end_date=datetime.utcnow()),
-                Database().get_sensor_data(node_id, "pH", start_date=sd, end_date=datetime.utcnow()),
-                Database().get_sensor_data(node_id, "Phosphates (PO4)", start_date=sd, end_date=datetime.utcnow()),
-                Database().get_sensor_data(node_id, "Biochemical Oxygen Demand (BOD)", start_date=sd, end_date=datetime.utcnow()),
-                Database().get_sensor_data(node_id, "Chrolophyll A (CLA)", start_date=sd, end_date=datetime.utcnow())
+                Database().get_sensor_data(node_id, "Dissolved Oxygen (DO)", start_date=sd, end_date=date),
+                Database().get_sensor_data(node_id, "Nitrate (NO3)", start_date=sd, end_date=date),
+                Database().get_sensor_data(node_id, "Total Suspended Solids (TSS)", start_date=sd, end_date=date),
+                Database().get_sensor_data(node_id, "Thermotolerant Coliforms", start_date=sd, end_date=date),
+                Database().get_sensor_data(node_id, "pH", start_date=sd, end_date=date),
+                Database().get_sensor_data(node_id, "Phosphates (PO4)", start_date=sd, end_date=date),
+                Database().get_sensor_data(node_id, "Biochemical Oxygen Demand (BOD)", start_date=sd, end_date=date),
+                Database().get_sensor_data(node_id, "Chrolophyll A (CLA)", start_date=sd, end_date=date)
             ]
             # This two lines ensure that only the last meassurements are taken into account.
             last_date = max([(obj['data'][-1]['date'] if len(obj['data']) else date_parser.parse("1900-01-01 00:00:00")) for obj in d]) 
@@ -130,8 +130,45 @@ class WaterBodyICAMpff(Resource):
             Database().set_icampff_cache(water_body_id, node_id, new_hash, new_icampff)
             return new_icampff
         
-        ics = [icampff(nid) for nid in Database().get_water_body_nodes(water_body_id)]
-        return round(sum(ics) / len(ics)) if ics else 0
+        icampff_values = []
+
+        try:
+            for node in Database().get_water_body_nodes(water_body_id):
+                for variable in ["Dissolved Oxygen (DO)", "Nitrate (NO3)", "Total Suspended Solids (TSS)", "Thermotolerant Coliforms", "pH", "Phosphates (PO4)", "Biochemical Oxygen Demand (BOD)", "Chrolophyll A (CLA)"]:
+                    found = False
+                    
+                    for datum in Database().get_sensor_data(node, variable, start_date=date_parser.parse("2016-01-01 00:00:00"), end_date=datetime.now())["data"]:
+                        found = True
+                        for i in range(len(icampff_values)):
+                            if icampff_values[i]["date"] == str(datum["date"]):
+                                if node not in icampff_values[i]["nodes"]:
+                                    icampff_values[i]["nodes"].append(node)
+                                    icampff_values[i]["icampffs"].append(icampff(node, datum["date"]))
+                                    icampff_values[i]["icampff_avg"] = sum(icampff_values[i]["icampffs"]) / float(len(icampff_values[i]["icampffs"]))
+                                break
+                        else:
+                            ic = icampff(node, datum["date"])
+                            icampff_values.append({
+                                "date": str(datum["date"]),
+                                "nodes": [node],
+                                "icampffs": [ic],
+                                "icampff_avg": ic
+                            })
+                    
+                    if found:
+                        break
+        
+        except StopIteration:
+            return {"message": "water body not found"}, 400
+
+        return icampff_values if icampff_values else [
+            {
+                "date": str(datetime.now()),
+                "nodes": [],
+                "icampffs": [0],
+                "icampff_avg": 0
+            }
+        ]
 
 
 @api.route('/<string:water_body_id>/add-node')

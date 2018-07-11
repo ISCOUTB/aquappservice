@@ -32,6 +32,13 @@ class EditNode {
   }
 }
 
+class Icam {
+  date: Date;
+  icampff_avg: number;
+  icampffs: number[];
+  nodes: string[];
+}
+
 class Response {
   message: string;
   TOKEN: string;
@@ -85,8 +92,8 @@ export class ApiService {
     });
   }
 
-  getICAMPff(waterBodyId): Observable<number> {
-    return this.http.get<number>(this.apiUrl + "/water-bodies/" + waterBodyId + "/icampff");
+  getICAMPff(waterBodyId): Observable<Icam[]> {
+    return this.http.get<Icam[]>(this.apiUrl + "/water-bodies/" + waterBodyId + "/icampff");
   }
 
   login(username: string, password: string): Observable<Response> {

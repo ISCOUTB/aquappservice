@@ -47,6 +47,7 @@
         <div *ngIf="selectedWaterBody">
           <p><b>{{ selectedWaterBody.properties.name }}</b></p>
           <p>ICAMpff: &nbsp; &nbsp; &nbsp;<b [ngStyle]="{'font-size': '16px'}">{{ selectedWaterBody.properties.icam }}</b></p>
+          <p>Date: {{ selectedWaterBody.selectedDate }}</p>
         </div>
         <mat-divider *ngIf="selectedWaterBody"></mat-divider>
         <div><p><b>{{ 'ICAMpff (estuary) values' | translate }}</b></p></div>
@@ -63,9 +64,18 @@
         <span></span>
       </button>
       <mat-menu #filterMenu="matMenu">
-        <button mat-menu-item *ngFor="let nodeType of nodeTypes" (click)="resetMarkers(nodeType.name)">{{ nodeType.name | translate }}</button>
-        <button mat-menu-item (click)="resetMarkers('All')">{{ 'All' | translate}}</button>
-      </mat-menu>  
+        <button mat-menu-item *ngFor="let nodeType of nodeTypes" (click)="drawWaterBodies(nodeType.name)">{{ nodeType.name | translate }}</button>
+        <button mat-menu-item (click)="drawWaterBodies('All')">{{ 'All' | translate}}</button>
+      </mat-menu>
+
+      <mat-select placeholder="{{ 'Dates' | translate }}" [(value)]="selectedDate" class="leaflet-control floating-menu-element">
+        <mat-option *ngFor="let d of icamDates" [value]="d">
+          {{ d }}
+        </mat-option>
+        <mat-option [value]="latest">
+          {{ 'Latest' | translate }}
+        </mat-option>
+      </mat-select>
     </div>
     <div class="leaflet-bottom leaflet-right">
     </div>

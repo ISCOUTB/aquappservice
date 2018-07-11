@@ -32,11 +32,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
     The type has to be any because the geoJSON function only accepts
     this kind of object
   */
-  waterBodies: any;
+  waterBodies: WaterBody[];
   
-  mapReady: boolean = false;  // whether the map is ready for putting the markers on it or not 
   selectedNode: Node;  // The node selected by the user
   selectedNodeSensors: Sensor[];  // The sensors of the node selected by the user
+  selectedDate: string = "latest";
+  placedWQNodes: string[];
+  icamDates: string[] = [];
   
   // The data that will be passed to the home component component [node_id, variable]
   data: string[] = ["node_id", "variable"];
@@ -74,7 +76,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
    */
   selectLanguage(language) {
     this.translateService.selectLanguage(language);
-    this.resetMarkers(this.selectedNodeType);
+    this.drawWaterBodies(this.selectedNodeType);
   }
 
   /**
@@ -160,14 +162,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
   getWaterBodies() {
     this.apiService.getWaterBodies().subscribe(waterBodies => this.waterBodies = waterBodies,
                                                () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
-                                               () => this.drawWaterBodies())
+                                               () => this.drawWaterBodies(this.selectedNodeType))
   }
 
   /**
    * This fuction draws the water bodies into the map, but it also gives them
    * color, style and selectable behavior.
    */
-  drawWaterBodies() {
+  drawWaterBodies(type) {
+    this.selectedNodeType = type;
     /**
      * Returns a color depending of the value of the icampff provided.
      * 
@@ -187,55 +190,220 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * we set the style, highlight and clik events for that water body
      * and then add it to the map.
      */
+    this.placedWQNodes = [];
+    this.resetMarkers(this.selectedNodeType);
+    this.icamDates = [];
+
     this.waterBodies.forEach(waterBody => {
-      this.apiService.getICAMPff(waterBody._id).subscribe(icam => waterBody.properties.icam = icam, 
-                                () => console.log("failed to get the ICAMpff value for ", waterBody._id),
-                                () => {
-                                  var highlight = (e) => {
-                                    this.selectedWaterBody = waterBody;
-                                    e.target.setStyle({
-                                      weight: 2,
-                                      opacity: 1,
-                                      color: 'grey',
-                                      dashArray: '',
-                                      fillOpacity: 1
-                                    });
-                                  }
+      this.apiService.getICAMPff(waterBody._id).subscribe(
+        icamfs => waterBody.properties.icamfs = icamfs, 
+        () => console.log("failed to get the ICAMpff value for ", waterBody._id),
+        () => {
+          // Icam dates
+          waterBody.properties.icamfs.forEach(icam => {
+            var found: boolean = false;
 
-                                  var resetHightlight = (e) => {
-                                    e.target.setStyle({
-                                      weight: 2,
-                                      opacity: 1,
-                                      dashArray: '',
-                                      fillOpacity: 1,
-                                      color: getColor(e.target.feature.properties.icam)
-                                    });
-                                  }
+            this.icamDates.forEach(icd => {
+              if (icd == ((new Date(icam.date)).toISOString())) {
+                found = true;
+                return;
+              }
+            });
 
-                                  var onEachFeature = (feature, layer) => {
-                                    layer.on({
-                                      mouseover: highlight,
-                                      mouseout: resetHightlight
-                                    });
-                                  }
+            if (!found)
+              this.icamDates.push((new Date(icam.date)).toISOString());
+          });
 
-                                  var wb = geoJSON(waterBody, {
-                                    style: (feature) => {
-                                      return {
-                                        weight: 2,
-                                        opacity: 1,
-                                        dashArray: '',
-                                        fillOpacity: 1,
-                                        color: getColor(feature.properties.icam)
-                                      };
-                                    },
-                                    onEachFeature: onEachFeature
-                                  });
+          this.icamDates.sort((a: string, b: string) => {
+            return (new Date(b)).getTime() - (new Date(a)).getTime();
+          });
 
-                                  wb.addTo(this.map);
-                                })
+          var highlight = (e) => {
+            this.selectedWaterBody = waterBody;
+            e.target.setStyle({
+              weight: 2,
+              opacity: 1,
+              color: 'grey',
+              dashArray: '',
+              fillOpacity: 1
+            });
+          }
+
+          var resetHightlight = (e) => {
+            e.target.setStyle({
+              weight: 2,
+              opacity: 1,
+              dashArray: '',
+              fillOpacity: 1,
+              color: getColor(e.target.feature.properties.icam)
+            });
+          }
+
+          var onEachFeature = (feature, layer) => {
+            layer.on({
+              mouseover: highlight,
+              mouseout: resetHightlight
+            });
+          }
+
+          var geojson: any = {
+            type: waterBody.type,
+            properties: waterBody.properties,
+            geometry: waterBody.geometry
+          }
+
+          var found: boolean = false;
+
+          if (this.selectedDate == "latest") {
+              waterBody.properties.icamfs[waterBody.properties.icamfs.length - 1].nodes.forEach(nid => {
+              waterBody.selectedDate = (new Date(waterBody.properties.icamfs[waterBody.properties.icamfs.length - 1].date)).toISOString();
+              var already_placed = false;
+
+              this.placedWQNodes.forEach(nd => {
+                if (nd == nid) {
+                  already_placed = true;
+                  return;
+                }
+              });
+
+              if (already_placed)
+                return;
+              
+              var n: Node;
+      
+              this.nodes.forEach(nd => {
+                if (nid == nd._id) {
+                  n = nd;
+                  return;
+                }
+              });
+
+              var ico_url: string;
+              switch (n.status) {
+                case 'Real Time':
+                  ico_url = 'assets/glyph-marker-icon-green.png';
+                  break;
+                case 'Non Real Time':
+                  ico_url = 'assets/glyph-marker-icon-blue.png';
+                  break;
+                case 'Off':
+                  ico_url = 'assets/glyph-marker-icon-gray.png';
+                  break;
+                default:
+                  ico_url = 'assets/glyph-marker-icon-gray.png';
+                  break;
+              }
+  
+              var ico = glyphIcon({
+                className: 'xolonium',
+                glyph: this.translateService.getCurrentLanguage() == "en" ? "WQ":"CA",
+                iconUrl: ico_url
+              });
+              var marker = new Marker([n.coordinates[0], n.coordinates[1]], {title: n.name, icon: ico});
+              
+              marker.on('click', () => {
+                this.selectedNode = n;
+                this.nodeTypes.forEach(nodeType => {
+                  if (nodeType._id == n.node_type_id)
+                    this.selectedNodeSensors = nodeType.sensors
+                });
+              });
+              
+              marker.addTo(this.map);
+              this.markers.push(marker);
+              this.placedWQNodes.push(nid);
+            });
+            
+            
+          } else {
+            var d: Date = new Date(this.selectedDate);
+            waterBody.properties.icamfs.forEach(i => {
+              if ((new Date(i.date)) >= d) {
+                geojson.properties.icam = i.icampff_avg;
+                found = true;
+                if ("Water Quality" == this.selectedNodeType || this.selectedNodeType == 'All')
+                  i.nodes.forEach(node => {
+                    var already_placed: boolean = false;
+                    
+                    this.placedWQNodes.forEach(nd => {
+                      if (nd == node) {
+                        already_placed = true;
+                        return;
+                      }
+                    });
+
+                    if (already_placed)
+                      return;
+        
+                    var n: Node;
+        
+                    this.nodes.forEach(nd => {
+                      if (node == nd._id) {
+                        n = nd;
+                        return;
+                      }
+                    });
+  
+                    var ico_url: string;
+                    switch (n.status) {
+                      case 'Real Time':
+                        ico_url = 'assets/glyph-marker-icon-green.png';
+                        break;
+                      case 'Non Real Time':
+                        ico_url = 'assets/glyph-marker-icon-blue.png';
+                        break;
+                      case 'Off':
+                        ico_url = 'assets/glyph-marker-icon-gray.png';
+                        break;
+                      default:
+                        ico_url = 'assets/glyph-marker-icon-gray.png';
+                        break;
+                    }
+        
+                    var ico = glyphIcon({
+                      className: 'xolonium',
+                      glyph: this.translateService.getCurrentLanguage() == "en" ? "WQ":"CA",
+                      iconUrl: ico_url
+                    });
+                    var marker = new Marker([n.coordinates[0], n.coordinates[1]], {title: n.name, icon: ico});
+                    
+                    marker.on('click', () => {
+                      this.selectedNode = n;
+                      this.nodeTypes.forEach(nodeType => {
+                        if (nodeType._id == n.node_type_id)
+                          this.selectedNodeSensors = nodeType.sensors
+                      });
+                    });
+                    
+                    marker.addTo(this.map);
+                    this.markers.push(marker);
+                    this.placedWQNodes.push(node);
+                  });
+  
+                return;
+              }
+            });
+          }
+          
+
+          geojson.properties.icam = found? geojson.properties.icam : (this.selectedDate == "latest" ? waterBody.properties.icamfs[waterBody.properties.icamfs.length - 1].icampff_avg: 0);
+
+          var wb = geoJSON(geojson, {
+            style: (feature) => {
+              return {
+                weight: 2,
+                opacity: 1,
+                dashArray: '',
+                fillOpacity: 1,
+                color: getColor(feature.properties.icam)
+              };
+            },
+            onEachFeature: onEachFeature
+          });
+
+          wb.addTo(this.map);
+        });
     });
-    this.mapReady = true;
   }
 
   /**
@@ -258,7 +426,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   getNodeTypes() {
     this.apiService.getNodeTypes().subscribe(nodeTypes => this.nodeTypes = nodeTypes,
                                              () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
-                                             () => this.setMarkers());
+                                             () => this.getWaterBodies());
   }
 
   /**
@@ -266,8 +434,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
    * for each node using their coordinates.
    */
   setMarkers() {
-    if (!this.mapReady)
-      this.getWaterBodies();
     this.nodes.forEach(node => {
       // The text that is dispayed in the marker (WQ for the Water Quality nodes)
       var acronym: string[] = ["E", "E"];
@@ -303,7 +469,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       });
       
       var marker = new Marker([node.coordinates[0], node.coordinates[1]], {title: node.name, icon: ico});
-      if (nodeType == this.selectedNodeType || this.selectedNodeType == 'All') {
+      if ((nodeType == this.selectedNodeType || this.selectedNodeType == 'All') && nodeType !== "Water Quality") {
         marker.on('click', () => {
           this.selectedNode = node;
           this.nodeTypes.forEach(nodeType => {

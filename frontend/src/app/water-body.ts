@@ -7,4 +7,5 @@ export class WaterBody {
     type: string;
     properties: WaterBodyProperty;
     geometry: WaterBodyGeometry;
+    selectedDate: string;
 }
