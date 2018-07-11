@@ -215,7 +215,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           });
 
           this.icamDates.sort((a: string, b: string) => {
-            return (new Date(b)).getTime() - (new Date(a)).getTime();
+            return (new Date(a)).getTime() - (new Date(b)).getTime();
           });
 
           var highlight = (e) => {
@@ -254,9 +254,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
           var found: boolean = false;
 
+          var index: number = 0;
+          var latestDateIndex: number = 0;
+          var latestDate: Date = new Date("1/1/1900");
           if (this.selectedDate == "latest") {
-              waterBody.properties.icamfs[waterBody.properties.icamfs.length - 1].nodes.forEach(nid => {
-              waterBody.selectedDate = (new Date(waterBody.properties.icamfs[waterBody.properties.icamfs.length - 1].date)).toISOString();
+            waterBody.properties.icamfs.forEach(i => {
+              if (latestDate < (new Date(i.date))) {
+                latestDate = new Date(i.date);
+                latestDateIndex = index;
+              }
+              index++;
+            });
+
+            waterBody.properties.icamfs[latestDateIndex].nodes.forEach(nid => {
+              waterBody.selectedDate = (new Date(waterBody.properties.icamfs[latestDateIndex].date)).toISOString();
               var already_placed = false;
 
               this.placedWQNodes.forEach(nd => {
@@ -386,7 +397,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           }
           
 
-          geojson.properties.icam = found? geojson.properties.icam : (this.selectedDate == "latest" ? waterBody.properties.icamfs[waterBody.properties.icamfs.length - 1].icampff_avg: 0);
+          geojson.properties.icam = found? geojson.properties.icam : (this.selectedDate == "latest" ? waterBody.properties.icamfs[latestDateIndex].icampff_avg: 0);
 
           var wb = geoJSON(geojson, {
             style: (feature) => {

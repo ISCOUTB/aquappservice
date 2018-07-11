@@ -71,8 +71,7 @@ class WaterBodyNodes(Resource):
              responses={200: ('Node collection', [node]),
                         404: 'Node type not found'})
     def get(self, water_body_id):
-        return [{**wb, '_id': str(wb['_id'])}
-                for wb in Database().get_water_body_nodes(water_body_id)]
+        return Database().get_water_body_nodes(water_body_id)
 
 
 @api.route('/<string:water_body_id>/icampff')
@@ -87,7 +86,7 @@ class WaterBodyICAMpff(Resource):
                         404: 'Node type not found'})
     def get(self, water_body_id):
         def icampff(node_id, date):
-            sd = date_parser.parse("2016-01-01 00:00:00")
+            sd = date_parser.parse("1900-01-01 00:00:00")
             d = [
                 Database().get_sensor_data(node_id, "Dissolved Oxygen (DO)", start_date=sd, end_date=date),
                 Database().get_sensor_data(node_id, "Nitrate (NO3)", start_date=sd, end_date=date),
@@ -137,7 +136,7 @@ class WaterBodyICAMpff(Resource):
                 for variable in ["Dissolved Oxygen (DO)", "Nitrate (NO3)", "Total Suspended Solids (TSS)", "Thermotolerant Coliforms", "pH", "Phosphates (PO4)", "Biochemical Oxygen Demand (BOD)", "Chrolophyll A (CLA)"]:
                     found = False
                     
-                    for datum in Database().get_sensor_data(node, variable, start_date=date_parser.parse("2016-01-01 00:00:00"), end_date=datetime.now())["data"]:
+                    for datum in Database().get_sensor_data(node, variable, start_date=date_parser.parse("1900-01-01 00:00:00"), end_date=datetime.now())["data"]:
                         found = True
                         for i in range(len(icampff_values)):
                             if icampff_values[i]["date"] == str(datum["date"]):

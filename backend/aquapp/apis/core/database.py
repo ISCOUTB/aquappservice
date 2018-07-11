@@ -110,10 +110,12 @@ class Database:
 
     def add_sensor_data(self, node_id, data):
         node = self.nodes.find_one({'_id': ObjectId(node_id)})
+        if not node:
+            return
+    
         node_type = self.node_types.find_one({'_id': ObjectId(node['node_type_id'])})
-        # If the node doesn't exist, the node type doesn't exist or the variable is not in the
-        # list of sensors of the node type, the operation is cancelled.
-        if not node or not node_type:
+        
+        if not node_type:
             return
 
         data = filter(lambda datum: datum["variable"] in [sensor['variable'] for sensor in node_type['sensors']], data)

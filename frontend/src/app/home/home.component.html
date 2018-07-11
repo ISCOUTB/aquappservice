@@ -69,10 +69,10 @@
       </mat-menu>
 
       <mat-select placeholder="{{ 'Dates' | translate }}" [(value)]="selectedDate" class="leaflet-control floating-menu-element">
-        <mat-option *ngFor="let d of icamDates" [value]="d">
+        <mat-option (click)="drawWaterBodies(selectedNodeType)" *ngFor="let d of icamDates" [value]="d">
           {{ d }}
         </mat-option>
-        <mat-option [value]="latest">
+        <mat-option (click)="drawWaterBodies(selectedNodeType)" [value]="latest">
           {{ 'Latest' | translate }}
         </mat-option>
       </mat-select>
