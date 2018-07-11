@@ -35,6 +35,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   value: number;
   hour: string;
 
+  selectedDate: string = "latest";
+  placedWQNodes: string[];
+  icamDates: string[] = [];
+
   newNodeName: string = "";
   newNodeLocation: string = "";
   newNodeStatus: string = "Off";
@@ -263,55 +267,85 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * we set the style, highlight and clik events for that water body
      * and then add it to the map.
      */
+
     this.waterBodies.forEach(waterBody => {
-      this.apiService.getICAMPff(waterBody._id).subscribe(icam => waterBody.properties.icam = icam, 
-                                () => console.log("failed to get the ICAMpff value for ", waterBody._id),
-                                () => {
-                                  var highlight = (e) => {
-                                    this.selectedWaterBody = waterBody;
-                                    e.target.setStyle({
-                                      weight: 2,
-                                      opacity: 1,
-                                      color: 'grey',
-                                      dashArray: '',
-                                      fillOpacity: 1
-                                    });
-                                  }
+      this.apiService.getICAMPff(waterBody._id).subscribe(
+        icamfs => waterBody.properties.icamfs = icamfs, 
+        () => console.log("failed to get the ICAMpff value for ", waterBody._id),
+        () => {
+          // Icam dates
+          waterBody.properties.icamfs.forEach(icam => {
+            var found: boolean = false;
 
-                                  var resetHightlight = (e) => {
-                                    e.target.setStyle({
-                                      weight: 2,
-                                      opacity: 1,
-                                      dashArray: '',
-                                      fillOpacity: 1,
-                                      color: getColor(e.target.feature.properties.icam)
-                                    });
-                                  }
+            this.icamDates.forEach(icd => {
+              if (icd == ((new Date(icam.date)).toISOString())) {
+                found = true;
+                return;
+              }
+            });
 
-                                  var onEachFeature = (feature, layer) => {
-                                    layer.on({
-                                      mouseover: highlight,
-                                      mouseout: resetHightlight
-                                    });
-                                  }
+            if (!found)
+              this.icamDates.push((new Date(icam.date)).toISOString());
+          });
 
-                                  var wb = geoJSON(waterBody, {
-                                    style: (feature) => {
-                                      return {
-                                        weight: 2,
-                                        opacity: 1,
-                                        dashArray: '',
-                                        fillOpacity: 1,
-                                        color: getColor(feature.properties.icam)
-                                      };
-                                    },
-                                    onEachFeature: onEachFeature
-                                  });
+          this.icamDates.sort((a: string, b: string) => {
+            return (new Date(b)).getTime() - (new Date(a)).getTime();
+          });
 
-                                  wb.addTo(this.map);
-                                })
+          var highlight = (e) => {
+            this.selectedWaterBody = waterBody;
+            e.target.setStyle({
+              weight: 2,
+              opacity: 1,
+              color: 'grey',
+              dashArray: '',
+              fillOpacity: 1
+            });
+          }
+
+          var resetHightlight = (e) => {
+            e.target.setStyle({
+              weight: 2,
+              opacity: 1,
+              dashArray: '',
+              fillOpacity: 1,
+              color: getColor(e.target.feature.properties.icam)
+            });
+          }
+
+          var onEachFeature = (feature, layer) => {
+            layer.on({
+              mouseover: highlight,
+              mouseout: resetHightlight
+            });
+          }
+
+          var geojson: any = {
+            type: waterBody.type,
+            properties: waterBody.properties,
+            geometry: waterBody.geometry
+          }
+
+          var found: boolean = false;
+
+          geojson.properties.icam = found? geojson.properties.icam : (this.selectedDate == "latest" ? waterBody.properties.icamfs[waterBody.properties.icamfs.length - 1].icampff_avg: 0);
+
+          var wb = geoJSON(geojson, {
+            style: (feature) => {
+              return {
+                weight: 2,
+                opacity: 1,
+                dashArray: '',
+                fillOpacity: 1,
+                color: getColor(feature.properties.icam)
+              };
+            },
+            onEachFeature: onEachFeature
+          });
+
+          wb.addTo(this.map);
+        });
     });
-    this.mapReady = true;
   }
 
   /**
