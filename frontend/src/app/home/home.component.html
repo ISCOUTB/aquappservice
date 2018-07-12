@@ -72,9 +72,6 @@
         <mat-option (click)="drawWaterBodies(selectedNodeType)" *ngFor="let d of icamDates" [value]="d">
           {{ d }}
         </mat-option>
-        <mat-option (click)="drawWaterBodies(selectedNodeType)" [value]="latest">
-          {{ 'Latest' | translate }}
-        </mat-option>
       </mat-select>
     </div>
     <div class="leaflet-bottom leaflet-right">

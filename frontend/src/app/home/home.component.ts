@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   
   selectedNode: Node;  // The node selected by the user
   selectedNodeSensors: Sensor[];  // The sensors of the node selected by the user
-  selectedDate: string = "latest";
+  selectedDate: string = (new Date()).toISOString();
   placedWQNodes: string[];
   icamDates: string[] = [];
   
@@ -252,26 +252,39 @@ export class HomeComponent implements OnInit, AfterViewInit {
             geometry: waterBody.geometry
           }
 
-          var found: boolean = false;
-
+          /**
+           * USE THIS VARIABLES WHEN THE SELECTED DATE IS NOT THE LATEST AND
+           * NONE OF THE DATES MATCH WITH THE SELECTED ONE.
+           */
           var index: number = 0;
           var latestDateIndex: number = 0;
           var latestDate: Date = new Date("1/1/1900");
-          if (this.selectedDate == "latest") {
-            waterBody.properties.icamfs.forEach(i => {
-              if (latestDate < (new Date(i.date))) {
-                latestDate = new Date(i.date);
-                latestDateIndex = index;
-              }
-              index++;
-            });
+          
+          waterBody.properties.icamfs.forEach(i => {
+            if (latestDate < (new Date(i.date))) {
+              latestDate = new Date(i.date);
+              latestDateIndex = index;
+            }
+            index++;
+          });
 
-            waterBody.properties.icamfs[latestDateIndex].nodes.forEach(nid => {
-              waterBody.selectedDate = (new Date(waterBody.properties.icamfs[latestDateIndex].date)).toISOString();
-              var already_placed = false;
+          index = 0;
+          waterBody.properties.icamfs.forEach(i => {
+            if ((new Date(i.date)).toISOString() == this.selectedDate) {
+              geojson.properties.icam = i.icampff_avg;
+              latestDateIndex = index;
+              waterBody.selectedDate = (new Date(i.date)).toISOString();
+              return;
+            }
+            index++;
+          });
 
+          if ("Water Quality" == this.selectedNodeType || this.selectedNodeType == 'All')
+            waterBody.properties.icamfs[latestDateIndex].nodes.forEach(node => {
+              var already_placed: boolean = false;
+              
               this.placedWQNodes.forEach(nd => {
-                if (nd == nid) {
+                if (nd == node) {
                   already_placed = true;
                   return;
                 }
@@ -279,11 +292,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
               if (already_placed)
                 return;
-              
+
               var n: Node;
-      
+
               this.nodes.forEach(nd => {
-                if (nid == nd._id) {
+                if (node == nd._id) {
                   n = nd;
                   return;
                 }
@@ -304,7 +317,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                   ico_url = 'assets/glyph-marker-icon-gray.png';
                   break;
               }
-  
+
               var ico = glyphIcon({
                 className: 'xolonium',
                 glyph: this.translateService.getCurrentLanguage() == "en" ? "WQ":"CA",
@@ -322,82 +335,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
               
               marker.addTo(this.map);
               this.markers.push(marker);
-              this.placedWQNodes.push(nid);
+              this.placedWQNodes.push(node);
             });
-            
-            
-          } else {
-            var d: Date = new Date(this.selectedDate);
-            waterBody.properties.icamfs.forEach(i => {
-              if ((new Date(i.date)) >= d) {
-                geojson.properties.icam = i.icampff_avg;
-                found = true;
-                if ("Water Quality" == this.selectedNodeType || this.selectedNodeType == 'All')
-                  i.nodes.forEach(node => {
-                    var already_placed: boolean = false;
-                    
-                    this.placedWQNodes.forEach(nd => {
-                      if (nd == node) {
-                        already_placed = true;
-                        return;
-                      }
-                    });
-
-                    if (already_placed)
-                      return;
-        
-                    var n: Node;
-        
-                    this.nodes.forEach(nd => {
-                      if (node == nd._id) {
-                        n = nd;
-                        return;
-                      }
-                    });
-  
-                    var ico_url: string;
-                    switch (n.status) {
-                      case 'Real Time':
-                        ico_url = 'assets/glyph-marker-icon-green.png';
-                        break;
-                      case 'Non Real Time':
-                        ico_url = 'assets/glyph-marker-icon-blue.png';
-                        break;
-                      case 'Off':
-                        ico_url = 'assets/glyph-marker-icon-gray.png';
-                        break;
-                      default:
-                        ico_url = 'assets/glyph-marker-icon-gray.png';
-                        break;
-                    }
-        
-                    var ico = glyphIcon({
-                      className: 'xolonium',
-                      glyph: this.translateService.getCurrentLanguage() == "en" ? "WQ":"CA",
-                      iconUrl: ico_url
-                    });
-                    var marker = new Marker([n.coordinates[0], n.coordinates[1]], {title: n.name, icon: ico});
-                    
-                    marker.on('click', () => {
-                      this.selectedNode = n;
-                      this.nodeTypes.forEach(nodeType => {
-                        if (nodeType._id == n.node_type_id)
-                          this.selectedNodeSensors = nodeType.sensors
-                      });
-                    });
-                    
-                    marker.addTo(this.map);
-                    this.markers.push(marker);
-                    this.placedWQNodes.push(node);
-                  });
-  
-                return;
-              }
-            });
-          }
           
 
-          geojson.properties.icam = found? geojson.properties.icam : (this.selectedDate == "latest" ? waterBody.properties.icamfs[latestDateIndex].icampff_avg: 0);
+          geojson.properties.icam = waterBody.properties.icamfs[latestDateIndex].icampff_avg;
 
           var wb = geoJSON(geojson, {
             style: (feature) => {
