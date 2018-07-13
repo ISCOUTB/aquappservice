@@ -261,8 +261,8 @@ export const TRANSLATIONS = [
         es: 'Cuerpos de agua'
     },
     {
-        en: 'Second station',
-        es: 'Segunda estación'
+        en: 'Second station or water body',
+        es: 'Segunda estación o cuerpo de agua'
     },
     {
         en: 'Date',
