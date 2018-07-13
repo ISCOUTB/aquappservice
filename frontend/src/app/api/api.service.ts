@@ -92,6 +92,10 @@ export class ApiService {
     });
   }
 
+  getValidDates2(waterBodyId): Observable<string[]> {
+    return this.http.get<string[]>(this.apiUrl + "/water-bodies/" + waterBodyId + "/available-dates");
+  }
+
   getICAMPff(waterBodyId): Observable<Icam[]> {
     return this.http.get<Icam[]>(this.apiUrl + "/water-bodies/" + waterBodyId + "/icampff");
   }

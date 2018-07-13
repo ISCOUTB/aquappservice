@@ -47,7 +47,7 @@
         <div *ngIf="selectedWaterBody">
           <p><b>{{ selectedWaterBody.properties.name }}</b></p>
           <p>ICAMpff: &nbsp; &nbsp; &nbsp;<b [ngStyle]="{'font-size': '16px'}">{{ selectedWaterBody.properties.icam }}</b></p>
-          <p>Date: {{ selectedWaterBody.selectedDate }}</p>
+          <p>{{ 'Date' | translate}}: {{ selectedWaterBody.selectedDate }}</p>
         </div>
         <mat-divider *ngIf="selectedWaterBody"></mat-divider>
         <div><p><b>{{ 'ICAMpff (estuary) values' | translate }}</b></p></div>

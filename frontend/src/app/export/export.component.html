@@ -17,22 +17,31 @@
             <form>
                 <mat-form-field>
                     <mat-select placeholder="{{ 'Second Station' | translate }}" [(value)]="secondNodeId">
-                        <mat-option *ngFor="let node of nodes" [value]="node._id">
-                        {{ node.name | translate }}
-                        </mat-option>
+                        <mat-optgroup>
+                            <mat-option (click)="getSensors()" *ngFor="let node of nodes" [value]="node._id">
+                                {{ node.name | translate }}
+                            </mat-option>
+                        </mat-optgroup>
+                        <div *ngIf="waterBodies">
+                            <mat-optgroup>
+                                <mat-option (click)="getSensors()" *ngFor="let wb of waterBodies" [value]="wb._id">
+                                    {{ wb.properties.name }}
+                                </mat-option>
+                            </mat-optgroup>
+                        </div>
                     </mat-select>
                 </mat-form-field>
             </form>
         </div>
         <div *ngIf="secondNodeId">
             <mat-form-field [ngStyle]="{'display': 'block'}" *ngIf="validDates2">
-                <input matInput [matDatepickerFilter]="filter.dateFilter" [(ngModel)]="startDate2" [matDatepicker]="sd2" placeholder="{{ 'Start date' | translate }}" disabled>
+                <input matInput [matDatepickerFilter]="filter2.dateFilter" [(ngModel)]="startDate2" [matDatepicker]="sd2" placeholder="{{ 'Start date' | translate }}" disabled>
                 <mat-datepicker-toggle matSuffix [for]="sd2"></mat-datepicker-toggle>
                 <mat-datepicker touchUi="true" #sd2 startView="year" [startAt]="startDate2" disabled="false"></mat-datepicker>
             </mat-form-field>
     
             <mat-form-field [ngStyle]="{'display': 'block'}" *ngIf="validDates2">
-                <input matInput [matDatepickerFilter]="filter.dateFilter" [(ngModel)]="endDate2" [matDatepicker]="ed2" placeholder="{{ 'End date' | translate }}" disabled>
+                <input matInput [matDatepickerFilter]="filter2.dateFilter" [(ngModel)]="endDate2" [matDatepicker]="ed2" placeholder="{{ 'End date' | translate }}" disabled>
                 <mat-datepicker-toggle matSuffix [for]="ed2"></mat-datepicker-toggle>
                 <mat-datepicker touchUi="true" #ed2 startView="year" [startAt]="endDate" disabled="false"></mat-datepicker>
             </mat-form-field>

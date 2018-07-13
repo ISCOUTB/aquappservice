@@ -338,7 +338,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
               this.placedWQNodes.push(node);
             });
           
-
+          waterBody.selectedDate = (new Date(waterBody.properties.icamfs[latestDateIndex].date)).toISOString();
           geojson.properties.icam = waterBody.properties.icamfs[latestDateIndex].icampff_avg;
 
           var wb = geoJSON(geojson, {

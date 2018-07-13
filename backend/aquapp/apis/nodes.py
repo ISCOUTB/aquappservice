@@ -16,7 +16,9 @@ from .core.marshmallow_models import NodeSchema, NewNodeSchema, EditNodeSchema, 
 from .core.swagger_models import node, data, datum, node_type, sensor, link, date_array, new_node, new_datum
 from .core.utils import token_required
 from dateutil import parser as date_parser
+from datetime import datetime
 from marshmallow import Schema
+from functools import reduce
 
 api = Namespace('nodes', description='Node related operations')
 
@@ -306,7 +308,7 @@ class ExportAsCSV(Resource):
 
                     found = False
 
-                    for i in len(data_2):
+                    for i in range(len(data_2)):
                         if data_2[i]["date"] == str(datum["date"]):
                             found = True
                             csv_data += str(data_2[i]["icampff_avg"])
@@ -316,6 +318,9 @@ class ExportAsCSV(Resource):
                         del data_2[i]
 
                     csv_data += "\n"
+                
+                for icam in data_2:
+                    csv_data += icam["date"] + ",," + str(icam["icampff_avg"]) + "\n"
 
         return csv_data, 200
 
