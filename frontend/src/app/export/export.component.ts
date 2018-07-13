@@ -249,6 +249,7 @@ export class ExportComponent implements OnInit {
   openDialog2(): void {
     this.unit2 = "";
     var node2: string;
+    var node1: string;
     
     this.nodes.forEach(node => {
       if (node._id == this.secondNodeId) {
@@ -267,12 +268,24 @@ export class ExportComponent implements OnInit {
       }
     });
 
-    var node1: string;
     this.nodes.forEach(node => {
       if (node._id == this.dataFromHomeComponent[0]) {
         node1 = node.name;
+        this.nodeTypes.forEach(nodeType => {
+          if (nodeType._id == node.node_type_id) {
+            nodeType.sensors.forEach(sensor => {
+              if (sensor.variable == this.dataFromHomeComponent[1]) {
+                this.unit = sensor.unit;
+                return;
+              }
+            });
+          }
+        });
+        return;
       }
     });
+
+    console.log(this.unit, ",", this.unit2);
     
     this.dialog.open(Dialog, {
       width: '70%',
@@ -299,22 +312,14 @@ export class ExportComponent implements OnInit {
             },
             y: {
               valueFormatter: (v) => {
-                return v + this.dataFromHomeComponent[2];  // controls formatting in the legend/mouseover
+                return v;  // controls formatting in the legend/mouseover
               },
               axisLabelFormatter: (v) => {
-                return v + this.dataFromHomeComponent[2];  // controls formatting of the y-axis labels
-              }
-            },
-            y2: {
-              valueFormatter: (v) => {
-                return v + this.unit2;  // controls formatting in the legend/mouseover
-              },
-              axisLabelFormatter: (v) => {
-                return v + this.unit2;  // controls formatting of the y-axis labels
+                return v;  // controls formatting of the y-axis labels
               }
             }
           },
-          labels: ["Date", node1, node2],
+          labels: ["Date", node1 + " (" + this.unit + ")", node2 + " (" + this.unit2 + ")"],
           colors: ["#007ee5ff", "#0028c0ff"]
         }
       }
