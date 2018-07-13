@@ -249,6 +249,10 @@ export const TRANSLATIONS = [
         es: 'Arc. Int'  // TODO find a proper translation
     },  // Export selector
     {
+        en: 'Second station',
+        es: 'Segunda estación'
+    },
+    {
         en: 'Date',
         es: 'Fecha'
     },
