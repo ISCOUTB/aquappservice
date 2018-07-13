@@ -74,6 +74,13 @@ class WaterBodyNodes(Resource):
         return Database().get_water_body_nodes(water_body_id)
 
 
+@api.route('/<string:water_body_id>/export-as-csv')
+class ExportAsCSV(Resource):
+    @api.doc(summary='')
+    def get(self, water_body_id):
+        pass
+
+
 @api.route('/<string:water_body_id>/icampff')
 @api.param('water_body_id',
            description='Id of the water body',

@@ -145,6 +145,37 @@ export class ApiService {
     );
   }
 
+  getCSVData1(id: string, variable:string, startDate: string, endDate: string): Observable<string> {
+    return this.http.get<string>(
+      this.apiUrl + "/nodes/" + id + "/export-as-csv",
+      {
+        params: {
+          'start_date_1': startDate,
+          'end_date_1': endDate,
+          'variable_1': variable
+        }
+      }
+    );
+  }
+
+  getCSVData2(id1: string, variable1:string, startDate1: string, endDate1: string,
+              id2: string, variable2: string, startDate2: string, endDate2: string): Observable<string> {
+    return this.http.get<string>(
+      this.apiUrl + "/nodes/" + id1 + "/export-as-csv",
+      {
+        params: {
+          'start_date_1': startDate1,
+          'end_date_1': endDate1,
+          'variable_1': variable1,
+          'start_date_2': startDate2,
+          'end_date_2': endDate2,
+          'variable_2': variable2,
+          'id_2': id2
+        }
+      }
+    );
+  }
+
   addData(token: string, variable: string, date: string, value: number | string, _id: string) {
     return this.http.post<Response>(
       this.apiUrl + "/nodes/" + _id + "/add-sensor-data",
