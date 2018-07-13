@@ -47,9 +47,9 @@
                 </mat-card-header>
                 <mat-card-content>
                   <p>
-                      {{ 'Data is collected by UTB undergraduate students through a multi-parameter probe. 
-                      Monitoring is performed once a week, and data collection is expected to be 
-                      remotely in a second stage of the project' | translate }}     
+                      {{ 'Data is collected by UTB undergraduate students through a multi-parameter probe.
+                      Monitoring is performed once a week, and data collection is expected to be
+                      remotely in a second stage of the project' | translate }}
                   </p>
                 </mat-card-content>
               </mat-card>
@@ -61,12 +61,12 @@
                 </mat-card-header>
                 <mat-card-content>
                   <p>
-                      {{ 'Available data can be filtered by picking a station type, date range, station, 
-                      and parameter using the bottom toolbar and the floating controls' | translate }} 
+                      {{ 'Available data can be filtered by picking a station type, date range, station,
+                      and parameter using the bottom toolbar and the floating controls' | translate }}
                   </p>
                 </mat-card-content>
               </mat-card>
-            
+
             </mat-grid-tile>
             <mat-grid-tile>
               <mat-card>
@@ -75,7 +75,7 @@
                   </mat-card-header>
                   <mat-card-content>
                     <p>
-                        {{ 'After filtering data, it can be downloaded as a Comma Separated Values (CSV) file, 
+                        {{ 'After filtering data, it can be downloaded as a Comma Separated Values (CSV) file,
                         or get a representation as a graph' | translate }}
                     </p>
                   </mat-card-content>
@@ -88,8 +88,8 @@
                 </mat-card-header>
                 <mat-card-content>
                   <p>
-                      {{ 'Unlike other institutions with monitoring plans on water bodies of the internal 
-                      creeks and lakes system of Cartagena that restrict access to the data taken, 
+                      {{ 'Unlike other institutions with monitoring plans on water bodies of the internal
+                      creeks and lakes system of Cartagena that restrict access to the data taken,
                       Aquapp provides information available for the entire community' | translate}}
                   </p>
                 </mat-card-content>
@@ -102,9 +102,9 @@
                 </mat-card-header>
                 <mat-card-content>
                   <p>
-                      {{ 'To guarantee a great experience, we developed a well-built website up-to-date, 
-                      with worthwhile content and an improved user interface with good navigation for 
-                      quick and easy travel throughout the entire website' | translate }} 
+                      {{ 'To guarantee a great experience, we developed a well-built website up-to-date,
+                      with worthwhile content and an improved user interface with good navigation for
+                      quick and easy travel throughout the entire website' | translate }}
                   </p>
                 </mat-card-content>
               </mat-card>
@@ -116,9 +116,9 @@
                 </mat-card-header>
                 <mat-card-content>
                   <p>
-                      {{ 'We built this compatible with all modern browsers. 
-                      You are allow to use it in Chrome, 
-                      Firefox, Safari and Opera, feel free to prove it yourself' | translate}} 
+                      {{ 'We built this compatible with all modern browsers.
+                      You are allow to use it in Chrome,
+                      Firefox, Safari and Opera, feel free to prove it yourself' | translate}}
                   </p>
                 </mat-card-content>
               </mat-card>
@@ -164,12 +164,23 @@
             </mat-grid-tile>
             <mat-grid-tile>
               <mat-card class="team-member">
-                  <mat-card-header>
-                    <mat-card-title>Jairo Serrano</mat-card-title>
-                    <mat-card-subtitle>{{ 'Researcher' | translate }}</mat-card-subtitle>
-                  </mat-card-header>
-                  <img mat-card-image src="/assets/team/jairo-serrano.png" alt="Jairo Serrano">
-                </mat-card>
+                <mat-card-header>
+                  <div mat-card-avatar></div>
+                  <mat-card-title>Jairo Serrano</mat-card-title>
+                  <mat-card-subtitle>{{ 'Researcher' | translate }}</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="/assets/team/jairo-serrano.png" alt="Jairo Serrano">
+                <mat-card-content>
+                  <p>
+                    Jairo Serrano, Ingeniero de sistemas (2006) de la Universidad Tecnológica de Bolívar (UTB), Magíster en Software Libre de la UOC con énfasis en desarrollo de software (2008). Se desempeñó como coordinador de tecnologías de la dirección de educación virtual de la UTB (2001-2010) y profesor de tiempo completo de la Facultad de estudios técnicos y tecnológicos (2011-2013), actualmente director de programa de Ingeniería de Sistemas de la facultad de Ingeniería.<br>
+                    Email: jserrano@utb.edu.co
+                  </p>
+                </mat-card-content>
+                <mat-card-actions>
+                  <button mat-button>LIKE</button>
+                  <button mat-button>SHARE</button>
+                </mat-card-actions>
+            </mat-card>
             </mat-grid-tile>
             <mat-grid-tile>
               <mat-card class="team-member">
@@ -178,6 +189,18 @@
                   <mat-card-subtitle>{{ 'Researcher' | translate }}</mat-card-subtitle>
                 </mat-card-header>
                 <img mat-card-image src="/assets/team/alvaro-gonzalez.png" alt="Álvaro González">
+                <mat-card-content>
+                <p>
+                  Ingeniero civil (Universidad de Cartagena), Maestría en Ingeniería Ambiental
+                  (Universidad de Los Andes), MPh en Recursos Hídricos (The City College of New York),
+                  PhD en Recursos Hídricos e Ingeniería Ambiental (The City
+                  College of New York). Profesor adjunto, por 4 años, en el New York Institute of
+                  Technology. Más de 17 años de experiencia en consultoría tanto en Estados Unidos
+                  como en Colombia. Profesional Certificado en Erosión y Control de la Sedimentación
+                  (CPESC). Actualmente, es consultor independiente.<br>
+                  Email: agonzalez7@gmail.com
+                </p>
+              </mat-card-content>
               </mat-card>
             </mat-grid-tile>
             <mat-grid-tile>
@@ -195,14 +218,14 @@
     <mat-tab label="{{ 'Information' | translate }}">
       <div class="tabbed-content">
         <p>
-          {{ 'AquApp is a platform supporting a program for monitoring water quality of 
-          Cartagena de Indias internal creeks and lakes system. Copyright © 2017 - All 
+          {{ 'AquApp is a platform supporting a program for monitoring water quality of
+          Cartagena de Indias internal creeks and lakes system. Copyright © 2017 - All
           rights reserved. Universidad Tecnológica de Bolívar' | translate }}
         </p>
         <p>
-          {{ 'This program is free software: you can redistribute it and/or modify it under 
-          the terms of the GNU Affero General Public License as published by the Free 
-          Software Foundation, either version 3 of the License, or (at your option) any 
+          {{ 'This program is free software: you can redistribute it and/or modify it under
+          the terms of the GNU Affero General Public License as published by the Free
+          Software Foundation, either version 3 of the License, or (at your option) any
           later version.' | translate }}
         </p>
         <p>
@@ -214,7 +237,7 @@
     <mat-tab label="{{ 'Contact' | translate }}">
       <div class="tabbed-content">
           <p>
-            {{ 'You are free to drop us some lines by adding a comment on our project Wiki. 
+            {{ 'You are free to drop us some lines by adding a comment on our project Wiki.
             Besides, esta wiki (on GitHub) will help you get in-depth information the project.' | translate }}
           </p>
           <p>
