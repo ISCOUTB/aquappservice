@@ -3,6 +3,55 @@
  */
 
 export const TRANSLATIONS = [
+    // Months
+    {
+        en: 'Jan',
+        es: 'Ene'
+    },
+    {
+        en: 'Feb',
+        es: 'Feb'
+    },
+    {
+        en: 'Apr',
+        es: 'Abr'
+    },
+    {
+        en: 'Mar',
+        es: 'Mar'
+    },
+    {
+        en: 'May',
+        es: 'May'
+    },
+    {
+        en: 'Jun',
+        es: 'Jun'
+    },
+    {
+        en: 'Jul',
+        es: 'Jul'
+    },
+    {
+        en: 'Aug',
+        es: 'Ago'
+    },
+    {
+        en: 'Sep',
+        es: 'Sep'
+    },
+    {
+        en: 'Oct',
+        es: 'Oct'
+    },
+    {
+        en: 'Nov',
+        es: 'Nov'
+    },
+    {
+        en: 'Dec',
+        es: 'Dic'
+    },
     // Home component translations
     {
         en: 'Date',
