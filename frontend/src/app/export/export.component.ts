@@ -110,12 +110,12 @@ export class ExportComponent implements OnInit {
             this.variable = this.sensors[0].variable;
             this.getValidDates2();
             this.apiService.getWaterBodies().subscribe(wb => this.waterBodies = wb, () => {})
+            this.getValidDates(this.dataFromHomeComponent[0], this.dataFromHomeComponent[1]);
           }
         );
       }
     );
 
-    this.getValidDates(this.dataFromHomeComponent[0], this.dataFromHomeComponent[1]);
     switch(this.translateService.getCurrentLanguage()) {
       case "en":
         this.adapter.setLocale("en-GB");
@@ -151,8 +151,20 @@ export class ExportComponent implements OnInit {
    * Get the valid dates, displayes an error message if it fails
    */
   getValidDates(_id: string, variable: string) {
-    this.apiService.getValidDates(_id, variable).subscribe(validDates => this.validDates = validDates,
-      () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""));
+    var found: boolean = false;
+    this.nodes.forEach(node => {
+      if (node._id == this.dataFromHomeComponent[0]) {
+        found = true;
+
+        this.apiService.getValidDates(_id, variable).subscribe(validDates => this.validDates = validDates,
+          () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""));
+
+        return;
+      }
+    });
+    if (!found)
+      this.apiService.getValidDates2(_id).subscribe(validDates => this.validDates = validDates,
+        () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""));
   }
 
   getValidDates2() {
@@ -185,23 +197,48 @@ export class ExportComponent implements OnInit {
     if (this.comparativeGraph) {
       if (this.exportFormat == 'csv') {
         // Convert JSON to csv and download
-        this.apiService.getCSVData2(
-          this.dataFromHomeComponent[0],
-          this.dataFromHomeComponent[1],
-          this.startDate.toISOString(),
-          this.endDate.toISOString(),
-          this.secondNodeId,
-          this.variable,
-          this.startDate2.toISOString(),
-          this.endDate2.toISOString()
-        ).subscribe(csv_data => this.csv_data = csv_data, () => {},
-          () => {
-            var blob = new Blob([this.csv_data], {type: 'text/csv'});
-            var url= window.URL.createObjectURL(blob);
-            window.open(url);
-            this.loading = false;
+        var found: boolean = false;
+        this.nodes.forEach(node => {
+          if (node._id == this.dataFromHomeComponent[0]) {
+            found = true;
+            this.apiService.getCSVData2(
+              this.dataFromHomeComponent[0],
+              this.dataFromHomeComponent[1],
+              this.startDate.toISOString(),
+              this.endDate.toISOString(),
+              this.secondNodeId,
+              this.variable,
+              this.startDate2.toISOString(),
+              this.endDate2.toISOString()
+            ).subscribe(csv_data => this.csv_data = csv_data, () => {},
+              () => {
+                var blob = new Blob([this.csv_data], {type: 'text/csv'});
+                var url= window.URL.createObjectURL(blob);
+                window.open(url);
+                this.loading = false;
+              }
+            )
+            return;
           }
-        )
+        });
+        if (!found) {
+          this.apiService.getCSVData4(
+            this.dataFromHomeComponent[0],
+            this.startDate.toISOString(),
+            this.endDate.toISOString(),
+            this.secondNodeId,
+            this.variable,
+            this.startDate2.toISOString(),
+            this.endDate2.toISOString()
+          ).subscribe(csv_data => this.csv_data = csv_data, () => {},
+            () => {
+              var blob = new Blob([this.csv_data], {type: 'text/csv'});
+              var url= window.URL.createObjectURL(blob);
+              window.open(url);
+              this.loading = false;
+            }
+          )
+        }
       } else {
         // Open popup
         this.apiService.getCSVData2(
@@ -223,32 +260,79 @@ export class ExportComponent implements OnInit {
     } else {
       if (this.exportFormat == 'csv') {
         // Convert JSON to csv and download
-        this.apiService.getCSVData1(
-          this.dataFromHomeComponent[0],
-          this.dataFromHomeComponent[1],
-          this.startDate.toISOString(),
-          this.endDate.toISOString()
-        ).subscribe(csv_data => this.csv_data = csv_data, () => {},
-          () => {
-            var blob = new Blob([this.csv_data], {type: 'text/csv'});
-            var url= window.URL.createObjectURL(blob);
-            window.open(url);
-            this.loading = false;
+        var found: boolean = false;
+        this.nodes.forEach(node => {
+          if (node._id == this.dataFromHomeComponent[0]) {
+            found = true;
+
+            this.apiService.getCSVData1(
+              this.dataFromHomeComponent[0],
+              this.dataFromHomeComponent[1],
+              this.startDate.toISOString(),
+              this.endDate.toISOString()
+            ).subscribe(csv_data => this.csv_data = csv_data, () => {},
+              () => {
+                var blob = new Blob([this.csv_data], {type: 'text/csv'});
+                var url= window.URL.createObjectURL(blob);
+                window.open(url);
+                this.loading = false;
+              }
+            )
+
+            return;
           }
-        )
+        });
+
+        if (!found) {
+          this.apiService.getCSVData3(
+            this.dataFromHomeComponent[0],
+            this.startDate.toISOString(),
+            this.endDate.toISOString()
+          ).subscribe(csv_data => this.csv_data = csv_data, () => {},
+            () => {
+              var blob = new Blob([this.csv_data], {type: 'text/csv'});
+              var url= window.URL.createObjectURL(blob);
+              window.open(url);
+              this.loading = false;
+            }
+          )
+        }
+        
       } else {
         // Open popup
-        this.apiService.getCSVData1(
-          this.dataFromHomeComponent[0],
-          this.dataFromHomeComponent[1],
-          this.startDate.toISOString(),
-          this.endDate.toISOString()
-        ).subscribe(csv_data => this.csv_data = csv_data, () => {},
-          () => {
-            this.loading = false;
-            this.openDialog();
+        var found: boolean = false;
+        this.nodes.forEach(node => {
+          if (node._id == this.dataFromHomeComponent[0]) {
+            found = true;
+
+            this.apiService.getCSVData1(
+              this.dataFromHomeComponent[0],
+              this.dataFromHomeComponent[1],
+              this.startDate.toISOString(),
+              this.endDate.toISOString()
+            ).subscribe(csv_data => this.csv_data = csv_data, () => {},
+              () => {
+                this.loading = false;
+                this.openDialog();
+              }
+            );
+
+            return;
           }
-        )
+        });
+
+        if (!found) {
+          this.apiService.getCSVData3(
+            this.dataFromHomeComponent[0],
+            this.startDate.toISOString(),
+            this.endDate.toISOString()
+          ).subscribe(csv_data => this.csv_data = csv_data, () => {},
+            () => {
+              this.loading = false;
+              this.openDialog();
+            }
+          );
+        }
       }
     }
   }
@@ -334,6 +418,14 @@ export class ExportComponent implements OnInit {
         return;
       }
     });
+
+    if (node1 == undefined)
+      this.waterBodies.forEach(waterBody => {
+        if (waterBody._id == this.secondNodeId) {
+          node1 = waterBody.properties.name;
+          return;
+        }
+      });
     
     this.dialog.open(Dialog, {
       width: '70%',

@@ -120,6 +120,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  openDialog2() {
+    this.dialog.open(Dialog, {
+      width: '30%',
+      height: '90%',
+      minWidth: 300,
+      minHeight: 300,
+      data: [this.selectedWaterBody._id, 'icampff', '']
+    });
+  }
+
   /**
    * After this component is loaded the map doesn't load properly,
    * to fix that we need to invalidate the size of the map.

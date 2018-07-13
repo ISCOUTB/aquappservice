@@ -180,6 +180,35 @@ export class ApiService {
     );
   }
 
+  getCSVData3(id1: string, startDate1: string, endDate1: string): Observable<string> {
+    return this.http.get<string>(
+      this.apiUrl + "/water-bodies/" + id1 + "/export-as-csv",
+      {
+        params: {
+          'start_date_1': startDate1,
+          'end_date_1': endDate1,
+        }
+      }
+    );
+  }
+
+  getCSVData4(id1: string, startDate1: string, endDate1: string,
+    id2: string, variable2: string, startDate2: string, endDate2: string): Observable<string> {
+    return this.http.get<string>(
+      this.apiUrl + "/water-bodies/" + id1 + "/export-as-csv",
+      {
+        params: {
+          'start_date_1': startDate1,
+          'end_date_1': endDate1,
+          'start_date_2': startDate2,
+          'end_date_2': endDate2,
+          'variable_2': variable2,
+          'id_2': id2
+        }
+      }
+    );
+  }
+
   addData(token: string, variable: string, date: string, value: number | string, _id: string) {
     return this.http.post<Response>(
       this.apiUrl + "/nodes/" + _id + "/add-sensor-data",
