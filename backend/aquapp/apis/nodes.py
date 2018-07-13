@@ -270,7 +270,7 @@ class ExportAsCSV(Resource):
 
             if args["id_2"] in [str(node["_id"]) for node in nodes]:
                 data_1 = Database().get_sensor_data(node_id, args["variable_1"], sd_1, ed_1)
-                data_2 = Database().get_sensor_data(node_id, args["variable_1"], sd_2, ed_2)
+                data_2 = Database().get_sensor_data(args["id_2"], args["variable_2"], sd_2, ed_2)
 
                 for datum in data_1["data"]:
                     csv_data += str(datum["date"]) + "," + str(datum["value"])  + ","
