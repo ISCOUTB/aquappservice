@@ -20,6 +20,7 @@ import { Sensor } from '../sensor';
 })
 
 export class HomeComponent implements OnInit, AfterViewInit {
+  months: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec'];
   selectedNodeType: string = 'All';  // Which node types have to be displayed on the map
   nodes: Node[];  // The nodes pulled from the backend
   nodeTypes: NodeType[];  // The node types pulled from the backend
@@ -283,7 +284,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
             if ((new Date(i.date)).toISOString() == this.selectedDate) {
               geojson.properties.icam = i.icampff_avg;
               latestDateIndex = index;
-              waterBody.selectedDate = (new Date(i.date)).toISOString();
+              var d: Date = new Date(i.date);
+              waterBody.selectedDate = (d.getDay() + 1).toString() + "-" + this.translateService.translate(this.months[d.getMonth()]) + "-" + d.getFullYear().toString();
               return;
             }
             index++;
@@ -348,7 +350,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
               this.placedWQNodes.push(node);
             });
           
-          waterBody.selectedDate = (new Date(waterBody.properties.icamfs[latestDateIndex].date)).toISOString();
+
+          var d: Date = new Date(waterBody.properties.icamfs[latestDateIndex].date);
+          waterBody.selectedDate = (d.getDay() + 1).toString() + "-" + this.translateService.translate(this.months[d.getMonth()]) + "-" + d.getFullYear().toString();
           geojson.properties.icam = waterBody.properties.icamfs[latestDateIndex].icampff_avg;
 
           var wb = geoJSON(geojson, {
