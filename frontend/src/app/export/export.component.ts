@@ -4,6 +4,7 @@ import { Data } from '../sensor-data';
 import { Node } from '../node';
 import { NodeType } from '../node-type';
 import { Sensor } from '../sensor';
+import { WaterBody } from '../water-body';
 import { ApiService } from '../api/api.service';
 import { TranslateService } from '../translate/translate.service';
 import { DateAdapter } from '@angular/material/core';
@@ -42,6 +43,8 @@ export class ExportComponent implements OnInit {
   nodes: Node[];
   nodeTypes: NodeType[];
   variable: string;
+
+  waterBodies: WaterBody[];
 
   // TODO: USE UNITS IN CSV
   unit: string;
@@ -105,7 +108,8 @@ export class ExportComponent implements OnInit {
             });
 
             this.variable = this.sensors[0].variable;
-            this.getValidDates2(this.secondNodeId, this.variable);
+            this.getValidDates2();
+            this.apiService.getWaterBodies().subscribe(wb => this.waterBodies = wb, () => {})
           }
         );
       }
@@ -122,6 +126,27 @@ export class ExportComponent implements OnInit {
     }
   }
 
+  getSensors() {
+    var found: boolean = false;
+    this.validDates2 = undefined;
+    this.nodes.forEach(node => {
+      if (node._id == this.secondNodeId) {
+        found = true;
+        this.nodeTypes.forEach(nodeType => {
+          if (node.node_type_id == nodeType._id) {
+            this.sensors = nodeType.sensors;
+            return;
+          }
+        });
+        return;
+      }
+    });
+
+    if (!found) {
+      this.sensors = [new Sensor("Icampff", "")];
+    }
+  }
+
   /**
    * Get the valid dates, displayes an error message if it fails
    */
@@ -130,9 +155,25 @@ export class ExportComponent implements OnInit {
       () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""));
   }
 
-  getValidDates2(_id: string, variable: string) {
-    this.apiService.getValidDates(_id, variable).subscribe(validDates => this.validDates2 = validDates,
-      () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""));
+  getValidDates2() {
+    console.log("getting valid dates...");
+    this.validDates2 = undefined;
+    var found: boolean = false;
+
+    this.nodes.forEach(node => {
+      if (node._id == this.secondNodeId) {
+        found = true;
+        console.log("Found!")
+        return;
+      }
+    });
+
+    if (found)
+      this.apiService.getValidDates(this.secondNodeId, this.variable).subscribe(validDates => this.validDates2 = validDates,
+        () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""));
+    else
+      this.apiService.getValidDates2(this.secondNodeId).subscribe(validDates => this.validDates2 = validDates,
+        () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""))
   }
 
   /**
@@ -268,6 +309,15 @@ export class ExportComponent implements OnInit {
       }
     });
 
+    if (node2 == undefined)
+      this.waterBodies.forEach(waterBody => {
+        if (waterBody._id == this.secondNodeId) {
+          node2 = waterBody.properties.name;
+          return;
+        }
+      });
+    
+    this.unit = ""
     this.nodes.forEach(node => {
       if (node._id == this.dataFromHomeComponent[0]) {
         node1 = node.name;
@@ -284,8 +334,6 @@ export class ExportComponent implements OnInit {
         return;
       }
     });
-
-    console.log(this.unit, ",", this.unit2);
     
     this.dialog.open(Dialog, {
       width: '70%',
@@ -319,7 +367,7 @@ export class ExportComponent implements OnInit {
               }
             }
           },
-          labels: ["Date", node1 + " (" + this.unit + ")", node2 + " (" + this.unit2 + ")"],
+          labels: ["Date", node1 + (this.unit != "" ?" (" + this.unit + ")" : ""), node2 + (this.unit2 != "" ?" (" + this.unit2 + ")" : "")],
           colors: ["#007ee5ff", "#0028c0ff"]
         }
       }

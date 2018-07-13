@@ -249,6 +249,14 @@ export const TRANSLATIONS = [
         es: 'Arc. Int'  // TODO find a proper translation
     },  // Export selector
     {
+        en: 'Stations',
+        es: 'Estaciones'
+    },
+    {
+        en: 'Water bodies',
+        es: 'Cuerpos de agua'
+    },
+    {
         en: 'Second station',
         es: 'Segunda estación'
     },

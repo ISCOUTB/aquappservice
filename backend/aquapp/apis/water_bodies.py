@@ -143,19 +143,19 @@ class WaterBodyICAMpff(Resource):
                 for variable in ["Dissolved Oxygen (DO)", "Nitrate (NO3)", "Total Suspended Solids (TSS)", "Thermotolerant Coliforms", "pH", "Phosphates (PO4)", "Biochemical Oxygen Demand (BOD)", "Chrolophyll A (CLA)"]:
                     found = False
                     
-                    for datum in Database().get_sensor_data(node, variable, start_date=date_parser.parse("1900-01-01 00:00:00"), end_date=datetime.now())["data"]:
+                    for icam in Database().get_sensor_data(node, variable, start_date=date_parser.parse("1900-01-01 00:00:00"), end_date=datetime.now())["data"]:
                         found = True
                         for i in range(len(icampff_values)):
-                            if icampff_values[i]["date"] == str(datum["date"]):
+                            if icampff_values[i]["date"] == str(icam["date"]):
                                 if node not in icampff_values[i]["nodes"]:
                                     icampff_values[i]["nodes"].append(node)
-                                    icampff_values[i]["icampffs"].append(icampff(node, datum["date"]))
+                                    icampff_values[i]["icampffs"].append(icampff(node, icam["date"]))
                                     icampff_values[i]["icampff_avg"] = sum(icampff_values[i]["icampffs"]) / float(len(icampff_values[i]["icampffs"]))
                                 break
                         else:
-                            ic = icampff(node, datum["date"])
+                            ic = icampff(node, icam["date"])
                             icampff_values.append({
-                                "date": str(datum["date"]),
+                                "date": str(icam["date"]),
                                 "nodes": [node],
                                 "icampffs": [ic],
                                 "icampff_avg": ic
@@ -176,6 +176,101 @@ class WaterBodyICAMpff(Resource):
             }
         ]
 
+
+@api.route('/<string:water_body>/available-dates')
+@api.param('water_body', description='Id of the water body', _in='path', required=True, type='string')
+class ValidDates(Resource):
+    @api.doc(summary='Get all the water bodies',
+             description='Returns a collection of water bodies',
+             responses={200: ('Water body collection', [water_body])})
+    def get(self, water_body):
+        
+        def icampffs(water_body_id):
+            def icampff(node_id, date):
+                sd = date_parser.parse("1900-01-01 00:00:00")
+                d = [
+                    Database().get_sensor_data(node_id, "Dissolved Oxygen (DO)", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "Nitrate (NO3)", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "Total Suspended Solids (TSS)", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "Thermotolerant Coliforms", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "pH", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "Phosphates (PO4)", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "Biochemical Oxygen Demand (BOD)", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "Chrolophyll A (CLA)", start_date=sd, end_date=date)
+                ]
+                # This two lines ensure that only the last meassurements are taken into account.
+                last_date = max([(obj['data'][-1]['date'] if len(obj['data']) else date_parser.parse("1900-01-01 00:00:00")) for obj in d]) 
+                d = [((obj['data'][-1]['value'] if obj['data'][-1]['date'] == last_date else -1) if len(obj['data']) else -1) for obj in d]
+                
+                # Checking if there's data for calculating the ICAMpff
+                for value in d:
+                    if value != -1:
+                        break
+                else:
+                    abort(404)  # It's better to abort rather than giving useless data
+
+                new_hash = hash(reduce(lambda x, y: str(x) + str(y), d))
+                # Now we need to check the date of the cache in the water body
+                # to see if it's current
+                if Database().check_icampff_hash(water_body_id, node_id, new_hash):
+                    return Database().get_icampff_cache(water_body_id, node_id)['icampff']
+
+                # If there's no cache registered then the ICAMpff value is taken from the invemar api
+                try:
+                    new_icampff = requests.get("http://buritaca.invemar.org.co/ICAMWebService/calculate-icam-ae/od/{}/no3/{}/sst/{}/ctt/{}/ph/{}/po4/{}/dbo/{}/cla/{}".format(*d)).json()['value']
+                except KeyError:
+                    print('Error loading the icampff value from invemar!!!')
+                    """
+                        This approach is better and more transparent
+                        with the user than just returning 0 when
+                        we are unable to return the value from Invemar.
+                    """
+                    abort(404)
+                # Once taken the ICAMpff from Invemar, the value is stored in the database
+                Database().set_icampff_cache(water_body_id, node_id, new_hash, new_icampff)
+                return new_icampff
+            
+            icampff_values = []
+
+            try:
+                for node in Database().get_water_body_nodes(water_body_id):
+                    for variable in ["Dissolved Oxygen (DO)", "Nitrate (NO3)", "Total Suspended Solids (TSS)", "Thermotolerant Coliforms", "pH", "Phosphates (PO4)", "Biochemical Oxygen Demand (BOD)", "Chrolophyll A (CLA)"]:
+                        found = False
+                        
+                        for icam in Database().get_sensor_data(node, variable, start_date=date_parser.parse("1900-01-01 00:00:00"), end_date=datetime.now())["data"]:
+                            found = True
+                            for i in range(len(icampff_values)):
+                                if icampff_values[i]["date"] == str(icam["date"]):
+                                    if node not in icampff_values[i]["nodes"]:
+                                        icampff_values[i]["nodes"].append(node)
+                                        icampff_values[i]["icampffs"].append(icampff(node, icam["date"]))
+                                        icampff_values[i]["icampff_avg"] = sum(icampff_values[i]["icampffs"]) / float(len(icampff_values[i]["icampffs"]))
+                                    break
+                            else:
+                                ic = icampff(node, icam["date"])
+                                icampff_values.append({
+                                    "date": str(icam["date"]),
+                                    "nodes": [node],
+                                    "icampffs": [ic],
+                                    "icampff_avg": ic
+                                })
+                        
+                        if found:
+                            break
+            
+            except StopIteration:
+                return {"message": "water body not found"}, 400
+
+            return icampff_values if icampff_values else [
+                {
+                    "date": str(datetime.now()),
+                    "nodes": [],
+                    "icampffs": [0],
+                    "icampff_avg": 0
+                }
+            ]
+
+        return [str(date.month) + "/" + str(date.day) + "/" + str(date.year) for date in [date_parser.parse(icam["date"]) for icam in icampffs(water_body)]]
 
 @api.route('/<string:water_body_id>/add-node')
 @api.param('node_id', description='Node id of the node to add', _in='query', required=True, type='string')
