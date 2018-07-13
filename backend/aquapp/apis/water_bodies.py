@@ -74,11 +74,211 @@ class WaterBodyNodes(Resource):
         return Database().get_water_body_nodes(water_body_id)
 
 
-@api.route('/<string:water_body_id>/export-as-csv')
+@api.route('/<string:water_body>/export-as-csv')
+@api.param('water_body', description='ID of water body', _in='path',
+           required=True, type='string')
+@api.param('id_2', description='ID of node or water body', _in='query',
+           required=False, type='string')
+@api.param('variable_2', description='sensor variable (used if id_2 is a node id)', _in='query',
+           required=False, type='string')
+@api.param('start_date_1', description='Start date for the measure', _in='query',
+           required=True, type='string')
+@api.param('start_date_2', description='Start date for the measure', _in='query',
+           required=False, type='string')
+@api.param('end_date_1', description='End date for the measure', _in='query',
+           required=True, type='string')
+@api.param('end_date_2', description='End date for the measure', _in='query',
+           required=False, type='string')
 class ExportAsCSV(Resource):
     @api.doc(summary='')
-    def get(self, water_body_id):
-        pass
+    def get(self, water_body):
+        # There shoud be a better way to get the icampff without repeating code
+        # but I have no time now.
+        def icampffs(water_body_id, sd, ed):
+            def icampff(node_id, date):
+                sd = date_parser.parse("1900-01-01 00:00:00")
+                d = [
+                    Database().get_sensor_data(node_id, "Dissolved Oxygen (DO)", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "Nitrate (NO3)", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "Total Suspended Solids (TSS)", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "Thermotolerant Coliforms", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "pH", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "Phosphates (PO4)", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "Biochemical Oxygen Demand (BOD)", start_date=sd, end_date=date),
+                    Database().get_sensor_data(node_id, "Chrolophyll A (CLA)", start_date=sd, end_date=date)
+                ]
+                # This two lines ensure that only the last meassurements are taken into account.
+                last_date = max([(obj['data'][-1]['date'] if len(obj['data']) else date_parser.parse("1900-01-01 00:00:00")) for obj in d]) 
+                d = [((obj['data'][-1]['value'] if obj['data'][-1]['date'] == last_date else -1) if len(obj['data']) else -1) for obj in d]
+                
+                # Checking if there's data for calculating the ICAMpff
+                for value in d:
+                    if value != -1:
+                        break
+                else:
+                    abort(404)  # It's better to abort rather than giving useless data
+
+                new_hash = hash(reduce(lambda x, y: str(x) + str(y), d))
+                # Now we need to check the date of the cache in the water body
+                # to see if it's current
+                if Database().check_icampff_hash(water_body_id, node_id, new_hash):
+                    return Database().get_icampff_cache(water_body_id, node_id)['icampff']
+
+                # If there's no cache registered then the ICAMpff value is taken from the invemar api
+                try:
+                    new_icampff = requests.get("http://buritaca.invemar.org.co/ICAMWebService/calculate-icam-ae/od/{}/no3/{}/sst/{}/ctt/{}/ph/{}/po4/{}/dbo/{}/cla/{}".format(*d)).json()['value']
+                except KeyError:
+                    print('Error loading the icampff value from invemar!!!')
+                    """
+                        This approach is better and more transparent
+                        with the user than just returning 0 when
+                        we are unable to return the value from Invemar.
+                    """
+                    abort(404)
+                # Once taken the ICAMpff from Invemar, the value is stored in the database
+                Database().set_icampff_cache(water_body_id, node_id, new_hash, new_icampff)
+                return new_icampff
+            
+            icampff_values = []
+
+            try:
+                for node in Database().get_water_body_nodes(water_body_id):
+                    for variable in ["Dissolved Oxygen (DO)", "Nitrate (NO3)", "Total Suspended Solids (TSS)", "Thermotolerant Coliforms", "pH", "Phosphates (PO4)", "Biochemical Oxygen Demand (BOD)", "Chrolophyll A (CLA)"]:
+                        found = False
+                        
+                        for datum in Database().get_sensor_data(node, variable, start_date=sd, end_date=ed)["data"]:
+                            found = True
+                            for i in range(len(icampff_values)):
+                                if icampff_values[i]["date"] == str(datum["date"]):
+                                    if node not in icampff_values[i]["nodes"]:
+                                        icampff_values[i]["nodes"].append(node)
+                                        icampff_values[i]["icampffs"].append(icampff(node, datum["date"]))
+                                        icampff_values[i]["icampff_avg"] = sum(icampff_values[i]["icampffs"]) / float(len(icampff_values[i]["icampffs"]))
+                                    break
+                            else:
+                                ic = icampff(node, datum["date"])
+                                icampff_values.append({
+                                    "date": str(datum["date"]),
+                                    "nodes": [node],
+                                    "icampffs": [ic],
+                                    "icampff_avg": ic
+                                })
+                        
+                        if found:
+                            break
+            
+            except StopIteration:
+                return {"message": "water body not found"}, 400
+
+            return icampff_values if icampff_values else [
+                {
+                    "date": str(datetime.now()),
+                    "nodes": [],
+                    "icampffs": [0],
+                    "icampff_avg": 0
+                }
+            ]
+
+        parser = reqparse.RequestParser(bundle_errors=True)
+        parser.add_argument('start_date_1', type=str, required=True, location='args')
+        parser.add_argument('start_date_2', type=str, required=False, location='args')
+        parser.add_argument('end_date_1', type=str, required=True, location='args')
+        parser.add_argument('end_date_2', type=str, required=False, location='args')
+        parser.add_argument('id_2', type=str, required=False, location='args')
+        parser.add_argument('variable_2', type=str, required=False, location='args')
+        args = parser.parse_args()
+
+        try:
+            sd_1 = date_parser.parse(args["start_date_1"]).replace(tzinfo=None)
+            ed_1 = date_parser.parse(args["end_date_1"]).replace(tzinfo=None)
+            if args["id_2"] is not None:
+                sd_2 = date_parser.parse(args["start_date_2"]).replace(tzinfo=None)
+                ed_2 = date_parser.parse(args["end_date_2"]).replace(tzinfo=None)
+        except ValueError:
+            return {'message': 'The dates are in the wrong format!'}, 400
+        except KeyError:
+            return {'message': 'start_date_2, end_date_2 are missing'}, 400
+        
+        # csv_data = "Date," + args["variable_1"] + ("," + args["variable_2"] if args["variable_2"] is not None else "") + "\n"
+        csv_data = ""
+
+        if args["id_2"] is None:
+            """ Schema of each element of data
+                {
+                    "date": str(datetime.now()), <-- Beware that the dates are str not datetime.datetime objects!
+                    "nodes": [],
+                    "icampffs": [0],
+                    "icampff_avg": 0
+                }
+            """
+            data = icampffs(water_body,sd_1, ed_1)
+            for datum in data:
+                csv_data += str(datum["date"]) + "," + str(datum["icampff_avg"]) + "\n"
+        else:
+            nodes = Database().get_nodes()
+            water_bodies = Database().get_water_bodies()
+
+            if args["id_2"] in [str(node["_id"]) for node in nodes]:
+                """ Schema of each element of data
+                    {
+                        "date": str(datetime.now()), <-- Beware that the dates are str not datetime.datetime objects!
+                        "nodes": [],
+                        "icampffs": [0],
+                        "icampff_avg": 0
+                    }
+                """
+                data_1 = icampffs(water_body, sd_1, ed_1)
+                data_2 = Database().get_sensor_data(args["id_2"], args["variable_2"], sd_2, ed_2)
+
+                for datum in data_1:
+                    csv_data += str(datum["date"]) + "," + str(datum["icampff_avg"])  + ","
+                    
+                    found = False
+                    for i in range(len(data_2["data"])):
+                        if data_2["data"][i]["date"] == datum["date"]:
+                            found = True
+                            csv_data += str(data_2["data"][i]["value"])
+                            break
+
+                    if found:
+                        del data_2["data"][i]
+
+                    csv_data += "\n"
+                
+                for datum in data_2["data"]:
+                    csv_data += str(datum["date"]) + ",," + str(datum["value"]) + "\n"
+            
+            elif args["id_2"] in [str(water_body["_id"]) for water_body in water_bodies]:
+                data_1 = icampffs(water_body, sd_1, ed_1)
+                data_2 = icampffs(args["id_2"], sd_2, ed_2)
+                """ Schema of each element of data_1 and data_2
+                    {
+                        "date": str(datetime.now()), <-- Beware that the dates are str not datetime.datetime objects!
+                        "nodes": [],
+                        "icampffs": [0],
+                        "icampff_avg": 0
+                    }
+                """
+                for datum in data_1:
+                    csv_data += str(datum["date"]) + "," + str(datum["icampff_avg"]) + ","
+
+                    found = False
+
+                    for i in range(len(data_2)):
+                        if data_2[i]["date"] == str(datum["date"]):
+                            found = True
+                            csv_data += str(data_2[i]["icampff_avg"])
+                            break
+
+                    if found:
+                        del data_2[i]
+
+                    csv_data += "\n"
+                
+                for icam in data_2:
+                    csv_data += icam["date"] + ",," + str(icam["icampff_avg"]) + "\n"
+
+        return csv_data, 200
 
 
 @api.route('/<string:water_body_id>/icampff')
