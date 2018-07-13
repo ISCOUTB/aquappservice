@@ -3,7 +3,11 @@
  */
 
 export const TRANSLATIONS = [
-    // node-selector component translations
+    // Home component translations
+    {
+        en: 'Date',
+        es: 'Fecha'
+    },
     {
         en: 'ICAMpff (estuary) values',
         es: 'valores ICAMpff (estuarios)'
@@ -247,7 +251,7 @@ export const TRANSLATIONS = [
     {
         en: 'Arc. Int',
         es: 'Arc. Int'  // TODO find a proper translation
-    },  // Export selector
+    },  // Export component
     {
         en: 'Stations',
         es: 'Estaciones'
