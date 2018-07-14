@@ -379,7 +379,7 @@ export const TRANSLATIONS = [
     },
     {
         en: 'Thanks to invemar for giving us access to their API.',
-        es: 'Gracias a invemar por darnos acceso a su API.'
+        es: 'Gracias a Invemar por brindarnos soporte técnico para el cálculo del ICAMpff a través de la conexión directa a su API'
     },
     {
         en: 'Project',
@@ -470,7 +470,7 @@ export const TRANSLATIONS = [
     {
         en: 'AquApp is a platform supporting a program for monitoring water quality of Cartagena de Indias internal creeks and lakes system. Copyright © 2017 - All rights reserved. Universidad Tecnológica de Bolívar',
         es: `AquApp es una plataforma que soporta un programa de monitoreo
-             del sistema de lagos y arroyos de Cartagena de Indias. Copyright © 2017 - 
+             del sistema de lagos y arroyos de Cartagena de Indias. Copyright © 2017 -
              Todos los derechos reservados. Universidad Tecnológica de Bolívar`
     },
     {
