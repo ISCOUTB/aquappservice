@@ -378,7 +378,7 @@ export const TRANSLATIONS = [
         es: 'Agradecimientos especiales'
     },
     {
-        en: 'Thanks to invemar for giving us access to their API.',
+        en: 'Special thanks to Invemar for their technical support for the estimation of the ICAMpff through the direct connection to their API.',
         es: 'Gracias a Invemar por brindarnos soporte técnico para el cálculo del ICAMpff a través de la conexión directa a su API'
     },
     {
@@ -394,9 +394,12 @@ export const TRANSLATIONS = [
         es: 'Datos reales'
     },
     {
-        en: `Aquapp is a monitoring system of the quality of the different water bodies in the city of Cartagena, Colombia.`,
-        es: `Aquapp es un sistema de monitoreo de la calidad dle agua de los
-        distintos cuerpos de agua de la ciudad de Cartagena de Indias.`
+        en: `AquApp is a web-based platform created to carry out the monitoring and subsequent follow-up of some physical-chemical and biological parameter of water quality of the estuarine bayous and lagoons internal system (or simply lagoon system) of Cartagena de Indias. The platform also calculates the Marine and Estuarine Water Quality Index for Fauna and Flora Preservation (ICAMpff, by its initials in Spanish), which was created by Invemar (Institute for Marine and Coastal Research).`,
+        es: `AquApp es una plataforma creada para llevar a cabo el monitoreo y seguimiento de algunos parámetros fisicoquímicos y biológicos de calidad de agua para el sistema interno de caños y lagunas (o sistema lagunar) de Cartagena de Indias. La plataforma calcula, además, el <a href="http://siam.invemar.org.co/siam/redcam/indicadores/index.jsp" title="ICAMpff">Indicador de la Calidad de Aguas Marinas y Estuarinas para Preservación de Flora y Fauna (ICAMpff)</a> creado por el Invemar (Instituto de Investigaciones Marinas y Costeras).`
+    },
+    {
+        en: `The data herein is presented in two different type of format: plots and tables (files in “.cvs”). The user may: (a) visualize the chart in the platform and (b) compare any other parameter from any of the other monitoring points located along the lagoon system. `,
+        es: `Los datos en la plataforma están disponibles en dos tipos de formato: gráfica (figura) y tabulado (archivo con extensión ".cvs"). El usuario puede visualizar las gráficas en la plataforma y, adicionalmente, comparar, en la misma gráfica, datos de cualquiera de los puntos de monitoreo establecidos a lo largo del sistema lagunar.`
     },
     {
         en: 'Data is collected by UTB undergraduate students through a multi-parameter probe. Monitoring is performed once a week, and data collection is expected to be remotely in a second stage of the project',
@@ -620,5 +623,29 @@ export const TRANSLATIONS = [
     {
         en: 'Login successful',
         es: 'Sesión iniciada'
+    },
+    {
+        en: '¿What is the estuarine bayous and lagoons internal system of Cartagena de Indias?',
+        es: '¿Qué es el sistema interno de caños y lagunas de Cartagena de Indias?'
+    },
+    {
+        en: 'The system is composed of 6 water bodies: Las Quintas swamp, Bazurto bayou, San Lázaro swamp, Chambacú lagoon, El Cabrero lagoon, and Juan Angola bayou (which includes the parallel channel located along side Rafael Núñez airport). These water bodies are not only interconnected, but also they connect the Cartagena bay (through Las Quintas swamp and San Lazaro lagoon) with the Caribbean Sea (through La Virgen swamp, which, in turn, is connected to lagoon system through Juan Angola bayou).',
+        es: 'El sistema interno de caños y lagunas de Cartagena de Indias está conformado por 6 cuerpos de agua: ciénaga de Las Quintas, caño de Bazurto, laguna de San Lázaro, laguna de Chambacú, laguna del Cabrero y caño Juan Angola (que incluye lo que se conoce como el canal paralelo). Estos cuerpos de agua no solo están interconectados entre sí, sino que también conectan a la bahía de Cartagena (a través de la ciénaga de Las Quintas y la laguna de San Lázaro) con el mar Caribe (a través de la ciénaga de La Virgen, cual está conectada al sistema lagunar por medio del caño Juan Angola).'
+    },
+    {
+        en: 'Over the years, the lagoon system water quality has gradually deteriorated. Furthermore, it has not only lost water surface area and mangrove biomass (area covered by mangrove), but also cross section area of all water bodies, chiefly due to: (a) sediment and contaminant carried out by runoff from all the urban watersheds that drain into the lagoon system, (b) legal and illegal human settlements alongside the water bodies, (c) mangrove felling, and (d) solid waste disposed of alongside and into the water bodies. All these negatively impact the water quality, the self-purification capacity, and the hydrodynamics, which determines the fate and concentration of contaminants.',
+        es: 'A través de los años, la calidad del agua del sistema lagunar se ha venido deteriorando. Además, ha perdido no solo área superficial del espejo de agua y biomasa de manglar (áreas cubiertas de manglar), sino también área de la sección transversal de los cuerpos de agua, debido principalmente a: (a) sedimentos y contaminantes arrastrados por la escorrentía proveniente de las cuencas que drenan hacia el sistema lagunar, (b) asentamientos legales e ilegales a lo largo de las orillas, (c) tala del manglar y (d) mala disposición de residuos sólidos a lo largo de las orillas y dentro de los cuerpos de agua. Estas condiciones afectan de manera directa la calidad de los cuerpos de agua, su capacidad de autodepuración y la hidrodinámica que determina el destino y concentración de los contaminantes.'
+    },
+    {
+        en: 'The lagoon system is considered an intertidal estuarine system. It is home to fauna and flora that depend on the mangrove, which are sensitive to changes in several physical-chemical and biological parameters (pH, temperature, salinity, nitrates, electrical conductivity, dissolved oxygen, feacal and total coliforms, just to mention some) that may or may not favor the survival of permanent and temporary species. Plus, its ecosystemic services may be also compromised: hydrological regime regulation, carbon dioxide removal, erosion control, microclimate and nutrients regulation, solids retention, among others. As one may see, the water quality of this lagoon system must be continually monitored and followed-up and AquApp make that possible. The best part: it is freely available for all users!',
+        es: 'El sistema lagunar es considerado un ecosistema estuarino intramareal boscoso. Alberga, a lo largo de su recorrido, fauna y flora que dependen de los manglares, los cuales son muy sensibles a los cambios en los valores de diferentes parámetros fisicoquímicos y microbiológicos (pH, temperatura, salinidad, nitratos, conductividad eléctrica, oxígeno disuelto, coliformes totales y fecales, entre otros) que pueden o no favorecer a la supervivencia de las especies permanentes y temporales de este ecosistema; además de, potencialmente, afectar los servicios ecosistémicos que el manglar ofrece (regulación del régimen hidrológico, remoción de dióxido de carbono, control de erosión, regulación de nutrientes y el microclima, hábitat de especies, retención de sólidos, etc.). En consecuencia, la calidad del agua (medio que sostiene el ecosistema) y su continuo monitoreo y seguimiento se hace primordial y AquApp hace posible dicho seguimiento de manera gratuita para todos los usuarios.'
+    },
+    {
+        en: 'Why AquApp?',
+        es: '¿Para qué AquApp?'
+    },
+    {
+        en: 'Civil engineer (University of Cartagena), Master of Science Civil Engineering with emphasis in Environmental Engineering (University of Los Andes), Master of Philosophy Civil Engineering with emphasis in Water Resources (The City College of New York), PhD Civil Engineering with emphasis in Water Resources and Environmental Engineering (The City College of New York). More than 17 years of experience in consulting, research and teaching either in the United States and Colombia. Certified Professional in Erosion and Sediment Control (CPESC).',
+        es: 'Ingeniero civil (Universidad de Cartagena), Maestría en Ingeniería Civil con énfasis en Ingeniería Ambiental (Universidad de Los Andes), Maestría en Ingeniería Civil con énfasis en Recursos Hídricos (The City College of New York), PhD en Ingeniería Civil con énfasis en Recursos Hídricos e Ingeniería Ambiental (The City College of New York). Más de 17 años de experiencia en consultoría, investigación y docencia tanto en Estados Unidos como en Colombia. Profesional Certificado en Erosión y Control de la Sedimentación (CPESC).'
     }
 ]
