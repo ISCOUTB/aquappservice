@@ -156,7 +156,7 @@
     </mat-tab>
     <mat-tab label="{{ 'Team' | translate }}">
       <div class="tabbed-content">
-        <mat-grid-list [cols]="breakpoint">
+        <mat-grid-list [cols]="breakpoint" rowHeight="2:1">
             <mat-grid-tile>
               <mat-card class="team-member">
                 <mat-card-header>
@@ -225,15 +225,10 @@
     <mat-tab label="{{ 'Information' | translate }}">
       <div class="tabbed-content">
         <p>
-          {{ 'AquApp is a platform supporting a program for monitoring water quality of
-          Cartagena de Indias internal creeks and lakes system. Copyright © 2017 - All
-          rights reserved. Universidad Tecnológica de Bolívar' | translate }}
+          {{ 'AquApp is a web-based platform that supports the monitoring program of the bayous and lagoons system of Cartagena de Indias.' | translate }}
         </p>
         <p>
-          {{ 'This program is free software: you can redistribute it and/or modify it under
-          the terms of the GNU Affero General Public License as published by the Free
-          Software Foundation, either version 3 of the License, or (at your option) any
-          later version.' | translate }}
+          {{ 'This program is freely available: you may redistribute and/or modify it under the terms of the license GNU Affero General Public License or any other subsequent version.' | translate }}
         </p>
         <p>
           {{ 'For more information, click ' | translate }} <a href="https://www.gnu.org/licenses/agpl-3.0.en.html">{{ 'here' | translate }}</a>
