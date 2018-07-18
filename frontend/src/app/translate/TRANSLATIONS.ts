@@ -394,7 +394,7 @@ export const TRANSLATIONS = [
         es: 'Datos reales'
     },
     {
-        en: `AquApp is a web-based platform created to carry out the monitoring and subsequent follow-up of some physical-chemical and biological parameter of water quality of the estuarine bayous and lagoons internal system (or simply lagoon system) of Cartagena de Indias. The platform also calculates the Marine and Estuarine Water Quality Index for Fauna and Flora Preservation (ICAMpff, by its initials in Spanish), which was created by Invemar (Institute for Marine and Coastal Research).`,
+        en: `AquApp is a web-based platform created to carry out the monitoring and subsequent follow-up of some physical-chemical and biological parameter of water quality of the estuarine bayous and lagoons internal system (or simply lagoon system) of Cartagena de Indias. The platform also calculates the <a href="http://siam.invemar.org.co/siam/redcam/indicadores/index.jsp" title="ICAMpff">Marine and Estuarine Water Quality Index for Fauna and Flora Preservation</a> (ICAMpff, by its initials in Spanish), which was created by Invemar (Institute for Marine and Coastal Research).`,
         es: `AquApp es una plataforma creada para llevar a cabo el monitoreo y seguimiento de algunos parámetros fisicoquímicos y biológicos de calidad de agua para el sistema interno de caños y lagunas (o sistema lagunar) de Cartagena de Indias. La plataforma calcula, además, el <a href="http://siam.invemar.org.co/siam/redcam/indicadores/index.jsp" title="ICAMpff">Indicador de la Calidad de Aguas Marinas y Estuarinas para Preservación de Flora y Fauna (ICAMpff)</a> creado por el Invemar (Instituto de Investigaciones Marinas y Costeras).`
     },
     {
