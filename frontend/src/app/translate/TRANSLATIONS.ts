@@ -398,7 +398,7 @@ export const TRANSLATIONS = [
         es: `AquApp es una plataforma creada para llevar a cabo el monitoreo y seguimiento de algunos parámetros fisicoquímicos y biológicos de calidad de agua para el sistema interno de caños y lagunas (o sistema lagunar) de Cartagena de Indias. La plataforma calcula, además, el <a href="http://siam.invemar.org.co/siam/redcam/indicadores/index.jsp" title="ICAMpff">Indicador de la Calidad de Aguas Marinas y Estuarinas para Preservación de Flora y Fauna (ICAMpff)</a> creado por el Invemar (Instituto de Investigaciones Marinas y Costeras).`
     },
     {
-        en: `The data herein is presented in two different type of format: plots and tables (files in “.cvs”). The user may: (a) visualize the chart in the platform and (b) compare any other parameter from any of the other monitoring points located along the lagoon system. `,
+        en: `The data herein is presented in two different type of format: plots and tables (files in “.cvs”). The user may: (a) visualize the chart in the platform and (b) compare any other parameter from any of the other monitoring points located along the lagoon system.`,
         es: `Los datos en la plataforma están disponibles en dos tipos de formato: gráfica (figura) y tabulado (archivo con extensión ".cvs"). El usuario puede visualizar las gráficas en la plataforma y, adicionalmente, comparar, en la misma gráfica, datos de cualquiera de los puntos de monitoreo establecidos a lo largo del sistema lagunar.`
     },
     {
@@ -471,27 +471,25 @@ export const TRANSLATIONS = [
         es: `Información`
     },
     {
-        en: 'AquApp is a platform supporting a program for monitoring water quality of Cartagena de Indias internal creeks and lakes system. Copyright © 2017 - All rights reserved. Universidad Tecnológica de Bolívar',
-        es: `AquApp es una plataforma que soporta un programa de monitoreo
-             del sistema de caños y lagunas de Cartagena de Indias. Copyright © 2017 -
-             Todos los derechos reservados. Universidad Tecnológica de Bolívar`
+        en: 'AquApp is a web-based platform that supports the monitoring program of the bayous and lagoons system of Cartagena de Indias.',
+        es: `AquApp es una plataforma que soporta un programa de monitoreo del sistema de caños y lagunas de Cartagena de Indias.`
     },
     {
-        en: 'This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.',
+        en: 'This program is freely available: you may redistribute and/or modify it under the terms of the license GNU Affero General Public License or any other subsequent version.',
         es: `Este programa es software libre: usted puede resdistribuírlo y/o
              modificarlo bajo los términos de la licencia GNU Affero General Public License, u
              opcionalemente cualquier versión posterior.`
     },
     {
-        en: 'For more information, click ',
-        es: `Para más información haga click `
+        en: 'For more information please ',
+        es: `Para más información haga pulse `
     },
     {
         en: 'here',
         es: `aquí`
     },
     {
-        en: ' to read the GNU Affero General Public License',
+        en: ' click here if you want to read the license terms',
         es: ` para leer la licencia GNU Affero General Public License`
     },
     {
@@ -500,9 +498,7 @@ export const TRANSLATIONS = [
     },
     {
         en: 'You are free to drop us some lines by adding a comment on our project Wiki. Besides, esta wiki (on GitHub) will help you get in-depth information the project.',
-        es: `Usted es libre de escribirnos agregando un mensaje en nuestra wiki.
-             En esta wiki (alojada en Github) podemos además brindarle información
-             a fondo sobre el proyecto.`
+        es: `Usted es libre de escribirnos agregando un mensaje en nuestra wiki. En esta wiki (alojada en Github) podemos además brindarle información a fondo sobre el proyecto.`
     },
     {
         en: 'Team',
@@ -625,7 +621,7 @@ export const TRANSLATIONS = [
         es: 'Sesión iniciada'
     },
     {
-        en: '¿What is the estuarine bayous and lagoons internal system of Cartagena de Indias?',
+        en: 'What is the estuarine bayous and lagoons internal system of Cartagena de Indias?',
         es: '¿Qué es el sistema interno de caños y lagunas de Cartagena de Indias?'
     },
     {
