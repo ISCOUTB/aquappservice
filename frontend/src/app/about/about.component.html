@@ -156,14 +156,16 @@
     </mat-tab>
     <mat-tab label="{{ 'Team' | translate }}">
       <div class="tabbed-content">
-        <mat-grid-list [cols]="breakpoint" rowHeight="500px">
+        <mat-grid-list [cols]="breakpoint" rowHeight="800px">
             <mat-grid-tile>
               <mat-card>
                 <mat-card-header>
                     <mat-card-title>Laura Schiatti</mat-card-title>
                     <mat-card-subtitle>{{ 'Developer' | translate }}</mat-card-subtitle>
                 </mat-card-header>
-                <img mat-card-image src="/assets/team/laura-schiatti.png" alt="Laura Schiatti">
+                <div class="img-container">
+                  <img mat-card-image src="/assets/team/laura-schiatti.png" alt="Laura Schiatti">
+                </div>
               </mat-card>
             </mat-grid-tile>
             <mat-grid-tile>
@@ -172,7 +174,14 @@
                   <mat-card-title>Juan Pablo Rodríguez</mat-card-title>
                   <mat-card-subtitle>{{ 'Developer' | translate }}</mat-card-subtitle>
                 </mat-card-header>
-                <img mat-card-image src="/assets/team/juan-pablo-rodriguez.jpeg" alt="Juan Pablo Rodríguez">
+                <div class="img-container">
+                  <img mat-card-image src="/assets/team/juan-pablo-rodriguez.jpeg" alt="Juan Pablo Rodríguez">
+                </div>
+                <mat-card-content>
+                  <p>
+                    Estudiante de séptimo semestre de Ingeniería de Sistemas en la Universidad Tecnológica de Bolívar.
+                  </p>
+                </mat-card-content>
               </mat-card>
             </mat-grid-tile>
             <mat-grid-tile>
@@ -182,7 +191,9 @@
                   <mat-card-title>Jairo Serrano</mat-card-title>
                   <mat-card-subtitle>{{ 'Researcher' | translate }}</mat-card-subtitle>
                 </mat-card-header>
-                <img mat-card-image src="/assets/team/jairo-serrano.png" alt="Jairo Serrano">
+                <div class="img-container">
+                  <img mat-card-image src="/assets/team/jairo-serrano.png" alt="Jairo Serrano">
+                </div>
                 <mat-card-content>
                   <p>
                     Jairo Serrano, Ingeniero de sistemas (2006) de la Universidad Tecnológica de Bolívar (UTB), Magíster en Software Libre de la UOC con énfasis en desarrollo de software (2008). Se desempeñó como coordinador de tecnologías de la dirección de educación virtual de la UTB (2001-2010) y profesor de tiempo completo de la Facultad de estudios técnicos y tecnológicos (2011-2013), actualmente director de programa de Ingeniería de Sistemas de la facultad de Ingeniería.<br>
@@ -197,7 +208,9 @@
                   <mat-card-title>Álvaro González</mat-card-title>
                   <mat-card-subtitle>{{ 'Researcher' | translate }}</mat-card-subtitle>
                 </mat-card-header>
-                <img mat-card-image src="/assets/team/alvaro-gonzalez.png" alt="Álvaro González">
+                <div class="img-container">
+                  <img mat-card-image src="/assets/team/alvaro-gonzalez.png" alt="Álvaro González">
+                </div>
                 <mat-card-content>
                 <p>
                   {{ 'Civil engineer (University of Cartagena), Master of Science Civil Engineering with emphasis in Environmental Engineering (University of Los Andes), Master of Philosophy Civil Engineering with emphasis in Water Resources (The City College of New York), PhD Civil Engineering with emphasis in Water Resources and Environmental Engineering (The City College of New York). More than 17 years of experience in consulting, research and teaching either in the United States and Colombia. Certified Professional in Erosion and Sediment Control (CPESC).' | translate }}<br>
@@ -207,12 +220,14 @@
               </mat-card>
             </mat-grid-tile>
             <mat-grid-tile>
-              <mat-card class="team-member">
+              <mat-card>
                 <mat-card-header>
                   <mat-card-title>Juan Carlos Martínez</mat-card-title>
                   <mat-card-subtitle>{{ 'Researcher' | translate }}</mat-card-subtitle>
                 </mat-card-header>
-                <img mat-card-image src="/assets/team/juan-carlos-martinez.png" alt="Juan Carlos Martínez">
+                <div class="img-container">
+                  <img mat-card-image src="/assets/team/juan-carlos-martinez.png" alt="Juan Carlos Martínez">
+                </div>
               </mat-card>
             </mat-grid-tile>
         </mat-grid-list>

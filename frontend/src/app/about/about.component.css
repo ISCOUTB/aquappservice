@@ -29,19 +29,15 @@
 }
 
 mat-card {
-    width: calc(100% - 70px);
+    width: 240px;
     height: calc(100% - 70px);
-    min-width: 200px;
+}
+
+.img-container {
+    width: calc(100% + 48px);
     overflow: hidden;
-}
-
-.team-member {
-    width: 200px;
-    height: 500px;
-}
-
-mat-card-image {
-    margin: 0 auto;
+    height: 300px;
+    margin: 0 -24px 16px -24px;
 }
 
 .ico {
