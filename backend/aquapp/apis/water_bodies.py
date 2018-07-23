@@ -504,4 +504,4 @@ class RemoveNodesFromWaterBody(Resource):
             return {'message': 'Wrong data format'}, 400
         if Database().remove_nodes_from_water_body(water_body_id, args):
             return {'message': 'Water body updated successfully'}, 200
-        return {'message': 'Wrong data format'}, 400
+        return {'message': 'Wrong data format or water body ID'}, 400
