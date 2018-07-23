@@ -414,9 +414,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.variable, 
       this.date.getFullYear().toString() + "/" + 
         (this.date.getMonth() + 1).toString() + "/" + 
-        (this.date.getDay() + 1).toString() + 
+        (this.date.getDate()).toString() + 
         " " + 
-        this.hour, 
+        this.hour + " GMT", 
       this.value, 
       this.selectedNode._id).subscribe(
         () => {
