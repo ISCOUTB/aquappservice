@@ -502,10 +502,6 @@ class RemoveNodesFromWaterBody(Resource):
         args = request.get_json()
         if type(args) != list:  # Making a marshmallow schema for this is a waste unless we need to do the same in another endpoint
             return {'message': 'Wrong data format'}, 400
-        elif len(args) == 1 and type(args[0]) != str:
-            return {'message': 'Wrong data format'}, 400
-        elif len(args) > 1 and reduce(lambda x, y: str if type(x) == type(y) == str else False, args) != str:
-            return {'message': 'Wrong data format'}, 400
         if Database().remove_nodes_from_water_body(water_body_id, args):
             return {'message': 'Water body updated successfully'}, 200
         return {'message': 'Wrong data format'}, 400
