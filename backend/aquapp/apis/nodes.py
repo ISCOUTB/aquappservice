@@ -443,3 +443,18 @@ class DeleteNode(Resource):
             return {'message': 'Node deleted successfully'}, 200
         else:
             return {'message': 'Node not found'}, 404
+
+
+@api.route('/<string:node_id>/delete-all-data')
+@api.param('node_id', description='ID of node to return', _in='path',
+           required=True, type='string')
+class DeleteAllNodeData(Resource):
+    @api.doc(summary='Delete all the node data',
+             responses={200: 'Node data deleted successfully', 404: 'Node not found'},
+             security='apikey')
+    @token_required
+    def delete(self, node_id):
+        if Database().delete_all_node_data(node_id):
+            return {'message': 'Node data deleted successfully'}, 200
+        else:
+            return {'message': 'Node not found'}, 404

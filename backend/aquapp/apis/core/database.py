@@ -131,6 +131,25 @@ class Database:
                 }
             })
 
+    def delete_all_node_data(self, node_id):
+        try:
+            self.nodes.find({"_id": ObjectId(node_id)})[0]
+            
+            self.sensor_data.update_many(
+                {
+                    "node_id": node_id
+                }, 
+                {
+                    "$set": {
+                        "data": []
+                    }
+                }
+            )
+            
+            return True
+        except IndexError:
+            return False
+
     def delete_node(self, node_id):
         try:
             self.nodes.find({'_id': ObjectId(node_id)})[0]
