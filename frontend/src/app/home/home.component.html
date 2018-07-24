@@ -46,7 +46,7 @@
       <div class="legend info leaflet-control">
         <div *ngIf="selectedWaterBody">
           <p><b>{{ selectedWaterBody.properties.name }}</b></p>
-          <p>ICAMpff: &nbsp; &nbsp; &nbsp;<b [ngStyle]="{'font-size': '16px'}">{{ selectedWaterBody.properties.icam }}</b></p>
+          <p>ICAMpff: &nbsp; &nbsp; &nbsp;<b [ngStyle]="{'font-size': '16px'}">{{ selectedWaterBody.properties.icam | number:'1.0-2' }}</b></p>
           <p>{{ 'Date' | translate}}: {{ selectedWaterBody.selectedDate }}</p>
           <button mat-button (click)="openDialog2()">{{ 'Export' | translate }}</button>
         </div>
