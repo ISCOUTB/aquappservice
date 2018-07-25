@@ -214,15 +214,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
           waterBody.properties.icamfs.forEach(icam => {
             var found: boolean = false;
 
+            var aux: Date = new Date(icam.date) 
+            var nd: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate();
             this.icamDates.forEach(icd => {
-              if (icd == ((new Date(icam.date)).toISOString())) {
+               
+              if (icd == nd) {
                 found = true;
                 return;
               }
             });
 
             if (!found)
-              this.icamDates.push((new Date(icam.date)).toISOString());
+              this.icamDates.push(nd);
           });
 
           this.icamDates.sort((a: string, b: string) => {
