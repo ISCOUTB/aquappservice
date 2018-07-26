@@ -176,6 +176,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
                                                () => this.drawWaterBodies(this.selectedNodeType))
   }
 
+  selectDate(d) {
+    this.selectedDate = d;
+    this.drawWaterBodies(this.selectedNodeType);
+  }
+
   /**
    * This fuction draws the water bodies into the map, but it also gives them
    * color, style and selectable behavior.
@@ -215,7 +220,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             var found: boolean = false;
 
             var aux: Date = new Date(icam.date) 
-            var nd: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate();
+            var nd: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
             this.icamDates.forEach(icd => {
                
               if (icd == nd) {
@@ -284,7 +289,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
           index = 0;
           waterBody.properties.icamfs.forEach(i => {
-            if ((new Date(i.date)).toISOString() == this.selectedDate) {
+            var aux: Date = new Date(i.date);
+            var dt: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
+            if (dt == this.selectedDate) {
               geojson.properties.icam = i.icampff_avg;
               latestDateIndex = index;
               var d: Date = new Date(i.date);

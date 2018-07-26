@@ -69,11 +69,13 @@
         <button mat-menu-item (click)="drawWaterBodies('All')">{{ 'All' | translate}}</button>
       </mat-menu>
 
-      <mat-select placeholder="{{ 'Dates' | translate }}" [(value)]="selectedDate" class="leaflet-control floating-menu-element">
-        <mat-option (click)="drawWaterBodies(selectedNodeType)" *ngFor="let d of icamDates" [value]="d">
-          {{ d }}
-        </mat-option>
-      </mat-select>
+      <button mat-button [matMenuTriggerFor]="dateMenu" class="leaflet-control floating-menu-element">
+        <mat-icon svgIcon="calendar"></mat-icon>
+        <span></span>
+      </button>
+      <mat-menu #dateMenu="matMenu">
+        <button mat-menu-item *ngFor="let d of icamDates" (click)="selectDate(d)">{{ d }}</button>
+      </mat-menu>
     </div>
     <div class="leaflet-bottom leaflet-right">
     </div>

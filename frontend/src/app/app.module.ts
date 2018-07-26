@@ -2,19 +2,14 @@ import './polyfills';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {CdkTableModule} from '@angular/cdk/table';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { MatAutocompleteModule,
+import {
   MAT_DATE_LOCALE,
   MatIconRegistry,
   MatFormFieldModule,
-  MatBadgeModule,
-  MatBottomSheetModule,
   MatButtonModule,
-  MatButtonToggleModule,
   MatCardModule,
   MatCheckboxModule,
-  MatChipsModule,
   MatDatepickerModule,
   MatDialogModule,
   MatDividerModule,
@@ -22,25 +17,16 @@ import { MatAutocompleteModule,
   MatGridListModule,
   MatIconModule,
   MatInputModule,
-  MatListModule,
   MatNativeDateModule,
-  MatPaginatorModule,
-  MatProgressBarModule,
   MatProgressSpinnerModule,
   MatRadioModule,
-  MatRippleModule,
   MatSelectModule,
   MatSidenavModule,
-  MatSliderModule,
-  MatSlideToggleModule,
   MatSnackBarModule,
-  MatSortModule,
-  MatStepperModule,
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatTreeModule, 
   MatMenuModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -131,5 +117,8 @@ export class AppModule {
     iconRegistry.addSvgIcon(
       'authenticate',
       sanitizer.bypassSecurityTrustResourceUrl('assets/authenticate.svg'));
+    iconRegistry.addSvgIcon(
+      'calendar',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/calendar.svg'));
   }
 }

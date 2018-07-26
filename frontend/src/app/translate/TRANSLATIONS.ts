@@ -507,7 +507,8 @@ export const TRANSLATIONS = [
     {
         en: 'Join the conversation',
         es: 'Únase a la conversación'
-    },  // Notfound component
+    } // About component Bios
+    ,  // Notfound component
     {
         en: 'Page not found',
         es: 'Página no encontrada'
