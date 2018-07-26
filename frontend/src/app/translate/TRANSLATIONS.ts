@@ -54,6 +54,10 @@ export const TRANSLATIONS = [
     },
     // Home component translations
     {
+        en: 'Filter',
+        es: 'Filtrar'
+    },
+    {
         en: 'Date',
         es: 'Fecha'
     },
@@ -84,6 +88,10 @@ export const TRANSLATIONS = [
     {
         en: 'English',
         es: 'Inglés'
+    },
+    {
+        en: 'In English',
+        es: 'En Español'
     },
     {
         en: 'Poor',

@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   markers: Marker[] = [];  // A list of the markers on the map
   selectedWaterBody: WaterBody;  // The water body selected by the user
   screenWidth: number;  // The width (in pixels) of the window
+  selectedLanguage: string = "En Español";
   
   /* 
     The type has to be any because the geoJSON function only accepts
@@ -76,6 +77,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
    * translate service.
    */
   selectLanguage(language) {
+    this.selectedLanguage = language == "en" ? "In English":"En Español";
     this.translateService.selectLanguage(language);
     this.drawWaterBodies(this.selectedNodeType);
   }

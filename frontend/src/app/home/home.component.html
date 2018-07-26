@@ -9,7 +9,7 @@
         </a>
       </div>
       <div *ngIf="screenWidth > 840" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
-        <button mat-menu-item [matMenuTriggerFor]="languageMenu" class="menu-element"><mat-icon svgIcon="dialog"></mat-icon><span>{{ 'Language' | translate }}</span></button>
+        <button mat-menu-item [matMenuTriggerFor]="languageMenu" class="menu-element"><mat-icon svgIcon="dialog"></mat-icon><span>{{ selectedLanguage | translate }}</span></button>
         <mat-menu #languageMenu="matMenu">
           <button mat-menu-item (click)="selectLanguage('es')">{{ 'Spanish' | translate }}</button>
           <button mat-menu-item (click)="selectLanguage('en')">{{ 'English' | translate }}</button>
@@ -62,7 +62,7 @@
     <div class="leaflet-bottom leaflet-left floating-controls">
       <button mat-button [matMenuTriggerFor]="filterMenu" class="leaflet-control">
         <mat-icon svgIcon="filter"></mat-icon>
-        <span></span>
+        <span [ngStyle]="{'margin-left': '10px'}">{{ 'Filter' | translate }}</span>
       </button>
       <mat-menu #filterMenu="matMenu">
         <button mat-menu-item *ngFor="let nodeType of nodeTypes" (click)="drawWaterBodies(nodeType.name)">{{ nodeType.name | translate }}</button>
@@ -71,7 +71,7 @@
 
       <button mat-button [matMenuTriggerFor]="dateMenu" class="leaflet-control floating-menu-element">
         <mat-icon svgIcon="calendar"></mat-icon>
-        <span></span>
+        <span [ngStyle]="{'margin-left': '10px'}">{{ 'Date' | translate }}</span>
       </button>
       <mat-menu #dateMenu="matMenu">
         <button mat-menu-item *ngFor="let d of icamDates" (click)="selectDate(d)">{{ d }}</button>
