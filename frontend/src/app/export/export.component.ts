@@ -343,6 +343,31 @@ export class ExportComponent implements OnInit {
    * export-selector.component.html.
    */
   openDialog(): void {
+    var node1: string;this.unit = ""
+    this.nodes.forEach(node => {
+      if (node._id == this.dataFromHomeComponent[0]) {
+        node1 = node.name;
+        this.nodeTypes.forEach(nodeType => {
+          if (nodeType._id == node.node_type_id) {
+            nodeType.sensors.forEach(sensor => {
+              if (sensor.variable == this.dataFromHomeComponent[1]) {
+                this.unit = sensor.unit;
+                return;
+              }
+            });
+          }
+        });
+        return;
+      }
+    });
+
+    if (node1 == undefined)
+      this.waterBodies.forEach(waterBody => {
+        if (waterBody._id == this.secondNodeId) {
+          node1 = waterBody.properties.name;
+          return;
+        }
+      });
     this.dialog.open(Dialog, {
       width: '70%',
       height: '70%',
@@ -354,17 +379,20 @@ export class ExportComponent implements OnInit {
         'options': {
           'width': 1000,
           'height': 250,
-          'legend': 'always',
+          'legend': 'follow',
+          'ylabel': this.unit,
+          'xlabel': this.translateService.translate('Date'),
           'axes': {
             y: {
               valueFormatter: (v) => {
-                return v + this.dataFromHomeComponent[2];  // controls formatting in the legend/mouseover
+                return v;  // controls formatting in the legend/mouseover
               },
               axisLabelFormatter: (v) => {
-                return v + this.dataFromHomeComponent[2];  // controls formatting of the y-axis labels
+                return v;  // controls formatting of the y-axis labels
               }
             }
-          }
+          },
+          labels: ["Date", node1 + (this.unit != "" ?" (" + this.unit + ")" : "")]
         }
       }
     });
@@ -438,7 +466,9 @@ export class ExportComponent implements OnInit {
         'options': {
           'width': 1000,
           'height': 250,
-          'legend': 'always',
+          'legend': 'follow',
+          'ylabel': this.unit + (this.unit != this.unit2? (" vs " + this.unit2) : ""),
+          'xlabel': this.translateService.translate('Date'),
           'axes': {
             x: {
                 axisLabelFormatter: function (x) {
