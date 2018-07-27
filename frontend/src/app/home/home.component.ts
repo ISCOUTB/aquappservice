@@ -222,7 +222,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             var found: boolean = false;
 
             var aux: Date = new Date(icam.date) 
-            var nd: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
+            var nd: string = aux.getFullYear() + "-" + (aux.getMonth() + 1) + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
             this.icamDates.forEach(icd => {
                
               if (icd == nd) {
@@ -292,12 +292,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
           index = 0;
           waterBody.properties.icamfs.forEach(i => {
             var aux: Date = new Date(i.date);
-            var dt: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
+            var dt: string = aux.getFullYear() + "-" + (aux.getMonth() + 1) + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
             if (dt == this.selectedDate) {
               geojson.properties.icam = i.icampff_avg;
               latestDateIndex = index;
-              var d: Date = new Date(i.date);
-              waterBody.selectedDate = (d.getDay() + 1).toString() + "-" + this.translateService.translate(this.months[d.getMonth()]) + "-" + d.getFullYear().toString();
+              waterBody.selectedDate = aux.getDate() + "-" + this.translateService.translate(this.months[aux.getMonth()]) + "-" + aux.getFullYear();
               return;
             }
             index++;
@@ -362,9 +361,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
               this.placedWQNodes.push(node);
             });
           
-
           var d: Date = new Date(waterBody.properties.icamfs[latestDateIndex].date);
-          waterBody.selectedDate = (d.getDay() + 1).toString() + "-" + this.translateService.translate(this.months[d.getMonth()]) + "-" + d.getFullYear().toString();
+          waterBody.selectedDate = d.getDate() + "-" + this.translateService.translate(this.months[d.getMonth()]) + "-" + d.getFullYear().toString();
           geojson.properties.icam = waterBody.properties.icamfs[latestDateIndex].icampff_avg;
 
           var wb = geoJSON(geojson, {
