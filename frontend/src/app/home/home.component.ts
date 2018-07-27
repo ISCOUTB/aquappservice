@@ -218,11 +218,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
         () => console.log("failed to get the ICAMpff value for ", waterBody._id),
         () => {
           // Icam dates
+          if (waterBody.properties.icamfs.length == 1 && waterBody.properties.icamfs[0].nodes.length == 0)
+            return;
           waterBody.properties.icamfs.forEach(icam => {
             var found: boolean = false;
 
             var aux: Date = new Date(icam.date) 
-            var nd: string = aux.getFullYear() + "-" + (aux.getMonth()) + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
+            var nd: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
             this.icamDates.forEach(icd => {
                
               if (icd == nd) {
@@ -292,7 +294,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           index = 0;
           waterBody.properties.icamfs.forEach(i => {
             var aux: Date = new Date(i.date);
-            var dt: string = aux.getFullYear() + "-" + (aux.getMonth()) + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
+            var dt: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
             if (dt == this.selectedDate) {
               geojson.properties.icam = i.icampff_avg;
               latestDateIndex = index;
