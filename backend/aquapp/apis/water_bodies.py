@@ -341,10 +341,7 @@ class WaterBodyICAMpff(Resource):
         try:
             for node in Database().get_water_body_nodes(water_body_id):
                 for variable in ["Dissolved Oxygen (DO)", "Nitrate (NO3)", "Total Suspended Solids (TSS)", "Thermotolerant Coliforms", "pH", "Phosphates (PO4)", "Biochemical Oxygen Demand (BOD)", "Chrolophyll A (CLA)"]:
-                    found = False
-                    
                     for icam in Database().get_sensor_data(node, variable, start_date=date_parser.parse("1900-01-01 00:00:00"), end_date=datetime.now())["data"]:
-                        found = True
                         for i in range(len(icampff_values)):
                             if icampff_values[i]["date"] == str(icam["date"]):
                                 if node not in icampff_values[i]["nodes"]:
@@ -360,9 +357,6 @@ class WaterBodyICAMpff(Resource):
                                 "icampffs": [ic],
                                 "icampff_avg": ic
                             })
-                    
-                    if found:
-                        break
         
         except StopIteration:
             return {"message": "water body not found"}, 400
