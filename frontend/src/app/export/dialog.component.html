@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>
   {{ data.variable | translate }} {{ 'over time' | translate }}
 </h1>
-<div mat-dialog-content [ngStyle]="{'height': '80%'}">
+<div mat-dialog-content [ngStyle]="{'height': '80%', 'padding-top': '25px'}">
   <ng-dygraphs
     [data]="data.sensor_data"
     [options]="data.options">

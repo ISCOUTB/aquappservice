@@ -1,4 +1,4 @@
-class Icam {
+export class Icam {
     date: Date;
     icampff_avg: number;
     icampffs: number[];

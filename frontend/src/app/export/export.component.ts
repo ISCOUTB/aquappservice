@@ -8,6 +8,7 @@ import { WaterBody } from '../water-body';
 import { ApiService } from '../api/api.service';
 import { TranslateService } from '../translate/translate.service';
 import { DateAdapter } from '@angular/material/core';
+import { Icam } from '../water-body-property';
 
 @Component({
   selector: 'app-export',
@@ -162,9 +163,19 @@ export class ExportComponent implements OnInit {
         return;
       }
     });
-    if (!found)
-      this.apiService.getValidDates2(_id).subscribe(validDates => this.validDates = validDates,
-        () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""));
+    if (!found) {
+      var icampffs: Icam[] = [];
+      this.apiService.getICAMPff(_id).subscribe(i => icampffs = i,
+        () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
+        () => {
+          this.validDates = [];
+          icampffs.forEach(icam => {
+            var d: Date = new Date(icam.date);
+            this.validDates.push((d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear());
+          });
+        }
+      );
+    }
   }
 
   getValidDates2() {
@@ -183,9 +194,19 @@ export class ExportComponent implements OnInit {
     if (found)
       this.apiService.getValidDates(this.secondNodeId, this.variable).subscribe(validDates => this.validDates2 = validDates,
         () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""));
-    else
-      this.apiService.getValidDates2(this.secondNodeId).subscribe(validDates => this.validDates2 = validDates,
-        () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""))
+    else {
+      var icampffs: Icam[] = [];
+      this.apiService.getICAMPff(this.secondNodeId).subscribe(i => icampffs = i,
+        () => this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), ""),
+        () => {
+          this.validDates2 = [];
+          icampffs.forEach(icam => {
+            var d: Date = new Date(icam.date);
+            this.validDates2.push((d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear());
+          });
+        }
+      )
+    }
   }
 
   /**
@@ -240,22 +261,46 @@ export class ExportComponent implements OnInit {
           )
         }
       } else {
+        var found: boolean = false;
         // Open popup
-        this.apiService.getCSVData2(
-          this.dataFromHomeComponent[0],
-          this.dataFromHomeComponent[1],
-          this.startDate.toISOString(),
-          this.endDate.toISOString(),
-          this.secondNodeId,
-          this.variable,
-          this.startDate2.toISOString(),
-          this.endDate2.toISOString()
-        ).subscribe(csv_data => this.csv_data = csv_data, () => {},
-          () => {
-            this.loading = false;
-            this.openDialog2();
+        this.nodes.forEach(node => {
+          if (node._id == this.dataFromHomeComponent[0]) {
+            found = true;
+            this.apiService.getCSVData2(
+              this.dataFromHomeComponent[0],
+              this.dataFromHomeComponent[1],
+              this.startDate.toISOString(),
+              this.endDate.toISOString(),
+              this.secondNodeId,
+              this.variable,
+              this.startDate2.toISOString(),
+              this.endDate2.toISOString()
+            ).subscribe(csv_data => this.csv_data = csv_data,
+              () => {},
+              () => {
+                this.loading = false;
+                this.openDialog2();
+              }
+            )
+            return;
           }
-        )
+        });
+        if (!found)
+          this.apiService.getCSVData4(
+            this.dataFromHomeComponent[0],
+            this.startDate.toISOString(),
+            this.endDate.toISOString(),
+            this.secondNodeId,
+            this.variable,
+            this.startDate2.toISOString(),
+            this.endDate2.toISOString()
+          ).subscribe(csv_data => this.csv_data = csv_data,
+            () => {},
+            () => {
+              this.loading = false;
+              this.openDialog2();
+            }
+          );
       }
     } else {
       if (this.exportFormat == 'csv') {
@@ -363,11 +408,12 @@ export class ExportComponent implements OnInit {
 
     if (node1 == undefined)
       this.waterBodies.forEach(waterBody => {
-        if (waterBody._id == this.secondNodeId) {
+        if (waterBody._id == this.dataFromHomeComponent[0]) {
           node1 = waterBody.properties.name;
           return;
         }
       });
+    
     this.dialog.open(Dialog, {
       width: '70%',
       height: '70%',
@@ -449,7 +495,7 @@ export class ExportComponent implements OnInit {
 
     if (node1 == undefined)
       this.waterBodies.forEach(waterBody => {
-        if (waterBody._id == this.secondNodeId) {
+        if (waterBody._id == this.dataFromHomeComponent[0]) {
           node1 = waterBody.properties.name;
           return;
         }
@@ -470,17 +516,15 @@ export class ExportComponent implements OnInit {
           'ylabel': this.unit + (this.unit != this.unit2? (" vs " + this.unit2) : ""),
           'xlabel': this.translateService.translate('Date'),
           'axes': {
-            x: {
-                axisLabelFormatter: function (x) {
-                    var aux = new Date(x);
-                    return aux.toDateString();
-                },
-                valueFormatter: function (y) {
-                    var aux = new Date(y); 
-                    return aux.toISOString(); //Hide legend label
-                }
-            },
             y: {
+              valueFormatter: (v) => {
+                return v;  // controls formatting in the legend/mouseover
+              },
+              axisLabelFormatter: (v) => {
+                return v;  // controls formatting of the y-axis labels
+              }
+            },
+            y1: {
               valueFormatter: (v) => {
                 return v;  // controls formatting in the legend/mouseover
               },
