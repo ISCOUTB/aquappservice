@@ -28,10 +28,6 @@
     margin-bottom: 20px;
 }
 
-mat-grid-tile {
-    min-width: 500px;
-}
-
 mat-card {
     width: 240px;
     height: calc(100% - 70px);
