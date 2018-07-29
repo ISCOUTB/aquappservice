@@ -62,7 +62,7 @@
     <div class="leaflet-bottom leaflet-left floating-controls">
       <button mat-button [matMenuTriggerFor]="filterMenu" class="leaflet-control">
         <mat-icon svgIcon="filter"></mat-icon>
-        <span [ngStyle]="{'margin-left': '10px'}">{{ 'Filter' | translate }}</span>
+        <span [ngStyle]="{'margin-left': '10px'}">{{ 'Filter by station type' | translate }}</span>
       </button>
       <mat-menu #filterMenu="matMenu">
         <button mat-menu-item *ngFor="let nodeType of nodeTypes" (click)="drawWaterBodies(nodeType.name)">{{ nodeType.name | translate }}</button>
@@ -71,7 +71,7 @@
 
       <button mat-button [matMenuTriggerFor]="dateMenu" class="leaflet-control">
         <mat-icon svgIcon="calendar"></mat-icon>
-        <span [ngStyle]="{'margin-left': '10px'}">{{ 'Date' | translate }}</span>
+        <span [ngStyle]="{'margin-left': '10px'}">{{ 'Measure date (ICAMpff)' | translate }}</span>
       </button>
       <mat-menu #dateMenu="matMenu">
         <button mat-menu-item *ngFor="let d of icamDates" (click)="selectDate(d)">{{ d }}</button>
