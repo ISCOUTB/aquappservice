@@ -265,6 +265,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
           var onEachFeature = (feature, layer) => {
             layer.on({
               mouseover: highlight,
+              click: highlight,
+              tap: highlight,
               mouseout: resetHightlight
             });
           }
