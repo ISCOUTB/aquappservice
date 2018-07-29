@@ -509,7 +509,7 @@ export const TRANSLATIONS = [
         es: `Contacto`
     },
     {
-        en: 'You are free to drop us some lines by adding a comment on our project Wiki. Besides, esta wiki (on GitHub) will help you get in-depth information the project.',
+        en: "You are free to type your comments in our project's Wiki, where we may provide you with additional in-depth information about the project.",
         es: `Usted es libre de escribirnos agregando un mensaje en nuestra wiki. En esta wiki (alojada en Github) podemos además brindarle información a fondo sobre el proyecto.`
     },
     {
