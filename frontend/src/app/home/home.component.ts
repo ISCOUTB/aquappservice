@@ -187,6 +187,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
                   icampff > 25 ? '#F57702' : // orange
                     '#FB1502' ; // red
     }
+
+    this.placedWQNodes = [];
+    this.resetMarkers(this.selectedNodeType);
+    this.icamDates = [];
+
     this.waterBodies.forEach(waterBody => {
       if (waterBody.properties.icamfs.length == 1 && waterBody.properties.icamfs[0].nodes.length == 0)
             return;
@@ -194,7 +199,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             var found: boolean = false;
 
             var aux: Date = new Date(icam.date) 
-            var nd: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
+            var nd: string = aux.getFullYear() + "-" + (aux.getMonth() + 1) + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
             this.icamDates.forEach(icd => {
                
               if (icd == nd) {
@@ -266,7 +271,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           index = 0;
           waterBody.properties.icamfs.forEach(i => {
             var aux: Date = new Date(i.date);
-            var dt: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
+            var dt: string = aux.getFullYear() + "-" + (aux.getMonth() + 1) + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
             if (dt == this.selectedDate) {
               geojson.properties.icam = i.icampff_avg;
               latestDateIndex = index;
@@ -397,7 +402,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             var found: boolean = false;
 
             var aux: Date = new Date(icam.date) 
-            var nd: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
+            var nd: string = aux.getFullYear() + "-" + (aux.getMonth() + 1) + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
             this.icamDates.forEach(icd => {
                
               if (icd == nd) {
@@ -469,7 +474,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           index = 0;
           waterBody.properties.icamfs.forEach(i => {
             var aux: Date = new Date(i.date);
-            var dt: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
+            var dt: string = aux.getFullYear() + "-" + (aux.getMonth() + 1) + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
             if (dt == this.selectedDate) {
               geojson.properties.icam = i.icampff_avg;
               latestDateIndex = index;
