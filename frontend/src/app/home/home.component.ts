@@ -180,7 +180,180 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   selectDate(d) {
     this.selectedDate = d;
-    this.drawWaterBodies(this.selectedNodeType);
+    var getColor = (icampff) => {
+      return icampff > 90 ? '#0032FF' : // blue
+              icampff > 70 ? '#49C502' : // green
+                icampff > 50 ? '#F9F107' : // yellow
+                  icampff > 25 ? '#F57702' : // orange
+                    '#FB1502' ; // red
+    }
+    this.waterBodies.forEach(waterBody => {
+      if (waterBody.properties.icamfs.length == 1 && waterBody.properties.icamfs[0].nodes.length == 0)
+            return;
+          waterBody.properties.icamfs.forEach(icam => {
+            var found: boolean = false;
+
+            var aux: Date = new Date(icam.date) 
+            var nd: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
+            this.icamDates.forEach(icd => {
+               
+              if (icd == nd) {
+                found = true;
+                return;
+              }
+            });
+
+            if (!found)
+              this.icamDates.push(nd);
+          });
+
+          this.icamDates.sort((a: string, b: string) => {
+            return (new Date(a)).getTime() - (new Date(b)).getTime();
+          });
+
+          var highlight = (e) => {
+            this.selectedWaterBody = waterBody;
+            e.target.setStyle({
+              weight: 2,
+              opacity: 1,
+              color: 'grey',
+              dashArray: '',
+              fillOpacity: 1
+            });
+          }
+
+          var resetHightlight = (e) => {
+            e.target.setStyle({
+              weight: 2,
+              opacity: 1,
+              dashArray: '',
+              fillOpacity: 1,
+              color: getColor(e.target.feature.properties.icam)
+            });
+          }
+
+          var onEachFeature = (feature, layer) => {
+            layer.on({
+              mouseover: highlight,
+              click: highlight,
+              tap: highlight,
+              mouseout: resetHightlight
+            });
+          }
+
+          var geojson: any = {
+            type: waterBody.type,
+            properties: waterBody.properties,
+            geometry: waterBody.geometry
+          }
+
+          /**
+           * USE THIS VARIABLES WHEN THE SELECTED DATE IS NOT THE LATEST AND
+           * NONE OF THE DATES MATCH WITH THE SELECTED ONE.
+           */
+          var index: number = 0;
+          var latestDateIndex: number = 0;
+          var latestDate: Date = new Date("1/1/1900");
+          
+          waterBody.properties.icamfs.forEach(i => {
+            if (latestDate < (new Date(i.date))) {
+              latestDate = new Date(i.date);
+              latestDateIndex = index;
+            }
+            index++;
+          });
+
+          index = 0;
+          waterBody.properties.icamfs.forEach(i => {
+            var aux: Date = new Date(i.date);
+            var dt: string = aux.getFullYear() + "-" + aux.getMonth() + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
+            if (dt == this.selectedDate) {
+              geojson.properties.icam = i.icampff_avg;
+              latestDateIndex = index;
+              waterBody.selectedDate = aux.getDate() + "-" + this.translateService.translate(this.months[aux.getMonth()]) + "-" + aux.getFullYear();
+              return;
+            }
+            index++;
+          });
+
+          if ("Water Quality" == this.selectedNodeType || this.selectedNodeType == 'All')
+            waterBody.properties.icamfs[latestDateIndex].nodes.forEach(node => {
+              var already_placed: boolean = false;
+              
+              this.placedWQNodes.forEach(nd => {
+                if (nd == node) {
+                  already_placed = true;
+                  return;
+                }
+              });
+
+              if (already_placed)
+                return;
+
+              var n: Node;
+
+              this.nodes.forEach(nd => {
+                if (node == nd._id) {
+                  n = nd;
+                  return;
+                }
+              });
+
+              var ico_url: string;
+              switch (n.status) {
+                case 'Real Time':
+                  ico_url = 'assets/glyph-marker-icon-green.png';
+                  break;
+                case 'Non Real Time':
+                  ico_url = 'assets/glyph-marker-icon-blue.png';
+                  break;
+                case 'Off':
+                  ico_url = 'assets/glyph-marker-icon-gray.png';
+                  break;
+                default:
+                  ico_url = 'assets/glyph-marker-icon-gray.png';
+                  break;
+              }
+
+              var ico = glyphIcon({
+                className: 'xolonium',
+                glyph: this.translateService.getCurrentLanguage() == "en" ? "WQ":"CA",
+                iconUrl: ico_url
+              });
+              var marker = new Marker([n.coordinates[0], n.coordinates[1]], {title: n.name, icon: ico});
+              
+              marker.on('click', () => {
+                this.selectedNode = n;
+                this.nodeTypes.forEach(nodeType => {
+                  if (nodeType._id == n.node_type_id)
+                    this.selectedNodeSensors = nodeType.sensors
+                });
+              });
+              
+              marker.addTo(this.map);
+              this.markers.push(marker);
+              this.placedWQNodes.push(node);
+            });
+          
+          var d: Date = new Date(waterBody.properties.icamfs[latestDateIndex].date);
+          waterBody.selectedDate = d.getDate() + "-" + this.translateService.translate(this.months[d.getMonth()]) + "-" + d.getFullYear().toString();
+          geojson.properties.icam = waterBody.properties.icamfs[latestDateIndex].icampff_avg;
+
+          var wb = geoJSON(geojson, {
+            style: (feature) => {
+              return {
+                weight: 2,
+                opacity: 1,
+                dashArray: '',
+                fillOpacity: 1,
+                color: getColor(feature.properties.icam)
+              };
+            },
+            onEachFeature: onEachFeature
+          });
+
+          wb.addTo(this.map);
+    });
   }
 
   /**
