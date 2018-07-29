@@ -388,7 +388,9 @@ export class ExportComponent implements OnInit {
    * export-selector.component.html.
    */
   openDialog(): void {
-    var node1: string;this.unit = ""
+    var node1: string;
+    this.unit = "";
+    var sensor1: string;
     this.nodes.forEach(node => {
       if (node._id == this.dataFromHomeComponent[0]) {
         node1 = node.name;
@@ -397,6 +399,7 @@ export class ExportComponent implements OnInit {
             nodeType.sensors.forEach(sensor => {
               if (sensor.variable == this.dataFromHomeComponent[1]) {
                 this.unit = sensor.unit;
+                sensor1 = sensor.variable;
                 return;
               }
             });
@@ -410,6 +413,7 @@ export class ExportComponent implements OnInit {
       this.waterBodies.forEach(waterBody => {
         if (waterBody._id == this.dataFromHomeComponent[0]) {
           node1 = waterBody.properties.name;
+          sensor1 = "ICAMpff";
           return;
         }
       });
@@ -426,7 +430,7 @@ export class ExportComponent implements OnInit {
           'width': 1000,
           'height': 250,
           'legend': 'follow',
-          'ylabel': this.unit,
+          'ylabel': this.translateService.translate(sensor1) + (this.unit? " (" + this.unit + ")": ""),
           'xlabel': this.translateService.translate('Date'),
           'axes': {
             y: {
@@ -447,6 +451,8 @@ export class ExportComponent implements OnInit {
   // When there's a second variable
   openDialog2(): void {
     this.unit2 = "";
+    var sensor1: string;
+    var sensor2: string;
     var node2: string;
     var node1: string;
     
@@ -458,6 +464,7 @@ export class ExportComponent implements OnInit {
             nodeType.sensors.forEach(sensor => {
               if (sensor.variable == this.variable) {
                 this.unit2 = sensor.unit;
+                sensor2 = sensor.variable;
                 return;
               }
             });
@@ -471,6 +478,7 @@ export class ExportComponent implements OnInit {
       this.waterBodies.forEach(waterBody => {
         if (waterBody._id == this.secondNodeId) {
           node2 = waterBody.properties.name;
+          sensor2 = "ICAMpff";
           return;
         }
       });
@@ -484,6 +492,7 @@ export class ExportComponent implements OnInit {
             nodeType.sensors.forEach(sensor => {
               if (sensor.variable == this.dataFromHomeComponent[1]) {
                 this.unit = sensor.unit;
+                sensor1 = sensor.variable;
                 return;
               }
             });
@@ -497,6 +506,7 @@ export class ExportComponent implements OnInit {
       this.waterBodies.forEach(waterBody => {
         if (waterBody._id == this.dataFromHomeComponent[0]) {
           node1 = waterBody.properties.name;
+          sensor1 = "ICAMpff";
           return;
         }
       });
@@ -513,7 +523,7 @@ export class ExportComponent implements OnInit {
           'width': 1000,
           'height': 250,
           'legend': 'follow',
-          'ylabel': this.unit + (this.unit != this.unit2? (" vs " + this.unit2) : ""),
+          'ylabel': this.translateService.translate(sensor1) + (this.unit? "(" + this.unit + ")" : "") + (this.unit != this.unit2? (" vs " + this.translateService.translate(sensor2) + "(" + this.unit2 + ")") : ""),
           'xlabel': this.translateService.translate('Date'),
           'axes': {
             y: {
