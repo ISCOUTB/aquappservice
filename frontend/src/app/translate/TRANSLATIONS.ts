@@ -54,12 +54,16 @@ export const TRANSLATIONS = [
     },
     // Home component translations
     {
-        en: 'Filter',
-        es: 'Filtrar'
+        en: 'Filter by station type',
+        es: 'Filtrar por tipo de estación'
     },
     {
         en: 'Date',
         es: 'Fecha'
+    },
+    {
+        en: 'Measure date (ICAMpff)',
+        es: 'Fecha de medición (ICAMpff)'
     },
     {
         en: 'ICAMpff (estuary) values',
