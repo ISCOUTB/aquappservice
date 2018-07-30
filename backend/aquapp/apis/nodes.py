@@ -154,8 +154,8 @@ class ExportAsCSV(Resource):
         # There shoud be a better way to get the icampff without repeating code
         # but I have no time now.
         def icampffs(water_body_id):
+            sd = date_parser.parse("1900-01-01 00:00:00")
             def icampff(node_id, date):
-                sd = date_parser.parse("1900-01-01 00:00:00")
                 d = [
                     Database().get_sensor_data(node_id, "Dissolved Oxygen (DO)", start_date=sd, end_date=date),
                     Database().get_sensor_data(node_id, "Nitrate (NO3)", start_date=sd, end_date=date),
@@ -167,8 +167,8 @@ class ExportAsCSV(Resource):
                     Database().get_sensor_data(node_id, "Chrolophyll A (CLA)", start_date=sd, end_date=date)
                 ]
                 # This two lines ensure that only the last meassurements are taken into account.
-                last_date = max([(obj['data'][-1]['date'] if len(obj['data']) else date_parser.parse("1900-01-01 00:00:00")) for obj in d]) 
-                d = [((obj['data'][-1]['value'] if obj['data'][-1]['date'] == last_date else -1) if len(obj['data']) else -1) for obj in d]
+                latest_date = max([(obj['data'][-1]['date'] if len(obj['data']) else sd) for obj in d]) 
+                d = [((obj['data'][-1]['value'] if obj['data'][-1]['date'] == latest_date else -1) if len(obj['data']) else -1) for obj in d]
                 
                 # Checking if there's data for calculating the ICAMpff
                 for value in d:
@@ -177,11 +177,11 @@ class ExportAsCSV(Resource):
                 else:
                     abort(404)  # It's better to abort rather than giving useless data
 
-                new_hash = hash(reduce(lambda x, y: str(x) + str(y), d))
+                new_hash = hash(reduce(lambda x, y: str(x) + str(y), d) + str(latest_date))
                 # Now we need to check the date of the cache in the water body
                 # to see if it's current
-                if Database().check_icampff_hash(water_body_id, node_id, new_hash):
-                    return Database().get_icampff_cache(water_body_id, node_id)['icampff']
+                if Database().check_icampff_hash(water_body_id, node_id, new_hash, latest_date):
+                    return Database().get_icampff_cache(water_body_id, node_id, latest_date)['icampff']
 
                 # If there's no cache registered then the ICAMpff value is taken from the invemar api
                 try:
@@ -195,7 +195,7 @@ class ExportAsCSV(Resource):
                     """
                     abort(404)
                 # Once taken the ICAMpff from Invemar, the value is stored in the database
-                Database().set_icampff_cache(water_body_id, node_id, new_hash, new_icampff)
+                Database().set_icampff_cache(water_body_id, node_id, new_hash, new_icampff, latest_date)
                 return new_icampff
             
             icampff_values = []

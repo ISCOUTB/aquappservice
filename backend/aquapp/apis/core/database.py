@@ -169,24 +169,32 @@ class Database:
         water_body = self.water_bodies.find_one({'_id': ObjectId(water_body_id)})
         return water_body['nodes'] if water_body else []
 
-    def get_icampff_cache(self, water_body_id, node_id):
+    def get_icampff_cache(self, water_body_id, node_id, date):
         return self.icampff_caches.find_one({
             'water_body_id': water_body_id,
-            'node_id': node_id
+            'node_id': node_id,
+            'date': date
         })
 
-    def check_icampff_hash(self, water_body_id, node_id, h):
+    def get_all_icampff_caches(self, water_body_id):
+        return self.icampff_caches.find_one({
+            'water_body_id': water_body_id
+        })
+
+    def check_icampff_hash(self, water_body_id, node_id, h, date):
         cache = self.icampff_caches.find_one({
             'water_body_id': water_body_id,
-            'node_id': node_id
+            'node_id': node_id,
+            'date': date
         })
         return cache['hash'] == h if cache else False
 
-    def set_icampff_cache(self, water_body_id, node_id, h, icampff):
+    def set_icampff_cache(self, water_body_id, node_id, h, icampff, date):
         self.icampff_caches.update_one(
             {
                 'water_body_id': water_body_id,
-                'node_id': node_id
+                'node_id': node_id,
+                'date': date
             },
             {
                 '$set': {
@@ -194,6 +202,9 @@ class Database:
                     'hash': h
                 }
             }, upsert=True)
+    
+    def flush_icampff_caches(self):
+        self.icampff_caches.delete_many({})
 
     def add_node_to_water_body(self, node_id, water_body_id):
         try:
