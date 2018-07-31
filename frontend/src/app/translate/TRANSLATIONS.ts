@@ -533,7 +533,7 @@ export const TRANSLATIONS = [
         es: 'Juan Pablo es un estudiante de Ingeniería de Sistemas en la Universidad Tecnológica de Bolívar, beneficiario del programa "Ser pilo paga". Él pudo participar como un programador de la actual versión de AquApp gracias a su experiencia con Python, Javascript, HTML, CSS, Flask, Angular y Docker.'
     },
     {  // Jairo
-        en: '...',
+        en: "Jairo Serrano, a Computer Engineer (2006) graduated from Universidad Tecnológica de Bolívar (UTB), masters degree in Open Software (UOC) with emphasis in software development (2008). He worked as the Coordinator of Technologies of the Virtual Education Management of the UTB (2001-2010) and a full-time professor of the Faculty of Technical and Technological Studies (2011-2013), currently the Director of the Computer Engineering program of the Engineering Faculty.",
         es: 'Jairo Serrano, Ingeniero de sistemas (2006) de la Universidad Tecnológica de Bolívar (UTB), Magíster en Software Libre de la UOC con énfasis en desarrollo de software (2008). Se desempeñó como coordinador de tecnologías de la dirección de educación virtual de la UTB (2001-2010) y profesor de tiempo completo de la Facultad de estudios técnicos y tecnológicos (2011-2013), actualmente director de programa de Ingeniería de Sistemas de la facultad de Ingeniería.'
     },
     // Notfound component
