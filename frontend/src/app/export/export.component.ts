@@ -179,14 +179,12 @@ export class ExportComponent implements OnInit {
   }
 
   getValidDates2() {
-    console.log("getting valid dates...");
     this.validDates2 = undefined;
     var found: boolean = false;
 
     this.nodes.forEach(node => {
       if (node._id == this.secondNodeId) {
         found = true;
-        console.log("Found!")
         return;
       }
     });
@@ -225,12 +223,12 @@ export class ExportComponent implements OnInit {
             this.apiService.getCSVData2(
               this.dataFromHomeComponent[0],
               this.dataFromHomeComponent[1],
-              this.startDate.toISOString(),
-              this.endDate.toISOString(),
+              this.startDate.getFullYear() + "-" + (this.startDate.getMonth() + 1) + "-" + this.startDate.getDate(),
+              this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate(),
               this.secondNodeId,
               this.variable,
-              this.startDate2.toISOString(),
-              this.endDate2.toISOString()
+              this.startDate2.getFullYear() + "-" + (this.startDate2.getMonth() + 1) + "-" + this.startDate2.getDate(),
+              this.endDate2.getFullYear() + "-" + (this.endDate2.getMonth() + 1) + "-" + this.endDate2.getDate()
             ).subscribe(csv_data => this.csv_data = csv_data, () => {},
               () => {
                 var blob = new Blob([this.csv_data], {type: 'text/csv'});
@@ -245,12 +243,12 @@ export class ExportComponent implements OnInit {
         if (!found) {
           this.apiService.getCSVData4(
             this.dataFromHomeComponent[0],
-            this.startDate.toISOString(),
-            this.endDate.toISOString(),
+            this.startDate.getFullYear() + "-" + (this.startDate.getMonth() + 1) + "-" + this.startDate.getDate(),
+            this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate(),
             this.secondNodeId,
             this.variable,
-            this.startDate2.toISOString(),
-            this.endDate2.toISOString()
+            this.startDate2.getFullYear() + "-" + (this.startDate2.getMonth() + 1) + "-" + this.startDate2.getDate(),
+            this.endDate2.getFullYear() + "-" + (this.endDate2.getMonth() + 1) + "-" + this.endDate2.getDate()
           ).subscribe(csv_data => this.csv_data = csv_data, () => {},
             () => {
               var blob = new Blob([this.csv_data], {type: 'text/csv'});
@@ -269,12 +267,12 @@ export class ExportComponent implements OnInit {
             this.apiService.getCSVData2(
               this.dataFromHomeComponent[0],
               this.dataFromHomeComponent[1],
-              this.startDate.toISOString(),
-              this.endDate.toISOString(),
+              this.startDate.getFullYear() + "-" + (this.startDate.getMonth() + 1) + "-" + this.startDate.getDate(),
+              this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate(),
               this.secondNodeId,
               this.variable,
-              this.startDate2.toISOString(),
-              this.endDate2.toISOString()
+              this.startDate2.getFullYear() + "-" + (this.startDate2.getMonth() + 1) + "-" + this.startDate2.getDate(),
+              this.endDate2.getFullYear() + "-" + (this.endDate2.getMonth() + 1) + "-" + this.endDate2.getDate()
             ).subscribe(csv_data => this.csv_data = csv_data,
               () => {},
               () => {
@@ -288,12 +286,12 @@ export class ExportComponent implements OnInit {
         if (!found)
           this.apiService.getCSVData4(
             this.dataFromHomeComponent[0],
-            this.startDate.toISOString(),
-            this.endDate.toISOString(),
+            this.startDate.getFullYear() + "-" + (this.startDate.getMonth() + 1) + "-" + this.startDate.getDate(),
+            this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate(),
             this.secondNodeId,
             this.variable,
-            this.startDate2.toISOString(),
-            this.endDate2.toISOString()
+            this.startDate2.getFullYear() + "-" + (this.startDate2.getMonth() + 1) + "-" + this.startDate2.getDate(),
+            this.endDate2.getFullYear() + "-" + (this.endDate2.getMonth() + 1) + "-" + this.endDate2.getDate()
           ).subscribe(csv_data => this.csv_data = csv_data,
             () => {},
             () => {
@@ -313,8 +311,8 @@ export class ExportComponent implements OnInit {
             this.apiService.getCSVData1(
               this.dataFromHomeComponent[0],
               this.dataFromHomeComponent[1],
-              this.startDate.toISOString(),
-              this.endDate.toISOString()
+              this.startDate.getFullYear() + "-" + (this.startDate.getMonth() + 1) + "-" + this.startDate.getDate(),
+              this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate()
             ).subscribe(csv_data => this.csv_data = csv_data, () => {},
               () => {
                 var blob = new Blob([this.csv_data], {type: 'text/csv'});
@@ -331,8 +329,8 @@ export class ExportComponent implements OnInit {
         if (!found) {
           this.apiService.getCSVData3(
             this.dataFromHomeComponent[0],
-            this.startDate.toISOString(),
-            this.endDate.toISOString()
+            this.startDate.getFullYear() + "-" + (this.startDate.getMonth() + 1) + "-" + this.startDate.getDate(),
+            this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate()
           ).subscribe(csv_data => this.csv_data = csv_data, () => {},
             () => {
               var blob = new Blob([this.csv_data], {type: 'text/csv'});
@@ -353,8 +351,8 @@ export class ExportComponent implements OnInit {
             this.apiService.getCSVData1(
               this.dataFromHomeComponent[0],
               this.dataFromHomeComponent[1],
-              this.startDate.toISOString(),
-              this.endDate.toISOString()
+              this.startDate.getFullYear() + "-" + (this.startDate.getMonth() + 1) + "-" + this.startDate.getDate(),
+              this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate()
             ).subscribe(csv_data => this.csv_data = csv_data, () => {},
               () => {
                 this.loading = false;
@@ -369,8 +367,8 @@ export class ExportComponent implements OnInit {
         if (!found) {
           this.apiService.getCSVData3(
             this.dataFromHomeComponent[0],
-            this.startDate.toISOString(),
-            this.endDate.toISOString()
+            this.startDate.getFullYear() + "-" + (this.startDate.getMonth() + 1) + "-" + this.startDate.getDate(),
+            this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate()
           ).subscribe(csv_data => this.csv_data = csv_data, () => {},
             () => {
               this.loading = false;

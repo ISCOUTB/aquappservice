@@ -73,7 +73,7 @@ class Database:
             'variable': variable
         })
 
-        if start_date == end_date:
+        if start_date == end_date or end_date.hour == 0:
             end_date += timedelta(days=1)
 
         return {'node_id': node_id, 'variable': variable, 'data': [
@@ -177,7 +177,7 @@ class Database:
         })
 
     def get_all_icampff_caches(self, water_body_id):
-        return self.icampff_caches.find_one({
+        return self.icampff_caches.find_many({
             'water_body_id': water_body_id
         })
 
