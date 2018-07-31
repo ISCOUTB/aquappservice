@@ -253,8 +253,17 @@ class Database:
         # Remove all the nodes with that node type as well
         self.nodes.delete_many({'node_type_id': node_type_id})
 
-    def add_user(self, username):  # Add a new user to the users collection
-        return self.users.find_one({'username': username})
-
     def get_user(self, username):  # Get a user
         return self.users.find_one({'username': username})
+    
+    def change_password(self, username, password):
+        self.users.update_one(
+            {
+                'username': username
+            },
+            {
+                '$set': {
+                    'password': bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+                }
+            }
+        )

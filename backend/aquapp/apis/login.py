@@ -19,6 +19,7 @@ from flask_restplus import Namespace, Resource, reqparse
 from .core.swagger_models import user
 from .core.marshmallow_models import UserSchema
 from .core.database import Database
+from .core.utils import token_required
 from datetime import datetime, timedelta
 
 api = Namespace('login', description='login operations')
@@ -45,3 +46,17 @@ class Login(Resource):
                     }, os.getenv('SECRET_KEY')).decode('utf-8')
                 }, 200
         return {'message': 'Login failed, check your username and password', **errors}, 400
+
+@api.route("/change-password")
+class ChangePassword(Resource):
+    @api.doc(summary='Change the password of a user',
+             responses={200: 'Password changed'})
+    @api.expect(user)
+    def post(self):
+        user, errors = UserSchema().load(request.get_json(force=True) or {})
+        if not errors:
+            Database().change_password(user['username'], user["password"])
+            return {
+                'message': 'Password changed'
+            }, 200
+        return {'message': 'Failed to change the password', **errors}, 400
