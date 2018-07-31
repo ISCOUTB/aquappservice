@@ -8,24 +8,11 @@
             <img [ngStyle]="{'display' : 'block', 'float': 'left', 'max-height': '100%', 'max-width': '100%'}" src="/assets/utb-white.png" alt="AquApp logo">
         </a>
       </div>
-      <div *ngIf="screenWidth > 840" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
-        <button mat-menu-item [matMenuTriggerFor]="languageMenu" class="menu-element"><mat-icon svgIcon="dialog"></mat-icon><span>{{ selectedLanguage | translate }}</span></button>
-        <mat-menu #languageMenu="matMenu">
-          <button mat-menu-item (click)="selectLanguage('es')">{{ 'Spanish' | translate }}</button>
-          <button mat-menu-item (click)="selectLanguage('en')">{{ 'English' | translate }}</button>
-        </mat-menu>
-      </div>
-      <div *ngIf="840 > screenWidth" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
-        <button mat-button [matMenuTriggerFor]="mainMenu" class="menu-element"><mat-icon svgIcon="three-bar-menu"></mat-icon></button>
-        <mat-menu #mainMenu="matMenu">
-          <button mat-menu-item [matMenuTriggerFor]="languageMenu"><mat-icon svgIcon="dialog"></mat-icon><span>{{ 'Language' | translate }}</span></button>
-        </mat-menu>
-
-        <!--Language menu-->
-        <mat-menu #languageMenu="matMenu">
-          <button mat-menu-item (click)="selectLanguage('es')">{{ 'Spanish' | translate }}</button>
-          <button mat-menu-item (click)="selectLanguage('en')">{{ 'English' | translate }}</button>
-        </mat-menu>
+      <div [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
+        <button mat-menu-item (click)="toggleLanguage()" class="menu-element">
+          <mat-icon svgIcon="dialog"></mat-icon>
+          <span>{{ selectedLanguage }}</span>
+        </button>  
       </div>
   </div>
 </mat-toolbar>
@@ -74,8 +61,7 @@
                 </mat-card-header>
                 <mat-card-content>
                   <p>
-                      {{ 'Available data can be filtered by picking a station type, date range, station,
-                      and parameter using the bottom toolbar and the floating controls' | translate }}
+                      {{ 'Available data can be filtered by picking a station type, date range, station, and parameter using the form on the bottom toolbar and the floating controls' | translate }}
                   </p>
                 </mat-card-content>
               </mat-card>

@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.fixMap();
     };
 
-    this.selectedLanguage = this.translateService.getCurrentLanguage() == "en" ? "In English":"En Español";
+    this.selectedLanguage = this.translateService.getCurrentLanguage() != "en" ? "English":"Español";
   }
 
   /**
@@ -78,9 +78,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
    * @param language The language in which the app will be translated via the
    * translate service.
    */
-  selectLanguage(language) {
-    this.selectedLanguage = language == "en" ? "In English":"En Español";
-    this.translateService.selectLanguage(language);
+  toggleLanguage() {
+    this.translateService.selectLanguage(this.translateService.getCurrentLanguage() == "en"? "es":"en");
+    this.selectedLanguage = this.translateService.getCurrentLanguage() != "en" ? "English":"Español";
     this.drawWaterBodies(this.selectedNodeType);
   }
 

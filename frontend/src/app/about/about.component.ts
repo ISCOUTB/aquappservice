@@ -31,16 +31,16 @@ export class AboutComponent implements OnInit {
       this.breakpoint = (window.innerWidth <= 743)? 1:((window.innerWidth >= 1000)? 3:2);
       this.screenWidth = window.innerWidth;
     }
-    this.selectedLanguage = this.translateService.getCurrentLanguage() == "en" ? "In English":"En Español";
+    this.selectedLanguage = this.translateService.getCurrentLanguage() != "en" ? "English":"Español";
   }
 
   ngOnInit() {
     
   }
 
-  selectLanguage(str) {
-    this.selectedLanguage = str == "en" ? "In English":"En Español";
-    return this.translateService.selectLanguage(str);
+  toggleLanguage() {
+    this.translateService.selectLanguage(this.translateService.getCurrentLanguage() == "en"? "es":"en");
+    this.selectedLanguage = this.translateService.getCurrentLanguage() != "en" ? "English":"Español";
   }
 
   // Moves one tab to the left or the right depending on the swipe direction
