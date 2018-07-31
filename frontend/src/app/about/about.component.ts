@@ -17,6 +17,7 @@ export class AboutComponent implements OnInit {
    * the mat-tab-group
    */
   selectedIndex = 0;
+  selectedLanguage: string;
   
   /**
    * 
@@ -25,10 +26,12 @@ export class AboutComponent implements OnInit {
    */
   constructor(private translateService: TranslateService) { 
     this.breakpoint = (window.innerWidth <= 743)? 1:((window.innerWidth >= 1000)? 3:2);
+    this.screenWidth = window.innerWidth;
     window.onresize = () => {
       this.breakpoint = (window.innerWidth <= 743)? 1:((window.innerWidth >= 1000)? 3:2);
       this.screenWidth = window.innerWidth;
     }
+    this.selectedLanguage = this.translateService.getCurrentLanguage() == "en" ? "In English":"En Español";
   }
 
   ngOnInit() {
@@ -36,6 +39,7 @@ export class AboutComponent implements OnInit {
   }
 
   selectLanguage(str) {
+    this.selectedLanguage = str == "en" ? "In English":"En Español";
     return this.translateService.selectLanguage(str);
   }
 

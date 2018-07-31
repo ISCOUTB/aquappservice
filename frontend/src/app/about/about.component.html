@@ -9,7 +9,7 @@
         </a>
       </div>
       <div *ngIf="screenWidth > 840" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
-        <button mat-menu-item [matMenuTriggerFor]="languageMenu" class="menu-element"><mat-icon svgIcon="dialog"></mat-icon><span>{{ 'Language' | translate }}</span></button>
+        <button mat-menu-item [matMenuTriggerFor]="languageMenu" class="menu-element"><mat-icon svgIcon="dialog"></mat-icon><span>{{ selectedLanguage | translate }}</span></button>
         <mat-menu #languageMenu="matMenu">
           <button mat-menu-item (click)="selectLanguage('es')">{{ 'Spanish' | translate }}</button>
           <button mat-menu-item (click)="selectLanguage('en')">{{ 'English' | translate }}</button>
