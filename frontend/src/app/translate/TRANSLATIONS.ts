@@ -410,8 +410,8 @@ export const TRANSLATIONS = [
         es: `AquApp es una plataforma creada para llevar a cabo el monitoreo y seguimiento de algunos parámetros fisicoquímicos y biológicos de calidad de agua para el sistema interno de caños y lagunas (o sistema lagunar) de Cartagena de Indias. La plataforma calcula, además, el Indicador de la Calidad de Aguas Marinas y Estuarinas para Preservación de Flora y Fauna (ICAMpff) creado por el Invemar (Instituto de Investigaciones Marinas y Costeras).`
     },
     {
-        en: `The data herein is presented in two different type of format: plots and tables (files in “.cvs”). The user may: (a) visualize the chart in the platform and (b) compare any other parameter from any of the other monitoring points located along the lagoon system.`,
-        es: `Los datos en la plataforma están disponibles en dos tipos de formato: gráfica (figura) y tabulado (archivo con extensión ".cvs"). El usuario puede visualizar las gráficas en la plataforma y, adicionalmente, comparar, en la misma gráfica, datos de cualquiera de los puntos de monitoreo establecidos a lo largo del sistema lagunar.`
+        en: `The data herein is presented in two different type of format: plots and tables (files in “.csv”). The user may: (a) visualize the chart in the platform and (b) compare any other parameter from any of the other monitoring points located along the lagoon system.`,
+        es: `Los datos en la plataforma están disponibles en dos tipos de formato: gráfica (figura) y tabulado (archivo con extensión ".csv"). El usuario puede visualizar las gráficas en la plataforma y, adicionalmente, comparar, en la misma gráfica, datos de cualquiera de los puntos de monitoreo establecidos a lo largo del sistema lagunar.`
     },
     {
         en: 'Data is collected by UTB undergraduate students through a multi-parameter probe. Monitoring is performed once a week, and data collection is expected to be remotely in a second stage of the project',
