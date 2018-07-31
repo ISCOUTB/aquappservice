@@ -180,6 +180,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
                                                () => this.drawWaterBodies(this.selectedNodeType))
   }
 
+  selectNodeType(nt) {
+    this.selectedNodeType = nt;
+    this.selectDate(this.selectedDate);
+  }
+
   selectDate(d) {
     this.selectedDate = d;
     var getColor = (icampff) => {

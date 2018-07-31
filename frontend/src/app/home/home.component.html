@@ -65,8 +65,8 @@
         <span [ngStyle]="{'margin-left': '10px'}">{{ 'Filter by station type' | translate }}</span>
       </button>
       <mat-menu #filterMenu="matMenu">
-        <button mat-menu-item *ngFor="let nodeType of nodeTypes" (click)="drawWaterBodies(nodeType.name)">{{ nodeType.name | translate }}</button>
-        <button mat-menu-item (click)="drawWaterBodies('All')">{{ 'All' | translate}}</button>
+        <button mat-menu-item *ngFor="let nodeType of nodeTypes" (click)="selectNodeType(nodeType.name)">{{ nodeType.name | translate }}</button>
+        <button mat-menu-item (click)="selectNodeType('All')">{{ 'All' | translate}}</button>
       </mat-menu>
 
       <button mat-button [matMenuTriggerFor]="dateMenu" class="leaflet-control">
