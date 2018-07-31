@@ -68,6 +68,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.screenWidth = window.innerWidth;
       this.fixMap();
     };
+
+    this.selectedLanguage = this.translateService.getCurrentLanguage() == "en" ? "In English":"En Español";
   }
 
   /**
