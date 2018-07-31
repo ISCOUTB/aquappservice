@@ -493,16 +493,16 @@ export const TRANSLATIONS = [
              opcionalemente cualquier versión posterior.`
     },
     {
-        en: 'For more information please ',
-        es: `Para más información haga pulse `
+        en: 'For more information, click ',
+        es: `Para más información haga clic `
     },
     {
         en: 'here',
         es: `aquí`
     },
     {
-        en: ' click here if you want to read the license terms',
-        es: ` para leer la licencia GNU Affero General Public License`
+        en: ' to read the GNU Affero General Public License.',
+        es: ` para leer la licencia GNU Affero General Public License.`
     },
     {
         en: 'Contact',
