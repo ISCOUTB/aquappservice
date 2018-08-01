@@ -131,5 +131,11 @@ export class AppModule {
     iconRegistry.addSvgIcon(
       'unchained',
       sanitizer.bypassSecurityTrustResourceUrl('assets/unchained.svg'));
+    iconRegistry.addSvgIcon(
+      'cool',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/cool.svg'));
+    iconRegistry.addSvgIcon(
+      'cross-browser',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/cross-browser.svg'));
   }
 }

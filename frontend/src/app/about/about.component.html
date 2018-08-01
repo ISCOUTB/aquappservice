@@ -110,7 +110,10 @@
             <mat-grid-tile>
               <mat-card>
                 <mat-card-header>
-                  <mat-card-title>{{ 'Cool' | translate }}</mat-card-title>
+                    <mat-card-title [ngStyle]="{'vertical-align': 'middle'}">
+                      <mat-icon svgIcon="cool"></mat-icon>
+                      <span [ngStyle]="{'position': 'absolute', 'margin': '5px 5px 5px 5px'}">{{ 'Cool' | translate }}</span>
+                    </mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                   <p>
@@ -124,7 +127,10 @@
             <mat-grid-tile>
               <mat-card>
                 <mat-card-header>
-                  <mat-card-title>{{ 'Cross Browser' | translate }}</mat-card-title>
+                  <mat-card-title>
+                    <mat-icon svgIcon="cross-browser"></mat-icon>
+                    <span [ngStyle]="{'position': 'absolute', 'margin': '5px 5px 5px 5px'}">{{ 'Cross Browser' | translate }}</span>
+                  </mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                   <p>
