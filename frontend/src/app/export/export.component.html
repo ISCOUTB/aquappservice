@@ -19,7 +19,7 @@
                     <mat-select placeholder="{{ 'Second Station' | translate }}" [(value)]="secondNodeId">
                         <mat-optgroup label="{{ 'Stations' | translate }}">
                             <mat-option (click)="getSensors()" *ngFor="let node of nodes" [value]="node._id">
-                                {{ node.node_type_id | acronym }} : {{ node.name | translate }}
+                                {{ node.node_type_id | acronym }} - {{ node.name | translate }}
                             </mat-option>
                         </mat-optgroup>
                         <div *ngIf="waterBodies">

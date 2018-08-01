@@ -11,3 +11,7 @@
     font-weight: bold;
     color: black;
 }
+
+::ng-deep .mat-optgroup .mat-option-text {
+    font-size: 12px;
+}
