@@ -1,12 +1,9 @@
 import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
-import { MatDatepicker } from '@angular/material/datepicker';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { ApiService } from '../api/api.service';
 import { TranslateService } from '../translate/translate.service';
 import { Node } from '../node';
 import { Map, tileLayer,
-         featureGroup, FeatureGroup,
-         GeoJSON, Control,
          Marker, geoJSON } from 'leaflet';
 import { glyphIcon } from '../glyph-icon';
 import { NodeType } from '../node-type';
@@ -29,6 +26,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   selectedWaterBody: WaterBody;  // The water body selected by the user
   screenWidth: number;  // The width (in pixels) of the window
   selectedLanguage: string = "En Español";
+  selectedDateFormatted:string = "Latest";
   
   /* 
     The type has to be any because the geoJSON function only accepts
@@ -187,6 +185,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   selectDate(d) {
     this.selectedDate = d;
+    var aux = new Date(Date.parse(this.selectedDate));
+    this.selectedDateFormatted = aux.getFullYear() + "-" + this.translateService.translate(this.months[aux.getMonth()]) + "-" + aux.getDate() + " " + aux.getHours() + ":" + aux.getMinutes();
     var getColor = (icampff) => {
       return icampff > 90 ? '#0032FF' : // blue
               icampff > 70 ? '#49C502' : // green

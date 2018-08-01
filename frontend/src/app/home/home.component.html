@@ -67,7 +67,12 @@
 
       <button mat-button [matMenuTriggerFor]="dateMenu" class="leaflet-control">
         <mat-icon svgIcon="calendar"></mat-icon>
-        <span [ngStyle]="{'margin-left': '10px'}">{{ 'ICAMpff date' | translate }}</span>
+        <span [ngStyle]="{'margin-left': '10px'}">
+          {{ 'ICAMpff date' | translate }}
+          <span [ngStyle]="{'position': 'absolute', 'margin-top': '15px', 'margin-left': '-123px', 'font-size': '10px', 'width': '100%'}">
+            {{ selectedDateFormatted | translate }}
+          </span>
+        </span>
       </button>
       <mat-menu #dateMenu="matMenu">
         <button mat-menu-item *ngFor="let d of icamDates" (click)="selectDate(d)">{{ d }}</button>

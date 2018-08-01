@@ -54,6 +54,10 @@ export const TRANSLATIONS = [
     },
     // Home component translations
     {
+        en: 'Latest',
+        es: 'La más reciente'
+    },
+    {
         en: 'Filter by station type',
         es: 'Filtrar por tipo de estación'
     },
