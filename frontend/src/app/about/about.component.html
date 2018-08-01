@@ -43,7 +43,10 @@
             <mat-grid-tile>
               <mat-card>
                 <mat-card-header>
-                    <mat-card-title>{{ 'Real data'  | translate }}</mat-card-title>
+                  <mat-card-title [ngStyle]="{'vertical-align': 'middle'}">
+                    <mat-icon svgIcon="data"></mat-icon>
+                    <span [ngStyle]="{'position': 'absolute', 'margin': '5px 5px 5px 5px'}">{{ 'Real data' | translate }}</span>
+                  </mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                   <p>
@@ -57,7 +60,10 @@
             <mat-grid-tile>
               <mat-card>
                 <mat-card-header>
-                  <mat-card-title>{{ 'Filtering' | translate }}</mat-card-title>
+                  <mat-card-title [ngStyle]="{'vertical-align': 'middle'}">
+                    <mat-icon svgIcon="filter"></mat-icon>
+                    <span [ngStyle]="{'position': 'absolute', 'margin': '5px 5px 5px 5px'}">{{ 'Filtering' | translate }}</span>
+                  </mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                   <p>
@@ -70,7 +76,11 @@
             <mat-grid-tile>
               <mat-card>
                   <mat-card-header>
-                    <mat-card-title>{{ 'Download' | translate }}</mat-card-title>
+                    <mat-card-title [ngStyle]="{'vertical-align': 'middle'}">
+                      <mat-icon svgIcon="download"></mat-icon>
+                      <span [ngStyle]="{'position': 'absolute', 'margin': '5px 5px 5px 5px'}">{{ 'Download' | translate }}</span>
+                    </mat-card-title>
+                    
                   </mat-card-header>
                   <mat-card-content>
                     <p>
@@ -83,7 +93,10 @@
             <mat-grid-tile>
               <mat-card>
                 <mat-card-header>
-                  <mat-card-title>{{ 'No restrictions' | translate }}</mat-card-title>
+                  <mat-card-title [ngStyle]="{'vertical-align': 'middle'}">
+                    <mat-icon svgIcon="unchained"></mat-icon>
+                    <span [ngStyle]="{'position': 'absolute', 'margin': '5px 5px 5px 5px'}">{{ 'No restrictions' | translate }}</span>
+                  </mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                   <p>

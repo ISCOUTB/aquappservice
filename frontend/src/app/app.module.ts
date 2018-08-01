@@ -40,6 +40,7 @@ import { TranslatePipe } from './translate/translate.pipe';
 import { TranslateService } from './translate/translate.service';
 import { DashboardComponent, Dialog as DBDialog } from './dashboard/dashboard.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { AcronymPipe } from './utils/acronym.pipe';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { NotfoundComponent } from './notfound/notfound.component';
     TranslatePipe,
     DBDialog,
     DashboardComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    AcronymPipe
   ],
   entryComponents: [Dialog, ExportComponent, NSDialog, HomeComponent, DBDialog, DashboardComponent],
   imports: [
@@ -120,5 +122,14 @@ export class AppModule {
     iconRegistry.addSvgIcon(
       'calendar',
       sanitizer.bypassSecurityTrustResourceUrl('assets/calendar.svg'));
+    iconRegistry.addSvgIcon(
+      'download',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/download.svg'));
+    iconRegistry.addSvgIcon(
+      'data',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/data.svg'));
+    iconRegistry.addSvgIcon(
+      'unchained',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/unchained.svg'));
   }
 }

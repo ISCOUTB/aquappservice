@@ -6,3 +6,8 @@
 .export-button {
     margin-top: 5px;
 }
+
+::ng-deep .mat-optgroup .mat-optgroup-label {
+    font-weight: bold;
+    color: black;
+}
