@@ -58,16 +58,16 @@
     <div class="leaflet-bottom leaflet-left floating-controls">
       <button mat-button [matMenuTriggerFor]="filterMenu" class="leaflet-control">
         <mat-icon svgIcon="filter"></mat-icon>
-        <span [ngStyle]="{'margin-left': '10px'}">{{ 'Filter by station type' | translate }}</span>
+        <span [ngStyle]="{'margin-left': '10px'}">{{ selectedNodeType | translate }}</span>
       </button>
       <mat-menu #filterMenu="matMenu">
         <button mat-menu-item *ngFor="let nodeType of nodeTypes" (click)="selectNodeType(nodeType.name)">{{ nodeType.name | translate }}</button>
-        <button mat-menu-item (click)="selectNodeType('All')">{{ 'All' | translate}}</button>
+        <button mat-menu-item (click)="selectNodeType('All stations')">{{ 'All stations' | translate }}</button>
       </mat-menu>
 
       <button mat-button [matMenuTriggerFor]="dateMenu" class="leaflet-control">
         <mat-icon svgIcon="calendar"></mat-icon>
-        <span [ngStyle]="{'margin-left': '10px'}">{{ 'Measure date (ICAMpff)' | translate }}</span>
+        <span [ngStyle]="{'margin-left': '10px'}">{{ 'ICAMpff date' | translate }}</span>
       </button>
       <mat-menu #dateMenu="matMenu">
         <button mat-menu-item *ngFor="let d of icamDates" (click)="selectDate(d)">{{ d }}</button>
@@ -82,7 +82,7 @@
     <p>{{ 'Please, select a station' | translate}}</p>
   </div>
   <div *ngIf="selectedNode" class="export-menu-label">
-    <span>{{ selectedNode.name }}</span>
+    <span>{{ selectedNode.name }} - {{ selectedNode.location }}</span>
   </div>
   <div class="sensors-container">
     <div *ngIf="selectedNode" class="sensors">

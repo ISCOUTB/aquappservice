@@ -21,7 +21,7 @@ import { Sensor } from '../sensor';
 
 export class HomeComponent implements OnInit, AfterViewInit {
   months: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec'];
-  selectedNodeType: string = 'All';  // Which node types have to be displayed on the map
+  selectedNodeType: string = 'All stations';  // Which node types have to be displayed on the map
   nodes: Node[];  // The nodes pulled from the backend
   nodeTypes: NodeType[];  // The node types pulled from the backend
   map: Map;  // The leaflet map instance
@@ -288,7 +288,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             index++;
           });
 
-          if ("Water Quality" == this.selectedNodeType || this.selectedNodeType == 'All')
+          if ("Water Quality" == this.selectedNodeType || this.selectedNodeType == 'All stations')
             waterBody.properties.icamfs[latestDateIndex].nodes.forEach(node => {
               var already_placed: boolean = false;
               
@@ -491,7 +491,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             index++;
           });
 
-          if ("Water Quality" == this.selectedNodeType || this.selectedNodeType == 'All')
+          if ("Water Quality" == this.selectedNodeType || this.selectedNodeType == 'All stations')
             waterBody.properties.icamfs[latestDateIndex].nodes.forEach(node => {
               var already_placed: boolean = false;
               
@@ -635,7 +635,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       });
       
       var marker = new Marker([node.coordinates[0], node.coordinates[1]], {title: node.name, icon: ico});
-      if ((nodeType == this.selectedNodeType || this.selectedNodeType == 'All') && nodeType !== "Water Quality") {
+      if ((nodeType == this.selectedNodeType || this.selectedNodeType == 'All stations') && nodeType !== "Water Quality") {
         marker.on('click', () => {
           this.selectedNode = node;
           this.nodeTypes.forEach(nodeType => {

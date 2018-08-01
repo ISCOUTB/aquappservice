@@ -62,8 +62,8 @@ export const TRANSLATIONS = [
         es: 'Fecha'
     },
     {
-        en: 'Measure date (ICAMpff)',
-        es: 'Fecha de medición (ICAMpff)'
+        en: 'ICAMpff date',
+        es: 'Fecha del ICAMpff'
     },
     {
         en: 'ICAMpff (estuary) values',
@@ -382,8 +382,8 @@ export const TRANSLATIONS = [
         es: 'Estación del clima'
     },
     {
-        en: 'All',
-        es: 'Todas'
+        en: 'All stations',
+        es: 'Todas las estaciones'
     },  // About component
     {
         en: 'Special thanks',
