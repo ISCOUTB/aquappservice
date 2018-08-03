@@ -441,7 +441,7 @@ export const TRANSLATIONS = [
         es: `Descarga`
     },
     {
-        en: 'After having filtered the data, the information is available either as a Comma Separated Values (.csv) file or a graph, which may be also visualized in the platform.',
+        en: 'After having filtered the data, the information is available either as a Comma Separated Values (.csv) file or as a graph, which may be also visualized in the platform.',
         es: `Luego de filtrar la información, esta puede ser descargada en el formato de texto separado por comas (csv)
              o como un gráfico.`
     },
