@@ -428,7 +428,7 @@ export const TRANSLATIONS = [
         es: `Filtrado`
     },
     {
-        en: 'Available data can be filtered by picking a station type, date range, station, and parameter using the form on the bottom toolbar and the floating controls',
+        en: 'Available data can be filtered by selecting a station type, date range, station, and parameter using the form on the bottom toolbar and the floating controls',
         es: `La información disponible puede ser filtrada eligiendo un tipo de estación, rango de fechas
              y parámetro usando la barra de tareas en la parte inferior y los contorles flotantes`
     },
@@ -456,19 +456,21 @@ export const TRANSLATIONS = [
         es: `Atractivo`
     },
     {
-        en: 'To guarantee a great experience, we developed a well-built website up-to-date, with worthwhile content and an improved user interface with good navigation for quick and easy travel throughout the website.',
+        en: 'To guarantee a great experience, we developed a well-built and up-to-date website, with worthwhile content and an improved user interface that permits a quick and easy navigation throughout the website.',
         es: `Para garantizar una gran experiencia, desarrollamos un sitio web
              bien construído y al día, con contenido útil y una interfaz de usuario
-             mejorada con buena navegación.`
+             mejorada que permite tener una navegación rápida y fácil a través del
+             sitio.`
     },
     {
         en: 'Cross Browser',
         es: `Multi navegador`
     },
     {
-        en: 'We built this compatible with all modern browsers. You are allow to use it in Chrome, Firefox, Safari and Opera, feel free to prove it yourself.',
+        en: 'The website is built to be compatible with all modern browsers (Chrome, Firefox, Safari, and Opera). Feel free to try it yourself!.',
         es: `Este sitio fue construído de modo que sea compatible con todos los
-             navegadores modernos. Puedes usarlo en Chrome, Firefox, Safari y Opera.`
+             navegadores modernos (Puedes usarlo en )Chrome, Firefox, Safari y Opera). 
+             ¡Siéntete libre de probarlo por ti mismo!.`
     },
     {
         en: 'Web Technologies',
