@@ -425,6 +425,11 @@ export class ExportComponent implements OnInit {
         'variable': this.dataFromHomeComponent[1],
         'sensor_data': this.csv_data,
         'options': {
+          'pointSize': 2.5,
+          'highlightCircleSize': 5.0,
+          'drawPoints': true,
+          'strokeWidth': 0.0,
+          'displayAnnotations': true,
           'width': 1000,
           'height': 250,
           'legend': 'follow',
@@ -518,6 +523,11 @@ export class ExportComponent implements OnInit {
         'variable': this.dataFromHomeComponent[1],
         'sensor_data': this.csv_data,
         'options': {
+          'drawPoints': true,
+          'pointSize': 2.5,
+          'highlightCircleSize': 5.0,
+          'strokeWidth': 0.0,
+          'displayAnnotations': true,
           'width': 1000,
           'height': 250,
           'legend': 'follow',

@@ -7,6 +7,10 @@
     margin-top: 5px;
 }
 
+::ng-deep .dygraph-label-rotate-right {
+    left: -140px !important;
+}
+
 ::ng-deep .mat-optgroup .mat-optgroup-label {
     font-weight: bold;
     color: black;
