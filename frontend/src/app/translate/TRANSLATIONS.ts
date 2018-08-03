@@ -456,11 +456,10 @@ export const TRANSLATIONS = [
         es: `Atractivo`
     },
     {
-        en: 'To guarantee a great experience, we developed a well-built and up-to-date website, with worthwhile content and an improved user interface that permits a quick and easy navigation throughout the website.',
+        en: 'To guarantee a great experience, we developed a well-built and up-to-date website, with worthwhile content and an interface thought for the users.',
         es: `Para garantizar una gran experiencia, desarrollamos un sitio web
-             bien construído y al día, con contenido útil y una interfaz de usuario
-             mejorada que permite tener una navegación rápida y fácil a través del
-             sitio.`
+             bien construído y al día, con contenido útil y una interfaz  
+             pensada para los usuarios.`
     },
     {
         en: 'Cross Browser',
