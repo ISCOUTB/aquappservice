@@ -6,6 +6,11 @@
     [data]="data.sensor_data"
     [options]="data.options">
   </ng-dygraphs>
+  <p>
+    {{ 'You can zoom a vertical or horizontal section of the chart
+        by clicking and then dragging with the mouse. 
+        Double click on the chart to unzoom.' | translate }}
+  </p>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()" cdkFocusInitial>{{ 'Close' | translate }}</button>

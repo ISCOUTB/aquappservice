@@ -318,6 +318,10 @@ export const TRANSLATIONS = [
         es: 'Arc. Int'  // TODO find a proper translation
     },  // Export component
     {
+        en: 'You can zoom a vertical or horizontal section of the chart by clicking and then dragging with the mouse. Double click on the chart to unzoom.',
+        es: 'Usted puede hacer zoom a una región horizontal o vertical de la gráfica haciendo clic y arratrando con el mouse. Haga doble clic sobre la gráfica para reiniciar el zoom.'
+    },
+    {
         en: 'Stations',
         es: 'Estaciones'
     },
