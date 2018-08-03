@@ -7,6 +7,11 @@
     margin-top: 5px;
 }
 
+::ng-deep .dygraph-legend {
+    left: 75px !important;
+    background: transparent !important;
+}
+
 ::ng-deep .dygraph-label-rotate-right {
     left: -140px !important;
 }

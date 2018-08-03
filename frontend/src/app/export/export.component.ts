@@ -432,7 +432,7 @@ export class ExportComponent implements OnInit {
           'displayAnnotations': true,
           'width': 1000,
           'height': 250,
-          'legend': 'follow',
+          'legend': 'always',
           'ylabel': this.translateService.translate(sensor1) + (this.unit? " (" + this.unit + ")": ""),
           'xlabel': this.translateService.translate('Date'),
           'axes': {
@@ -530,7 +530,7 @@ export class ExportComponent implements OnInit {
           'displayAnnotations': true,
           'width': 1000,
           'height': 250,
-          'legend': 'follow',
+          'legend': 'always',
           'ylabel': this.translateService.translate(sensor1) + (this.unit? "(" + this.unit + ")" : "") + (this.unit != this.unit2? (" vs " + this.translateService.translate(sensor2) + (this.unit2 != ""? "(" + this.unit2 + ")": "")) : ""),
           'xlabel': this.translateService.translate('Date'),
           'axes': {
