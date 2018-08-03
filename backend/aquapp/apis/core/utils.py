@@ -7,6 +7,7 @@ import jwt
 import os
 from flask import request
 from functools import wraps
+from datetime import datetime
 
 """
     Decorator function that checks if the token stored in the
@@ -24,10 +25,14 @@ def token_required(f):
                 'message': 'Token is missing, log in using your credentials at /login to get a token'
             }, 401
         try:
-            jwt.decode(token, os.getenv('SECRET_KEY'))
+            t = jwt.decode(token, os.getenv('SECRET_KEY'))
         except jwt.InvalidTokenError:
             return {
                 'message': 'Invalid token, log in using your credentials at /login to get a token'
+            }, 401
+        if datetime.fromtimestamp(t["exp"]) < datetime.now():
+            return {
+                'message': "You're using an expired token, create a new one using your credentials at /login"
             }, 401
         return f(*args, **kwargs)
     return decorated

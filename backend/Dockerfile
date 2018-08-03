@@ -16,9 +16,9 @@ EXPOSE 8080
 
 ENV PYTHONPATH=/backend/
 
-COPY ./config/env.default /backend/aquapp/.env
-
 COPY . /backend
+
+RUN cp -n /backend/config/env.default /backend/.env
 
 WORKDIR /backend/aquapp
 
