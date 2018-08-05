@@ -659,7 +659,7 @@ export const TRANSLATIONS = [
         es: 'Sesión iniciada'
     },
     {
-        en: 'What is the estuarine bayous and lagoons internal system of Cartagena de Indias?',
+        en: 'What is the internal system of estuarine bayous and lagoons of Cartagena de Indias?',
         es: '¿Qué es el sistema interno de caños y lagunas de Cartagena de Indias?'
     },
     {
