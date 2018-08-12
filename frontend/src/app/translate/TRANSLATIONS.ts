@@ -476,8 +476,8 @@ export const TRANSLATIONS = [
              ¡Siéntete libre de probarlo por ti mismo!.`
     },
     {
-        en: 'Web Technologies',
-        es: `Tecnologías web`
+        en: 'Technologies used',
+        es: `Tecnologías usadas`
     },
     {
         en: 'Developer',
