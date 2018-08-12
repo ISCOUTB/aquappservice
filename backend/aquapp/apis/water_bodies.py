@@ -118,7 +118,9 @@ class ExportAsCSV(Resource):
                 else:
                     abort(404)  # It's better to abort rather than giving useless data
 
-                new_hash = hash(reduce(lambda x, y: str(x) + str(y), d) + str(latest_date))
+                # I know, I know, it's not a hash, it was a hash but I don't have a
+                # creative name for this thing.
+                new_hash = str(d)
                 # Now we need to check the date of the cache in the water body
                 # to see if it's current
                 if Database().check_icampff_hash(water_body_id, node_id, new_hash, latest_date):
@@ -128,12 +130,12 @@ class ExportAsCSV(Resource):
                 try:
                     new_icampff = requests.get("http://buritaca.invemar.org.co/ICAMWebService/calculate-icam-ae/od/{}/no3/{}/sst/{}/ctt/{}/ph/{}/po4/{}/dbo/{}/cla/{}".format(*d)).json()['value']
                 except KeyError:
-                    print('Error loading the icampff value from invemar!!!')
-                    """
-                        This approach is better and more transparent
-                        with the user than just returning 0 when
-                        we are unable to return the value from Invemar.
-                    """
+                    abort(404)
+                except requests.exceptions.ConnectionError:
+                    abort(404)
+                except requests.exceptions.ConnectTimeout:
+                    abort(404)
+                except requests.exceptions.HTTPError:
                     abort(404)
                 # Once taken the ICAMpff from Invemar, the value is stored in the database
                 Database().set_icampff_cache(water_body_id, node_id, new_hash, new_icampff, latest_date)
@@ -309,7 +311,9 @@ class WaterBodyICAMpff(Resource):
             else:
                 abort(404)  # It's better to abort rather than giving useless data
 
-            new_hash = hash(reduce(lambda x, y: str(x) + str(y), d) + str(latest_date))
+            # I know, I know, it's not a hash, it was a hash but I don't have a
+            # creative name for this thing.
+            new_hash = str(d)
             # Now we need to check the date of the cache in the water body
             # to see if it's current
             if Database().check_icampff_hash(water_body_id, node_id, new_hash, latest_date):
@@ -319,7 +323,12 @@ class WaterBodyICAMpff(Resource):
             try:
                 new_icampff = requests.get("http://buritaca.invemar.org.co/ICAMWebService/calculate-icam-ae/od/{}/no3/{}/sst/{}/ctt/{}/ph/{}/po4/{}/dbo/{}/cla/{}".format(*d)).json()['value']
             except KeyError:
-                print('Error loading the icampff value from invemar!!!')
+                abort(404)
+            except requests.exceptions.ConnectionError:
+                abort(404)
+            except requests.exceptions.ConnectTimeout:
+                abort(404)
+            except requests.exceptions.HTTPError:
                 abort(404)
             # Once taken the ICAMpff from Invemar, the value is stored in the database
             Database().set_icampff_cache(water_body_id, node_id, new_hash, new_icampff, latest_date)
