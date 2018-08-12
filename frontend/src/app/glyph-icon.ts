@@ -1,4 +1,6 @@
-// CREDITS TO ITS RESPECTIVE AUTHOR, I ONLY MADE IT WORK WITH Typescript
+// CREDITS TO ITS AUTHOR, IvanSancez (ivan@sanchezortega.es)
+// I just modified it so it works with Angular
+// For more information, visit the repo: https://github.com/Leaflet/Leaflet.Icon.Glyph
 import { Icon, DomUtil, point } from 'leaflet';
 
 let GlyphIcon = Icon.extend({
