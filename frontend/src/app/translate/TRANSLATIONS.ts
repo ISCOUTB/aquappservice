@@ -422,7 +422,7 @@ export const TRANSLATIONS = [
         es: `Los datos en la plataforma están disponibles en dos tipos de formato: gráfica (figura) y tabulado (archivo con extensión ".csv"). El usuario puede visualizar las gráficas en la plataforma y, adicionalmente, comparar, en la misma gráfica, datos de cualquiera de los puntos de monitoreo establecidos a lo largo del sistema lagunar.`
     },
     {
-        en: 'Data is collected by UTB undergraduate students through both a multiparameter probe and water samples, which are then sent to the lab. Monitoring is performed once a werk, and the data for some of the parameters are expected -in a second stage of the project- to be remotely sensed so as to have real time information',
+        en: 'Data is collected by UTB undergraduate students through both a multiparameter probe and water samples, which are then sent to the lab. Monitoring is performed once a week, and the data for some of the parameters are expected -in a second stage of the project- to be remotely sensed so as to have real time information',
         es: `La información es recolectada por estudiantes no graduados de la UTB a través de una sonda multi parámetro y muestras de agua.
              El monitoreo es realizado una vez por semana, y la recolección de algunos de los datos se espera que sea remota
              (en una segunda etapa del proyecto).`
@@ -450,7 +450,7 @@ export const TRANSLATIONS = [
         es: `Sin restricciones`
     },
     {
-        en: 'Unlike other institutions with monitoring plans on water bodies of the internal creeks and lakes system of Cartagena that restrict access to the data taken, Aquapp provides information available for the entire community',
+        en: 'Unlike other institutions with monitoring plans on water bodies of the internal bayous and lagoons system of Cartagena that restrict access to the data taken, Aquapp provides information available for the entire community',
         es: `A diferencia de otras instituciones con planes de monitoreo de los cuerpos de
              agua de Cartagena, los cuales restringen el acceso a la informacióń obtenida,
              AquApp deja su información disponible para toda la comunidad.`
@@ -460,10 +460,8 @@ export const TRANSLATIONS = [
         es: `Atractivo`
     },
     {
-        en: 'To guarantee a great experience, we developed a well-built and up-to-date website, with worthwhile content and an interface thought for the users.',
-        es: `Para garantizar una gran experiencia, desarrollamos un sitio web
-             bien construído y al día, con contenido útil y una interfaz  
-             pensada para los usuarios.`
+        en: 'To guarantee a great experience, we developed a well-built and up-to-date website with an interface thought for the users.',
+        es: `Para garantizar una gran experiencia, desarrollamos un sitio web bien construído y al día, con contenido útil y una interfaz pensada para los usuarios.`
     },
     {
         en: 'Cross Browser',
@@ -472,7 +470,7 @@ export const TRANSLATIONS = [
     {
         en: 'The website is built to be compatible with all modern browsers (Chrome, Firefox, Safari, and Opera). Feel free to try it yourself!.',
         es: `Este sitio fue construído de modo que sea compatible con todos los
-             navegadores modernos (Puedes usarlo en )Chrome, Firefox, Safari y Opera). 
+             navegadores modernos (Puedes usarlo en )Chrome, Firefox, Safari y Opera).
              ¡Siéntete libre de probarlo por ti mismo!.`
     },
     {
@@ -671,7 +669,7 @@ export const TRANSLATIONS = [
         es: 'A través de los años, la calidad del agua del sistema lagunar se ha venido deteriorando. Además, ha perdido no solo área superficial del espejo de agua y biomasa de manglar (áreas cubiertas de manglar), sino también área de la sección transversal de los cuerpos de agua, debido principalmente a: (a) sedimentos y contaminantes arrastrados por la escorrentía proveniente de las cuencas que drenan hacia el sistema lagunar, (b) asentamientos legales e ilegales a lo largo de las orillas, (c) tala del manglar y (d) mala disposición de residuos sólidos a lo largo de las orillas y dentro de los cuerpos de agua. Estas condiciones afectan de manera directa la calidad de los cuerpos de agua, su capacidad de autodepuración y la hidrodinámica que determina el destino y concentración de los contaminantes.'
     },
     {
-        en: 'The lagoon system is considered an intertidal estuarine system. It is home to fauna and flora that depend on the mangrove, which are sensitive to changes in several physical-chemical and biological parameters (pH, temperature, salinity, nitrates, electrical conductivity, dissolved oxygen, feacal and total coliforms, just to mention some) that may or may not favor the survival of permanent and temporary species. Plus, its ecosystemic services may be also compromised: hydrological regime regulation, carbon dioxide removal, erosion control, microclimate and nutrients regulation, solids retention, among others. As one may see, the water quality of this lagoon system must be continously monitored and followed-up and AquApp makes that possible. The best part: it is freely available for all users!',
+        en: 'The lagoon system is considered an intertidal estuarine system. It is home to fauna and flora that depend on the mangrove, which are sensitive to changes in several physical-chemical and biological parameters (pH, temperature, salinity, nitrates, electrical conductivity, dissolved oxygen, feacal and total coliforms, just to mention some) that may or may not favor the survival of permanent and temporary species. Plus, its ecosystemic services may be also compromised: hydrological regime regulation, carbon dioxide removal, erosion control, microclimate and nutrients regulation, solids retention, among others. As one may see, the water quality of this lagoon system must be continuously monitored and followed-up and AquApp makes that possible. The best part: it is freely available for all users!',
         es: 'El sistema lagunar es considerado un ecosistema estuarino intramareal boscoso. Alberga, a lo largo de su recorrido, fauna y flora que dependen de los manglares, los cuales son muy sensibles a los cambios en los valores de diferentes parámetros fisicoquímicos y microbiológicos (pH, temperatura, salinidad, nitratos, conductividad eléctrica, oxígeno disuelto, coliformes totales y fecales, entre otros) que pueden o no favorecer a la supervivencia de las especies permanentes y temporales de este ecosistema; además de, potencialmente, afectar los servicios ecosistémicos que el manglar ofrece (regulación del régimen hidrológico, remoción de dióxido de carbono, control de erosión, regulación de nutrientes y el microclima, hábitat de especies, retención de sólidos, etc.). En consecuencia, la calidad del agua (medio que sostiene el ecosistema) y su continuo monitoreo y seguimiento se hace primordial y AquApp hace posible dicho seguimiento de manera gratuita para todos los usuarios.'
     },
     {
