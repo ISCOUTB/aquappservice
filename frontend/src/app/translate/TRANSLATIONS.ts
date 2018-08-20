@@ -545,6 +545,14 @@ export const TRANSLATIONS = [
         en: "Jairo Serrano, a Computer Engineer (2006) graduated from Universidad Tecnológica de Bolívar (UTB), masters degree in Open Software (UOC) with emphasis in software development (2008). He worked as the Coordinator of Technologies of the Virtual Education Management of the UTB (2001-2010) and a full-time professor of the Faculty of Technical and Technological Studies (2011-2013), currently the Director of the Computer Engineering program of the Engineering Faculty.",
         es: 'Jairo Serrano, Ingeniero de sistemas (2006) de la Universidad Tecnológica de Bolívar (UTB), Magíster en Software Libre de la UOC con énfasis en desarrollo de software (2008). Se desempeñó como coordinador de tecnologías de la dirección de educación virtual de la UTB (2001-2010) y profesor de tiempo completo de la Facultad de estudios técnicos y tecnológicos (2011-2013), actualmente director de programa de Ingeniería de Sistemas de la facultad de Ingeniería.'
     },
+    {
+        en: "Víctor is an environmental engineering student at Universidad Tecnologica de Bolivar. Responsible for the monitoring and collection of all samples in the lagoon system for water quality analysis.",
+        es: "Víctor es un estudiante de ingeniería ambiental en la universidad Tecnológica de Bolívar.  Encargado del monitoreo y recolección de todas las muestras en el sistema lagunar para el análisis de calidad del agua."
+    },
+    {
+        en: "Data monitoring and collection",
+        es: "Monitoreo y recolección de datos"
+    },
     // Notfound component
     {
         en: 'Page not found',

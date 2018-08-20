@@ -44,7 +44,7 @@ export class AboutComponent implements OnInit {
   }
 
   // Moves one tab to the left or the right depending on the swipe direction
-  swipe(idx, event) {
+  /*swipe(idx, event) {
     const steps = 1
     if (event.type === 'swipeleft') {
       const isLast = this.selectedIndex + steps >= this.labels - 1;
@@ -56,5 +56,5 @@ export class AboutComponent implements OnInit {
       this.selectedIndex = isFirst ? 0 : this.selectedIndex - steps;
     }
     console.log(this.selectedIndex);
-  }
+  }*/
 }
