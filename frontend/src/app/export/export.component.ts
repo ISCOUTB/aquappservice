@@ -440,7 +440,7 @@ export class ExportComponent implements OnInit {
           'axes': {
             y: {
               valueFormatter: (v) => {
-                return v;  // controls formatting in the legend/mouseover
+                return Math.floor(v);  // controls formatting in the legend/mouseover
               },
               axisLabelFormatter: (v) => {
                 return v;  // controls formatting of the y-axis labels
@@ -539,7 +539,7 @@ export class ExportComponent implements OnInit {
           'axes': {
             y: {
               valueFormatter: (v) => {
-                return v;  // controls formatting in the legend/mouseover
+                return Math.floor(v);  // controls formatting in the legend/mouseover
               },
               axisLabelFormatter: (v) => {
                 return v;  // controls formatting of the y-axis labels
@@ -547,7 +547,7 @@ export class ExportComponent implements OnInit {
             },
             y1: {
               valueFormatter: (v) => {
-                return v;  // controls formatting in the legend/mouseover
+                return Math.floor(v);  // controls formatting in the legend/mouseover
               },
               axisLabelFormatter: (v) => {
                 return v;  // controls formatting of the y-axis labels
