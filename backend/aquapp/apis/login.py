@@ -52,6 +52,7 @@ class ChangePassword(Resource):
     @api.doc(summary='Change the password of a user',
              responses={200: 'Password changed'})
     @api.expect(user)
+    @token_required
     def post(self):
         user, errors = UserSchema().load(request.get_json(force=True) or {})
         if not errors:
