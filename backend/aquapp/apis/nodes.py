@@ -257,10 +257,14 @@ class ExportAsCSV(Resource):
         
         # csv_data = "Date," + args["variable_1"] + ("," + args["variable_2"] if args["variable_2"] is not None else "") + "\n"
         csv_data = ""
+        min_date = datetime.utcnow()
+        max_date = date_parser.parse("1900-01-01 00:00:00")
 
         if args["id_2"] is None:
             data = Database().get_sensor_data(node_id, args["variable_1"], sd_1, ed_1)
             for datum in data["data"]:
+                min_date = datum["date"] if datum["date"] < min_date else min_date
+                max_date = datum["date"] if datum["date"] > max_date else max_date
                 csv_data += str(datum["date"]) + "," + str(datum["value"]) + "\n"
         else:
             nodes = Database().get_nodes()
@@ -271,6 +275,8 @@ class ExportAsCSV(Resource):
                 data_2 = Database().get_sensor_data(args["id_2"], args["variable_2"], sd_2, ed_2)
 
                 for datum in data_1["data"]:
+                    min_date = datum["date"] if datum["date"] < min_date else min_date
+                    max_date = datum["date"] if datum["date"] > max_date else max_date
                     csv_data += str(datum["date"]) + "," + str(datum["value"])  + ","
                     
                     found = False
@@ -286,6 +292,8 @@ class ExportAsCSV(Resource):
                     csv_data += "\n"
                 
                 for datum in data_2["data"]:
+                    min_date = datum["date"] if datum["date"] < min_date else min_date
+                    max_date = datum["date"] if datum["date"] > max_date else max_date
                     csv_data += str(datum["date"]) + ",," + str(datum["value"]) + "\n"
             
             elif args["id_2"] in [str(water_body["_id"]) for water_body in water_bodies]:
@@ -300,6 +308,8 @@ class ExportAsCSV(Resource):
                     }
                 """
                 for datum in data_1["data"]:
+                    min_date = datum["date"] if datum["date"] < min_date else min_date
+                    max_date = datum["date"] if datum["date"] > max_date else max_date
                     csv_data += str(datum["date"]) + "," + str(datum["value"]) + ","
 
                     found = False
@@ -316,9 +326,15 @@ class ExportAsCSV(Resource):
                     csv_data += "\n"
                 
                 for icam in data_2:
+                    min_date = icam["date"] if icam["date"] < min_date else min_date
+                    max_date = icam["date"] if icam["date"] > max_date else max_date
                     csv_data += icam["date"] + ",," + str(icam["icampff_avg"]) + "\n"
 
-        return csv_data, 200
+        return {
+                    "csv": csv_data,
+                    "minDate": str(min_date),
+                    "maxDate": str(max_date)
+                }, 200
 
 
 @api.route('/<string:node_id>')

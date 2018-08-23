@@ -9,6 +9,7 @@ import { ApiService } from '../api/api.service';
 import { TranslateService } from '../translate/translate.service';
 import { DateAdapter } from '@angular/material/core';
 import { Icam } from '../water-body-property';
+import { CSVData } from '../api/api.service';
 
 @Component({
   selector: 'app-export',
@@ -51,7 +52,7 @@ export class ExportComponent implements OnInit {
   unit: string;
   unit2: string;
 
-  csv_data: string;
+  csv_data: CSVData;
 
   /**
    * A list of dates (with granularity of one day) in
@@ -231,7 +232,7 @@ export class ExportComponent implements OnInit {
               this.endDate2.getFullYear() + "-" + (this.endDate2.getMonth() + 1) + "-" + this.endDate2.getDate()
             ).subscribe(csv_data => this.csv_data = csv_data, () => {},
               () => {
-                var blob = new Blob([this.csv_data], {type: 'text/csv'});
+                var blob = new Blob([this.csv_data.csv], {type: 'text/csv'});
                 var url= window.URL.createObjectURL(blob);
                 window.open(url);
                 this.loading = false;
@@ -251,7 +252,7 @@ export class ExportComponent implements OnInit {
             this.endDate2.getFullYear() + "-" + (this.endDate2.getMonth() + 1) + "-" + this.endDate2.getDate()
           ).subscribe(csv_data => this.csv_data = csv_data, () => {},
             () => {
-              var blob = new Blob([this.csv_data], {type: 'text/csv'});
+              var blob = new Blob([this.csv_data.csv], {type: 'text/csv'});
               var url= window.URL.createObjectURL(blob);
               window.open(url);
               this.loading = false;
@@ -315,7 +316,7 @@ export class ExportComponent implements OnInit {
               this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate()
             ).subscribe(csv_data => this.csv_data = csv_data, () => {},
               () => {
-                var blob = new Blob([this.csv_data], {type: 'text/csv'});
+                var blob = new Blob([this.csv_data.csv], {type: 'text/csv'});
                 var url= window.URL.createObjectURL(blob);
                 window.open(url);
                 this.loading = false;
@@ -333,7 +334,7 @@ export class ExportComponent implements OnInit {
             this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate()
           ).subscribe(csv_data => this.csv_data = csv_data, () => {},
             () => {
-              var blob = new Blob([this.csv_data], {type: 'text/csv'});
+              var blob = new Blob([this.csv_data.csv], {type: 'text/csv'});
               var url= window.URL.createObjectURL(blob);
               window.open(url);
               this.loading = false;
@@ -423,8 +424,9 @@ export class ExportComponent implements OnInit {
       data: {
         'node_id': this.dataFromHomeComponent[0], 
         'variable': this.dataFromHomeComponent[1],
-        'sensor_data': this.csv_data,
+        'sensor_data': this.csv_data.csv,
         'options': {
+          'dateWindow': [(new Date(this.csv_data.minDate)).getTime() - 3600 * 24 * 30 * 1000, (new Date(this.csv_data.maxDate)).getTime() + 3600 * 24 * 30 * 1000],
           'pointSize': 2.5,
           'highlightCircleSize': 5.0,
           'drawPoints': true,
@@ -521,8 +523,9 @@ export class ExportComponent implements OnInit {
       data: {
         'node_id': this.dataFromHomeComponent[0], 
         'variable': this.dataFromHomeComponent[1],
-        'sensor_data': this.csv_data,
+        'sensor_data': this.csv_data.csv,
         'options': {
+          'dateWindow': [(new Date(this.csv_data.minDate)).getTime() - 3600 * 24 * 30 * 1000, (new Date(this.csv_data.maxDate)).getTime() + 3600 * 24 * 30 * 1000],
           'drawPoints': true,
           'pointSize': 2.5,
           'highlightCircleSize': 5.0,

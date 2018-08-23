@@ -55,6 +55,19 @@ class Datum {
   }
 }
 
+export class CSVData {
+  csv: string;
+  minDate: Date;
+  maxDate: Date;
+  constructor(c: string, min: string, max: string) {
+    this.csv = c;
+    this.minDate = new Date(Date.parse(min));
+    this.minDate.setMonth(this.minDate.getMonth() - 1);
+    this.maxDate = new Date(Date.parse(max));
+    this.maxDate.setMonth(this.maxDate.getMonth() + 1);
+  }
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -149,8 +162,8 @@ export class ApiService {
     );
   }
 
-  getCSVData1(id: string, variable:string, startDate: string, endDate: string): Observable<string> {
-    return this.http.get<string>(
+  getCSVData1(id: string, variable:string, startDate: string, endDate: string): Observable<CSVData> {
+    return this.http.get<CSVData>(
       this.apiUrl + "/nodes/" + id + "/export-as-csv",
       {
         params: {
@@ -163,8 +176,8 @@ export class ApiService {
   }
 
   getCSVData2(id1: string, variable1:string, startDate1: string, endDate1: string,
-              id2: string, variable2: string, startDate2: string, endDate2: string): Observable<string> {
-    return this.http.get<string>(
+              id2: string, variable2: string, startDate2: string, endDate2: string): Observable<CSVData> {
+    return this.http.get<CSVData>(
       this.apiUrl + "/nodes/" + id1 + "/export-as-csv",
       {
         params: {
@@ -180,8 +193,8 @@ export class ApiService {
     );
   }
 
-  getCSVData3(id1: string, startDate1: string, endDate1: string): Observable<string> {
-    return this.http.get<string>(
+  getCSVData3(id1: string, startDate1: string, endDate1: string): Observable<CSVData> {
+    return this.http.get<CSVData>(
       this.apiUrl + "/water-bodies/" + id1 + "/export-as-csv",
       {
         params: {
@@ -193,8 +206,8 @@ export class ApiService {
   }
 
   getCSVData4(id1: string, startDate1: string, endDate1: string,
-    id2: string, variable2: string, startDate2: string, endDate2: string): Observable<string> {
-    return this.http.get<string>(
+    id2: string, variable2: string, startDate2: string, endDate2: string): Observable<CSVData> {
+    return this.http.get<CSVData>(
       this.apiUrl + "/water-bodies/" + id1 + "/export-as-csv",
       {
         params: {
