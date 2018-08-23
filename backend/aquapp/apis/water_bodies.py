@@ -211,15 +211,16 @@ class ExportAsCSV(Resource):
             """
             data = icampffs(water_body,sd_1, ed_1)
             for datum in data:
-                min_date = datum["date"] if datum["date"] < min_date else min_date
-                max_date = datum["date"] if datum["date"] > max_date else max_date
+                d = date_parser.parse(datum["date"])
+                min_date = d if d < min_date else min_date
+                max_date = d if d > max_date else max_date
                 csv_data += str(datum["date"]) + "," + str(datum["icampff_avg"]) + "\n"
         else:
             nodes = Database().get_nodes()
             water_bodies = Database().get_water_bodies()
 
             if args["id_2"] in [str(node["_id"]) for node in nodes]:
-                """ Schema of each element of data
+                """ Schema of each element of data_1
                     {
                         "date": str(datetime.now()), <-- Beware that the dates are str not datetime.datetime objects!
                         "nodes": [],
@@ -231,8 +232,9 @@ class ExportAsCSV(Resource):
                 data_2 = Database().get_sensor_data(args["id_2"], args["variable_2"], sd_2, ed_2)
 
                 for datum in data_1:
-                    min_date = datum["date"] if datum["date"] < min_date else min_date
-                    max_date = datum["date"] if datum["date"] > max_date else max_date
+                    d = date_parser.parse(datum["date"])
+                    min_date = d if d < min_date else min_date
+                    max_date = d if d > max_date else max_date
                     csv_data += str(datum["date"]) + "," + str(datum["icampff_avg"])  + ","
                     
                     found = False
@@ -264,9 +266,9 @@ class ExportAsCSV(Resource):
                     }
                 """
                 for datum in data_1:
-
-                    min_date = datum["date"] if datum["date"] < min_date else min_date
-                    max_date = datum["date"] if datum["date"] > max_date else max_date
+                    d = date_parser.parse(datum["date"])
+                    min_date = d if d < min_date else min_date
+                    max_date = d if d > max_date else max_date
                     csv_data += str(datum["date"]) + "," + str(datum["icampff_avg"]) + ","
 
                     found = False
@@ -282,10 +284,11 @@ class ExportAsCSV(Resource):
 
                     csv_data += "\n"
                 
-                for icam in data_2:
-                    min_date = icam["date"] if icam["date"] < min_date else min_date
-                    max_date = icam["date"] if icam["date"] > max_date else max_date
-                    csv_data += icam["date"] + ",," + str(icam["icampff_avg"]) + "\n"
+                for datum in data_2:    
+                    d = date_parser.parse(datum["date"])
+                    min_date = d if d < min_date else min_date
+                    max_date = d if d > max_date else max_date
+                    csv_data += datum["date"] + ",," + str(datum["icampff_avg"]) + "\n"
 
         return {
                     "csv": csv_data,

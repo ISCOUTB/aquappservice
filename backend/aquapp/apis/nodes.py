@@ -326,8 +326,9 @@ class ExportAsCSV(Resource):
                     csv_data += "\n"
                 
                 for icam in data_2:
-                    min_date = icam["date"] if icam["date"] < min_date else min_date
-                    max_date = icam["date"] if icam["date"] > max_date else max_date
+                    d = date_parser.parse(icam["date"])
+                    min_date = d if d < min_date else min_date
+                    max_date = d if d > max_date else max_date
                     csv_data += icam["date"] + ",," + str(icam["icampff_avg"]) + "\n"
 
         return {
