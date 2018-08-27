@@ -428,7 +428,7 @@ export const TRANSLATIONS = [
     {
         en: "(ICAMpff, by its initials in Spanish), which was created by Invemar (Institute for Marine and Coastal Research).",
         es: "(ICAMpff) creado por el Invemar (Instituto de Investigaciones Marinas y Costeras)."
-    }
+    },
     {
         en: `The data herein is presented in two different type of format: plots and tables (files in “.csv”). The user may: (a) visualize the chart in the platform and (b) compare any other parameter from any of the other monitoring points located along the lagoon system.`,
         es: `Los datos en la plataforma están disponibles en dos tipos de formato: gráfica (figura) y tabulado (archivo con extensión ".csv"). El usuario puede visualizar las gráficas en la plataforma y, adicionalmente, comparar, en la misma gráfica, datos de cualquiera de los puntos de monitoreo establecidos a lo largo del sistema lagunar.`
