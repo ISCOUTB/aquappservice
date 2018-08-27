@@ -398,6 +398,10 @@ export const TRANSLATIONS = [
         es: 'Todas las estaciones'
     },  // About component
     {
+        en: "Donate",
+        es: "Donar"
+    },
+    {
         en: 'Special thanks',
         es: 'Agradecimientos especiales'
     },

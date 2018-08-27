@@ -9,6 +9,12 @@
         </a>
       </div>
       <div *ngIf="screenWidth > 840" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
+        <a href="https://www.gofundme.com/aquapp"><button mat-menu-item class="menu-element">
+          <mat-icon svgIcon="donate"></mat-icon>
+          <span>{{ "Donate" | translate }}</span>
+        </button></a>
+      </div>
+      <div *ngIf="screenWidth > 840" [ngStyle]="{'width': 'auto', 'height': '50px', 'display' : 'block', 'float': 'right', 'text-align': 'center', 'line-height': '50px', 'vertical-align': 'middle'}">
         <button mat-menu-item (click)="toggleLanguage()" class="menu-element">
           <mat-icon svgIcon="dialog"></mat-icon>
           <span>{{ selectedLanguage }}</span>
@@ -26,6 +32,10 @@
             <mat-icon svgIcon="dialog"></mat-icon>
             <span>{{ selectedLanguage }}</span>
           </button>
+          <a href="https://www.gofundme.com/aquapp"><button mat-menu-item class="menu-element">
+            <mat-icon svgIcon="donate"></mat-icon>
+            <span [ngStyle]="{'text-decoration': 'none', 'color': 'black'}">{{ "Donate" | translate }}</span>
+          </button></a>
         </mat-menu>
       </div>
   </div>

@@ -137,5 +137,8 @@ export class AppModule {
     iconRegistry.addSvgIcon(
       'cross-browser',
       sanitizer.bypassSecurityTrustResourceUrl('assets/cross-browser.svg'));
+    iconRegistry.addSvgIcon(
+      'donate',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/donate.svg'));
   }
 }
