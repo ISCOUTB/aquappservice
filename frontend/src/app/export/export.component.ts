@@ -238,7 +238,11 @@ export class ExportComponent implements OnInit {
               this.variable,
               this.startDate2.getFullYear() + "-" + (this.startDate2.getMonth() + 1) + "-" + this.startDate2.getDate(),
               this.endDate2.getFullYear() + "-" + (this.endDate2.getMonth() + 1) + "-" + this.endDate2.getDate()
-            ).subscribe(csv_data => this.csv_data = csv_data, () => {},
+            ).subscribe(csv_data => this.csv_data = csv_data, 
+              () => {
+                this.loading = false;
+                this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), "");
+              },
               () => {
                 var blob = new Blob([this.csv_data.csv], {type: 'text/csv'});
                 var url= window.URL.createObjectURL(blob);
@@ -258,7 +262,11 @@ export class ExportComponent implements OnInit {
             this.variable,
             this.startDate2.getFullYear() + "-" + (this.startDate2.getMonth() + 1) + "-" + this.startDate2.getDate(),
             this.endDate2.getFullYear() + "-" + (this.endDate2.getMonth() + 1) + "-" + this.endDate2.getDate()
-          ).subscribe(csv_data => this.csv_data = csv_data, () => {},
+          ).subscribe(csv_data => this.csv_data = csv_data, 
+            () => {
+              this.loading = false;
+              this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), "");
+            },
             () => {
               var blob = new Blob([this.csv_data.csv], {type: 'text/csv'});
               var url= window.URL.createObjectURL(blob);
@@ -282,8 +290,11 @@ export class ExportComponent implements OnInit {
               this.variable,
               this.startDate2.getFullYear() + "-" + (this.startDate2.getMonth() + 1) + "-" + this.startDate2.getDate(),
               this.endDate2.getFullYear() + "-" + (this.endDate2.getMonth() + 1) + "-" + this.endDate2.getDate()
-            ).subscribe(csv_data => this.csv_data = csv_data,
-              () => {},
+            ).subscribe(csv_data => this.csv_data = csv_data, 
+              () => {
+                this.loading = false;
+                this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), "");
+              },
               () => {
                 this.loading = false;
                 this.openDialog2();
@@ -301,8 +312,11 @@ export class ExportComponent implements OnInit {
             this.variable,
             this.startDate2.getFullYear() + "-" + (this.startDate2.getMonth() + 1) + "-" + this.startDate2.getDate(),
             this.endDate2.getFullYear() + "-" + (this.endDate2.getMonth() + 1) + "-" + this.endDate2.getDate()
-          ).subscribe(csv_data => this.csv_data = csv_data,
-            () => {},
+          ).subscribe(csv_data => this.csv_data = csv_data, 
+            () => {
+              this.loading = false;
+              this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), "");
+            },
             () => {
               this.loading = false;
               this.openDialog2();
@@ -322,7 +336,11 @@ export class ExportComponent implements OnInit {
               this.dataFromHomeComponent[1],
               this.startDate.getFullYear() + "-" + (this.startDate.getMonth() + 1) + "-" + this.startDate.getDate(),
               this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate()
-            ).subscribe(csv_data => this.csv_data = csv_data, () => {},
+            ).subscribe(csv_data => this.csv_data = csv_data, 
+              () => {
+                this.loading = false;
+                this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), "");
+              },
               () => {
                 var blob = new Blob([this.csv_data.csv], {type: 'text/csv'});
                 var url= window.URL.createObjectURL(blob);
@@ -340,7 +358,11 @@ export class ExportComponent implements OnInit {
             this.dataFromHomeComponent[0],
             this.startDate.getFullYear() + "-" + (this.startDate.getMonth() + 1) + "-" + this.startDate.getDate(),
             this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate()
-          ).subscribe(csv_data => this.csv_data = csv_data, () => {},
+          ).subscribe(csv_data => this.csv_data = csv_data, 
+            () => {
+              this.loading = false;
+              this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), "");
+            },
             () => {
               var blob = new Blob([this.csv_data.csv], {type: 'text/csv'});
               var url= window.URL.createObjectURL(blob);
@@ -362,7 +384,11 @@ export class ExportComponent implements OnInit {
               this.dataFromHomeComponent[1],
               this.startDate.getFullYear() + "-" + (this.startDate.getMonth() + 1) + "-" + this.startDate.getDate(),
               this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate()
-            ).subscribe(csv_data => this.csv_data = csv_data, () => {},
+            ).subscribe(csv_data => this.csv_data = csv_data, 
+              () => {
+                this.loading = false;
+                this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), "");
+              },
               () => {
                 this.loading = false;
                 this.openDialog();
@@ -378,7 +404,11 @@ export class ExportComponent implements OnInit {
             this.dataFromHomeComponent[0],
             this.startDate.getFullYear() + "-" + (this.startDate.getMonth() + 1) + "-" + this.startDate.getDate(),
             this.endDate.getFullYear() + "-" + (this.endDate.getMonth() + 1) + "-" + this.endDate.getDate()
-          ).subscribe(csv_data => this.csv_data = csv_data, () => {},
+          ).subscribe(csv_data => this.csv_data = csv_data, 
+            () => {
+              this.loading = false;
+              this.openSnackBar(this.translateService.translate("Failed to fetch the data, check your internet connection"), "");
+            },
             () => {
               this.loading = false;
               this.openDialog();
