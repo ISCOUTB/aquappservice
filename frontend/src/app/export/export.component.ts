@@ -147,6 +147,8 @@ export class ExportComponent implements OnInit {
     if (!found) {
       this.sensors = [new Sensor("Icampff", "")];
     }
+    this.variable = this.sensors[0].variable;
+    this.getValidDates2();
   }
 
   /**
@@ -213,6 +215,12 @@ export class ExportComponent implements OnInit {
    * (more info at http://dygraphs.com/)
    */
   export() {
+    if (this.startDate == undefined || this.endDate == undefined) {
+      this.openSnackBar(this.translateService.translate("Please, don't forget to select the start and end dates!"), "")
+      return;
+    }
+    this.startDate2 = this.startDate2? this.startDate2 : this.startDate;
+    this.endDate2 = this.endDate2? this.endDate2 : this.endDate;
     this.loading = true;
     if (this.comparativeGraph) {
       if (this.exportFormat == 'csv') {

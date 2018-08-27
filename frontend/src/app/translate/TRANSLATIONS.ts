@@ -318,6 +318,10 @@ export const TRANSLATIONS = [
         es: 'Arc. Int'  // TODO find a proper translation
     },  // Export component
     {
+        en: "Please, don't forget to select the start and end dates!",
+        es: "Por favor, no se olvide de seleccionar las fechas de inicio y final"
+    },
+    {
         en: 'You can zoom a vertical or horizontal section of the chart by clicking and then dragging with the mouse. Double click on the chart to unzoom.',
         es: 'Usted puede hacer zoom a una región horizontal o vertical de la gráfica haciendo clic y arratrando con el mouse. Haga doble clic sobre la gráfica para reiniciar el zoom.'
     },

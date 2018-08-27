@@ -33,7 +33,7 @@
                 </mat-form-field>
             </form>
         </div>
-        <div *ngIf="secondNodeId">
+        <div>
             <mat-form-field [ngStyle]="{'display': 'block'}" *ngIf="validDates2">
                 <input matInput [matDatepickerFilter]="filter2.dateFilter" [(ngModel)]="startDate2" [matDatepicker]="sd2" placeholder="{{ 'Start date' | translate }}" disabled>
                 <mat-datepicker-toggle matSuffix [for]="sd2"></mat-datepicker-toggle>
