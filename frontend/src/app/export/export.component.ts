@@ -465,8 +465,8 @@ export class ExportComponent implements OnInit {
         'sensor_data': this.csv_data.csv,
         'options': {
           'dateWindow': [(new Date(this.csv_data.minDate)).getTime() - 3600 * 24 * 30 * 1000, (new Date(this.csv_data.maxDate)).getTime() + 3600 * 24 * 30 * 1000],
-          'pointSize': 2.5,
-          'highlightCircleSize': 5.0,
+          'pointSize': 1.5,
+          'highlightCircleSize': 2.5,
           'drawPoints': true,
           'strokeWidth': 0.0,
           'displayAnnotations': true,
@@ -565,8 +565,8 @@ export class ExportComponent implements OnInit {
         'options': {
           'dateWindow': [(new Date(this.csv_data.minDate)).getTime() - 3600 * 24 * 30 * 1000, (new Date(this.csv_data.maxDate)).getTime() + 3600 * 24 * 30 * 1000],
           'drawPoints': true,
-          'pointSize': 2.5,
-          'highlightCircleSize': 5.0,
+          'pointSize': 1.5,
+          'highlightCircleSize': 2.5,
           'strokeWidth': 0.0,
           'displayAnnotations': true,
           'width': 1000,
