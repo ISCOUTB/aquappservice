@@ -148,7 +148,7 @@ class ExportAsCSV(Resource):
                     for variable in ["Dissolved Oxygen (DO)", "Nitrate (NO3)", "Total Suspended Solids (TSS)", "Thermotolerant Coliforms", "pH", "Phosphates (PO4)", "Biochemical Oxygen Demand (BOD)", "Chrolophyll A (CLA)"]:
                         for datum in Database().get_sensor_data(node, variable, start_date=sd, end_date=ed)["data"]:
                             for i in range(len(icampff_values)):
-                                if icampff_values[i]["date"] == str(datum["date"]):
+                                if icampff_values[i]["date"] == pytz.utc.localize(datum["date"]).isoformat():
                                     if node not in icampff_values[i]["nodes"]:
                                         icampff_values[i]["nodes"].append(node)
                                         icampff_values[i]["icampffs"].append(icampff(node, datum["date"]))
@@ -157,7 +157,7 @@ class ExportAsCSV(Resource):
                             else:
                                 ic = icampff(node, datum["date"])
                                 icampff_values.append({
-                                    "date": str(datum["date"]),
+                                    "date": pytz.utc.localize(datum["date"]).isoformat(),
                                     "nodes": [node],
                                     "icampffs": [ic],
                                     "icampff_avg": ic
@@ -197,8 +197,8 @@ class ExportAsCSV(Resource):
         
         # csv_data = "Date," + args["variable_1"] + ("," + args["variable_2"] if args["variable_2"] is not None else "") + "\n"
         csv_data = ""
-        min_date = datetime.utcnow()
-        max_date = date_parser.parse("1900-01-01 00:00:00")
+        min_date = pytz.utc.localize(datetime.utcnow())
+        max_date = pytz.utc.localize(date_parser.parse("1900-01-01 00:00:00"))
 
         if args["id_2"] is None:
             """ Schema of each element of data
@@ -239,7 +239,7 @@ class ExportAsCSV(Resource):
                     
                     found = False
                     for i in range(len(data_2["data"])):
-                        if data_2["data"][i]["date"] == datum["date"]:
+                        if pytz.utc.localize(data_2["data"][i]["date"]) == d:
                             found = True
                             csv_data += str(data_2["data"][i]["value"])
                             break
@@ -250,8 +250,9 @@ class ExportAsCSV(Resource):
                     csv_data += "\n"
                 
                 for datum in data_2["data"]:
-                    min_date = datum["date"] if datum["date"] < min_date else min_date
-                    max_date = datum["date"] if datum["date"] > max_date else max_date
+                    d = pytz.utc.localize(datum["date"])
+                    min_date = d if d < min_date else min_date
+                    max_date = d if d > max_date else max_date
                     csv_data += str(datum["date"]) + ",," + str(datum["value"]) + "\n"
             
             elif args["id_2"] in [str(water_body["_id"]) for water_body in water_bodies]:
@@ -292,8 +293,8 @@ class ExportAsCSV(Resource):
 
         return {
                     "csv": csv_data,
-                    "minDate": str(min_date),
-                    "maxDate": str(max_date)
+                    "minDate": min_date.isoformat(),
+                    "maxDate": max_date.isoformat()
                 }, 200
 
 

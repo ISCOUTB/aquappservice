@@ -8,7 +8,7 @@
     the input:
     https://marshmallow.readthedocs.io/en/latest/
 """
-
+import pytz
 from flask import request, abort
 from flask_restplus import Namespace, Resource, reqparse
 from .core.database import Database
@@ -207,7 +207,7 @@ class ExportAsCSV(Resource):
                     for variable in ["Dissolved Oxygen (DO)", "Nitrate (NO3)", "Total Suspended Solids (TSS)", "Thermotolerant Coliforms", "pH", "Phosphates (PO4)", "Biochemical Oxygen Demand (BOD)", "Chrolophyll A (CLA)"]:
                         for datum in Database().get_sensor_data(node, variable, start_date=date_parser.parse("1900-01-01 00:00:00"), end_date=datetime.now())["data"]:
                             for i in range(len(icampff_values)):
-                                if icampff_values[i]["date"] == str(datum["date"]):
+                                if icampff_values[i]["date"] == pytz.utc.localize(datum["date"]).isoformat():
                                     if node not in icampff_values[i]["nodes"]:
                                         icampff_values[i]["nodes"].append(node)
                                         icampff_values[i]["icampffs"].append(icampff(node, datum["date"]))
@@ -216,7 +216,7 @@ class ExportAsCSV(Resource):
                             else:
                                 ic = icampff(node, datum["date"])
                                 icampff_values.append({
-                                    "date": str(datum["date"]),
+                                    "date": pytz.utc.localize(datum["date"]).isoformat(),
                                     "nodes": [node],
                                     "icampffs": [ic],
                                     "icampff_avg": ic
@@ -227,7 +227,7 @@ class ExportAsCSV(Resource):
 
             return icampff_values if icampff_values else [
                 {
-                    "date": str(datetime.now()),
+                    "date": pytz.utc.localize(datetime.now()).isoformat(),
                     "nodes": [],
                     "icampffs": [0],
                     "icampff_avg": 0
@@ -257,14 +257,15 @@ class ExportAsCSV(Resource):
         
         # csv_data = "Date," + args["variable_1"] + ("," + args["variable_2"] if args["variable_2"] is not None else "") + "\n"
         csv_data = ""
-        min_date = datetime.utcnow()
-        max_date = date_parser.parse("1900-01-01 00:00:00")
+        min_date = pytz.utc.localize(datetime.utcnow())
+        max_date = pytz.utc.localize(date_parser.parse("1900-01-01 00:00:00"))
 
         if args["id_2"] is None:
             data = Database().get_sensor_data(node_id, args["variable_1"], sd_1, ed_1)
             for datum in data["data"]:
-                min_date = datum["date"] if datum["date"] < min_date else min_date
-                max_date = datum["date"] if datum["date"] > max_date else max_date
+                d = pytz.utc.localize(datum["date"])
+                min_date = d if d < min_date else min_date
+                max_date = d if d > max_date else max_date
                 csv_data += str(datum["date"]) + "," + str(datum["value"]) + "\n"
         else:
             nodes = Database().get_nodes()
@@ -275,8 +276,9 @@ class ExportAsCSV(Resource):
                 data_2 = Database().get_sensor_data(args["id_2"], args["variable_2"], sd_2, ed_2)
 
                 for datum in data_1["data"]:
-                    min_date = datum["date"] if datum["date"] < min_date else min_date
-                    max_date = datum["date"] if datum["date"] > max_date else max_date
+                    d = pytz.utc.localize(datum["date"])
+                    min_date = d if d < min_date else min_date
+                    max_date = d if d > max_date else max_date
                     csv_data += str(datum["date"]) + "," + str(datum["value"])  + ","
                     
                     found = False
@@ -292,30 +294,25 @@ class ExportAsCSV(Resource):
                     csv_data += "\n"
                 
                 for datum in data_2["data"]:
-                    min_date = datum["date"] if datum["date"] < min_date else min_date
-                    max_date = datum["date"] if datum["date"] > max_date else max_date
+                    d = pytz.utc.localize(datum["date"])
+                    min_date = d if d < min_date else min_date
+                    max_date = d if d > max_date else max_date
                     csv_data += str(datum["date"]) + ",," + str(datum["value"]) + "\n"
             
             elif args["id_2"] in [str(water_body["_id"]) for water_body in water_bodies]:
                 data_1 = Database().get_sensor_data(node_id, args["variable_1"], sd_1, ed_1)
                 data_2 = icampffs(args["id_2"])
-                """ Schema of each element of data_2
-                    {
-                        "date": str(datetime.now()), <-- Beware that the dates are str not datetime.datetime objects!
-                        "nodes": [],
-                        "icampffs": [0],
-                        "icampff_avg": 0
-                    }
-                """
+                
                 for datum in data_1["data"]:
-                    min_date = datum["date"] if datum["date"] < min_date else min_date
-                    max_date = datum["date"] if datum["date"] > max_date else max_date
+                    d = pytz.utc.localize(datum["date"])
+                    min_date = d if d < min_date else min_date
+                    max_date = d if d > max_date else max_date
                     csv_data += str(datum["date"]) + "," + str(datum["value"]) + ","
 
                     found = False
 
                     for i in range(len(data_2)):
-                        if data_2[i]["date"] == str(datum["date"]):
+                        if data_2[i]["date"] == pytz.utc.localize(datum["date"]).isoformat():
                             found = True
                             csv_data += str(data_2[i]["icampff_avg"])
                             break
@@ -325,16 +322,16 @@ class ExportAsCSV(Resource):
 
                     csv_data += "\n"
                 
-                for icam in data_2:
-                    d = date_parser.parse(icam["date"])
+                for datum in data_2:
+                    d = date_parser.parse(datum["date"])
                     min_date = d if d < min_date else min_date
                     max_date = d if d > max_date else max_date
-                    csv_data += icam["date"] + ",," + str(icam["icampff_avg"]) + "\n"
+                    csv_data += datum["date"] + ",," + str(datum["icampff_avg"]) + "\n"
 
         return {
                     "csv": csv_data,
-                    "minDate": str(min_date),
-                    "maxDate": str(max_date)
+                    "minDate": min_date.isoformat(),
+                    "maxDate": max_date.isoformat()
                 }, 200
 
 
