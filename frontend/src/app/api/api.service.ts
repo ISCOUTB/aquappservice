@@ -5,7 +5,6 @@ import { Data } from '../sensor-data';
 import { NodeType } from '../node-type';
 import { Observable } from 'rxjs';
 import { WaterBody } from '../water-body';
-// import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 
 class User {
@@ -33,7 +32,7 @@ class EditNode {
 }
 
 class Icam {
-  date: Date;
+  date: string;
   icampff_avg: number;
   icampffs: number[];
   nodes: string[];

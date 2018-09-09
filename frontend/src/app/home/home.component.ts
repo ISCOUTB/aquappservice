@@ -469,7 +469,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
           var index: number = 0;
           var latestDateIndex: number = 0;
           var latestDate: Date = new Date("1/1/1900");
-          
           waterBody.properties.icamfs.forEach(i => {
             if (latestDate < (new Date(i.date))) {
               latestDate = new Date(i.date);

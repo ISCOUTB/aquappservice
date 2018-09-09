@@ -9,7 +9,7 @@
     the input:
     https://marshmallow.readthedocs.io/en/latest/
 """
-
+import pytz
 import requests  # Python 3 requests module: http://docs.python-requests.org/en/master/
 from flask import request, abort
 from flask_restplus import Namespace, Resource, reqparse
@@ -17,7 +17,7 @@ from .core.database import Database
 from .core.swagger_models import water_body, node, string_array
 from .core.marshmallow_models import NewWaterBodySchema
 from .core.utils import token_required
-from dateutil import parser as date_parser  # python-dateutil module: https://dateutil.readthedocs.io/en/stable/
+from dateutil import parser as date_parser, tz  # python-dateutil module: https://dateutil.readthedocs.io/en/stable/
 from functools import reduce
 from datetime import datetime
 
@@ -361,7 +361,7 @@ class WaterBodyICAMpff(Resource):
                 for variable in ["Dissolved Oxygen (DO)", "Nitrate (NO3)", "Total Suspended Solids (TSS)", "Thermotolerant Coliforms", "pH", "Phosphates (PO4)", "Biochemical Oxygen Demand (BOD)", "Chrolophyll A (CLA)"]:
                     for icam in Database().get_sensor_data(node, variable, start_date=sd, end_date=datetime.now())["data"]:
                         for i in range(len(icampff_values)):
-                            if icampff_values[i]["date"] == str(icam["date"]):
+                            if icampff_values[i]["date"] == pytz.utc.localize(icam["date"]).isoformat():
                                 if node not in icampff_values[i]["nodes"]:
                                     icampff_values[i]["nodes"].append(node)
                                     icampff_values[i]["icampffs"].append(icampff(node, icam["date"]))
@@ -370,7 +370,7 @@ class WaterBodyICAMpff(Resource):
                         else:
                             ic = icampff(node, icam["date"])
                             icampff_values.append({
-                                "date": str(icam["date"]),
+                                "date": pytz.utc.localize(icam["date"]).isoformat(),
                                 "nodes": [node],
                                 "icampffs": [ic],
                                 "icampff_avg": ic
@@ -381,7 +381,7 @@ class WaterBodyICAMpff(Resource):
 
         return icampff_values if icampff_values else [
             {
-                "date": str(datetime.now()),
+                "date": pytz.utc.localize(datetime.now()).isoformat(),
                 "nodes": [],
                 "icampffs": [0],
                 "icampff_avg": 0

@@ -1,5 +1,5 @@
 export class Icam {
-    date: Date;
+    date: string;
     icampff_avg: number;
     icampffs: number[];
     nodes: string[];
