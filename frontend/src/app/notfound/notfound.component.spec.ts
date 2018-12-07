@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateService } from '../translate/translate.service';
+import { TranslatePipe } from '../translate/translate.pipe';
 
 import { NotfoundComponent } from './notfound.component';
+import { MatIconModule } from '@angular/material';
 
 describe('NotfoundComponent', () => {
   let component: NotfoundComponent;
@@ -8,7 +11,13 @@ describe('NotfoundComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NotfoundComponent ]
+      declarations: [ NotfoundComponent, TranslatePipe ],
+      imports: [
+        MatIconModule
+      ],
+      providers: [
+        TranslateService
+      ]
     })
     .compileComponents();
   }));
