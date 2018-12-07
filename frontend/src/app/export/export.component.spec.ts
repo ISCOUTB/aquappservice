@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateService } from '../translate/translate.service';
+import { TranslatePipe } from '../translate/translate.pipe';
 
 import { ExportComponent } from './export.component';
+import { MatIconModule } from '@angular/material';
 
 describe('ExportComponent', () => {
   let component: ExportComponent;
@@ -8,7 +11,13 @@ describe('ExportComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExportComponent ]
+      declarations: [ ExportComponent, TranslatePipe ],
+      imports: [
+        MatIconModule
+      ],
+      providers: [
+        TranslateService
+      ]
     })
     .compileComponents();
   }));

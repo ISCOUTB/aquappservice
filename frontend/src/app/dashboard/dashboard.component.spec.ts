@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DashboardComponent } from './dashboard.component';
+import { TranslatePipe } from '../translate/translate.pipe';
+import { MatTabsModule, MatIconModule } from '@angular/material';
+import { TranslateService } from '../translate/translate.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -8,7 +12,15 @@ describe('DashboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardComponent ]
+      declarations: [ DashboardComponent, TranslatePipe],
+      imports: [ MatTabsModule,
+        BrowserAnimationsModule,
+        MatIconModule
+      ],
+
+      providers:[
+        TranslateService
+      ]
     })
     .compileComponents();
   }));
