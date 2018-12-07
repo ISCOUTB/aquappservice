@@ -1,9 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DashboardComponent } from './dashboard.component';
 import { TranslatePipe } from '../translate/translate.pipe';
-import { MatTabsModule, MatIconModule } from '@angular/material';
+import { MatTabsModule, MatIconModule, MatMenuModule, MatToolbarModule, MatCardModule, MatGridListModule, MatTableModule, MatDividerModule, MatDialogModule, MatSnackBarModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatNativeDateModule, MatDatepickerModule } from '@angular/material';
 import { TranslateService } from '../translate/translate.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+import { HttpHandler, HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+
 
 
 describe('DashboardComponent', () => {
@@ -15,11 +19,26 @@ describe('DashboardComponent', () => {
       declarations: [ DashboardComponent, TranslatePipe],
       imports: [ MatTabsModule,
         BrowserAnimationsModule,
-        MatIconModule
+        MatIconModule,
+        MatMenuModule,
+        MatToolbarModule,
+        MatCardModule,
+        MatGridListModule,
+        MatTableModule,
+        MatDividerModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        CommonModule
       ],
 
       providers:[
-        TranslateService
+        TranslateService, HttpClient, HttpHandler
       ]
     })
     .compileComponents();
