@@ -1,9 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateService } from '../translate/translate.service';
 import { TranslatePipe } from '../translate/translate.pipe';
-
+import { HttpHandler, HttpClient } from '@angular/common/http';
 import { HomeComponent } from './home.component';
-import { MatIconModule } from '@angular/material';
+import { MatIconModule, MatMenuModule, MatToolbarModule, MatCardModule, MatGridListModule, MatTableModule, MatDividerModule, MatDialogModule, MatSnackBarModule } from '@angular/material';
+
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -13,10 +14,18 @@ describe('HomeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ HomeComponent, TranslatePipe ],
       imports: [
-        MatIconModule
+        MatIconModule,
+        MatMenuModule,
+        MatToolbarModule,
+        MatCardModule,
+        MatGridListModule,
+        MatTableModule,
+        MatDividerModule,
+        MatDialogModule,
+        MatSnackBarModule
       ],
       providers:[
-        TranslateService
+        TranslateService, HttpClient, HttpHandler
       ]
     })
     .compileComponents();

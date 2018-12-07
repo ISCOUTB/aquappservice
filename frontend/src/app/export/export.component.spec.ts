@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateService } from '../translate/translate.service';
 import { TranslatePipe } from '../translate/translate.pipe';
-
 import { ExportComponent } from './export.component';
-import { MatIconModule } from '@angular/material';
+import { MatIconModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('ExportComponent', () => {
   let component: ExportComponent;
@@ -13,7 +13,11 @@ describe('ExportComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ExportComponent, TranslatePipe ],
       imports: [
-        MatIconModule
+        MatIconModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        FormsModule,
+        ReactiveFormsModule
       ],
       providers: [
         TranslateService
