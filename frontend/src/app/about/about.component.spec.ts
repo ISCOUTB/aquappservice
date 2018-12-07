@@ -6,7 +6,7 @@ import { MatMenuModule, MatToolbarModule, MatCardModule, MatGridListModule, MatT
 import { TranslatePipe } from '../translate/translate.pipe';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CommonModule } from '@angular/common';
-
+ 
 describe('AboutComponent', () => {
   let component: AboutComponent;
   let fixture: ComponentFixture<AboutComponent>;
