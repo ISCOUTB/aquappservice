@@ -2,9 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateService } from '../translate/translate.service';
 import { TranslatePipe } from '../translate/translate.pipe';
 import { ExportComponent } from './export.component';
-import { MatIconModule, MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatCheckboxModule, MatSelectModule, MatRadioButton, MatRadioModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatIconModule, MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatCheckboxModule, MatSelectModule, MatRadioButton, MatRadioModule, MatProgressSpinnerModule, MatSnackBarModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AcronymPipe } from '../utils/acronym.pipe';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('ExportComponent', () => {
   let component: ExportComponent;
@@ -12,7 +14,7 @@ describe('ExportComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExportComponent, TranslatePipe ],
+      declarations: [ ExportComponent, TranslatePipe, AcronymPipe ],
       imports: [
         MatIconModule,
         MatDatepickerModule,
@@ -21,13 +23,14 @@ describe('ExportComponent', () => {
         MatCheckboxModule,
         MatSelectModule,
         MatRadioModule,
+        MatSnackBarModule,
         MatProgressSpinnerModule,
         FormsModule,
         ReactiveFormsModule,
         CommonModule
       ],
       providers: [
-        TranslateService
+        TranslateService, HttpClient, HttpHandler
       ]
     })
     .compileComponents();
