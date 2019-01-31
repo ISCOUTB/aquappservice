@@ -51,7 +51,10 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
           ) => this.verifyBearer(token, cb),
         );
       default:
-        return Promise.reject(`The strategy ${name} is not available.`);
+        return Promise.reject({
+          message: `The strategy ${name} is not available.`,
+          status: 400,
+        });
     }
   }
 
@@ -65,12 +68,15 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
         | false,
     ) => void,
   ) {
-    // If user is KAMI, and the password correct
-    if (username === 'KAMI' && password === 'n/r3t3') {
+    // If user is KAMI, and the password is correct
+    if (username === 'KAMI' && password === process.env.ADMIN_PASS) {
       cb(null, {
         id: '',
         name: 'KAMI',
-        token: signToken({name: 'KAMI', id: '', type: -1}, 'th349th'),
+        token: signToken(
+          {name: 'KAMI', id: '', type: -1},
+          process.env.SECRET_KEY || 'th349th',
+        ),
         type: -1,
       });
       return;
@@ -94,7 +100,7 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
             name: user.name,
             token: signToken(
               {name: username, id: user.id, type: user.userType},
-              'th349th',
+              process.env.SECRET_KEY || 'th349th',
             ),
             type: user.userType,
           }); // User found
@@ -115,7 +121,10 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
   ) {
     try {
       // tslint:disable-next-line:no-any
-      let payload: any = verifyToken(token, 'th349th');
+      let payload: any = verifyToken(
+        token,
+        process.env.SECRET_KEY || 'th349th',
+      );
       // tslint:disable-next-line:no-any
       const metadata: any = this.metadata.options || {type: -2};
       /**
