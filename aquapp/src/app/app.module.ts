@@ -13,9 +13,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OverviewComponent } from './overview/overview.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, DashboardComponent, OverviewComponent],
+  declarations: [AppComponent, LoginComponent, DashboardComponent, OverviewComponent, HeaderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
