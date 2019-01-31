@@ -14,9 +14,15 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OverviewComponent } from './overview/overview.component';
 import { HeaderComponent } from './header/header.component';
+import { WaterBodiesComponent } from './water-bodies/water-bodies.component';
+import { NodesComponent } from './nodes/nodes.component';
+import { NodeTypesComponent } from './node-types/node-types.component';
+import { SensorsComponent } from './sensors/sensors.component';
+import { NodeDataComponent } from './node-data/node-data.component';
+import { IcampffComponent } from './icampff/icampff.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, DashboardComponent, OverviewComponent, HeaderComponent],
+  declarations: [AppComponent, LoginComponent, DashboardComponent, OverviewComponent, HeaderComponent, WaterBodiesComponent, NodesComponent, NodeTypesComponent, SensorsComponent, NodeDataComponent, IcampffComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
