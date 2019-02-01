@@ -1,5 +1,4 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
-import { Sensor } from './sensor.model';
+import {Entity, model, property} from '@loopback/repository';
 
 @model()
 export class NodeType extends Entity {
@@ -21,9 +20,6 @@ export class NodeType extends Entity {
     default: ',',
   })
   separator: string;
-
-  @hasMany(() => Sensor, {keyTo: 'nodeTypeId'})
-  sensors: Sensor[];
 
   @property({
     type: 'string',

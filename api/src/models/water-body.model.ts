@@ -1,5 +1,4 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
-import { Node } from './node.model';
+import {Entity, model, property} from '@loopback/repository';
 
 @model()
 export class WaterBody extends Entity {
@@ -20,9 +19,6 @@ export class WaterBody extends Entity {
     required: true,
   })
   geojson: string;
-
-  @hasMany(() => Node, {keyTo: 'WaterBodyId'})
-  nodes: Node[];
 
   @property({
     type: 'string',

@@ -1,5 +1,4 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
-import {Datum} from './datum.model';
+import {Entity, model, property} from '@loopback/repository';
 
 @model()
 export class Node extends Entity {
@@ -44,9 +43,6 @@ export class Node extends Entity {
     type: 'string',
   })
   waterBodyId?: string;
-
-  @hasMany(() => Datum, {keyTo: 'nodeId'})
-  data: Datum[];
 
   @property({
     type: 'string',
