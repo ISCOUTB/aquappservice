@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { OverviewComponent } from './overview/overview.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,9 @@ const routes: Routes = [
     component: LoginComponent,
     data: { title: 'Iniciar Sesión' }
   },
-  { path: '', redirectTo: '/vista-general', pathMatch: 'full' }
+  { path: '', redirectTo: '/vista-general', pathMatch: 'full' },
+  {path: '404', component: NotFoundComponent },
+  {path: '**', redirectTo: '/404'}
 ];
 
 @NgModule({
