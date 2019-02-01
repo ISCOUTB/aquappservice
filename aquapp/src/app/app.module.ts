@@ -15,7 +15,12 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatCardModule,
-  MatGridListModule
+  MatGridListModule,
+  MatTableModule,
+  MatSortModule,
+  MatPaginatorModule,
+  MatProgressSpinner,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
@@ -62,7 +67,11 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
