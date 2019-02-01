@@ -66,7 +66,6 @@
               color="warn"
               (click)="confirmNodeTypeDeletion(element)"
               matTooltip="Eliminar"
-              [ngStyle]="{ margin: '5px' }"
             >
               <mat-icon svgIcon="remove"></mat-icon>
             </button>
@@ -75,7 +74,6 @@
               mat-raised-button
               (click)="deselectNodeType()"
               matTooltip="Cerrar"
-              [ngStyle]="{ margin: '5px' }"
             >
               <mat-icon svgIcon="close"></mat-icon>
             </button>
@@ -85,9 +83,17 @@
               color="primary"
               (click)="editting = !editting"
               matTooltip="Editar"
-              [ngStyle]="{ margin: '5px' }"
             >
               <mat-icon svgIcon="edit"></mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              mat-raised-button
+              color="primary"
+              (click)="sensors()"
+              matTooltip="Sensores"
+            >
+              <mat-icon svgIcon="sensor"></mat-icon>
             </button>
             <br />
             <form>

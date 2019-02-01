@@ -182,4 +182,12 @@ export class NodeTypesComponent implements OnInit {
         () => this.messageService.show('Error al crear')
       );
   }
+
+  sensors() {
+    this.router.navigate(['sensores'], {
+      queryParams: {
+        id: this.expandedElement.id
+      }
+    });
+  }
 }

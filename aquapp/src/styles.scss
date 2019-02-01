@@ -82,6 +82,9 @@ mat-toolbar {
     padding-bottom: 2px;
     padding-left: 5px;
     padding-right: 5px;
+    button {
+        margin-right: 5px;
+    }
 }
 
 .table-container {
@@ -140,6 +143,11 @@ tr.element-row:not(.expanded-row):active {
 .element-detail {
     overflow: hidden;
     /*display: flex;*/
+    button {
+        margin-right: 5px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
 }
 
 .element-diagram {
