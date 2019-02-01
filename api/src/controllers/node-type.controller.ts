@@ -15,7 +15,7 @@ export class NodeTypeController {
   ) {}
 
   @get('/node-types')
-  async getUsers(
+  async getElements(
     @param.query.number('pageIndex') pageIndex: number,
     @param.query.number('pageSize') pageSize: number,
   ) {
@@ -40,7 +40,7 @@ export class NodeTypeController {
 
   @authenticate('BearerStrategy', {type: -1})
   @post('/node-types')
-  async newAdmin(@requestBody() body: NodeType) {
+  async newElement(@requestBody() body: NodeType) {
     body.userId = this.user.id;
     return await this.nodeTypeRepository
       .create(new NodeType(body))
@@ -49,7 +49,7 @@ export class NodeTypeController {
 
   @authenticate('BearerStrategy', {type: -1})
   @del('/node-types')
-  async delUser(@param.query.string('id') id: string) {
+  async delElement(@param.query.string('id') id: string) {
     return await this.nodeTypeRepository
       .findById(id)
       .then(async (nodeType: NodeType) => {
@@ -74,7 +74,7 @@ export class NodeTypeController {
 
   @authenticate('BearerStrategy', {type: -1})
   @put('/node-types')
-  async editOne(
+  async editElement(
     @requestBody()
     body: NodeType,
   ) {

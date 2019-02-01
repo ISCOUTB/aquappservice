@@ -108,7 +108,7 @@ export class NodeTypesComponent implements OnInit {
           )
           .subscribe(data => (this.data = data));
       },
-      error => {
+      () => {
         this.isLoadingResults = false;
         this.messageService.show('Error cargando los Periodos electorales');
       }

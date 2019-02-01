@@ -6,6 +6,7 @@ import { MessageService } from '../message/message.service';
 import { Router } from '@angular/router';
 import { Page } from '../models/page.model';
 import { NodeType } from '../models/node-type.model';
+import { Sensor } from '../models/sensor.model';
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +67,8 @@ export class ApiService {
       );
   }
 
+  // NODE TYPES
+
   getNodeTypesPage(name: string, pageIndex: number, pageSize: number) {
     return this.http.get<Page<NodeType[]>>(this.apiUrl + 'node-types', {
       params: {
@@ -119,6 +122,75 @@ export class ApiService {
 
   getAllNodeTypes() {
     return this.http.get<NodeType[]>(this.apiUrl + 'node-types', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  // SENSORS
+
+  getSensorsPage(
+    nodeTypeId: string,
+    name: string,
+    pageIndex: number,
+    pageSize: number
+  ) {
+    return this.http.get<Page<Sensor[]>>(this.apiUrl + 'sensors', {
+      params: {
+        nodeTypeId: nodeTypeId,
+        name: name,
+        pageSize: pageSize.toString(),
+        pageIndex: pageIndex.toString()
+      },
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  newSensor(nodeTypeId: string, variable: string, unit: string) {
+    return this.http.post(
+      this.apiUrl + 'sensors',
+      {
+        variable: variable,
+        unit: unit,
+        nodeTypeId: nodeTypeId
+      },
+      {
+        headers: {
+          'conten-type': 'application/json',
+          Authorization: 'Bearer ' + this.token
+        }
+      }
+    );
+  }
+
+  editSensor(sensor: Sensor) {
+    return this.http.put(this.apiUrl + 'sensors', sensor, {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  deleteSensor(id: string) {
+    return this.http.delete(this.apiUrl + 'sensors', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      },
+      params: {
+        id: id
+      }
+    });
+  }
+
+  getAllSensors() {
+    return this.http.get<Sensor[]>(this.apiUrl + 'sensors', {
       headers: {
         'conten-type': 'application/json',
         Authorization: 'Bearer ' + this.token
