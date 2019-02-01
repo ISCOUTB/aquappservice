@@ -177,6 +177,11 @@
           name="nnsep"
         />
       </mat-form-field>
+
+      <p>Cargar varios tipos de nodo en formato JSON</p>
+      <mat-form-field class="example-full-width">
+        <textarea matInput [(ngModel)]="jsonImport" name="nsimport"></textarea>
+      </mat-form-field>
     </form>
   </mat-card-content>
   <mat-card-actions>

@@ -55,6 +55,8 @@ export class NodeTypesComponent implements OnInit {
   name: '';
   displayedColumns = ['name'];
 
+  jsonImport: string;
+
   editting: false;
 
   newNodeTypeName: string;
@@ -171,16 +173,42 @@ export class NodeTypesComponent implements OnInit {
   }
 
   newNodeType() {
-    this.apiService
-      .newNodeType(this.newNodeTypeName, this.newNodeTypeSeparator)
-      .subscribe(
-        () => {
-          this.messageService.show('Creado con éxito');
-          this.creatingNewElement = false;
-          this.refresh();
-        },
-        () => this.messageService.show('Error al crear')
-      );
+    if (this.newNodeTypeName && this.newNodeTypeSeparator) {
+      this.apiService
+        .newNodeType(this.newNodeTypeName, this.newNodeTypeSeparator)
+        .subscribe(
+          () => {
+            this.messageService.show('Creado con éxito');
+            this.creatingNewElement = false;
+            this.refresh();
+          },
+          () => this.messageService.show('Error al crear')
+        );
+    } else if (this.jsonImport) {
+      try {
+        const newNodeTypes: NodeType[] = JSON.parse(this.jsonImport);
+        const promises: Promise<any>[] = [];
+        for (const nodeType of newNodeTypes) {
+          promises.push(
+            this.apiService
+              .newNodeType(nodeType.name, nodeType.separator)
+              .toPromise()
+          );
+        }
+        Promise.all(promises).then(
+          () => {
+            this.messageService.show('Creados con éxito');
+            this.creatingNewElement = false;
+            this.refresh();
+          },
+          () => this.messageService.show('Error creando')
+        );
+      } catch (e) {
+        this.messageService.show(
+          'Error importando, revise si el formato es correcto'
+        );
+      }
+    }
   }
 
   sensors() {
