@@ -15,7 +15,10 @@ export class HeaderComponent implements OnInit {
   menuExpanded = false;
   // Routes that doesn't require to be logged in (so, the logout button has to be)
   // hidden
-  freeRoutes = ['/inicio-de-sesion', '/vista-general', '/404', '/acerca-de'];
+  freeRoutes = ['/vista-general', '/404', '/acerca-de'];
+
+  // Routes in which the header has to be hidden
+  noHeaderRoutes = ['/inicio-de-sesion'];
   constructor(
     public router: Router,
     private apiService: ApiService,

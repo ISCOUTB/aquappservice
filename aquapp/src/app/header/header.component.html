@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" *ngIf="router.url != '/login'">
+<mat-toolbar color="primary" *ngIf="noHeaderRoutes.indexOf(router.url) === -1">
   <div
     [ngStyle]="{
       display: 'block',
