@@ -1,3 +1,42 @@
-<p>
-  login works!
-</p>
+<div class="background"></div>
+<div class="grand-parent-login-container">
+  <div class="parent-login-container">
+    <mat-card class="login-form">
+      <mat-card-title>Inicio de sesión</mat-card-title>
+      <mat-card-content>
+        <form>
+          <mat-form-field>
+            <input
+              type="text"
+              matInput
+              placeholder="Nombre de usuario"
+              [(ngModel)]="user"
+              name="uname"
+            />
+          </mat-form-field>
+
+          <mat-form-field>
+            <input
+              type="password"
+              matInput
+              placeholder="Contraseña"
+              [(ngModel)]="password"
+              name="upass"
+            />
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-icon-button
+          mat-raised-button
+          color="accent"
+          matTooltip="Acceder"
+          (click)="authenticate()"
+        >
+          <mat-icon svgIcon="navigate_next"></mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

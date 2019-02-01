@@ -1,0 +1,33 @@
+.login-form {
+    width: 250px;
+}
+
+.parent-login-container {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.grand-parent-login-container {
+    display: table;
+    height: 100%;
+    margin: 0 auto;
+}
+
+form {
+    width: 100%;
+    mat-form-field {
+        width: 100%;
+    }
+}
+
+.background {
+    background-image: url('/assets/login-background.jpg');
+
+    /* Blur effect */
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+}
