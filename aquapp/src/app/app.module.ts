@@ -11,7 +11,10 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatSnackBarModule,
-  MatIconRegistry
+  MatIconRegistry,
+  MatFormFieldModule,
+  MatInputModule,
+  MatCardModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
@@ -54,7 +57,10 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatToolbarModule,
     MatTooltipModule,
     HttpClientModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
