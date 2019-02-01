@@ -82,8 +82,8 @@ export class NodeTypesComponent implements OnInit {
 
   refresh() {
     this.apiService.getNodeTypesPage('', 0, this.pageSize).subscribe(
-      users => {
-        this.data = users.items;
+      page => {
+        this.data = page.items;
         this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
         merge(this.sort.sortChange, this.paginator.page)
@@ -112,7 +112,7 @@ export class NodeTypesComponent implements OnInit {
       },
       () => {
         this.isLoadingResults = false;
-        this.messageService.show('Error cargando los Periodos electorales');
+        this.messageService.show('Error cargando');
       }
     );
   }
