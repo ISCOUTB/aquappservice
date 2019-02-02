@@ -23,7 +23,7 @@ export class NodeTypeController {
       .find()
       .then(u => u, () => []);
 
-    if ((pageIndex === pageSize) === undefined) {
+    if (pageIndex === undefined && pageSize === undefined) {
       return nodeTypes;
     }
 
