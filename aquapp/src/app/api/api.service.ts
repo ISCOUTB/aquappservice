@@ -84,13 +84,19 @@ export class ApiService {
     });
   }
 
-  newNodeType(name: string, separator: string) {
+  newNodeType(name: string, separator: string, id?: string) {
     return this.http.post(
       this.apiUrl + 'node-types',
-      {
-        name: name,
-        separator: separator
-      },
+      id
+        ? {
+            id: id,
+            name: name,
+            separator: separator
+          }
+        : {
+            name: name,
+            separator: separator
+          },
       {
         headers: {
           'conten-type': 'application/json',
@@ -221,18 +227,29 @@ export class ApiService {
     coordinates: number[],
     status: string,
     nodeTypeId: string,
-    waterBodyId?: string
+    waterBodyId?: string,
+    id?: string
   ) {
     return this.http.post(
       this.apiUrl + 'nodes',
-      {
-        name: name,
-        location: location,
-        coordinates: coordinates,
-        status: status,
-        nodeTypeId: nodeTypeId,
-        waterBodyId: waterBodyId
-      },
+      id
+        ? {
+            id: id,
+            name: name,
+            location: location,
+            coordinates: coordinates,
+            status: status,
+            nodeTypeId: nodeTypeId,
+            waterBodyId: waterBodyId
+          }
+        : {
+            name: name,
+            location: location,
+            coordinates: coordinates,
+            status: status,
+            nodeTypeId: nodeTypeId,
+            waterBodyId: waterBodyId
+          },
       {
         headers: {
           'conten-type': 'application/json',
