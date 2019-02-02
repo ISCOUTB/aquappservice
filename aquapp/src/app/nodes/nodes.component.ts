@@ -55,7 +55,7 @@ export class NodesComponent implements OnInit {
   data: Node[];
   resultsLength = 0;
   name: '';
-  displayedColumns = ['name'];
+  displayedColumns = ['name', 'nodeTypeId', 'id'];
 
   jsonImport: string;
 
@@ -233,7 +233,8 @@ export class NodesComponent implements OnInit {
                 node.coordinates,
                 node.status,
                 node.nodeTypeId,
-                node.waterBodyId
+                node.waterBodyId,
+                node.id
               )
               .toPromise()
           );
@@ -293,5 +294,13 @@ export class NodesComponent implements OnInit {
         id: this.expandedElement.id
       }
     });
+  }
+
+  getNodeTypeName(id: string) {
+    for (const nodeType of this.nodeTypes) {
+      if (nodeType.id === id) {
+        return nodeType.name;
+      }
+    }
   }
 }

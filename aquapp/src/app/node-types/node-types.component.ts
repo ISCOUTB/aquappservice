@@ -53,7 +53,7 @@ export class NodeTypesComponent implements OnInit {
   data: NodeType[];
   resultsLength = 0;
   name: '';
-  displayedColumns = ['name'];
+  displayedColumns = ['name', 'id'];
 
   jsonImport: string;
 
@@ -191,7 +191,7 @@ export class NodeTypesComponent implements OnInit {
         for (const nodeType of newNodeTypes) {
           promises.push(
             this.apiService
-              .newNodeType(nodeType.name, nodeType.separator)
+              .newNodeType(nodeType.name, nodeType.separator, nodeType.id)
               .toPromise()
           );
         }
