@@ -53,7 +53,7 @@ export class SensorsComponent implements OnInit {
   data: Sensor[];
   resultsLength = 0;
   name: '';
-  displayedColumns = ['variable'];
+  displayedColumns = ['variable', 'unit'];
 
   jsonImport: string;
 
