@@ -1,6 +1,10 @@
 import {inject} from '@loopback/context';
 import {get, post, del, put, requestBody, param} from '@loopback/openapi-v3';
-import {NodeTypeRepository, NodeRepository} from '../repositories';
+import {
+  NodeTypeRepository,
+  NodeRepository,
+  SensorRepository,
+} from '../repositories';
 import {repository} from '@loopback/repository';
 import {authenticate, AuthenticationBindings} from '@loopback/authentication';
 import {NodeType} from '../models';
@@ -10,6 +14,7 @@ export class NodeTypeController {
     @repository(NodeTypeRepository)
     public nodeTypeRepository: NodeTypeRepository,
     @repository(NodeRepository) public nodeRepository: NodeRepository,
+    @repository(SensorRepository) public sensorRepository: SensorRepository,
     @inject(AuthenticationBindings.CURRENT_USER, {optional: true})
     private user: {name: string; id: string; token: string; type: number},
   ) {}
@@ -53,6 +58,7 @@ export class NodeTypeController {
     return await this.nodeTypeRepository
       .findById(id)
       .then(async (nodeType: NodeType) => {
+        // Check if a Node is of this node type
         let isBeingUsed = false;
         await this.nodeRepository.find().then(nodes => {
           for (const node of nodes) {
@@ -65,6 +71,17 @@ export class NodeTypeController {
         if (isBeingUsed) {
           return Promise.reject({status: 400});
         }
+
+        // Delete all its sensors
+        await this.sensorRepository.find().then(
+          sensors => {
+            const sen = sensors.filter(s => s.nodeTypeId === id);
+            for (const s of sen) {
+              this.sensorRepository.deleteById(s.id);
+            }
+          },
+          () => {},
+        );
 
         return await this.nodeTypeRepository
           .deleteById(id)
