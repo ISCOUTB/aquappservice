@@ -20,7 +20,8 @@ import {
   MatSortModule,
   MatPaginatorModule,
   MatProgressSpinner,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatSelectModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
@@ -71,7 +72,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -161,6 +163,10 @@ export class AppModule {
     iconRegistry.addSvgIcon(
       'sensor',
       sanitizer.bypassSecurityTrustResourceUrl('assets/sensor.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'data',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/data.svg')
     );
   }
 }

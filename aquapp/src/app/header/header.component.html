@@ -6,6 +6,7 @@
       width: '125px',
       height: '50px'
     }"
+    matTooltip="Volver al inicio"
   >
     <a routerLink="/" [ngStyle]="{ outline: '0' }"
       ><img
@@ -26,8 +27,9 @@
       display: 840 > screenWidth ? 'none' : 'block',
       float: 'left'
     }"
+    matTooltip="Universidad Tecnológica de Bolívar"
   >
-    <a href="http://unitecnologica.edu.co">
+    <a href="https://www.utb.edu.co">
       <img
         [ngStyle]="{
           display: 'block',
@@ -40,7 +42,11 @@
       />
     </a>
   </div>
-  <div *ngIf="freeRoutes.indexOf(router.url) === -1">
+  <div [ngStyle]="{ margin: '0 auto' }"></div>
+  <div
+    [ngStyle]="{ float: 'right', display: 'block' }"
+    *ngIf="freeRoutes.indexOf(router.url) === -1"
+  >
     <button
       mat-button
       mat-raised-button

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Page } from '../models/page.model';
 import { NodeType } from '../models/node-type.model';
 import { Sensor } from '../models/sensor.model';
+import { Node } from '../models/node.model';
 
 @Injectable({
   providedIn: 'root'
@@ -191,6 +192,79 @@ export class ApiService {
 
   getAllSensors() {
     return this.http.get<Sensor[]>(this.apiUrl + 'sensors', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  // NODES
+
+  getNodesPage(name: string, pageIndex: number, pageSize: number) {
+    return this.http.get<Page<Node[]>>(this.apiUrl + 'nodes', {
+      params: {
+        name: name,
+        pageSize: pageSize.toString(),
+        pageIndex: pageIndex.toString()
+      },
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  newNode(
+    name: string,
+    location: string,
+    coordinates: number[],
+    status: string,
+    nodeTypeId: string,
+    waterBodyId?: string
+  ) {
+    return this.http.post(
+      this.apiUrl + 'nodes',
+      {
+        name: name,
+        location: location,
+        coordinates: coordinates,
+        status: status,
+        nodeTypeId: nodeTypeId,
+        waterBodyId: waterBodyId
+      },
+      {
+        headers: {
+          'conten-type': 'application/json',
+          Authorization: 'Bearer ' + this.token
+        }
+      }
+    );
+  }
+
+  editNode(sensor: Node) {
+    return this.http.put(this.apiUrl + 'nodes', sensor, {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  deleteNode(id: string) {
+    return this.http.delete(this.apiUrl + 'nodes', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      },
+      params: {
+        id: id
+      }
+    });
+  }
+
+  getAllNodes() {
+    return this.http.get<Node[]>(this.apiUrl + 'nodes', {
       headers: {
         'conten-type': 'application/json',
         Authorization: 'Bearer ' + this.token
