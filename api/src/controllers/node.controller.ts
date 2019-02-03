@@ -1,9 +1,14 @@
 import {inject} from '@loopback/context';
 import {get, post, del, put, requestBody, param} from '@loopback/openapi-v3';
-import {NodeRepository, WaterBodyRepository} from '../repositories';
+import {
+  NodeRepository,
+  WaterBodyRepository,
+  SensorRepository,
+  NodeDataRepository,
+} from '../repositories';
 import {repository} from '@loopback/repository';
 import {authenticate, AuthenticationBindings} from '@loopback/authentication';
-import {Node} from '../models';
+import {Node, NodeData} from '../models';
 
 export class NodeController {
   constructor(
@@ -11,6 +16,9 @@ export class NodeController {
     public nodeRepository: NodeRepository,
     @repository(WaterBodyRepository)
     public waterBodyRepository: WaterBodyRepository,
+    @repository(SensorRepository) public sensorRepository: SensorRepository,
+    @repository(NodeDataRepository)
+    public nodeDataRepository: NodeDataRepository,
     @inject(AuthenticationBindings.CURRENT_USER, {optional: true})
     private user: {name: string; id: string; token: string; type: number},
   ) {}
@@ -41,27 +49,72 @@ export class NodeController {
   @post('/nodes')
   async newElement(@requestBody() body: Node) {
     body.userId = this.user.id;
-    return await this.nodeRepository
-      .create(new Node(body))
-      .then(() => Promise.resolve({}), () => Promise.reject({}));
+    const variables: string[] = await this.sensorRepository
+      .find()
+      .then(s =>
+        s.filter(r => r.nodeTypeId === body.nodeTypeId).map(v => v.variable),
+      );
+
+    return await this.nodeRepository.create(new Node(body)).then(
+      async node => {
+        for (const variable of variables) {
+          await this.nodeDataRepository
+            .create(
+              new NodeData({
+                variable: variable,
+                data: [],
+                nodeId: node.id,
+              }),
+            )
+            .then(
+              nodeData =>
+                console.log(
+                  `Variable ${variable} definition with id ${
+                    nodeData.id
+                  } created`,
+                ),
+              e =>
+                console.log(`Variable ${variable} was NOT created, err: ${e}`),
+            );
+        }
+        return Promise.resolve({});
+      },
+      () => Promise.reject({}),
+    );
   }
 
   @authenticate('BearerStrategy', {type: -1})
   @del('/nodes')
   async delElement(@param.query.string('id') id: string) {
     return await this.nodeRepository.findById(id).then(async (node: Node) => {
-      let isBeingUsed = false;
-      await this.waterBodyRepository.find().then(waterBodies => {
-        for (const waterBody of waterBodies) {
-          if (node.waterBodyId === waterBody.id) {
-            isBeingUsed = true;
-            break;
+      console.log(`Deleting ${node.id}`);
+      // Delete node data
+      await this.nodeDataRepository.find().then(
+        async nodeDataList => {
+          for (const nodeData of nodeDataList) {
+            if (nodeData.nodeId !== node.id) {
+              continue;
+            }
+            await this.nodeDataRepository
+              .deleteById(nodeData.id)
+              .then(
+                () =>
+                  console.log(
+                    `Node data for variable ${
+                      nodeData.variable
+                    } has been deleted (node: ${nodeData.nodeId})`,
+                  ),
+                () =>
+                  console.log(
+                    `Error deleting node data definition for variable ${
+                      nodeData.variable
+                    } (node: ${nodeData.nodeId})`,
+                  ),
+              );
           }
-        }
-      });
-      if (isBeingUsed) {
-        return Promise.reject({status: 400});
-      }
+        },
+        () => console.log('Error deleting node data'),
+      );
 
       return await this.nodeRepository
         .deleteById(id)

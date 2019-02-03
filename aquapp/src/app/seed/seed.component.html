@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-card-title>Cargar semillas</mat-card-title>
+  <div *ngIf="loading; then loadingspinner; else warning"></div>
+  <ng-template #loadingspinner>
+    <mat-card-content @fadeIn>
+      <mat-progress-spinner></mat-progress-spinner>
+    </mat-card-content>
+  </ng-template>
+  <ng-template #warning>
+      <mat-card-content @fadeIn>
+          Esta acción debe realizarse únicamente cuando se configura la
+          aplicación por primera vez.
+        </mat-card-content>
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            mat-icon-button
+            color="accent"
+            (click)="seed()"
+            matTooltip="Cargar"
+          >
+            <mat-icon svgIcon="call_received"></mat-icon>
+          </button>
+        </mat-card-actions>
+  </ng-template>
+</mat-card>

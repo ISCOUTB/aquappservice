@@ -5,3 +5,4 @@ export * from './node.repository';
 export * from './sensor.repository';
 export * from './water-body.repository';
 export * from './datum.repository';
+export * from './node-data.repository';

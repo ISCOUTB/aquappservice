@@ -289,9 +289,10 @@ export class NodesComponent implements OnInit {
   }
 
   nodeData() {
-    this.router.navigate(['datos-de-los-nodos'], {
+    this.router.navigate(['formulario-obtener-datos-de-los-nodos'], {
       queryParams: {
-        id: this.expandedElement.id
+        id: this.expandedElement.id,
+        nodeTypeId: this.expandedElement.nodeTypeId
       }
     });
   }

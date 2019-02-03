@@ -15,22 +15,10 @@ export class Datum extends Entity {
   date: Date;
 
   @property({
-    type: 'any',
-    required: true,
-  })
-  // tslint:disable-next-line:no-any
-  value: any;
-
-  @property({
     type: 'string',
     required: true,
   })
-  nodeId: string;
-
-  @property({
-    type: 'string',
-  })
-  userId?: string;
+  value: string;
 
   constructor(data?: Partial<Datum>) {
     super(data);

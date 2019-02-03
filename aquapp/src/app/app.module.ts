@@ -21,7 +21,11 @@ import {
   MatPaginatorModule,
   MatProgressSpinner,
   MatProgressSpinnerModule,
-  MatSelectModule
+  MatSelectModule,
+  MatDatepicker,
+  MAT_DATE_LOCALE,
+  MatDatepickerModule,
+  MatNativeDateModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
@@ -36,6 +40,8 @@ import { NodeDataComponent } from './node-data/node-data.component';
 import { IcampffComponent } from './icampff/icampff.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SeedComponent } from './seed/seed.component';
+import { GetNodeDataFormComponent } from './forms/get-node-data-form/get-node-data-form.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +56,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
     SensorsComponent,
     NodeDataComponent,
     IcampffComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    SeedComponent,
+    GetNodeDataFormComponent
   ],
   imports: [
     BrowserModule,
@@ -73,9 +81,11 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatSortModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
-  providers: [],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-GB' }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

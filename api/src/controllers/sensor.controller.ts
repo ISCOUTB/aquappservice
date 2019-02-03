@@ -24,7 +24,7 @@ export class SensorController {
       .find()
       .then(u => u.filter(r => r.nodeTypeId === nodeTypeId), () => []);
 
-    if ((pageIndex === pageSize) === undefined) {
+    if (pageIndex === undefined && pageSize === undefined) {
       return sensors;
     }
 

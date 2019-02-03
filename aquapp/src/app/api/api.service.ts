@@ -8,6 +8,7 @@ import { Page } from '../models/page.model';
 import { NodeType } from '../models/node-type.model';
 import { Sensor } from '../models/sensor.model';
 import { Node } from '../models/node.model';
+import { Datum } from '../models/datum.model';
 
 @Injectable({
   providedIn: 'root'
@@ -196,11 +197,14 @@ export class ApiService {
     });
   }
 
-  getAllSensors() {
+  getAllSensors(nodeTypeId: string) {
     return this.http.get<Sensor[]>(this.apiUrl + 'sensors', {
       headers: {
         'conten-type': 'application/json',
         Authorization: 'Bearer ' + this.token
+      },
+      params: {
+        nodeTypeId: nodeTypeId
       }
     });
   }
@@ -282,6 +286,123 @@ export class ApiService {
 
   getAllNodes() {
     return this.http.get<Node[]>(this.apiUrl + 'nodes', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  // SEED
+
+  loadSeeds() {
+    return this.http.get(this.apiUrl + 'seed-node-data', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  // Node data
+
+  getDataPage(
+    nodeId: string,
+    pageIndex: number,
+    pageSize: number,
+    variable: string,
+    start: string = '',
+    end: string = ''
+  ) {
+    return this.http.get<Page<Datum[]>>(this.apiUrl + 'data', {
+      params:
+        start && end
+          ? {
+              nodeId: nodeId,
+              pageSize: pageSize.toString(),
+              pageIndex: pageIndex.toString(),
+              variable: variable,
+              start: start,
+              end: end
+            }
+          : start
+          ? {
+              nodeId: nodeId,
+              pageSize: pageSize.toString(),
+              pageIndex: pageIndex.toString(),
+              variable: variable,
+              start: start
+            }
+          : end
+          ? {
+              nodeId: nodeId,
+              pageSize: pageSize.toString(),
+              pageIndex: pageIndex.toString(),
+              variable: variable,
+              end: end
+            }
+          : {
+              nodeId: nodeId,
+              pageSize: pageSize.toString(),
+              pageIndex: pageIndex.toString(),
+              variable: variable
+            },
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  newDatum(date: Date, variable: string, nodeId: string, value: any) {
+    return this.http.post(
+      this.apiUrl + 'data',
+      {
+        date: date.toISOString(),
+        value: value
+      },
+      {
+        headers: {
+          'conten-type': 'application/json',
+          Authorization: 'Bearer ' + this.token
+        },
+        params: {
+          nodeId: nodeId,
+          variable: variable
+        }
+      }
+    );
+  }
+
+  editDatum(datum: Datum, id: string, date: string) {
+    return this.http.put(this.apiUrl + 'data', datum, {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      },
+      params: {
+        id: id,
+        date: date
+      }
+    });
+  }
+
+  deleteDatum(nodeId: string, variable: string, date: string) {
+    return this.http.delete(this.apiUrl + 'data', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      },
+      params: {
+        nodeId: nodeId,
+        variable: variable,
+        date: date
+      }
+    });
+  }
+
+  getAllData() {
+    return this.http.get<Datum[]>(this.apiUrl + 'data', {
       headers: {
         'conten-type': 'application/json',
         Authorization: 'Bearer ' + this.token

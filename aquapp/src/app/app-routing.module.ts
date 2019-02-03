@@ -10,6 +10,8 @@ import { SensorsComponent } from './sensors/sensors.component';
 import { IcampffComponent } from './icampff/icampff.component';
 import { NodeDataComponent } from './node-data/node-data.component';
 import { WaterBodiesComponent } from './water-bodies/water-bodies.component';
+import { SeedComponent } from './seed/seed.component';
+import { GetNodeDataFormComponent } from './forms/get-node-data-form/get-node-data-form.component';
 
 const routes: Routes = [
   {
@@ -58,8 +60,18 @@ const routes: Routes = [
     component: WaterBodiesComponent,
     data: { title: 'Cuerpos de agua' }
   },
+  {
+    path: 'semillas',
+    component: SeedComponent,
+    data: { title: 'Semillas' }
+  },
+  {
+    path: 'formulario-obtener-datos-de-los-nodos',
+    component: GetNodeDataFormComponent,
+    data: { title: 'Formulario obtener datos de los nodos' }
+  },
   { path: '404', component: NotFoundComponent },
-  { path: '**', redirectTo: '/404' },
+  { path: '**', redirectTo: '/404' }
 ];
 
 @NgModule({
