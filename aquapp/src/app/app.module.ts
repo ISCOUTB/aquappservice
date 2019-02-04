@@ -42,6 +42,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SeedComponent } from './seed/seed.component';
 import { GetNodeDataFormComponent } from './forms/get-node-data-form/get-node-data-form.component';
+import { GetLatLngComponent } from './get-lat-lng/get-lat-lng.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 
 @NgModule({
   declarations: [
@@ -58,7 +61,8 @@ import { GetNodeDataFormComponent } from './forms/get-node-data-form/get-node-da
     IcampffComponent,
     NotFoundComponent,
     SeedComponent,
-    GetNodeDataFormComponent
+    GetNodeDataFormComponent,
+    GetLatLngComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +87,9 @@ import { GetNodeDataFormComponent } from './forms/get-node-data-form/get-node-da
     MatProgressSpinnerModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    LeafletModule.forRoot(),
+    LeafletDrawModule.forRoot(),
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-GB' }],
   bootstrap: [AppComponent]

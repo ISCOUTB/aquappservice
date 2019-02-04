@@ -82,8 +82,6 @@ export class NodesComponent implements OnInit {
   expandedNodeNodeTypeId: string;
   expandedNodewaterBodyId: string;
 
-  newNodeLatitude: number;
-  newNodeLongitude: number;
   expandedNodeLatitude: number;
   expandedNodeLongitude: number;
 
@@ -254,13 +252,11 @@ export class NodesComponent implements OnInit {
       }
       return;
     }
-    this.newNodeCoordinates = [this.newNodeLatitude, this.newNodeLongitude];
     if (
       this.newNodeName &&
-      this.newNodeLatitude !== undefined &&
-      this.newNodeLongitude !== undefined &&
       this.newNodeLocation &&
       this.newNodeNodeTypeId &&
+      this.newNodeCoordinates &&
       this.newNodeStatus &&
       (this.newNodeNodeTypeId === this.waterBodyType
         ? this.newNodeWaterBodyId
@@ -295,6 +291,10 @@ export class NodesComponent implements OnInit {
         nodeTypeId: this.expandedElement.nodeTypeId
       }
     });
+  }
+
+  updateCoords(coords: number[]) {
+    this.newNodeCoordinates = coords;
   }
 
   getNodeTypeName(id: string) {

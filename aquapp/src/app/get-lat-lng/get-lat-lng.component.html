@@ -1,0 +1,7 @@
+<div
+  *ngIf="mapOptions"
+  leaflet
+  [ngStyle]="mapStyle"
+  [leafletOptions]="mapOptions"
+  (leafletMapReady)="onMapReady($event)"
+></div>
