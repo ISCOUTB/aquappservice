@@ -45,6 +45,10 @@ import { GetNodeDataFormComponent } from './forms/get-node-data-form/get-node-da
 import { GetLatLngComponent } from './get-lat-lng/get-lat-lng.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
+import { WaterBodyNodesComponent } from './water-body-nodes/water-body-nodes.component';
+import { EditWaterBodyDialogComponent } from './edit-water-body-dialog/edit-water-body-dialog.component';
+import { EditWaterBodyPageComponent } from './edit-water-body-page/edit-water-body-page.component';
+import { FileUploadComponent } from './fileupload/fileupload.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +66,11 @@ import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
     NotFoundComponent,
     SeedComponent,
     GetNodeDataFormComponent,
-    GetLatLngComponent
+    GetLatLngComponent,
+    WaterBodyNodesComponent,
+    EditWaterBodyDialogComponent,
+    EditWaterBodyPageComponent,
+    FileUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +97,7 @@ import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
     MatDatepickerModule,
     MatNativeDateModule,
     LeafletModule.forRoot(),
-    LeafletDrawModule.forRoot(),
+    LeafletDrawModule.forRoot()
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-GB' }],
   bootstrap: [AppComponent]
@@ -183,6 +191,10 @@ export class AppModule {
     iconRegistry.addSvgIcon(
       'data',
       sanitizer.bypassSecurityTrustResourceUrl('assets/data.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'node',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/node.svg')
     );
   }
 }
