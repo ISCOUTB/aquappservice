@@ -259,4 +259,9 @@ export class NodeDataComponent implements OnInit {
       }
     }
   }
+
+  close() {
+    window.scroll(0, 0);
+    this.creatingNewElement = false;
+  }
 }

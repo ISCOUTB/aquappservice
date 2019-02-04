@@ -298,10 +298,18 @@ export class NodesComponent implements OnInit {
   }
 
   getNodeTypeName(id: string) {
+    if (this.nodeTypes === undefined) {
+      return '';
+    }
     for (const nodeType of this.nodeTypes) {
       if (nodeType.id === id) {
         return nodeType.name;
       }
     }
+  }
+
+  close() {
+    window.scroll(0, 0);
+    this.creatingNewElement = false;
   }
 }
