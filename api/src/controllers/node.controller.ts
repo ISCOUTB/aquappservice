@@ -25,10 +25,16 @@ export class NodeController {
 
   @get('/nodes')
   async getElements(
+    @param.query.string('waterBodyId') waterBodyId: string,
     @param.query.number('pageIndex') pageIndex: number,
     @param.query.number('pageSize') pageSize: number,
   ) {
-    let nodes: Node[] = await this.nodeRepository.find().then(n => n, () => []);
+    let nodes: Node[] = await this.nodeRepository
+      .find()
+      .then(
+        n => (waterBodyId ? n.filter(nf => nf.waterBodyId === waterBodyId) : n),
+        () => [],
+      );
 
     if ((pageIndex === pageSize) === undefined) {
       return nodes;
