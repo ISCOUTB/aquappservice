@@ -1,0 +1,101 @@
+<mat-card *ngIf="loading && failed">
+  <mat-card-title>Ha ocurrido un error</mat-card-title>
+  <mat-card-content class="card-body">
+    No se han podido cargar los datos, refresque la página para volver a
+    intentar.
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="card" *ngIf="loading && !failed">
+  <mat-card-title class="card-title">Cargando datos</mat-card-title>
+  <mat-card-content class="card-body"
+    ><mat-spinner></mat-spinner
+  ></mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="!loading">
+    <mat-card-title class="card-title">Editando a {{ name }}</mat-card-title>
+  <mat-card-content>
+    <form>
+        <mat-form-field>
+          <input
+            type="text"
+            matInput
+            placeholder="Nombre"
+            [(ngModel)]="name"
+            name="fname"
+          />
+        </mat-form-field>
+      </form>
+      <div
+        *ngIf="mapOptions && mapDrawOptions"
+        leaflet
+        leafletDraw
+        [ngStyle]="mapStyle"
+        [leafletOptions]="mapOptions"
+        [leafletDrawOptions]="mapDrawOptions"
+        (leafletMapReady)="onMapReady($event)"
+      ></div>
+      <app-file-upload
+        [showFileNameInput]="false"
+        allowedTypes="json/*"
+        uploadButtonText=""
+        [(ngModel)]="importedData"
+        name="import"
+      ></app-file-upload>
+  </mat-card-content>
+  <mat-card-actions class="card-footer">
+    <div>
+      <button
+        mat-button
+        mat-raised-button
+        mat-icon-button
+        color="accent"
+        (click)="save()"
+        matTooltip="Guardar cambios"
+      >
+        <mat-icon svgIcon="check"></mat-icon>
+      </button>
+      <button
+        mat-button
+        mat-raised-button
+        mat-icon-button
+        color="primary"
+        (click)="centerMap()"
+        matTooltip="Centrar mapa"
+      >
+        <mat-icon svgIcon="center_focus_strong"></mat-icon>
+      </button>
+      <button
+        mat-button
+        mat-raised-button
+        mat-icon-button
+        color="primary"
+        (click)="import()"
+        matTooltip="Importar"
+      >
+        <mat-icon svgIcon="call_received"></mat-icon>
+      </button>
+      <button
+        mat-button
+        mat-raised-button
+        mat-icon-button
+        color="primary"
+        (click)="export()"
+        matTooltip="Exportar"
+      >
+        <mat-icon svgIcon="call_made"></mat-icon>
+      </button>
+      <button
+        mat-button
+        mat-raised-button
+        mat-icon-button
+        color="warn"
+        (click)="redirect()"
+        matTooltip="Cancelar"
+      >
+        <mat-icon svgIcon="close"></mat-icon>
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>
