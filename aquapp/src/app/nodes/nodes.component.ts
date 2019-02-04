@@ -55,7 +55,7 @@ export class NodesComponent implements OnInit {
   data: Node[];
   resultsLength = 0;
   name: '';
-  displayedColumns = ['name', 'nodeTypeId', 'id'];
+  displayedColumns = ['name', 'nodeTypeId', 'location'];
 
   jsonImport: string;
 
