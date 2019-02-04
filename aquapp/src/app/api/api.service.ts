@@ -9,6 +9,7 @@ import { NodeType } from '../models/node-type.model';
 import { Sensor } from '../models/sensor.model';
 import { Node } from '../models/node.model';
 import { Datum } from '../models/datum.model';
+import { WaterBody } from '../models/water-body.model';
 
 @Injectable({
   providedIn: 'root'
@@ -211,12 +212,13 @@ export class ApiService {
 
   // NODES
 
-  getNodesPage(name: string, pageIndex: number, pageSize: number) {
+  getNodesPage(name: string, pageIndex: number, pageSize: number, waterBodyId: string = '') {
     return this.http.get<Page<Node[]>>(this.apiUrl + 'nodes', {
       params: {
         name: name,
         pageSize: pageSize.toString(),
-        pageIndex: pageIndex.toString()
+        pageIndex: pageIndex.toString(),
+        waterBodyId: waterBodyId
       },
       headers: {
         'conten-type': 'application/json',
@@ -406,6 +408,78 @@ export class ApiService {
       headers: {
         'conten-type': 'application/json',
         Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  // Water bodies
+  getWaterBodiesPage(pageIndex: number, pageSize: number) {
+    return this.http.get<Page<WaterBody[]>>(this.apiUrl + 'water-bodies', {
+      params: {
+        pageSize: pageSize.toString(),
+        pageIndex: pageIndex.toString()
+      },
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  newWaterBody(name: string, geojson: string) {
+    return this.http.post(
+      this.apiUrl + 'water-bodies',
+      {
+        name: name,
+        geojson: geojson
+      },
+      {
+        headers: {
+          'conten-type': 'application/json',
+          Authorization: 'Bearer ' + this.token
+        }
+      }
+    );
+  }
+
+  editWaterBody(waterBody: WaterBody) {
+    return this.http.put(this.apiUrl + 'water-bodies', waterBody, {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  deleteWaterBody(id: string) {
+    return this.http.delete(this.apiUrl + 'water-bodies', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      },
+      params: {
+        id: id
+      }
+    });
+  }
+
+  getAllWaterBodies() {
+    return this.http.get<WaterBody[]>(this.apiUrl + 'water-bodies', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  getAWaterBody(id: string) {
+    return this.http.get<WaterBody>(this.apiUrl + 'water-bodies', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      },
+      params: {
+        id: id
       }
     });
   }
