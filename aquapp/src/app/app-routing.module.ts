@@ -12,6 +12,8 @@ import { NodeDataComponent } from './node-data/node-data.component';
 import { WaterBodiesComponent } from './water-bodies/water-bodies.component';
 import { SeedComponent } from './seed/seed.component';
 import { GetNodeDataFormComponent } from './forms/get-node-data-form/get-node-data-form.component';
+import { WaterBodyNodesComponent } from './water-body-nodes/water-body-nodes.component';
+import { EditWaterBodyPageComponent } from './edit-water-body-page/edit-water-body-page.component';
 
 const routes: Routes = [
   {
@@ -69,6 +71,16 @@ const routes: Routes = [
     path: 'formulario-obtener-datos-de-los-nodos',
     component: GetNodeDataFormComponent,
     data: { title: 'Formulario obtener datos de los nodos' }
+  },
+  {
+    path: 'nodos-del-cuerpo-de-agua',
+    component: WaterBodyNodesComponent,
+    data: { title: 'Nodos del cuerpo de agua' }
+  },
+  {
+    path: 'editar-cuerpo-de-agua',
+    component: EditWaterBodyPageComponent,
+    data: { title: 'Editar cuerpo de agua' }
   },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '/404' }
