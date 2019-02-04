@@ -5,3 +5,4 @@ export * from './sensor.controller';
 export * from './node.controller';
 export * from './seed.controller';
 export * from './data.controller';
+export * from './water-body.controller';
