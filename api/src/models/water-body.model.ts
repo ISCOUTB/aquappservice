@@ -21,6 +21,12 @@ export class WaterBody extends Entity {
   geojson: string;
 
   @property({
+    type: 'array',
+    itemType: 'string'
+  })
+  nodes: string[];
+
+  @property({
     type: 'string',
   })
   userId?: string;

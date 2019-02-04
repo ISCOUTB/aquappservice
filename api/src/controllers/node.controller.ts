@@ -8,7 +8,7 @@ import {
 } from '../repositories';
 import {repository} from '@loopback/repository';
 import {authenticate, AuthenticationBindings} from '@loopback/authentication';
-import {Node, NodeData} from '../models';
+import {Node, NodeData, WaterBody} from '../models';
 
 export class NodeController {
   constructor(
@@ -26,18 +26,41 @@ export class NodeController {
   @get('/nodes')
   async getElements(
     @param.query.string('waterBodyId') waterBodyId: string,
+    @param.query.string('nodeTypeId') nodeTypeId: string,
     @param.query.number('pageIndex') pageIndex: number,
     @param.query.number('pageSize') pageSize: number,
   ) {
-    let nodes: Node[] = await this.nodeRepository
-      .find()
-      .then(
-        n => (waterBodyId ? n.filter(nf => nf.waterBodyId === waterBodyId) : n),
-        () => [],
-      );
+    let nodes: Node[] = await this.nodeRepository.find().then(n => n, () => []);
 
-    if ((pageIndex === pageSize) === undefined) {
-      return nodes;
+    if (nodeTypeId) {
+      nodes = nodes.filter(nf => nf.nodeTypeId === nodeTypeId);
+    }
+
+    if (waterBodyId) {
+      const waterBody:
+        | WaterBody
+        | undefined = await this.waterBodyRepository
+        .findById(waterBodyId)
+        .then(wb => wb, () => undefined);
+      if (!waterBody) {
+        return Promise.reject({});
+      }
+      if (waterBody.nodes) {
+        nodes = nodes.filter(nf => waterBody.nodes.indexOf(nf.id!) !== -1);
+      } else {
+        return {
+          items: [],
+          total: 0
+        };
+      }
+      nodes = nodes.filter(nf => nf.nodeTypeId === '59c9d9019a892016ca4be412');
+    }
+
+    if (pageIndex === undefined || pageSize === undefined) {
+      return {
+        items: nodes,
+        total: nodes.length,
+      };
     }
 
     return {
@@ -142,6 +165,7 @@ export class NodeController {
           ? body.coordinates
           : node.coordinates;
         node.status = body.status ? body.status : node.status;
+        node.waterBodyId = body.waterBodyId;
         this.nodeRepository.save(node);
         return Promise.resolve({});
       },

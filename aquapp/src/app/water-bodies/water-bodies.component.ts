@@ -207,7 +207,7 @@ export class WaterBodiesComponent implements OnInit {
   nodes() {
     this.router.navigate(['nodos-del-cuerpo-de-agua'], {
       queryParams: {
-        id: this.expandedElement.id
+        waterBodyId: this.expandedElement.id
       }
     });
   }

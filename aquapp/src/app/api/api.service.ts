@@ -212,13 +212,24 @@ export class ApiService {
 
   // NODES
 
-  getNodesPage(name: string, pageIndex: number, pageSize: number, waterBodyId: string = '') {
+  getNodesPage(
+    name: string,
+    pageIndex: number,
+    pageSize: number,
+    waterBodyId: string = '',
+    nodeTypeId: string = ''
+  ) {
     return this.http.get<Page<Node[]>>(this.apiUrl + 'nodes', {
-      params: {
+      params: pageIndex && pageSize ? {
         name: name,
         pageSize: pageSize.toString(),
         pageIndex: pageIndex.toString(),
-        waterBodyId: waterBodyId
+        waterBodyId: waterBodyId,
+        nodeTypeId: nodeTypeId
+      } : {
+        name: name,
+        waterBodyId: waterBodyId,
+        nodeTypeId: nodeTypeId
       },
       headers: {
         'conten-type': 'application/json',
@@ -265,8 +276,8 @@ export class ApiService {
     );
   }
 
-  editNode(sensor: Node) {
-    return this.http.put(this.apiUrl + 'nodes', sensor, {
+  editNode(node: Node) {
+    return this.http.put(this.apiUrl + 'nodes', node, {
       headers: {
         'conten-type': 'application/json',
         Authorization: 'Bearer ' + this.token

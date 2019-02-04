@@ -89,6 +89,7 @@ export class WaterBodyController {
       waterBody => {
         waterBody.name = body.name ? body.name : waterBody.name;
         waterBody.geojson = body.geojson ? body.geojson : waterBody.geojson;
+        waterBody.nodes = body.nodes;
         this.waterBodyRepository.save(waterBody);
         return Promise.resolve({});
       },
