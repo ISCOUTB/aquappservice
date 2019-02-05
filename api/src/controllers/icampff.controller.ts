@@ -374,4 +374,12 @@ export class IcampffController {
       }
     }
   }
+
+  @authenticate('BearerStrategy', {type: -1})
+  @del('/icampff-caches')
+  async delIcampffCaches() {
+    return await this.icampffCacheRepository
+      .deleteAll()
+      .then(() => Promise.resolve({}), () => Promise.reject({}));
+  }
 }

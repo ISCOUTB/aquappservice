@@ -10,6 +10,7 @@ import { Sensor } from '../models/sensor.model';
 import { Node } from '../models/node.model';
 import { Datum } from '../models/datum.model';
 import { WaterBody } from '../models/water-body.model';
+import { IcampffAvg } from '../models/icampff-avg.model';
 
 @Injectable({
   providedIn: 'root'
@@ -220,17 +221,20 @@ export class ApiService {
     nodeTypeId: string = ''
   ) {
     return this.http.get<Page<Node[]>>(this.apiUrl + 'nodes', {
-      params: pageIndex || pageSize ? {
-        name: name,
-        pageSize: pageSize.toString(),
-        pageIndex: pageIndex.toString(),
-        waterBodyId: waterBodyId,
-        nodeTypeId: nodeTypeId
-      } : {
-        name: name,
-        waterBodyId: waterBodyId,
-        nodeTypeId: nodeTypeId
-      },
+      params:
+        pageIndex || pageSize
+          ? {
+              name: name,
+              pageSize: pageSize.toString(),
+              pageIndex: pageIndex.toString(),
+              waterBodyId: waterBodyId,
+              nodeTypeId: nodeTypeId
+            }
+          : {
+              name: name,
+              waterBodyId: waterBodyId,
+              nodeTypeId: nodeTypeId
+            },
       headers: {
         'conten-type': 'application/json',
         Authorization: 'Bearer ' + this.token
@@ -298,7 +302,7 @@ export class ApiService {
   }
 
   getAllNodes() {
-    return this.http.get<Node[]>(this.apiUrl + 'nodes', {
+    return this.http.get<Page<Node[]>>(this.apiUrl + 'nodes', {
       headers: {
         'conten-type': 'application/json',
         Authorization: 'Bearer ' + this.token
@@ -493,5 +497,91 @@ export class ApiService {
         id: id
       }
     });
+  }
+
+  // ICAMPFF
+
+  getIcampffPage(waterBodyId: string, pageIndex: number, pageSize: number) {
+    return this.http.get<Page<IcampffAvg[]>>(
+      this.apiUrl + 'data',
+      {
+        params: {
+          nodeId: waterBodyId,
+          pageSize: pageSize.toString(),
+          pageIndex: pageIndex.toString()
+        },
+        headers: {
+          'conten-type': 'application/json',
+          Authorization: 'Bearer ' + this.token
+        }
+      }
+    );
+  }
+
+  newIcampff(date: Date, values: number[], nodeId: string) {
+    return this.http.post(
+      this.apiUrl + 'data',
+      {
+        date: date.toISOString(),
+        values: values,
+        nodeId: nodeId
+      },
+      {
+        headers: {
+          'conten-type': 'application/json',
+          Authorization: 'Bearer ' + this.token
+        }
+      }
+    );
+  }
+
+  deleteIcampff(waterBodyId: string, date: string) {
+    return this.http.delete(this.apiUrl + 'data', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      },
+      params: {
+        nodeId: waterBodyId,
+        date: date
+      }
+    });
+  }
+
+  getAllIcampff() {
+    return this.http.get<IcampffAvg[]>(
+      this.apiUrl + 'data',
+      {
+        headers: {
+          'conten-type': 'application/json',
+          Authorization: 'Bearer ' + this.token
+        }
+      }
+    );
+  }
+
+  buildIcampffCaches() {
+    return this.http.put(
+      this.apiUrl + 'icampff-caches',
+      {},
+      {
+        headers: {
+          'conten-type': 'application/json',
+          Authorization: 'Bearer ' + this.token
+        }
+      }
+    );
+  }
+
+  removeIcampffCaches() {
+    return this.http.delete(
+      this.apiUrl + 'icampff-caches',
+      {
+        headers: {
+          'conten-type': 'application/json',
+          Authorization: 'Bearer ' + this.token
+        }
+      }
+    );
   }
 }

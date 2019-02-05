@@ -196,5 +196,9 @@ export class AppModule {
       'node',
       sanitizer.bypassSecurityTrustResourceUrl('assets/node.svg')
     );
+    iconRegistry.addSvgIcon(
+      'cache',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/cache.svg')
+    );
   }
 }

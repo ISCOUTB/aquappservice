@@ -212,6 +212,14 @@ export class WaterBodiesComponent implements OnInit {
     });
   }
 
+  icampff() {
+    this.router.navigate(['icampff'], {
+      queryParams: {
+        waterBodyId: this.expandedElement.id
+      }
+    });
+  }
+
   edit() {
     this.router.navigate(['editar-cuerpo-de-agua'], {
       queryParams: {
