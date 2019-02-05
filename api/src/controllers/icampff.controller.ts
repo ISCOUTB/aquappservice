@@ -12,7 +12,7 @@ import {
 import {repository} from '@loopback/repository';
 import {authenticate, AuthenticationBindings} from '@loopback/authentication';
 import {IcampffCache, WaterBody, Datum, NodeData} from '../models';
-import 'node-fetch';
+import * as fetch from 'node-fetch';
 
 export class IcampffController {
   constructor(
@@ -78,32 +78,38 @@ export class IcampffController {
   }
 
   @get('/icampff-avg-caches')
-  async getAvgCaches(@param.query.string('waterBodyId') waterBodyId: string) {
+  async getAvgCaches(
+    @param.query.string('waterBodyId') waterBodyId: string,
+    @param.query.number('pageIndex') pageIndex: number,
+    @param.query.number('pageSize') pageSize: number,
+  ) {
     let icampffCaches: IcampffCache[][] = [];
     let avgs: {date: Date; value: number}[] = [];
-
-    await this.waterBodyRepository.findById(waterBodyId).then(
-      async waterBody => {
-        if (waterBody.nodes) {
-          for (const node of waterBody.nodes) {
-            await this.icampffCacheRepository
-              .find(
-                {where: {and: [{nodeId: node}, {waterBodyId: waterBody.id}]}},
-                {strictObjectIDCoercion: true},
-              )
-              .then(
-                caches => {
-                  icampffCaches.push(caches);
-                },
-                () => {
-                  icampffCaches.push([]);
-                },
-              );
-          }
-        }
-      },
-      () => [],
+    let waterBody: WaterBody = await this.waterBodyRepository.findById(waterBodyId).then(
+      wb => wb,
     );
+
+    if (waterBody.nodes) {
+      for (const node of waterBody.nodes) {
+        await this.icampffCacheRepository
+          .find(
+            {where: {and: [{nodeId: node}, {waterBodyId: waterBody.id}]}},
+            {strictObjectIDCoercion: true},
+          )
+          .then(
+            caches => {
+              icampffCaches.push(caches);
+            },
+            () => {
+              icampffCaches.push([]);
+            },
+          );
+      }
+    }
+
+    if (pageIndex === undefined && pageSize === undefined) {
+      return avgs;
+    }
 
     if (icampffCaches.length) {
       for (let index = 0; index < icampffCaches[0].length; index++) {
@@ -116,7 +122,15 @@ export class IcampffController {
       }
     }
 
-    return avgs;
+    return {
+      items: avgs.slice(
+        pageIndex * pageSize,
+        (pageIndex + 1) * pageSize > avgs.length - 1
+          ? undefined
+          : (pageIndex + 1) * pageSize,
+      ),
+      total: avgs.length,
+    };
   }
 
   @authenticate('BearerStrategy', {type: -1})
@@ -233,6 +247,19 @@ export class IcampffController {
           }/po4/${phosphatesData[index].value}/dbo/${
             biochemicalOxygendDemandData[index].value
           }/cla/${chlorophyllAData[index].value}`;
+          /**
+           * console.log(
+          node,
+          dissolvedOxygenData.length,
+          nitrateData.length,
+          totalSuspendedSolidsData.length,
+          thermotolerantColiformsData.length,
+          pHData.length,
+          chlorophyllAData.length,
+          biochemicalOxygendDemandData.length,
+          phosphatesData.length,
+        );
+           */
           try {
             // Try to find an icampff cache with the same hash
             await this.icampffCacheRepository
@@ -252,8 +279,24 @@ export class IcampffController {
                 async ic => {
                   if (!ic) {
                     // No such icampff cache exists, so a new one will be created
-                    const response = await fetch(url);
-                    const json = await response.json();
+                    let response;
+                    let json;
+                    for (let attempt = 0; attempt < 5; attempt++) {
+                      response = await fetch.default(url);
+                      json = await response.json();
+                      if (json !== undefined) {
+                        break;
+                      }
+                      console.log(
+                        'Error connecting to the api',
+                        response,
+                        'trying again',
+                      );
+                    }
+                    if (json === undefined) {
+                      console.log('Max retry limit reached, try again later.');
+                      return;
+                    }
                     newIcampffCache.value = json.value;
                     newIcampffCache.hash = url;
                     await this.icampffCacheRepository
@@ -276,6 +319,7 @@ export class IcampffController {
               );
           } catch (e) {
             console.log('Error getting the icampff cache, try again.');
+            console.log(e);
             return Promise.reject({});
           }
         }
