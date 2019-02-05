@@ -6,3 +6,4 @@ export * from './node.controller';
 export * from './seed.controller';
 export * from './data.controller';
 export * from './water-body.controller';
+export * from './icampff.controller';
