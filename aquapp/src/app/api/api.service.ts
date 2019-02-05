@@ -503,10 +503,10 @@ export class ApiService {
 
   getIcampffPage(waterBodyId: string, pageIndex: number, pageSize: number) {
     return this.http.get<Page<IcampffAvg[]>>(
-      this.apiUrl + 'data',
+      this.apiUrl + 'icampff-avg-caches',
       {
         params: {
-          nodeId: waterBodyId,
+          waterBodyId: waterBodyId,
           pageSize: pageSize.toString(),
           pageIndex: pageIndex.toString()
         },
@@ -520,7 +520,7 @@ export class ApiService {
 
   newIcampff(date: Date, values: number[], nodeId: string) {
     return this.http.post(
-      this.apiUrl + 'data',
+      this.apiUrl + 'icampff',
       {
         date: date.toISOString(),
         values: values,
@@ -536,7 +536,7 @@ export class ApiService {
   }
 
   deleteIcampff(waterBodyId: string, date: string) {
-    return this.http.delete(this.apiUrl + 'data', {
+    return this.http.delete(this.apiUrl + 'icampff', {
       headers: {
         'conten-type': 'application/json',
         Authorization: 'Bearer ' + this.token
@@ -550,7 +550,7 @@ export class ApiService {
 
   getAllIcampff() {
     return this.http.get<IcampffAvg[]>(
-      this.apiUrl + 'data',
+      this.apiUrl + 'icampff-avg-caches',
       {
         headers: {
           'conten-type': 'application/json',
