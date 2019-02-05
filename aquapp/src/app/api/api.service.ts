@@ -220,7 +220,7 @@ export class ApiService {
     nodeTypeId: string = ''
   ) {
     return this.http.get<Page<Node[]>>(this.apiUrl + 'nodes', {
-      params: pageIndex && pageSize ? {
+      params: pageIndex || pageSize ? {
         name: name,
         pageSize: pageSize.toString(),
         pageIndex: pageIndex.toString(),
