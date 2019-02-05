@@ -66,8 +66,6 @@ export class WaterBodyNodesComponent implements OnInit {
 
   expandedElement: Node;
 
-  toBeDeleted: Node;
-
   freeNodes: Node[];
   toBeAdded: string;
   waterBodyId: string;
@@ -165,26 +163,12 @@ export class WaterBodyNodesComponent implements OnInit {
     this.expandedElement = undefined;
   }
 
-  confirmNodeDeletion(nodeType: Node) {
-    this.toBeDeleted = nodeType;
+  confirmRemoval() {
     this.messageService.show(
       'Seguro que desea eliminar?',
       'Sí',
       this,
-      'deleteNode'
-    );
-  }
-
-  deleteNode() {
-    this.apiService.deleteNode(this.toBeDeleted.id).subscribe(
-      () => {
-        this.messageService.show('Eliminado con éxito');
-        this.paginator.pageIndex = 0;
-        this.refresh();
-      },
-      () => {
-        this.messageService.show('Error eliminando');
-      }
+      'removeNode'
     );
   }
 
@@ -200,12 +184,10 @@ export class WaterBodyNodesComponent implements OnInit {
   async removeNode() {
     this.waterBody.nodes =
       this.waterBody.nodes === undefined ? [] : this.waterBody.nodes;
-    const index = this.waterBody.nodes.indexOf(this.toBeAdded);
+    const index = this.waterBody.nodes.indexOf(this.expandedElement.id);
     if (index === -1) {
-      console.log(
-        this.messageService.show(
-          'Error, el nodo NO está asignado al cuerpo de agua'
-        )
+      this.messageService.show(
+        'Error, el nodo NO está asignado al cuerpo de agua'
       );
     } else {
       this.waterBody.nodes.splice(index, 1);

@@ -64,10 +64,18 @@
               mat-icon-button
               mat-raised-button
               color="warn"
-              (click)="removeNode()"
+              (click)="confirmRemoval()"
               matTooltip="Eliminar"
             >
               <mat-icon svgIcon="remove"></mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              mat-raised-button
+              (click)="expandedElement = undefined"
+              matTooltip="Cerrar"
+            >
+              <mat-icon svgIcon="close"></mat-icon>
             </button>
           </div>
         </td>
