@@ -185,47 +185,58 @@ export class OverviewComponent implements OnInit {
       ? '#F9F107' // yellow
       : icampff > 25
       ? '#F57702' // orange
+      : icampff === -1
+      ? '#FFFFFF'
       : '#FB1502'; // red
   }
 
   addWaterBodies(icampffDate: string) {
     let index = 0;
     for (const waterBody of this.waterBodies) {
+      let icampff: number;
       if (icampffDate === 'latest') {
-        const geojson = geoJSON(JSON.parse(waterBody.geojson), {
-          style: {
-            weight: 2,
-            opacity: 1,
-            dashArray: '',
-            fillOpacity: 1,
-            color: this.getColor(
+        icampff = this.icampffAvgPerWaterBody[index].length
+          ? this.icampffAvgPerWaterBody[index][
+              this.icampffAvgPerWaterBody[index].length - 1
+            ].value
+          : -1;
+      } else {
+        const icampffIndex: number = this.icampffAvgPerWaterBody[
+          index
+        ].findIndex(ica => ica.date.toString() === icampffDate);
+        if (icampffIndex === -1) {
+          icampff = -1;
+        } else {
+          icampff = this.icampffAvgPerWaterBody[index][icampffIndex].value;
+        }
+      }
+      const geojson = geoJSON(JSON.parse(waterBody.geojson), {
+        style: {
+          weight: 2,
+          opacity: 1,
+          dashArray: '',
+          fillOpacity: 1,
+          color: this.getColor(icampff)
+        }
+      });
+      geojson.eachLayer(layer => {
+        layer.bindPopup(`
+          <h1>${waterBody.name}</h1>
+          <p>
+            Valor del Icampff: ${this.icampffAvgPerWaterBody[index][
+              this.icampffAvgPerWaterBody[index].length - 1
+            ].value.toFixed(2)}
+          </p>
+          <p>
+            Fecha de la medición: ${new Date(
               this.icampffAvgPerWaterBody[index][
                 this.icampffAvgPerWaterBody[index].length - 1
-              ].value
-            )
-          }
-        });
-        geojson.eachLayer(layer => {
-          layer.bindPopup(`
-            <h1>${waterBody.name}</h1>
-            <p>
-              Valor del Icampff: ${
-                this.icampffAvgPerWaterBody[index][
-                  this.icampffAvgPerWaterBody[index].length - 1
-                ].value.toFixed(2)
-              }
-            </p>
-            <p>
-              Fecha de la medición: ${new Date(
-                this.icampffAvgPerWaterBody[index][
-                  this.icampffAvgPerWaterBody[index].length - 1
-                ].date
-              ).toDateString()}
-            </p>
-          `);
-          this.figures.addLayer(layer);
-        });
-      }
+              ].date
+            ).toDateString()}
+          </p>
+        `);
+        this.figures.addLayer(layer);
+      });
       index++;
     }
     this.figures.addTo(this.map);
