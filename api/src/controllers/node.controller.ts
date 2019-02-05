@@ -56,7 +56,7 @@ export class NodeController {
       nodes = nodes.filter(nf => nf.nodeTypeId === '59c9d9019a892016ca4be412');
     }
 
-    if (pageIndex === undefined || pageSize === undefined) {
+    if (pageIndex === undefined && pageSize === undefined) {
       return {
         items: nodes,
         total: nodes.length,
