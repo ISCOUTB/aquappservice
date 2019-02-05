@@ -19,6 +19,12 @@ export class IcampffCache extends Entity {
     required: true,
   })
   date: Date;
+  
+  @property({
+    type: 'string',
+    required: true,
+  })
+  hash: string;
 
   @property({
     type: 'string',
