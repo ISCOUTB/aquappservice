@@ -548,13 +548,16 @@ export class ApiService {
     });
   }
 
-  getAllIcampff() {
+  getAllIcampff(waterBodyId: string) {
     return this.http.get<IcampffAvg[]>(
       this.apiUrl + 'icampff-avg-caches',
       {
         headers: {
           'conten-type': 'application/json',
           Authorization: 'Bearer ' + this.token
+        },
+        params: {
+          waterBodyId: waterBodyId
         }
       }
     );

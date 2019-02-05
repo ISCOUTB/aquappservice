@@ -30,7 +30,7 @@ export class WaterBodyController {
       .find()
       .then(n => n, () => []);
 
-    if ((pageIndex === pageSize) === undefined) {
+    if (pageIndex === undefined && pageSize === undefined) {
       return waterBodies;
     }
 

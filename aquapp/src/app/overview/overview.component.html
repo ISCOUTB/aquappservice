@@ -1,3 +1,25 @@
-<p>
-  overview works!
-</p>
+<div [ngStyle]="{ width: '100%', height: 'calc(100% - 54px)' }">
+  <div
+    *ngIf="mapOptions"
+    leaflet
+    [ngStyle]="mapStyle"
+    [leafletOptions]="mapOptions"
+    (leafletMapReady)="onMapReady($event)"
+  >
+    <div class="leaflet-control-container">
+      <div class="leaflet-top leaflet-right">
+        <mat-card class="legend leaflet-control">
+          <mat-card-content>
+            Valores ICAMPFF estuarios <br />
+            <i style="background:#000"></i> Desconocida<br />
+            <i style="background:#FB1502"></i> Pobre (0–25)<br />
+            <i style="background:#F57702"></i> Inadecuada (26–50)<br />
+            <i style="background:#F9F107"></i> Aceptable(51–70)<br />
+            <i style="background:#49C502"></i> Adecuada (71–90)<br />
+            <i style="background:#0032FF"></i> Óptima (91 - 100)
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

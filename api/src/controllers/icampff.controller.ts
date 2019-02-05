@@ -107,10 +107,6 @@ export class IcampffController {
       }
     }
 
-    if (pageIndex === undefined && pageSize === undefined) {
-      return avgs;
-    }
-
     if (icampffCaches.length) {
       for (let index = 0; index < icampffCaches[0].length; index++) {
         let value = 0;
@@ -120,6 +116,10 @@ export class IcampffController {
         value /= icampffCaches.length;
         avgs.push({date: icampffCaches[0][index].date, value: value});
       }
+    }
+
+    if (pageIndex === undefined && pageSize === undefined) {
+      return avgs;
     }
 
     return {

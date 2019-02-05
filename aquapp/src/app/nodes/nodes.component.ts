@@ -72,7 +72,7 @@ export class NodesComponent implements OnInit {
   nodeTypes: NodeType[];
   waterBodies: WaterBody[];
 
-  status = ['Off', 'On'];
+  status = ['Off', 'Real Time', 'Non Real Time'];
 
   expandedElement: Node;
   expandedNodeName: string;
