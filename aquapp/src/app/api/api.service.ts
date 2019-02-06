@@ -542,7 +542,7 @@ export class ApiService {
         Authorization: 'Bearer ' + this.token
       },
       params: {
-        nodeId: waterBodyId,
+        waterBodyId: waterBodyId,
         date: date
       }
     });
