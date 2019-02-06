@@ -170,7 +170,10 @@ export class OverviewComponent implements OnInit {
         title: node.name,
         icon: ico
       });
-      marker.bindPopup(`<h1>${node.name}</h1>`);
+      marker.bindPopup(`
+        <h1>${node.name}</h1>
+        <p>Ubicación: ${node.location}</p>
+      `);
       marker.addTo(this.map);
       this.markers.push(marker);
     }
