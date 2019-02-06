@@ -6,14 +6,12 @@ import {
   geoJSON,
   FeatureGroup,
   Marker,
-  Icon,
   DivIcon
 } from 'leaflet';
 import { ApiService } from '../api/api.service';
 import { MessageService } from '../message/message.service';
 import { IcampffAvg } from '../models/icampff-avg.model';
 import { WaterBody } from '../models/water-body.model';
-import { promise } from 'protractor';
 import { Node } from '../models/node.model';
 
 @Component({
@@ -46,9 +44,27 @@ export class OverviewComponent implements OnInit {
   weatherStationVariables: string[];
 
   waterBodies: WaterBody[] = [];
-  icampffAvgPerWaterBody: IcampffAvg[][] = [];
+  icampffAvgsPerWaterBody: IcampffAvg[][] = [];
 
   nodes: Node[];
+  selectedNodeType = 'Todas';
+  nodeTypes = [
+    {
+      id: '59c9d9019a892016ca4be412',
+      name: 'Water Quality'
+    },
+    {
+      id: '59c9d9019a892016ca4be413',
+      name: 'Hydro-Metereologic Factors'
+    },
+    {
+      id: '5a16342a9a8920290056a542',
+      name: 'Weather Station'
+    }
+  ];
+
+  selectedDate = 'La más reciente disponible';
+  icamDates: Date[];
 
   constructor(
     private apiService: ApiService,
@@ -86,7 +102,7 @@ export class OverviewComponent implements OnInit {
       await this.apiService
         .getAllIcampff(waterBody.id)
         .toPromise()
-        .then(ia => this.icampffAvgPerWaterBody.push(ia));
+        .then(ia => this.icampffAvgsPerWaterBody.push(ia));
     }
     await this.apiService
       .getAllNodes()
@@ -95,22 +111,34 @@ export class OverviewComponent implements OnInit {
     if (
       this.nodes === undefined ||
       this.waterBodies === undefined ||
-      this.icampffAvgPerWaterBody === undefined
+      this.icampffAvgsPerWaterBody === undefined
     ) {
       this.messageService.show('Error al cargar los datos, recargue la página');
       return;
     }
+    this.icamDates = [];
+    for (const icampffAvgs of this.icampffAvgsPerWaterBody) {
+      for (const icampffAvg of icampffAvgs) {
+        if (this.icamDates.indexOf(icampffAvg.date) === -1) {
+          this.icamDates.push(icampffAvg.date);
+        }
+      }
+    }
+    console.log(this.icamDates);
     this.addFigures();
   }
 
-  addFigures(icampffDate: string = 'latest') {
+  addFigures(icampffDate: string = 'La más reciente disponible') {
     this.addMarkers();
     this.addWaterBodies(icampffDate);
   }
 
-  addMarkers() {
+  addMarkers(nodeTypeId: string = '') {
     this.markers = [];
     for (const node of this.nodes) {
+      if (nodeTypeId && nodeTypeId !== node.nodeTypeId) {
+        continue;
+      }
       let ico_url: string;
       switch (node.status) {
         case 'Real Time':
@@ -189,7 +217,7 @@ export class OverviewComponent implements OnInit {
       : icampff > 25
       ? '#F57702' // orange
       : icampff === -1
-      ? '#FFFFFF'
+      ? '#555555'
       : '#FB1502'; // red
   }
 
@@ -197,20 +225,20 @@ export class OverviewComponent implements OnInit {
     let index = 0;
     for (const waterBody of this.waterBodies) {
       let icampff: number;
-      if (icampffDate === 'latest') {
-        icampff = this.icampffAvgPerWaterBody[index].length
-          ? this.icampffAvgPerWaterBody[index][
-              this.icampffAvgPerWaterBody[index].length - 1
+      if (icampffDate === 'La más reciente disponible') {
+        icampff = this.icampffAvgsPerWaterBody[index].length
+          ? this.icampffAvgsPerWaterBody[index][
+              this.icampffAvgsPerWaterBody[index].length - 1
             ].value
           : -1;
       } else {
-        const icampffIndex: number = this.icampffAvgPerWaterBody[
+        const icampffIndex: number = this.icampffAvgsPerWaterBody[
           index
         ].findIndex(ica => ica.date.toString() === icampffDate);
         if (icampffIndex === -1) {
           icampff = -1;
         } else {
-          icampff = this.icampffAvgPerWaterBody[index][icampffIndex].value;
+          icampff = this.icampffAvgsPerWaterBody[index][icampffIndex].value;
         }
       }
       const geojson = geoJSON(JSON.parse(waterBody.geojson), {
@@ -226,14 +254,16 @@ export class OverviewComponent implements OnInit {
         layer.bindPopup(`
           <h1>${waterBody.name}</h1>
           <p>
-            Valor del Icampff: ${this.icampffAvgPerWaterBody[index][
-              this.icampffAvgPerWaterBody[index].length - 1
-            ].value.toFixed(2)}
+            Valor del Icampff: ${
+              icampff !== -1
+                ? icampff.toFixed(2)
+                : 'No disponible en la fecha seleccionada'
+            }
           </p>
           <p>
             Fecha de la medición: ${new Date(
-              this.icampffAvgPerWaterBody[index][
-                this.icampffAvgPerWaterBody[index].length - 1
+              this.icampffAvgsPerWaterBody[index][
+                this.icampffAvgsPerWaterBody[index].length - 1
               ].date
             ).toDateString()}
           </p>
@@ -263,5 +293,27 @@ export class OverviewComponent implements OnInit {
     });
     this.figures.removeFrom(this.map);
     this.fixMap();
+  }
+
+  selectNodeType(nodeType: string) {
+    let found = false;
+    for (const nt of this.nodeTypes) {
+      if (nt.id === nodeType) {
+        found = true;
+        this.selectedNodeType = nt.name;
+        this.removeMarkers();
+        this.addMarkers(nt.id);
+        break;
+      }
+    }
+    if (!found) {
+      this.removeMarkers();
+      this.addMarkers();
+    }
+  }
+
+  selectDate(date: Date) {
+    this.removeWaterBodies();
+    this.addWaterBodies(date.toString());
   }
 }

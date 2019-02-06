@@ -25,7 +25,8 @@ import {
   MatDatepicker,
   MAT_DATE_LOCALE,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatMenuModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
@@ -99,7 +100,8 @@ import { EditNodeFormComponent } from './forms/edit-node-form/edit-node-form.com
     MatDatepickerModule,
     MatNativeDateModule,
     LeafletModule.forRoot(),
-    LeafletDrawModule.forRoot()
+    LeafletDrawModule.forRoot(),
+    MatMenuModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-GB' }],
   bootstrap: [AppComponent]
@@ -201,6 +203,14 @@ export class AppModule {
     iconRegistry.addSvgIcon(
       'cache',
       sanitizer.bypassSecurityTrustResourceUrl('assets/cache.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'filter',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/filter.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'calendar',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/calendar.svg')
     );
   }
 }
