@@ -85,9 +85,9 @@ export class IcampffController {
   ) {
     let icampffCaches: IcampffCache[][] = [];
     let avgs: {date: Date; value: number}[] = [];
-    let waterBody: WaterBody = await this.waterBodyRepository.findById(waterBodyId).then(
-      wb => wb,
-    );
+    let waterBody: WaterBody = await this.waterBodyRepository
+      .findById(waterBodyId)
+      .then(wb => wb);
 
     if (waterBody.nodes) {
       for (const node of waterBody.nodes) {
@@ -348,21 +348,24 @@ export class IcampffController {
     ];
     let index = 0;
     for (const variable of variables) {
-      await this.nodeDataRepository
+      let nodeData: NodeData | null = await this.nodeDataRepository
         .findOne(
           {where: {and: [{nodeId: body.nodeId}, {variable: variable}]}},
           {strictObjectIDCoercion: true},
         )
-        .then(nodeData => {
-          if (nodeData) {
-            nodeData.data.push(
-              new Datum({
-                date: body.date,
-                value: `${body.values[index]}`,
-              }),
-            );
-          }
-        });
+        .then(n => n);
+      if (nodeData) {
+        nodeData.data.push(
+          new Datum({
+            date: body.date,
+            value: `${body.values[index]}`,
+          }),
+        );
+        await this.nodeDataRepository.save(nodeData).then(
+          () => console.log(`Variable ${variable} saved for ${body.nodeId}.`),
+          () => console.log(`Error, variable ${variable} was NOT saved for ${body.nodeId}.`)
+        );
+      }
       index++;
     }
   }
