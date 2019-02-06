@@ -312,4 +312,12 @@ export class NodesComponent implements OnInit {
     window.scroll(0, 0);
     this.creatingNewElement = false;
   }
+
+  editNode() {
+    this.router.navigate(['formulario-editar-nodo'], {
+      queryParams: {
+        nodeId: this.expandedElement.id
+      }
+    });
+  }
 }

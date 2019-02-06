@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { tileLayer, latLng, Map, map, Marker, Icon } from 'leaflet';
+import { tileLayer, latLng, Map, map, Marker, Icon, DivIcon } from 'leaflet';
 
 @Component({
   selector: 'app-get-lat-lng',
@@ -46,16 +46,48 @@ export class GetLatLngComponent implements OnInit {
         this.marker.removeFrom(this.map);
       }
       this.marker = new Marker(latLng(event.latlng.lat, event.latlng.lng), {
-        icon: new Icon({
-          iconSize: [25, 41],
-          iconAnchor: [13, 0],
-          iconUrl: '/assets/marker-icon.png',
-          shadowUrl: '/assets/marker-shadow.png'
+        icon: new DivIcon({
+          className: 'xolonium',
+          html: `
+            <div class="container">
+              <img
+                style="
+                  position: relative;
+                  text-align: center;
+                  color: white;"
+                src="assets/glyph-marker-icon-gray.png"
+              ></img>
+            </div>
+          `,
+          iconSize: [24, 36],
+          iconAnchor: [12, 36]
         }),
         title: 'Nuevo nodo'
       }).addTo(this.map);
       this.update.emit([event.latlng.lat, event.latlng.lng]);
     });
+    console.log(this.coords);
+    if (this.coords.length) {
+      this.marker = new Marker(latLng(this.coords[0], this.coords[1]), {
+        icon: new DivIcon({
+          className: 'xolonium',
+          html: `
+            <div class="container">
+              <img
+                style="
+                  position: relative;
+                  text-align: center;
+                  color: white;"
+                src="assets/glyph-marker-icon-gray.png"
+              ></img>
+            </div>
+          `,
+          iconSize: [24, 36],
+          iconAnchor: [12, 36]
+        }),
+        title: 'Nuevo nodo'
+      }).addTo(this.map);
+    }
   }
 
   fixMap() {

@@ -49,6 +49,7 @@ import { WaterBodyNodesComponent } from './water-body-nodes/water-body-nodes.com
 import { EditWaterBodyDialogComponent } from './edit-water-body-dialog/edit-water-body-dialog.component';
 import { EditWaterBodyPageComponent } from './edit-water-body-page/edit-water-body-page.component';
 import { FileUploadComponent } from './fileupload/fileupload.component';
+import { EditNodeFormComponent } from './forms/edit-node-form/edit-node-form.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { FileUploadComponent } from './fileupload/fileupload.component';
     WaterBodyNodesComponent,
     EditWaterBodyDialogComponent,
     EditWaterBodyPageComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    EditNodeFormComponent
   ],
   imports: [
     BrowserModule,

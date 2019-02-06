@@ -1,0 +1,56 @@
+<mat-card>
+  <mat-card-title>Editar nodo</mat-card-title>
+  <mat-card-content>
+    <form>
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          placeholder="Nombre"
+          [(ngModel)]="name"
+          name="nodeName"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          placeholder="Ubicación"
+          [(ngModel)]="location"
+          name="nodeLocation"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          placeholder="Nombre"
+          [(ngModel)]="name"
+          name="nodeName"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Estado" [(value)]="status">
+          <mat-option *ngFor="let st of statusList" [value]="st">
+            {{ st }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <app-get-lat-lng
+        *ngIf="coordinates"
+        [coords]="coordinates"
+        (update)="updateCoords($event)"
+      ></app-get-lat-lng></form
+  ></mat-card-content>
+  <mat-card-actions>
+    <button
+      mat-raised-button
+      mat-icon-button
+      color="accent"
+      (click)="saveNode()"
+      matTooltip="Guardar cambios"
+    >
+      <mat-icon svgIcon="check"></mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

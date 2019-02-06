@@ -95,7 +95,7 @@
               mat-icon-button
               mat-raised-button
               color="primary"
-              (click)="editting = !editting"
+              (click)="editNode()"
               matTooltip="Editar"
             >
               <mat-icon svgIcon="edit"></mat-icon>
@@ -108,59 +108,6 @@
               matTooltip="Datos"
             >
               <mat-icon svgIcon="data"></mat-icon>
-            </button>
-            <br />
-            <form>
-              <mat-form-field>
-                <input
-                  type="text"
-                  matInput
-                  placeholder="Nombre"
-                  [(ngModel)]="expandedNodeName"
-                  name="nnname"
-                  [disabled]="!editting"
-                />
-              </mat-form-field>
-              <mat-form-field>
-                <input
-                  type="text"
-                  matInput
-                  placeholder="Ubicación"
-                  [(ngModel)]="expandedNodeLocation"
-                  name="nnloc"
-                  [disabled]="!editting"
-                />
-              </mat-form-field>
-              <mat-form-field>
-                <input
-                  type="number"
-                  matInput
-                  placeholder="Latitud"
-                  [(ngModel)]="expandedNodeLatitude"
-                  name="nnlat"
-                  [disabled]="!editting"
-                />
-              </mat-form-field>
-              <mat-form-field>
-                <input
-                  type="number"
-                  matInput
-                  placeholder="Longitud"
-                  [(ngModel)]="expandedNodeLongitude"
-                  name="nnlong"
-                  [disabled]="!editting"
-                />
-              </mat-form-field>
-            </form>
-            <button
-              mat-icon-button
-              mat-raised-button
-              color="accent"
-              (click)="saveNode()"
-              *ngIf="editting"
-              matTooltip="Guardar cambios"
-            >
-              <mat-icon svgIcon="check"></mat-icon>
             </button>
           </div>
         </td>
