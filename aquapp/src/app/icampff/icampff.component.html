@@ -154,11 +154,12 @@
     <ng-template #nodesNvalues>
       <form *ngFor="let node of nodes; index as i">
         <h3>{{ node.name }}</h3>
-        <mat-form-field *ngFor="let value of values[i]; index as j">
+        <p>{{ node.location }}</p>
+        <mat-form-field *ngFor="let value of valuesPlaceHolder; index as j">
           <input
             type="number"
             matInput
-            name="{{ 'val' + i.toString() + ':' + j.toString() }}"
+            name="{{ 'val' + i.toString() + 'z' + j.toString() }}"
             [(ngModel)]="values[i][j]"
             placeholder="{{ variables[j] }}"
           />

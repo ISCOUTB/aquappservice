@@ -75,6 +75,7 @@ export class IcampffComponent implements OnInit {
   waterBodyId: string;
   nodes: Node[] = [];
   values: number[][] = [];
+  valuesPlaceHolder: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
 
   variables: string[] = [
     'Dissolved Oxygen (DO)',
@@ -187,7 +188,10 @@ export class IcampffComponent implements OnInit {
 
   deleteIcampffAvg() {
     this.apiService
-      .deleteIcampff(this.waterBodyId, this.expandedElement.date.toISOString())
+      .deleteIcampff(
+        this.waterBodyId,
+        new Date(this.expandedElement.date).toISOString()
+      )
       .subscribe(
         () => {
           this.messageService.show('Eliminado con éxito');
@@ -201,8 +205,10 @@ export class IcampffComponent implements OnInit {
   }
 
   async newIcampffAvg() {
+    console.log(this.values);
     let index = 0;
     this.messageService.show('Creando el icampff, por favor, espere');
+    this.close();
     const promises: Promise<any>[] = [];
     for (const node of this.nodes) {
       promises.push(
@@ -214,15 +220,26 @@ export class IcampffComponent implements OnInit {
     }
     await Promise.all(promises).then(
       () => this.messageService.show('Icampff creado, actualizando cachés'),
-      () => this.messageService.show('Error creando alguno de los valores')
+      () =>
+        this.messageService.show(
+          'Error creando alguno de los valores, borre el nuevo icampff creado, los cachés y vuelva a intentar'
+        )
     );
     await this.apiService
       .buildIcampffCaches()
       .toPromise()
       .then(
-        () => this.messageService.show('Cachés actualizados'),
+        () => {
+          this.messageService.show('Cachés actualizados');
+          this.refresh();
+        },
         () => this.messageService.show('Error actualizando los cachés')
       );
+  }
+
+  updateValue(i: number, j: number, value: string) {
+    this.values[i][j] = parseInt(value, 10);
+    console.log(this.values);
   }
 
   close() {
@@ -241,9 +258,12 @@ export class IcampffComponent implements OnInit {
   }
 
   async removeCaches() {
-    await this.apiService.removeIcampffCaches().toPromise().then(
-      () => this.messageService.show('Cachés removidos'),
-      () => this.messageService.show('Error removiendo cachés')
-    );
+    await this.apiService
+      .removeIcampffCaches()
+      .toPromise()
+      .then(
+        () => this.messageService.show('Cachés removidos'),
+        () => this.messageService.show('Error removiendo cachés')
+      );
   }
 }
