@@ -13,6 +13,7 @@ import { MessageService } from '../message/message.service';
 import { IcampffAvg } from '../models/icampff-avg.model';
 import { WaterBody } from '../models/water-body.model';
 import { Node } from '../models/node.model';
+import { UrlService } from '../url/url.service';
 
 @Component({
   selector: 'app-overview',
@@ -68,7 +69,8 @@ export class OverviewComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private urlService: UrlService
   ) {
     window.onresize = () => {
       if (this.map) {
@@ -198,9 +200,17 @@ export class OverviewComponent implements OnInit {
         title: node.name,
         icon: ico
       });
+      const exportDataUrl: string = this.urlService.gen(
+        ['formulario-exportar-datos'],
+        {
+          entity1Id: node.id,
+          entity1Type: 'node'
+        }
+      );
       marker.bindPopup(`
         <h1>${node.name}</h1>
         <p>Ubicación: ${node.location}</p>
+        <a href="${exportDataUrl}">Exportar datos</a>
       `);
       marker.addTo(this.map);
       this.markers.push(marker);
@@ -250,6 +260,13 @@ export class OverviewComponent implements OnInit {
           color: this.getColor(icampff)
         }
       });
+      const exportDataUrl: string = this.urlService.gen(
+        ['formulario-exportar-datos'],
+        {
+          entity1Id: waterBody.id,
+          entity1Type: 'waterBody'
+        }
+      );
       geojson.eachLayer(layer => {
         layer.bindPopup(`
           <h1>${waterBody.name}</h1>
@@ -267,6 +284,7 @@ export class OverviewComponent implements OnInit {
               ].date
             ).toDateString()}
           </p>
+          <a href="${exportDataUrl}">Exportar datos</a>
         `);
         this.figures.addLayer(layer);
       });

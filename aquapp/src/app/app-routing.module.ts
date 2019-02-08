@@ -15,6 +15,8 @@ import { GetNodeDataFormComponent } from './forms/get-node-data-form/get-node-da
 import { WaterBodyNodesComponent } from './water-body-nodes/water-body-nodes.component';
 import { EditWaterBodyPageComponent } from './edit-water-body-page/edit-water-body-page.component';
 import { EditNodeFormComponent } from './forms/edit-node-form/edit-node-form.component';
+import { ExportDataFormComponent } from './forms/export-data-form/export-data-form.component';
+import { ExportDataResultComponent } from './export-data-result/export-data-result.component';
 
 const routes: Routes = [
   {
@@ -87,6 +89,16 @@ const routes: Routes = [
     path: 'formulario-editar-nodo',
     component: EditNodeFormComponent,
     data: { title: 'Formulario editar nodo' }
+  },
+  {
+    path: 'formulario-exportar-datos',
+    component: ExportDataFormComponent,
+    data: { title: 'Formulario exportar datos' }
+  },
+  {
+    path: 'resultado-exportar-datos',
+    component: ExportDataResultComponent,
+    data: { title: 'Resultado exportar datos' }
   },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '/404' }

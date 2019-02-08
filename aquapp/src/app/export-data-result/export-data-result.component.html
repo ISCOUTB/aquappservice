@@ -1,0 +1,31 @@
+<mat-card @fadeInOut *ngIf="loading && !failed">
+  <mat-card-title>Cargando datos, por favor espere</mat-card-title>
+  <mat-card-content>
+    <mat-spinner></mat-spinner>
+  </mat-card-content>
+</mat-card>
+
+<mat-card @fadeInOut *ngIf="!loading && failed">
+  <mat-card-title>Error cargando los datos</mat-card-title>
+  <mat-card-content>
+    Intente recargando la página.
+  </mat-card-content>
+</mat-card>
+
+<mat-card @fadeInOut *ngIf="!loading && !failed">
+  <mat-card-title>Resultados</mat-card-title>
+  <mat-card-content>
+    <ngx-dygraphs [data]="data" [options]="options"></ngx-dygraphs>
+  </mat-card-content>
+  <mat-card-actions>
+    <button
+      mat-raised-button
+      mat-icon-button
+      matTooltip="Guardar como csv"
+      (click)="save()"
+      color="accent"
+    >
+      <mat-icon svgIcon="save_alt"></mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

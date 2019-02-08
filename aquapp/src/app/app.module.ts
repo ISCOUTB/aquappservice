@@ -51,6 +51,9 @@ import { EditWaterBodyDialogComponent } from './edit-water-body-dialog/edit-wate
 import { EditWaterBodyPageComponent } from './edit-water-body-page/edit-water-body-page.component';
 import { FileUploadComponent } from './fileupload/fileupload.component';
 import { EditNodeFormComponent } from './forms/edit-node-form/edit-node-form.component';
+import { ExportDataFormComponent } from './forms/export-data-form/export-data-form.component';
+import { ExportDataResultComponent } from './export-data-result/export-data-result.component';
+import { NgxDygraphsModule } from 'ngx-dygraphs';
 
 @NgModule({
   declarations: [
@@ -73,7 +76,9 @@ import { EditNodeFormComponent } from './forms/edit-node-form/edit-node-form.com
     EditWaterBodyDialogComponent,
     EditWaterBodyPageComponent,
     FileUploadComponent,
-    EditNodeFormComponent
+    EditNodeFormComponent,
+    ExportDataFormComponent,
+    ExportDataResultComponent
   ],
   imports: [
     BrowserModule,
@@ -101,7 +106,8 @@ import { EditNodeFormComponent } from './forms/edit-node-form/edit-node-form.com
     MatNativeDateModule,
     LeafletModule.forRoot(),
     LeafletDrawModule.forRoot(),
-    MatMenuModule
+    MatMenuModule,
+    NgxDygraphsModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-GB' }],
   bootstrap: [AppComponent]

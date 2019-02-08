@@ -549,18 +549,15 @@ export class ApiService {
   }
 
   getAllIcampff(waterBodyId: string) {
-    return this.http.get<IcampffAvg[]>(
-      this.apiUrl + 'icampff-avg-caches',
-      {
-        headers: {
-          'conten-type': 'application/json',
-          Authorization: 'Bearer ' + this.token
-        },
-        params: {
-          waterBodyId: waterBodyId
-        }
+    return this.http.get<IcampffAvg[]>(this.apiUrl + 'icampff-avg-caches', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      },
+      params: {
+        waterBodyId: waterBodyId
       }
-    );
+    });
   }
 
   buildIcampffCaches() {
@@ -577,14 +574,43 @@ export class ApiService {
   }
 
   removeIcampffCaches() {
-    return this.http.delete(
-      this.apiUrl + 'icampff-caches',
-      {
-        headers: {
-          'conten-type': 'application/json',
-          Authorization: 'Bearer ' + this.token
-        }
+    return this.http.delete(this.apiUrl + 'icampff-caches', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
       }
-    );
+    });
+  }
+
+  // EXPORT DATA
+
+  exportData(
+    entity1Id: string,
+    entity1Type: string,
+    entity1Variable?: string,
+    entity1Start?: string,
+    entity1End?: string,
+    entity2Id?: string,
+    entity2Type?: string,
+    entity2Start?: string,
+    entity2End?: string
+  ) {
+    return this.http.get<{data: string}>(this.apiUrl + 'export-data-csv', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      },
+      params: {
+        entity1Id: entity1Id,
+        entity1Type: entity1Type,
+        entity1Variable: entity1Variable,
+        entity1Start: entity1Start,
+        entity1End: entity1End,
+        entity2Id: entity2Id,
+        entity2Type: entity2Type,
+        entity2Start: entity2Start,
+        entity2End: entity2End
+      }
+    });
   }
 }

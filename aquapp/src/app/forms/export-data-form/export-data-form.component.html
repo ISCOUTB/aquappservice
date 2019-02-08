@@ -1,0 +1,236 @@
+<mat-card @fadeInOut *ngIf="loading && !failed">
+  <mat-card-title>Cargando datos, por favor espere</mat-card-title>
+  <mat-card-content>
+    <mat-spinner></mat-spinner>
+  </mat-card-content>
+</mat-card>
+
+<mat-card @fadeInOut *ngIf="!loading && failed">
+  <mat-card-title>Error cargando los datos</mat-card-title>
+  <mat-card-content>
+    Intente recargando la página.
+  </mat-card-content>
+</mat-card>
+
+<mat-card @fadeInOut *ngIf="!loading && !failed">
+  <mat-card-title>Exportar datos</mat-card-title>
+  <mat-card-content>
+    <table class="table">
+      <tr>
+        <th colspan="2" [ngStyle]="{ 'text-align': 'center' }">
+          {{ entity1Name }}
+        </th>
+      </tr>
+      <div
+        *ngIf="
+          entity1Type === 'node';
+          then entity1IsNode;
+          else entity1IsWaterBody
+        "
+      ></div>
+      <ng-template #entity1IsNode>
+        <tr>
+          <th>Variable</th>
+          <td>
+            <form>
+              <mat-form-field>
+                <mat-select [(ngModel)]="entity1Variable" name="entity1var">
+                  <mat-option
+                    *ngFor="let sensor of entity1Sensors"
+                    [value]="sensor.variable"
+                  >
+                    {{ sensor.variable }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #entity1IsWaterBody>
+        <tr>
+          <th>Variable</th>
+          <td>ICAMPff</td>
+        </tr>
+      </ng-template>
+      <tr>
+        <th>Inicio de la medición</th>
+        <td>
+          <form>
+            <mat-form-field>
+              <input
+                matInput
+                [matDatepicker]="pickerst"
+                placeholder="Inicio"
+                [(ngModel)]="entity1Start"
+                name="ndatumdate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickerst"
+              ></mat-datepicker-toggle>
+              <mat-datepicker touchUi #pickerst></mat-datepicker>
+            </mat-form-field>
+          </form>
+        </td>
+      </tr>
+      <tr>
+        <th>Fin de la medición</th>
+        <td>
+          <form>
+            <mat-form-field>
+              <input
+                matInput
+                [matDatepicker]="pickered"
+                placeholder="Fin"
+                [(ngModel)]="entity1End"
+                name="ndatumdate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickered"
+              ></mat-datepicker-toggle>
+              <mat-datepicker touchUi #pickered></mat-datepicker>
+            </mat-form-field>
+          </form>
+        </td>
+      </tr>
+    </table>
+
+    <table class="table">
+      <tr>
+        <th>Comparar información con:</th>
+        <td>
+          <form>
+            <mat-form-field>
+              <mat-select [(value)]="entity2Type" name="entity2tp">
+                <mat-option [value]="''">Nada</mat-option>
+                <mat-option [value]="'node'">Nodo</mat-option>
+                <mat-option [value]="'waterBody'">Cuerpo de agua</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </td>
+      </tr>
+      <div *ngIf="!!entity2Type; then entity2TypeExists"></div>
+      <ng-template #entity2TypeExists>
+        <div
+          *ngIf="
+            entity2Type === 'node';
+            then entity2IsNode;
+            else entity2IsWaterBody
+          "
+        ></div>
+
+        <ng-template #entity2IsNode>
+          <tr>
+            <th>Nodo a comparar</th>
+            <td>
+              <form>
+                <mat-form-field>
+                  <mat-select [(value)]="entity2Id" name="nodetocompare">
+                    <mat-option
+                      *ngFor="let node of nodes"
+                      [value]="node.id"
+                      (click)="getEntity2Sensors(node.nodeTypeId)"
+                    >
+                      {{ node.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </form>
+            </td>
+          </tr>
+          <tr>
+            <th>Variable</th>
+            <td>
+              <form>
+                <mat-form-field>
+                  <mat-select [(ngModel)]="entity2Variable" name="entity2var">
+                    <mat-option
+                      *ngFor="let sensor of entity2Sensors"
+                      [value]="sensor.variable"
+                    >
+                      {{ sensor.variable }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </form>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template #entity2IsWaterBody>
+          <tr>
+            <th>Cuerpo de agua a comparar</th>
+            <td>
+              <form>
+                <mat-form-field>
+                  <mat-select [(value)]="entity2Id" name="entity2id">
+                    <mat-option
+                      *ngFor="let waterBody of waterBodies"
+                      [value]="waterBody.id"
+                    >
+                      {{ waterBody.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </form>
+            </td>
+          </tr>
+          <tr>
+            <th>Variable</th>
+            <td>ICAMPff</td>
+          </tr>
+        </ng-template>
+        <tr>
+          <th>Inicio de la medición</th>
+          <td>
+            <form>
+              <mat-form-field>
+                <input
+                  matInput
+                  [matDatepicker]="pickerst2"
+                  placeholder="Inicio"
+                  [(ngModel)]="entity2Start"
+                  name="ndatumdate"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="pickerst2"
+                ></mat-datepicker-toggle>
+                <mat-datepicker touchUi #pickerst2></mat-datepicker>
+              </mat-form-field>
+            </form>
+          </td>
+        </tr>
+        <tr>
+          <th>Fin de la medición</th>
+          <td>
+            <form>
+              <mat-form-field>
+                <input
+                  matInput
+                  [matDatepicker]="pickered2"
+                  placeholder="Fin"
+                  [(ngModel)]="entity2End"
+                  name="ndatumdate"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="pickered2"
+                ></mat-datepicker-toggle>
+                <mat-datepicker touchUi #pickered2></mat-datepicker>
+              </mat-form-field>
+            </form>
+          </td>
+        </tr>
+      </ng-template>
+    </table>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button mat-icon-button color="accent" (click)="export()">
+      <mat-icon svgIcon="check"></mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
