@@ -126,7 +126,6 @@ export class OverviewComponent implements OnInit {
         }
       }
     }
-    console.log(this.icamDates);
     this.addFigures();
   }
 
@@ -333,5 +332,6 @@ export class OverviewComponent implements OnInit {
   selectDate(date: Date) {
     this.removeWaterBodies();
     this.addWaterBodies(date.toString());
+    this.selectedDate = (new Date(date)).toDateString();
   }
 }
