@@ -7,4 +7,4 @@ export * from './seed.controller';
 export * from './data.controller';
 export * from './water-body.controller';
 export * from './icampff.controller';
-export * from './export-data-controller.controller';
+export * from './export-data.controller';

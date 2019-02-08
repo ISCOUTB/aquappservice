@@ -9,7 +9,7 @@ import {repository} from '@loopback/repository';
 import {AuthenticationBindings} from '@loopback/authentication';
 import {Datum, IcampffCache, WaterBody} from '../models';
 
-export class ExportDataControllerController {
+export class ExportDataController {
   constructor(
     @repository(NodeDataRepository)
     public nodeDataRepository: NodeDataRepository,
@@ -35,6 +35,8 @@ export class ExportDataControllerController {
     @param.query.string('entity2End') entity2End: string,
   ) {
     let result: string = '';
+    let minDate: Date = new Date();
+    let maxDate: Date = new Date();
     const st1 = entity1Start
       ? new Date(entity1Start).getTime()
       : new Date('1900-01-01').getTime();
@@ -50,6 +52,7 @@ export class ExportDataControllerController {
 
     if (entity1Id && entity2Id) {
       if (entity1Type === 'node' && entity2Type === 'node') {
+        result += `Date,${entity1Variable}(1),${entity2Variable}(2)\n`;
         const node1Data: Datum[] = await this.nodeDataRepository
           .findOne(
             {
@@ -60,7 +63,14 @@ export class ExportDataControllerController {
           .then(nd =>
             nd
               ? nd.data.filter(datum => {
+                  if (datum.value === '-1') {
+                    return false;
+                  }
                   const time = new Date(datum.date).getTime();
+                  minDate =
+                    minDate.getTime() > time ? new Date(datum.date) : minDate;
+                  maxDate =
+                    maxDate.getTime() < time ? new Date(datum.date) : maxDate;
                   return time >= st1 && time <= ed1;
                 })
               : [],
@@ -75,7 +85,14 @@ export class ExportDataControllerController {
           .then(nd =>
             nd
               ? nd.data.filter(datum => {
+                  if (datum.value === '-1') {
+                    return false;
+                  }
                   const time = new Date(datum.date).getTime();
+                  minDate =
+                    minDate.getTime() > time ? new Date(datum.date) : minDate;
+                  maxDate =
+                    maxDate.getTime() < time ? new Date(datum.date) : maxDate;
                   return time >= st2 && time <= ed2;
                 })
               : [],
@@ -103,6 +120,7 @@ export class ExportDataControllerController {
           result += `${node2Datum.date},,${node2Datum.value}\n`;
         }
       } else if (entity1Type === 'node' && entity2Type === 'waterBody') {
+        result += `Date,${entity1Variable},ICAMpff\n`;
         const nodeData: Datum[] = await this.nodeDataRepository
           .findOne(
             {
@@ -113,7 +131,14 @@ export class ExportDataControllerController {
           .then(nd =>
             nd
               ? nd.data.filter(datum => {
+                  if (datum.value === '-1') {
+                    return false;
+                  }
                   const time = new Date(datum.date).getTime();
+                  minDate =
+                    minDate.getTime() > time ? new Date(datum.date) : minDate;
+                  maxDate =
+                    maxDate.getTime() < time ? new Date(datum.date) : maxDate;
                   return time >= st1 && time <= ed1;
                 })
               : [],
@@ -151,12 +176,15 @@ export class ExportDataControllerController {
           result += `${icampff.date},,${icampff.value}\n`;
         }
       } else if (entity1Type === 'waterBody' && entity2Type === 'node') {
+        result += `Date,ICAMpff,${entity2Variable}\n`;
         const waterBodyData: {
           date: Date;
           value: number;
         }[] = await this.getIcampffAvgCaches(entity1Id).then(wbd =>
           wbd.filter(w => {
             const time = new Date(w.date).getTime();
+            minDate = minDate.getTime() > time ? new Date(w.date) : minDate;
+            maxDate = maxDate.getTime() < time ? new Date(w.date) : maxDate;
             return time >= st1 && time <= ed1;
           }),
         );
@@ -171,7 +199,14 @@ export class ExportDataControllerController {
           .then(nd =>
             nd
               ? nd.data.filter(datum => {
+                  if (datum.value === '-1') {
+                    return false;
+                  }
                   const time = new Date(datum.date).getTime();
+                  minDate =
+                    minDate.getTime() > time ? new Date(datum.date) : minDate;
+                  maxDate =
+                    maxDate.getTime() < time ? new Date(datum.date) : maxDate;
                   return time >= st1 && time <= ed1;
                 })
               : [],
@@ -201,12 +236,15 @@ export class ExportDataControllerController {
         }
       } else {
         // Water body and water body
+        result += `Date,ICAMPff(1),ICAMPff(2)\n`;
         const waterBody1Data: {
           date: Date;
           value: number;
         }[] = await this.getIcampffAvgCaches(entity1Id).then(wbd =>
           wbd.filter(w => {
             const time = new Date(w.date).getTime();
+            minDate = minDate.getTime() > time ? new Date(w.date) : minDate;
+            maxDate = maxDate.getTime() < time ? new Date(w.date) : maxDate;
             return time >= st1 && time <= ed1;
           }),
         );
@@ -244,6 +282,7 @@ export class ExportDataControllerController {
       }
     } else if (entity1Id) {
       if (entity1Type === 'node') {
+        result += `Date,${entity1Variable}\n`;
         const nodeData: Datum[] = await this.nodeDataRepository
           .findOne(
             {
@@ -254,7 +293,14 @@ export class ExportDataControllerController {
           .then(nd =>
             nd
               ? nd.data.filter(datum => {
+                  if (datum.value === '-1') {
+                    return false;
+                  }
                   const time = new Date(datum.date).getTime();
+                  minDate =
+                    minDate.getTime() > time ? new Date(datum.date) : minDate;
+                  maxDate =
+                    maxDate.getTime() < time ? new Date(datum.date) : maxDate;
                   return time >= st1 && time <= ed1;
                 })
               : [],
@@ -264,12 +310,15 @@ export class ExportDataControllerController {
         }
       } else {
         // Water body
+        result += `Date,ICAMPff\n`;
         const waterBodyData: {
           date: Date;
           value: number;
         }[] = await this.getIcampffAvgCaches(entity1Id).then(wbd =>
           wbd.filter(w => {
             const time = new Date(w.date).getTime();
+            minDate = minDate.getTime() > time ? new Date(w.date) : minDate;
+            maxDate = maxDate.getTime() < time ? new Date(w.date) : maxDate;
             return time >= st1 && time <= ed1;
           }),
         );
@@ -279,7 +328,7 @@ export class ExportDataControllerController {
       }
     }
 
-    return {data: result};
+    return {data: result, minDate: minDate, maxDate: maxDate};
   }
 
   async getIcampffAvgCaches(waterBodyId: string) {
