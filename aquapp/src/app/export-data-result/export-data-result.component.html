@@ -15,7 +15,25 @@
 <mat-card @fadeInOut *ngIf="!loading && !failed">
   <mat-card-title>Resultados</mat-card-title>
   <mat-card-content>
+    <div
+      *ngIf="entityCount === 1; then entityCountIs1; else entityCountIs2"
+    ></div>
+    <ng-template #entityCountIs1>
+      <span [ngStyle]="{ color: '#008080' }">{{ entity1Name }}</span>
+    </ng-template>
+    <ng-template #entityCountIs2>
+      <p>
+        <span [ngStyle]="{ color: '#008000' }">(1) {{ entity1Name }}</span>
+      </p>
+      <p>
+        <span [ngStyle]="{ color: '#000080' }">(2) {{ entity2Name }}</span>
+      </p>
+    </ng-template>
     <ngx-dygraphs [data]="data" [options]="options"></ngx-dygraphs>
+    <p>
+      Arrastre horizontal o verticalmente para ampliar el gráfico. Haga doble
+      click cualquier parte del gráfico para reiniciar el zoom.
+    </p>
   </mat-card-content>
   <mat-card-actions>
     <button

@@ -132,7 +132,7 @@
                     <mat-option
                       *ngFor="let node of nodes"
                       [value]="node.id"
-                      (click)="getEntity2Sensors(node.nodeTypeId)"
+                      (click)="getEntity2Sensors(node.nodeTypeId, node.name)"
                     >
                       {{ node.name }}
                     </mat-option>
@@ -170,6 +170,7 @@
                     <mat-option
                       *ngFor="let waterBody of waterBodies"
                       [value]="waterBody.id"
+                      (click)="entity2Name = waterBody.name"
                     >
                       {{ waterBody.name }}
                     </mat-option>

@@ -41,6 +41,7 @@ export class ExportDataFormComponent implements OnInit {
   entity1End: Date;
 
   entity2Id: string;
+  entity2Name: string;
   entity2Type: string;
   entity2Variable: string;
   entity2Start: Date;
@@ -98,21 +99,15 @@ export class ExportDataFormComponent implements OnInit {
         .getAllSensors(this.nodes[index].nodeTypeId)
         .toPromise()
         .then(s => (this.entity1Sensors = s));
-
-      if (index !== -1) {
-        this.nodes.splice(index, 1);
-      }
     } else {
       const index = this.waterBodies.findIndex(n => n.id === this.entity1Id);
       this.entity1Name = this.waterBodies[index].name;
-      if (index !== -1) {
-        this.waterBodies.splice(index, 1);
-      }
     }
     this.loading = false;
   }
 
-  async getEntity2Sensors(nodeTypeId: string) {
+  async getEntity2Sensors(nodeTypeId: string, name: string) {
+    this.entity2Name = name;
     this.loading = true;
     await this.apiService
       .getAllSensors(nodeTypeId)
@@ -133,7 +128,9 @@ export class ExportDataFormComponent implements OnInit {
         entity2Type: this.entity2Type || '',
         entity2Variable: this.entity2Variable || '',
         entity2Start: this.entity2Start ? this.entity2Start.toISOString() : '',
-        entity2End: this.entity2End ? this.entity2End.toISOString() : ''
+        entity2End: this.entity2End ? this.entity2End.toISOString() : '',
+        entity1Name: this.entity1Name,
+        entity2Name: this.entity2Name
       }
     });
   }

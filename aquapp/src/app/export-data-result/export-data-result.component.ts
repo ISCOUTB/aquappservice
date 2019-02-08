@@ -32,7 +32,7 @@ export class ExportDataResultComponent implements OnInit {
   loading = true;
   failed = false;
   data: string;
-  options = {
+  options: any = {
     pointSize: 1.5,
     highlightCircleSize: 2.5,
     drawPoints: true,
@@ -42,11 +42,17 @@ export class ExportDataResultComponent implements OnInit {
     height: 250,
     legend: 'always'
   };
+  entityCount = 1;
+  entity1Name: string;
+  entity2Name: string;
   constructor(
     private apiService: ApiService,
     private activatedRoute: ActivatedRoute
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
+      this.entityCount = params['entity1Id'] && params['entity2Id'] ? 2 : 1;
+      this.entity1Name = params['entity1Name'];
+      this.entity2Name = params['entity2Name'] || '';
       this.apiService
         .exportData(
           params['entity1Id'],
@@ -56,12 +62,17 @@ export class ExportDataResultComponent implements OnInit {
           params['entity1End'],
           params['entity2Id'],
           params['entity2Type'],
+          params['entity2Variable'],
           params['entity2Start'],
           params['entity2End']
         )
         .subscribe(
           result => {
             this.data = result.data;
+            this.options.dateWindow = [
+              new Date(result.minDate).getTime() - 3600 * 24 * 30 * 1000,
+              new Date(result.maxDate).getTime() + 3600 * 24 * 30 * 1000
+            ];
             this.loading = false;
           },
           () => {

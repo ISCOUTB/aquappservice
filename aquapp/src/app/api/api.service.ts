@@ -592,25 +592,30 @@ export class ApiService {
     entity1End?: string,
     entity2Id?: string,
     entity2Type?: string,
+    entity2Variable?: string,
     entity2Start?: string,
     entity2End?: string
   ) {
-    return this.http.get<{data: string}>(this.apiUrl + 'export-data-csv', {
-      headers: {
-        'conten-type': 'application/json',
-        Authorization: 'Bearer ' + this.token
-      },
-      params: {
-        entity1Id: entity1Id,
-        entity1Type: entity1Type,
-        entity1Variable: entity1Variable,
-        entity1Start: entity1Start,
-        entity1End: entity1End,
-        entity2Id: entity2Id,
-        entity2Type: entity2Type,
-        entity2Start: entity2Start,
-        entity2End: entity2End
+    return this.http.get<{ data: string; minDate: Date; maxDate: Date }>(
+      this.apiUrl + 'export-data-csv',
+      {
+        headers: {
+          'conten-type': 'application/json',
+          Authorization: 'Bearer ' + this.token
+        },
+        params: {
+          entity1Id: entity1Id,
+          entity1Type: entity1Type,
+          entity1Variable: entity1Variable,
+          entity1Start: entity1Start,
+          entity1End: entity1End,
+          entity2Id: entity2Id,
+          entity2Type: entity2Type,
+          entity2Variable: entity2Variable,
+          entity2Start: entity2Start,
+          entity2End: entity2End
+        }
       }
-    });
+    );
   }
 }
