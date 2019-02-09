@@ -52,6 +52,7 @@ export class OverviewComponent implements OnInit {
 
   nodes: Node[];
   selectedNodeType = 'All stations';
+  selectedNodeTypeId = '';
   nodeTypes = [
     {
       id: '59c9d9019a892016ca4be412',
@@ -140,7 +141,7 @@ export class OverviewComponent implements OnInit {
   }
 
   addFigures(icampffDate: string = 'Latest available') {
-    this.addMarkers();
+    this.addMarkers(this.selectedNodeTypeId || '');
     this.addWaterBodies(icampffDate);
   }
 
@@ -267,10 +268,11 @@ export class OverviewComponent implements OnInit {
       const geojson = geoJSON(JSON.parse(waterBody.geojson), {
         style: {
           weight: 2,
-          opacity: 1,
+          opacity: 0.3,
           dashArray: '',
-          fillOpacity: 1,
-          color: this.getColor(icampff)
+          fillColor: this.getColor(icampff),
+          color: 'black',
+          fillOpacity: 0.7
         }
       });
       const exportDataUrl: string = this.urlService.gen(
@@ -340,6 +342,7 @@ export class OverviewComponent implements OnInit {
     for (const nt of this.nodeTypes) {
       if (nt.id === nodeType) {
         found = true;
+        this.selectedNodeTypeId = nt.id;
         this.selectedNodeType = nt.name;
         this.removeMarkers();
         this.addMarkers(nt.id);
