@@ -14,6 +14,8 @@ import { IcampffAvg } from '../models/icampff-avg.model';
 import { WaterBody } from '../models/water-body.model';
 import { Node } from '../models/node.model';
 import { UrlService } from '../url/url.service';
+import { Subscription } from 'rxjs';
+import { TranslateService } from '../translate/translate.service';
 
 @Component({
   selector: 'app-overview',
@@ -48,7 +50,7 @@ export class OverviewComponent implements OnInit {
   icampffAvgsPerWaterBody: IcampffAvg[][] = [];
 
   nodes: Node[];
-  selectedNodeType = 'Todas';
+  selectedNodeType = 'All stations';
   nodeTypes = [
     {
       id: '59c9d9019a892016ca4be412',
@@ -64,14 +66,21 @@ export class OverviewComponent implements OnInit {
     }
   ];
 
-  selectedDate = 'La más reciente disponible';
+  selectedDate = 'Latest available';
   icamDates: Date[];
+
+  subscription: Subscription;
 
   constructor(
     private apiService: ApiService,
     private messageService: MessageService,
-    private urlService: UrlService
+    private urlService: UrlService,
+    private translateService: TranslateService
   ) {
+    this.subscription = this.translateService.reload$.subscribe(rmessage => {
+      console.log(rmessage);
+      this.reloadFigures();
+    });
     window.onresize = () => {
       if (this.map) {
         this.fixMap();
@@ -129,7 +138,7 @@ export class OverviewComponent implements OnInit {
     this.addFigures();
   }
 
-  addFigures(icampffDate: string = 'La más reciente disponible') {
+  addFigures(icampffDate: string = 'Latest available') {
     this.addMarkers();
     this.addWaterBodies(icampffDate);
   }
@@ -168,6 +177,8 @@ export class OverviewComponent implements OnInit {
           nodeTypeName = 'WS';
           break;
       }
+
+      nodeTypeName = this.translateService.translate(nodeTypeName);
 
       const ico = new DivIcon({
         className: 'xolonium',
@@ -208,8 +219,10 @@ export class OverviewComponent implements OnInit {
       );
       marker.bindPopup(`
         <h1>${node.name}</h1>
-        <p>Ubicación: ${node.location}</p>
-        <a href="${exportDataUrl}">Exportar datos</a>
+        <p>${this.translateService.translate('Location')}: ${node.location}</p>
+        <a href="${exportDataUrl}">${this.translateService.translate(
+        'Export data'
+      )}</a>
       `);
       marker.addTo(this.map);
       this.markers.push(marker);
@@ -234,7 +247,7 @@ export class OverviewComponent implements OnInit {
     let index = 0;
     for (const waterBody of this.waterBodies) {
       let icampff: number;
-      if (icampffDate === 'La más reciente disponible') {
+      if (icampffDate === 'Latest available') {
         icampff = this.icampffAvgsPerWaterBody[index].length
           ? this.icampffAvgsPerWaterBody[index][
               this.icampffAvgsPerWaterBody[index].length - 1
@@ -270,20 +283,20 @@ export class OverviewComponent implements OnInit {
         layer.bindPopup(`
           <h1>${waterBody.name}</h1>
           <p>
-            Valor del Icampff: ${
+            ICAMpff: ${
               icampff !== -1
                 ? icampff.toFixed(2)
-                : 'No disponible en la fecha seleccionada'
+                : this.translateService.translate('Unavailable for the current date')
             }
           </p>
           <p>
-            Fecha de la medición: ${new Date(
+            ${this.translateService.translate('Meassure date')}: ${new Date(
               this.icampffAvgsPerWaterBody[index][
                 this.icampffAvgsPerWaterBody[index].length - 1
               ].date
             ).toDateString()}
           </p>
-          <a href="${exportDataUrl}">Exportar datos</a>
+          <a href="${exportDataUrl}">${this.translateService.translate('Export data')}</a>
         `);
         this.figures.addLayer(layer);
       });
@@ -332,6 +345,11 @@ export class OverviewComponent implements OnInit {
   selectDate(date: Date) {
     this.removeWaterBodies();
     this.addWaterBodies(date.toString());
-    this.selectedDate = (new Date(date)).toDateString();
+    this.selectedDate = new Date(date).toDateString();
+  }
+
+  reloadFigures() {
+    this.removeFigures();
+    this.addFigures();
   }
 }

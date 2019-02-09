@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, RoutesRecognized } from '@angular/router';
 import { ApiService } from '../api/api.service';
 import { Location } from '@angular/common';
 import { MessageService } from '../message/message.service';
+import { TranslateService } from '../translate/translate.service';
 
 @Component({
   selector: 'app-header',
@@ -15,16 +16,31 @@ export class HeaderComponent implements OnInit {
   menuExpanded = false;
   // Routes that doesn't require to be logged in (so, the logout button has to be)
   // hidden
-  freeRoutes = ['/vista-general', '/404', '/acerca-de'];
+  freeRoutes = [
+    '/vista-general',
+    '/404',
+    '/acerca-de',
+    '/formulario-exportar-datos',
+    '/resultado-exportar-datos'
+  ];
+  selectedLanguage: string;
 
   // Routes in which the header has to be hidden
   noHeaderRoutes = ['/inicio-de-sesion'];
+
+  @Output()
+  reloadFiguresInOverview: EventEmitter<any> = new EventEmitter();
   constructor(
     public router: Router,
     private apiService: ApiService,
     private location: Location,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public translateService: TranslateService
   ) {
+    this.selectedLanguage =
+      this.translateService.getCurrentLanguage() === 'es'
+        ? 'English'
+        : 'Español';
     this.router.events.subscribe(event => {
       if (event instanceof RoutesRecognized) {
         try {
@@ -54,5 +70,16 @@ export class HeaderComponent implements OnInit {
 
   logOut() {
     this.apiService.logOut();
+  }
+
+  toggleLanguage() {
+    this.translateService.toggleLanguage();
+    this.selectedLanguage =
+      this.translateService.getCurrentLanguage() === 'es'
+        ? 'English'
+        : 'Español';
+    if (this.router.url.split('?')[0] === '/vista-general') {
+      this.reloadFiguresInOverview.emit();
+    }
   }
 }

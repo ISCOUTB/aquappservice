@@ -43,9 +43,14 @@
     </a>
   </div>
   <div [ngStyle]="{ margin: '0 auto' }"></div>
+  <div>
+    <button mat-button (click)="toggleLanguage()">
+      {{ selectedLanguage }}
+    </button>
+  </div>
   <div
     [ngStyle]="{ float: 'right', display: 'block' }"
-    *ngIf="freeRoutes.indexOf(router.url) === -1"
+    *ngIf="freeRoutes.indexOf(router.url.split('?')[0]) === -1"
   >
     <button
       mat-button

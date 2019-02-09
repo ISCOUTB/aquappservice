@@ -54,6 +54,8 @@ import { EditNodeFormComponent } from './forms/edit-node-form/edit-node-form.com
 import { ExportDataFormComponent } from './forms/export-data-form/export-data-form.component';
 import { ExportDataResultComponent } from './export-data-result/export-data-result.component';
 import { NgxDygraphsModule } from 'ngx-dygraphs';
+import { TranslatePipe } from './translate/translate.pipe';
+import { TranslateService } from './translate/translate.service';
 
 @NgModule({
   declarations: [
@@ -78,7 +80,8 @@ import { NgxDygraphsModule } from 'ngx-dygraphs';
     FileUploadComponent,
     EditNodeFormComponent,
     ExportDataFormComponent,
-    ExportDataResultComponent
+    ExportDataResultComponent,
+    TranslatePipe
   ],
   imports: [
     BrowserModule,
@@ -109,7 +112,10 @@ import { NgxDygraphsModule } from 'ngx-dygraphs';
     MatMenuModule,
     NgxDygraphsModule
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-GB' }],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-GB' },
+    TranslateService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

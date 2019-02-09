@@ -10,39 +10,76 @@
       <div class="leaflet-top leaflet-right">
         <mat-card class="legend leaflet-control">
           <mat-card-content>
-            Valores ICAMPFF estuarios <br />
-            <i style="background:#555555"></i> No disponible<br />
-            <i style="background:#FB1502"></i> Pobre (0–25)<br />
-            <i style="background:#F57702"></i> Inadecuada (26–50)<br />
-            <i style="background:#F9F107"></i> Aceptable(51–70)<br />
-            <i style="background:#49C502"></i> Adecuada (71–90)<br />
-            <i style="background:#0032FF"></i> Óptima (91 - 100)
+            {{ 'ICAMpff (estuary) values' | translate }} <br />
+            <i style="background:#555555"></i> {{ 'Unavailable' | translate
+            }}<br />
+            <i style="background:#FB1502"></i> {{ 'Poor' | translate }} (0–25)<br />
+            <i style="background:#F57702"></i> {{ 'Inadequate' | translate }}
+            (26–50)<br />
+            <i style="background:#F9F107"></i>
+            {{ 'Acceptable' | translate }} (51–70)<br />
+            <i style="background:#49C502"></i>
+            {{ 'Adequate' | translate }} (71–90)<br />
+            <i style="background:#0032FF"></i> {{ 'Optimal' | translate }} (91 -
+            100)
           </mat-card-content>
         </mat-card>
       </div>
       <div class="leaflet-bottom leaflet-left floating-controls">
-          <button mat-button [matMenuTriggerFor]="filterMenu" class="leaflet-control">
-            <mat-icon svgIcon="filter"></mat-icon>
-            <span [ngStyle]="{'margin-left': '10px'}">{{ selectedNodeType }}</span>
+        <button
+          mat-button
+          [matMenuTriggerFor]="filterMenu"
+          class="leaflet-control"
+        >
+          <mat-icon svgIcon="filter"></mat-icon>
+          <span [ngStyle]="{ 'margin-left': '10px' }">{{
+            selectedNodeType | translate
+          }}</span>
+        </button>
+        <mat-menu #filterMenu="matMenu">
+          <button
+            mat-menu-item
+            *ngFor="let nodeType of nodeTypes"
+            (click)="selectNodeType(nodeType.id)"
+          >
+            {{ nodeType.name }}
           </button>
-          <mat-menu #filterMenu="matMenu">
-            <button mat-menu-item *ngFor="let nodeType of nodeTypes" (click)="selectNodeType(nodeType.id)">{{ nodeType.name }}</button>
-            <button mat-menu-item (click)="selectNodeType('Todas')">{{ 'Todas' }}</button>
-          </mat-menu>
-    
-          <button mat-button [matMenuTriggerFor]="dateMenu" class="leaflet-control">
-            <mat-icon svgIcon="calendar"></mat-icon>
-            <span [ngStyle]="{'margin-left': '10px'}">
-              {{ 'Fecha ICAMpff' }}
-              <span [ngStyle]="{'position': 'absolute', 'margin-top': '15px', 'margin-left': '-123px', 'font-size': '10px', 'width': '100%'}">
-                {{ selectedDate }}
-              </span>
+          <button mat-menu-item (click)="selectNodeType('All stations')">
+            {{ 'All stations' | translate }}
+          </button>
+        </mat-menu>
+
+        <button
+          mat-button
+          [matMenuTriggerFor]="dateMenu"
+          class="leaflet-control"
+        >
+          <mat-icon svgIcon="calendar"></mat-icon>
+          <span [ngStyle]="{ 'margin-left': '10px' }">
+            {{ 'ICAMpff date' | translate }}
+            <span
+              [ngStyle]="{
+                position: 'absolute',
+                'margin-top': '15px',
+                'margin-left': '-123px',
+                'font-size': '10px',
+                width: '100%'
+              }"
+            >
+              {{ selectedDate | translate }}
             </span>
+          </span>
+        </button>
+        <mat-menu #dateMenu="matMenu">
+          <button
+            mat-menu-item
+            *ngFor="let d of icamDates"
+            (click)="selectDate(d)"
+          >
+            {{ d }}
           </button>
-          <mat-menu #dateMenu="matMenu">
-            <button mat-menu-item *ngFor="let d of icamDates" (click)="selectDate(d)">{{ d }}</button>
-          </mat-menu>
-        </div>
+        </mat-menu>
+      </div>
     </div>
   </div>
 </div>
