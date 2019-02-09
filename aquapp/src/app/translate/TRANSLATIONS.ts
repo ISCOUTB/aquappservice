@@ -396,5 +396,14 @@ export const TRANSLATIONS = [
   {
     en: 'Arc. Int',
     es: 'Arc. Int' // TODO find a proper translation
+  },
+  // About component
+  {
+    en: 'Open navigation',
+    es: 'Abrir navegación'
+  },
+  {
+    en: 'Close navigation menu',
+    es: 'Cerrar menú de navegación'
   }
 ];

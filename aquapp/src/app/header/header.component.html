@@ -48,6 +48,15 @@
       {{ selectedLanguage }}
     </button>
   </div>
+  <div>
+    <button
+      mat-button
+      routerLink="/acerca-de"
+      *ngIf="router.url !== '/acerca-de'"
+    >
+      {{ 'About' | translate }}
+    </button>
+  </div>
   <div
     [ngStyle]="{ float: 'right', display: 'block' }"
     *ngIf="freeRoutes.indexOf(router.url.split('?')[0]) === -1"

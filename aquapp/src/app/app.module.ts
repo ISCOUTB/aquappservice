@@ -26,7 +26,10 @@ import {
   MAT_DATE_LOCALE,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatMenuModule
+  MatMenuModule,
+  MatSidenavModule,
+  MatListModule,
+  MatDividerModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
@@ -56,6 +59,7 @@ import { ExportDataResultComponent } from './export-data-result/export-data-resu
 import { NgxDygraphsModule } from 'ngx-dygraphs';
 import { TranslatePipe } from './translate/translate.pipe';
 import { TranslateService } from './translate/translate.service';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +85,8 @@ import { TranslateService } from './translate/translate.service';
     EditNodeFormComponent,
     ExportDataFormComponent,
     ExportDataResultComponent,
-    TranslatePipe
+    TranslatePipe,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
@@ -110,7 +115,10 @@ import { TranslateService } from './translate/translate.service';
     LeafletModule.forRoot(),
     LeafletDrawModule.forRoot(),
     MatMenuModule,
-    NgxDygraphsModule
+    NgxDygraphsModule,
+    MatSidenavModule,
+    MatListModule,
+    MatDividerModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-GB' },
