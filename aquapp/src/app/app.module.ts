@@ -114,7 +114,8 @@ import { TranslateService } from './translate/translate.service';
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-GB' },
-    TranslateService
+    TranslateService,
+    TranslatePipe
   ],
   bootstrap: [AppComponent]
 })

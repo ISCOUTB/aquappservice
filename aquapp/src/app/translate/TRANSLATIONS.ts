@@ -52,6 +52,54 @@ export const TRANSLATIONS = [
     en: 'Dec',
     es: 'Dic'
   },
+  {
+    en: 'January',
+    es: 'Enero'
+  },
+  {
+    en: 'February',
+    es: 'Febrero'
+  },
+  {
+    en: 'April',
+    es: 'Abril'
+  },
+  {
+    en: 'March',
+    es: 'Marzo'
+  },
+  {
+    en: 'May',
+    es: 'Mayo'
+  },
+  {
+    en: 'June',
+    es: 'Junio'
+  },
+  {
+    en: 'July',
+    es: 'Julio'
+  },
+  {
+    en: 'August',
+    es: 'Agosto'
+  },
+  {
+    en: 'September',
+    es: 'Septiembre'
+  },
+  {
+    en: 'October',
+    es: 'Octubre'
+  },
+  {
+    en: 'November',
+    es: 'Noviembre'
+  },
+  {
+    en: 'December',
+    es: 'Diciembre'
+  },
   // Overview component translations
   {
     en: 'Latest available',

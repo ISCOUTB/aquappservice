@@ -76,7 +76,7 @@
             *ngFor="let d of icamDates"
             (click)="selectDate(d)"
           >
-            {{ d }}
+            {{ d | translate:{type: 'date'} }}
           </button>
         </mat-menu>
       </div>

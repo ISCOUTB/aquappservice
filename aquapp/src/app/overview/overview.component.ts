@@ -16,6 +16,7 @@ import { Node } from '../models/node.model';
 import { UrlService } from '../url/url.service';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '../translate/translate.service';
+import { TranslatePipe } from '../translate/translate.pipe';
 
 @Component({
   selector: 'app-overview',
@@ -75,10 +76,10 @@ export class OverviewComponent implements OnInit {
     private apiService: ApiService,
     private messageService: MessageService,
     private urlService: UrlService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private translatePipe: TranslatePipe
   ) {
     this.subscription = this.translateService.reload$.subscribe(rmessage => {
-      console.log(rmessage);
       this.reloadFigures();
     });
     window.onresize = () => {
@@ -286,17 +287,26 @@ export class OverviewComponent implements OnInit {
             ICAMpff: ${
               icampff !== -1
                 ? icampff.toFixed(2)
-                : this.translateService.translate('Unavailable for the current date')
+                : this.translateService.translate(
+                    'Unavailable for the current date'
+                  )
             }
           </p>
           <p>
-            ${this.translateService.translate('Meassure date')}: ${new Date(
-              this.icampffAvgsPerWaterBody[index][
-                this.icampffAvgsPerWaterBody[index].length - 1
-              ].date
-            ).toDateString()}
+            ${this.translateService.translate(
+              'Meassure date'
+            )}: ${this.translatePipe.transform(
+          new Date(
+            this.icampffAvgsPerWaterBody[index][
+              this.icampffAvgsPerWaterBody[index].length - 1
+            ].date
+          ),
+          { type: 'date', fullDate: true }
+        )}
           </p>
-          <a href="${exportDataUrl}">${this.translateService.translate('Export data')}</a>
+          <a href="${exportDataUrl}">${this.translateService.translate(
+          'Export data'
+        )}</a>
         `);
         this.figures.addLayer(layer);
       });
