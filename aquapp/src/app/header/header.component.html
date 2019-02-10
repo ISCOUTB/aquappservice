@@ -43,6 +43,13 @@
     </a>
   </div>
   <div [ngStyle]="{ margin: '0 auto' }"></div>
+  <div *ngIf="freeRoutes.indexOf(router.url.split('?')[0]) !== -1">
+    <a href="https://www.gofundme.com/aquapp">
+      <button [ngStyle]="{ color: 'white' }" mat-button routerLink>
+        {{ 'Donate' | translate }}
+      </button>
+    </a>
+  </div>
   <div>
     <button mat-button (click)="toggleLanguage()">
       {{ selectedLanguage }}
