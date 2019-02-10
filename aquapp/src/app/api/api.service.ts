@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { StorageService } from '../storage/storage.service';
 import { MessageService } from '../message/message.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Page } from '../models/page.model';
 import { NodeType } from '../models/node-type.model';
 import { Sensor } from '../models/sensor.model';
@@ -11,6 +11,7 @@ import { Node } from '../models/node.model';
 import { Datum } from '../models/datum.model';
 import { WaterBody } from '../models/water-body.model';
 import { IcampffAvg } from '../models/icampff-avg.model';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -33,12 +34,17 @@ export class ApiService {
     private messageService: MessageService,
     private router: Router
   ) {
-    if (!this.token && !this.storageService.get('token')) {
-      if (this.freeRoutes.indexOf(this.router.url.split('?')[0]) === -1) {
-        this.logOut();
-      }
-    }
-    this.token = this.storageService.get('token');
+    this.router.events
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe((navEnd: NavigationEnd) => {
+        if (!this.token && !this.storageService.get('token')) {
+          if (this.freeRoutes.indexOf(this.router.url.split('?')[0]) === -1) {
+            console.log('logging out');
+            this.logOut();
+          }
+        }
+        this.token = this.storageService.get('token');
+      });
   }
 
   // AUTHENTICATION
