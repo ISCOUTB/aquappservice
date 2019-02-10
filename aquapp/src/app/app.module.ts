@@ -233,5 +233,25 @@ export class AppModule {
       'calendar',
       sanitizer.bypassSecurityTrustResourceUrl('assets/calendar.svg')
     );
+    iconRegistry.addSvgIcon(
+      'data2',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/data2.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'cool',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/cool.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'download',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/download.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'unchained',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/unchained.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'cross-browser',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/cross-browser.svg')
+    );
   }
 }
