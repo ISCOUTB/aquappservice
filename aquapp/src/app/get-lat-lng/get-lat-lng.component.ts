@@ -66,8 +66,7 @@ export class GetLatLngComponent implements OnInit {
       }).addTo(this.map);
       this.update.emit([event.latlng.lat, event.latlng.lng]);
     });
-    console.log(this.coords);
-    if (this.coords.length) {
+    if (this.coords) {
       this.marker = new Marker(latLng(this.coords[0], this.coords[1]), {
         icon: new DivIcon({
           className: 'xolonium',
