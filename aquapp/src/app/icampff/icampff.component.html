@@ -150,6 +150,14 @@
       para ese parámetro no se tendrá en cuenta para el cálculo del
       icampff.
     </p>
+    <b>IMPORTANTE</b>
+    <p>
+      Si todos los valores de las variables de alguno de los nodos son -1, la
+      medición será omitida. Esto es útil porque algunos cuerpos de agua comparten
+      nodos, de modo que si la información de uno o más de los nodos para esta fecha 
+      ya fue aportada por otra medición del ICAMpff por otro cuerpo de agua, se debe
+      omitir aquí para evitar redundancia de datos.
+    </p>
     <div *ngIf="nodes && values; then nodesNvalues"></div>
     <ng-template #nodesNvalues>
       <form *ngFor="let node of nodes; index as i">

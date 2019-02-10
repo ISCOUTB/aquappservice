@@ -336,6 +336,10 @@ export class IcampffController {
     date: Date;
     nodeId: string;
   }) {
+    if (body.values.every(value => value === -1)) {
+      console.log(`Icampff for node ${body.nodeId} at ${body.date} ommited`);
+      return Promise.resolve({});
+    }
     const variables: string[] = [
       'Dissolved Oxygen (DO)',
       'Nitrate (NO3)',
@@ -361,10 +365,15 @@ export class IcampffController {
             value: `${body.values[index]}`,
           }),
         );
-        await this.nodeDataRepository.save(nodeData).then(
-          () => console.log(`Variable ${variable} saved for ${body.nodeId}.`),
-          () => console.log(`Error, variable ${variable} was NOT saved for ${body.nodeId}.`)
-        );
+        await this.nodeDataRepository
+          .save(nodeData)
+          .then(
+            () => console.log(`Variable ${variable} saved for ${body.nodeId}.`),
+            () =>
+              console.log(
+                `Error, variable ${variable} was NOT saved for ${body.nodeId}.`,
+              ),
+          );
       }
       index++;
     }
