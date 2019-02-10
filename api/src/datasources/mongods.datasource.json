@@ -2,7 +2,7 @@
   "name": "mongods",
   "connector": "mongodb",
   "url": "",
-  "host": "localhost",
+  "host": "aquappdatabase",
   "port": 27017,
   "user": "",
   "password": "",

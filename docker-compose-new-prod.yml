@@ -1,0 +1,24 @@
+version: '2.1'
+
+services:
+  aquappdatabase:
+    image: "mongo:4.0.5"
+    ports:
+      - 27017:27017
+    volumes:
+      - ./databasenew:/data/db
+      - ./imports:/imports
+
+  api:
+    build: ./api
+    ports:
+      - 3000:3000
+    depends_on:
+      - aquappdatabase
+
+  aquapp:
+    build: ./aquapp
+    ports:
+      - 80:80
+    depends_on:
+      - api

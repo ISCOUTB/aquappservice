@@ -18,6 +18,13 @@ import { IcampffAvg } from '../models/icampff-avg.model';
 export class ApiService {
   private apiUrl = environment.apiUrl;
   token: string;
+  freeRoutes = [
+    '/vista-general',
+    '/404',
+    '/acerca-de',
+    '/formulario-exportar-datos',
+    '/resultado-exportar-datos'
+  ];
 
   constructor(
     private http: HttpClient,
@@ -26,7 +33,9 @@ export class ApiService {
     private router: Router
   ) {
     if (!this.token && !this.storageService.get('token')) {
-      this.logOut();
+      if (this.freeRoutes.indexOf(this.router.url.split('?')[0]) === -1) {
+        this.logOut();
+      }
     }
     this.token = this.storageService.get('token');
   }
