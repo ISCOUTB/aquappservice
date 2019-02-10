@@ -23,7 +23,7 @@ export class TranslatePipe implements PipeTransform {
   ];
 
   transform(value: any, args?: any): any {
-    if (args && args.type === 'date') {
+    if (args && value !== 'Latest available' && args.type === 'date') {
       const date = new Date(value);
       return `${date.getDate() + 1}-${this.translateService.translate(
         args.fullDate
