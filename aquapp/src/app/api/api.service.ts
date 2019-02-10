@@ -19,6 +19,7 @@ export class ApiService {
   private apiUrl = environment.apiUrl;
   token: string;
   freeRoutes = [
+    '/',
     '/vista-general',
     '/404',
     '/acerca-de',
