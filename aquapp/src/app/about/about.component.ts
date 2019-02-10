@@ -18,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
         'void',
         style({
           opacity: 0,
-          height: '0px',
+          width: '0px',
           display: 'none'
         })
       ),
@@ -29,6 +29,11 @@ import { ActivatedRoute } from '@angular/router';
 export class AboutComponent implements OnInit {
   breakpoint: number; // Number of columns to display in the mat-grid-lists
   sidenavOpened = false;
+  selectedNavElement: string;
+  selectedNavElementStyle = {
+    'background-color': '#333',
+    color: 'white'
+  };
   constructor(private activatedRoute: ActivatedRoute) {
     this.breakpoint =
       window.innerWidth <= 743 ? 1 : window.innerWidth >= 1000 ? 3 : 2;
@@ -41,9 +46,14 @@ export class AboutComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.fragment.subscribe(f => {
       const element = document.querySelector('#' + f);
+      this.selectedNavElement = f;
       if (element) {
         element.scrollIntoView();
       }
     });
+  }
+
+  ensureSidenavVarIsClosed() {
+    this.sidenavOpened = this.sidenavOpened ? false : true;
   }
 }

@@ -3,6 +3,10 @@
   height: calc(100% - 70px);
 }
 
+.example-container {
+  padding: 15px;
+}
+
 mat-card-content {
   font-size: 10px;
 }
@@ -16,11 +20,12 @@ mat-list-item {
 }
 
 mat-sidenav {
-    height: 500px;
     position: fixed;
-    top: 75px;
-    background: transparent;
     border: 0;
+    left: -15px;
+    padding-left: 15px;
+    width: 60%;
+    max-width: 300px;
 }
 
 .sidenav-open-button {

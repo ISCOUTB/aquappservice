@@ -1,4 +1,4 @@
-<div class="sidenav-open-button">
+<div *ngIf="!sidenavOpened" @fadeInOut class="sidenav-open-button">
   <button
     mat-icon-button
     mat-raised-button
@@ -6,25 +6,54 @@
     (click)="sidenavOpened = !sidenavOpened"
     matTooltip="{{ 'Open navigation' | translate }}"
   >
-    <mat-icon *ngIf="sidenavOpened" svgIcon="navigate_before"></mat-icon>
-    <mat-icon *ngIf="!sidenavOpened" svgIcon="navigate_next"></mat-icon>
+    <mat-icon svgIcon="navigate_next"></mat-icon>
   </button>
 </div>
 <mat-sidenav-container class="example-container">
-  <mat-sidenav mode="side" [opened]="sidenavOpened">
+  <mat-sidenav
+    (closedStart)="ensureSidenavVarIsClosed()"
+    mode="over"
+    [opened]="sidenavOpened"
+  >
     <mat-list>
-      <mat-list-item [routerLink]="['/acerca-de']" fragment="aquapp"
+      <mat-list-item
+        [ngStyle]="
+          selectedNavElement === 'aquapp' ? selectedNavElementStyle : {}
+        "
+        [routerLink]="['/acerca-de']"
+        fragment="aquapp"
         >AquApp</mat-list-item
       >
-      <mat-list-item [routerLink]="['/acerca-de']" fragment="team">{{
-        'Team' | translate
-      }}</mat-list-item>
-      <mat-list-item [routerLink]="['/acerca-de']" fragment="additionalInfo">{{
-        'Additional information' | translate
-      }}</mat-list-item>
-      <mat-list-item [routerLink]="['/acerca-de']" fragment="contact">{{
-        'Contact' | translate
-      }}</mat-list-item>
+      <mat-list-item
+        [ngStyle]="selectedNavElement === 'team' ? selectedNavElementStyle : {}"
+        [routerLink]="['/acerca-de']"
+        fragment="team"
+        >{{ 'Team' | translate }}</mat-list-item
+      >
+      <mat-list-item
+        [ngStyle]="
+          selectedNavElement === 'additionalInfo' ? selectedNavElementStyle : {}
+        "
+        [routerLink]="['/acerca-de']"
+        fragment="additionalInfo"
+        >{{ 'Additional information' | translate }}</mat-list-item
+      >
+      <mat-list-item
+        [ngStyle]="
+          selectedNavElement === 'contact' ? selectedNavElementStyle : {}
+        "
+        [routerLink]="['/acerca-de']"
+        fragment="contact"
+        >{{ 'Contact' | translate }}</mat-list-item
+      >
+      <mat-list-item
+        [ngStyle]="
+          selectedNavElement === 'specialThanks' ? selectedNavElementStyle : {}
+        "
+        [routerLink]="['/acerca-de']"
+        fragment="specialThanks"
+        >{{ 'Special thanks' | translate }}</mat-list-item
+      >
     </mat-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -236,16 +265,6 @@
           </mat-card>
         </mat-grid-tile>
       </mat-grid-list>
-      <h1>{{ 'Special thanks' | translate }}</h1>
-      <p>
-        {{
-          'Special thanks to Invemar for their technical support for the estimation of the ICAMpff through the direct connection to their API.'
-            | translate
-        }}
-      </p>
-      <a href="http://www.invemar.org.co/inicio"
-        ><img src="/assets/logoInvemar.png" alt="Logo invemar"
-      /></a>
     </div>
     <div id="team">
       <h1>{{ 'Team' | translate }}</h1>
@@ -465,6 +484,18 @@
           >{{ 'Join the conversation' | translate }}</a
         >
       </p>
+    </div>
+    <div id="specialThanks">
+      <h1>{{ 'Special thanks' | translate }}</h1>
+      <p>
+        {{
+          'Special thanks to Invemar for their technical support for the estimation of the ICAMpff through the direct connection to their API.'
+            | translate
+        }}
+      </p>
+      <a href="http://www.invemar.org.co/inicio"
+        ><img src="/assets/logoInvemar.png" alt="Logo invemar"
+      /></a>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
