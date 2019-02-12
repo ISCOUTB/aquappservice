@@ -17,5 +17,9 @@ COPY . .
 # Install node dependencies
 RUN npm install
 
+RUN npm run build
+
+RUN lb-tsc es2017 --outDir dist
+
 # Start the app with pm2
 CMD pm2 start ecosystem.config.js --env production --no-daemon
