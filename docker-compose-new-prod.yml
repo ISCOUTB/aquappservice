@@ -8,6 +8,7 @@ services:
     volumes:
       - ./databasenew:/data/db
       - ./imports:/imports
+      - ./backups:/backups
 
   api:
     build: ./api

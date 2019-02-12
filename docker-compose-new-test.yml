@@ -6,7 +6,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./import:/import
+      - ./imports:/imports
       - ./backups:/backups
 
   api:
