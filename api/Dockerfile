@@ -9,6 +9,9 @@ RUN apt update
 # Install pm2
 RUN npm install -g pm2
 
+# Loopback cli
+RUN npm install -g @loopback/cli
+
 WORKDIR /api
 
 # Copy all files
@@ -17,8 +20,8 @@ COPY . .
 # Install node dependencies
 RUN npm install
 
+# Compile ts to js into dist/
 RUN npm run build
-
 RUN lb-tsc es2017 --outDir dist
 
 # Start the app with pm2
