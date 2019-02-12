@@ -21,9 +21,8 @@ COPY . .
 RUN npm install
 
 # Compile ts to js into dist/
-RUN npm run build
-RUN echo $(npm root -g)
-RUN $(npm root -g)/lb-tsc es2017 --outDir dist
+RUN npm start
+RUN npm stop
 
 # Start the app with pm2
 CMD pm2 start ecosystem.config.js --env production --no-daemon
