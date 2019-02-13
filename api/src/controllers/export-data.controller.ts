@@ -98,11 +98,12 @@ export class ExportDataController {
               : [],
           );
         for (const node1Datum of node1Data) {
-          result += `${node1Datum.date},${node1Datum.value},`;
+          const node1Date = new Date(node1Datum.date).toISOString();
+          result += `${node1Date},${node1Datum.value},`;
           let match = false;
           let index = 0;
           for (const node2Datum of node2Data) {
-            if (node2Datum.date.toString() === node1Datum.date.toString()) {
+            if (new Date(node2Datum.date).toISOString() === node1Date) {
               result += `${node2Datum.value}\n`;
               match = true;
               break;
@@ -154,11 +155,12 @@ export class ExportDataController {
         );
 
         for (const node1Datum of nodeData) {
-          result += `${node1Datum.date},${node1Datum.value},`;
+          const node1Date = new Date(node1Datum.date).toISOString();
+          result += `${node1Date},${node1Datum.value},`;
           let match = false;
           let index = 0;
           for (const icampff of waterBodyData) {
-            if (icampff.date.toString() === node1Datum.date.toString()) {
+            if (new Date(icampff.date).toISOString() === node1Date) {
               result += `${icampff.value}\n`;
               match = true;
               break;
@@ -213,11 +215,12 @@ export class ExportDataController {
           );
 
         for (const icampff of waterBodyData) {
-          result += `${icampff.date},${icampff.value},`;
+          const icDate = new Date(icampff.date).toISOString();
+          result += `${icDate},${icampff.value},`;
           let match = false;
           let index = 0;
           for (const nodeDatum of nodeData) {
-            if (icampff.date.toString() === nodeDatum.date.toString()) {
+            if (icDate === new Date(nodeDatum.date).toISOString()) {
               result += `${nodeDatum.value}\n`;
               match = true;
               break;
@@ -258,11 +261,12 @@ export class ExportDataController {
           }),
         );
         for (const icampff of waterBody1Data) {
-          result += `${icampff.date},${icampff.value},`;
+          const icDate = new Date(icampff.date).toISOString();
+          result += `${icDate},${icampff.value},`;
           let match = false;
           let index = 0;
           for (const icampff2 of waterBody2Data) {
-            if (icampff.date.toString() === icampff2.date.toString()) {
+            if (icDate === new Date(icampff2.date).toISOString()) {
               result += `${icampff2.value}\n`;
               match = true;
               break;
@@ -306,7 +310,9 @@ export class ExportDataController {
               : [],
           );
         for (const node1Datum of nodeData) {
-          result += `${node1Datum.date},${node1Datum.value}\n`;
+          result += `${(new Date(node1Datum.date)).toISOString()},${
+            node1Datum.value
+          }\n`;
         }
       } else {
         // Water body
@@ -323,7 +329,7 @@ export class ExportDataController {
           }),
         );
         for (const icampff of waterBodyData) {
-          result += `${icampff.date},${icampff.value}\n`;
+          result += `${(new Date(icampff.date)).toISOString()},${icampff.value}\n`;
         }
       }
     }
