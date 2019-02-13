@@ -51,8 +51,8 @@ export class OverviewComponent implements OnInit {
   icampffAvgsPerWaterBody: IcampffAvg[][] = [];
 
   nodes: Node[];
-  selectedNodeType = 'All stations';
-  selectedNodeTypeId = '';
+  selectedNodeType = 'Water Quality';
+  selectedNodeTypeId = '59c9d9019a892016ca4be412';
   nodeTypes = [
     {
       id: '59c9d9019a892016ca4be412',
