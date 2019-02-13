@@ -53,46 +53,6 @@
           <td>ICAMPff</td>
         </tr>
       </ng-template>
-      <tr>
-        <th>{{ 'Meassure start' | translate }}</th>
-        <td>
-          <form>
-            <mat-form-field>
-              <input
-                matInput
-                [matDatepicker]="pickerst"
-                [(ngModel)]="entity1Start"
-                name="ndatumdate"
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="pickerst"
-              ></mat-datepicker-toggle>
-              <mat-datepicker touchUi #pickerst></mat-datepicker>
-            </mat-form-field>
-          </form>
-        </td>
-      </tr>
-      <tr>
-        <th>{{ 'Meassure end' | translate }}</th>
-        <td>
-          <form>
-            <mat-form-field>
-              <input
-                matInput
-                [matDatepicker]="pickered"
-                [(ngModel)]="entity1End"
-                name="ndatumdate"
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="pickered"
-              ></mat-datepicker-toggle>
-              <mat-datepicker touchUi #pickered></mat-datepicker>
-            </mat-form-field>
-          </form>
-        </td>
-      </tr>
     </table>
 
     <table class="table">
@@ -186,47 +146,50 @@
             <td>ICAMPff</td>
           </tr>
         </ng-template>
-        <tr>
-          <th>{{ 'Meassure start' | translate }}</th>
-          <td>
-            <form>
-              <mat-form-field>
-                <input
-                  matInput
-                  [matDatepicker]="pickerst2"
-                  [(ngModel)]="entity2Start"
-                  name="ndatumdate"
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="pickerst2"
-                ></mat-datepicker-toggle>
-                <mat-datepicker touchUi #pickerst2></mat-datepicker>
-              </mat-form-field>
-            </form>
-          </td>
-        </tr>
-        <tr>
-          <th>{{ 'Meassure end' | translate }}</th>
-          <td>
-            <form>
-              <mat-form-field>
-                <input
-                  matInput
-                  [matDatepicker]="pickered2"
-                  [(ngModel)]="entity2End"
-                  name="ndatumdate"
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="pickered2"
-                ></mat-datepicker-toggle>
-                <mat-datepicker touchUi #pickered2></mat-datepicker>
-              </mat-form-field>
-            </form>
-          </td>
-        </tr>
       </ng-template>
+    </table>
+
+    <table class="table">
+      <tr>
+        <th>{{ 'Meassure start' | translate }}</th>
+        <td>
+          <form>
+            <mat-form-field>
+              <input
+                matInput
+                [matDatepicker]="pickerst"
+                [(ngModel)]="entity1Start"
+                name="ndatumdate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickerst"
+              ></mat-datepicker-toggle>
+              <mat-datepicker touchUi #pickerst></mat-datepicker>
+            </mat-form-field>
+          </form>
+        </td>
+      </tr>
+      <tr>
+        <th>{{ 'Meassure end' | translate }}</th>
+        <td>
+          <form>
+            <mat-form-field>
+              <input
+                matInput
+                [matDatepicker]="pickered"
+                [(ngModel)]="entity1End"
+                name="ndatumdate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickered"
+              ></mat-datepicker-toggle>
+              <mat-datepicker touchUi #pickered></mat-datepicker>
+            </mat-form-field>
+          </form>
+        </td>
+      </tr>
     </table>
   </mat-card-content>
   <mat-card-actions>

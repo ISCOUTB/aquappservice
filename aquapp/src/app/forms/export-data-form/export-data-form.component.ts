@@ -127,8 +127,8 @@ export class ExportDataFormComponent implements OnInit {
         entity2Id: this.entity2Id || '',
         entity2Type: this.entity2Type || '',
         entity2Variable: this.entity2Variable || '',
-        entity2Start: this.entity2Start ? this.entity2Start.toISOString() : '',
-        entity2End: this.entity2End ? this.entity2End.toISOString() : '',
+        entity2Start: this.entity1Start ? this.entity1Start.toISOString() : '',
+        entity2End: this.entity1End ? this.entity1End.toISOString() : '',
         entity1Name: this.entity1Name,
         entity2Name: this.entity2Name
       }
