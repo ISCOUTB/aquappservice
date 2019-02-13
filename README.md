@@ -6,7 +6,7 @@ AquApp is a web-based platform created to carry out the monitoring and subsequen
 
 This new version uses [loopback 4](https://v4.loopback.io/) and [angular](https://angular.io/).
 
-### For production. 
+### For production.
 
 You need docker installed. Just open the command prompt
 and cd to the root of the project, then:
@@ -19,8 +19,9 @@ otherwise the app will use default placeholders.
 ### For development
 
 Start mongodb (you can use docker if you want), then modify your
-/etc/hosts file to map aquappdatabase to 127.0.0.1. Start the api with npm start in the
-api directory. Finally start the frontend with ng serve --open (from the aquapp directory).
+/etc/hosts (C:\Windows\System32\drivers\etc\hosts in Windows) file to map aquappdatabase
+to 127.0.0.1. Start the api with npm start in the api directory. Finally start the frontend
+with ng serve --open (from the aquapp directory).
 
 **Note1**: To stop the api you have to run "npm stop" in the api directory from the command prompt.
 
@@ -28,5 +29,5 @@ api directory. Finally start the frontend with ng serve --open (from the aquapp 
 standard, and it also lacks desing patterns that this new version has (like dependency injection).
 Regarding the frontend, it needed a rewrite, since the dashboard was awful: no way to add, edit or
 remove data, edit water bodies, add/remove icampffs, flush/build caches etc... Also, there were lots
-of repeated code, and I found a better way to integrate leaflet with angular (see 
+of repeated code, and I found a better way to integrate leaflet with angular (see
 [ngx-leaflet](https://github.com/Asymmetrik/ngx-leaflet)).
