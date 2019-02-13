@@ -645,5 +645,50 @@ export const TRANSLATIONS = [
   {
     en: 'Additional information',
     es: 'Información adicional'
+  },
+  // EXPORT FORM COMPONENT
+  {
+    en: 'Meassure start',
+    es: 'Inicio de la medición'
+  },
+  {
+    en: 'Meassure end',
+    es: 'Fin de la medición'
+  },
+  {
+    en: 'Compare data with',
+    es: 'Comparar datos con'
+  },
+  {
+    en: 'Node',
+    es: 'Nodo'
+  },
+  {
+    en: 'Water body',
+    es: 'Cuerpo de agua'
+  },
+  {
+    en: 'Node to be compared with',
+    es: 'Nodo con el que será comparado'
+  },
+  {
+    en: 'Water body to be compared with',
+    es: 'Cuerpo de agua con el que será comparado'
+  },  // Node types
+  {
+      en: 'Water Quality',
+      es: 'Calidad del agua'
+  },
+  {
+      en: 'Hydro-Metereologic Factors',
+      es: 'Factores hidrometereológicos'
+  },
+  {
+      en: 'Weather Station',
+      es: 'Estación del clima'
+  },
+  {
+      en: 'All stations',
+      es: 'Todas las estaciones'
   }
 ];
