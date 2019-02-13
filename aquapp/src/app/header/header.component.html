@@ -19,6 +19,7 @@
     /></a>
   </div>
   <div
+    class="autohide"
     [ngStyle]="{
       width: '125px',
       height: '50px',
@@ -39,20 +40,20 @@
       />
     </a>
   </div>
-  <div [ngStyle]="{ margin: '0 auto' }"></div>
-  <div *ngIf="freeRoutes.indexOf(router.url.split('?')[0]) !== -1">
+  <div @fadeInOut [ngStyle]="{ margin: '0 auto' }"></div>
+  <div @fadeInOut *ngIf="freeRoutes.indexOf(router.url.split('?')[0]) !== -1">
     <a href="https://www.gofundme.com/aquapp">
       <button [ngStyle]="{ color: 'white' }" mat-button routerLink>
         {{ 'Donate' | translate }}
       </button>
     </a>
   </div>
-  <div>
+  <div @fadeInOut>
     <button mat-button (click)="toggleLanguage()">
       {{ selectedLanguage }}
     </button>
   </div>
-  <div>
+  <div @fadeInOut>
     <button
       mat-button
       routerLink="/acerca-de"
@@ -62,6 +63,7 @@
     </button>
   </div>
   <div
+    @fadeInOut
     [ngStyle]="{ float: 'right', display: 'block' }"
     *ngIf="freeRoutes.indexOf(router.url.split('?')[0]) === -1"
   >

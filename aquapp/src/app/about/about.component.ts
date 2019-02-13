@@ -18,11 +18,11 @@ import { ActivatedRoute } from '@angular/router';
         'void',
         style({
           opacity: 0,
-          width: '0px',
-          display: 'none'
+          height: '0px',
+          display: 'none',
         })
       ),
-      transition('void <=> *', animate(225))
+      transition('void <=> *', animate(500))
     ])
   ]
 })
