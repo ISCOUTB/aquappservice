@@ -38,9 +38,16 @@ export class ApiService {
       .pipe(filter(e => e instanceof NavigationEnd))
       .subscribe((navEnd: NavigationEnd) => {
         if (!this.token && !this.storageService.get('token')) {
-          if (this.freeRoutes.indexOf(this.router.url.split('?')[0]) === -1) {
-            console.log('logging out');
-            this.logOut();
+          if (this.router.url.indexOf('#') !== -1) {
+            if (this.freeRoutes.indexOf(this.router.url.split('#')[0]) === -1) {
+              console.log('logging out');
+              this.logOut();
+            }
+          } else {
+            if (this.freeRoutes.indexOf(this.router.url.split('?')[0]) === -1) {
+              console.log('logging out');
+              this.logOut();
+            }
           }
         }
         this.token = this.storageService.get('token');
