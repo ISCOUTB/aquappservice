@@ -22,3 +22,28 @@ mat-card:hover {
 .floating-controls:hover {
   opacity: 1;
 }
+
+.parent-login-container {
+  display: table-cell;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.grand-parent-login-container {
+  display: table;
+  height: calc(100% - 54px);
+  margin: 0 auto;
+  position: absolute;
+  z-index: 10000;
+  width: 100%;
+  overflow: hidden;
+}
+
+.background {
+  background-color: rgba(128, 128, 128, 0.5);
+  position: absolute;
+  height: calc(100% - 54px);
+  z-index: 9999;
+  width: 100%;
+  overflow: hidden;
+}

@@ -1,4 +1,15 @@
-<div [ngStyle]="{ width: '100%', height: 'calc(100% - 54px)' }">
+<div *ngIf="loading" class="background"></div>
+<div *ngIf="loading" class="grand-parent-login-container">
+  <div class="parent-login-container">
+    <mat-spinner
+      [diameter]="200"
+      [ngStyle]="{ margin: '0 auto' }"
+    ></mat-spinner>
+  </div>
+</div>
+<div
+  [ngStyle]="{ width: '100%', height: 'calc(100% - 54px)' }"
+>
   <div
     *ngIf="mapOptions"
     leaflet
@@ -13,9 +24,10 @@
             {{ 'ICAMpff (estuary) values' | translate }} <br />
             <i style="background:#555555"></i> {{ 'Unavailable' | translate
             }}<br />
-            <i style="background:#FB1502"></i> {{ 'Poor' | translate }} (0–25)<br />
-            <i style="background:#F57702"></i> {{ 'Inadequate' | translate }}
-            (26–50)<br />
+            <i style="background:#FB1502"></i>
+            {{ 'Poor' | translate }} (0–25)<br />
+            <i style="background:#F57702"></i>
+            {{ 'Inadequate' | translate }} (26–50)<br />
             <i style="background:#F9F107"></i>
             {{ 'Acceptable' | translate }} (51–70)<br />
             <i style="background:#49C502"></i>
@@ -66,7 +78,7 @@
                 width: '100%'
               }"
             >
-              {{ selectedDate | translate:{type: 'date'} }}
+              {{ selectedDate | translate: { type: 'date' } }}
             </span>
           </span>
         </button>
@@ -76,7 +88,7 @@
             *ngFor="let d of icamDates"
             (click)="selectDate(d)"
           >
-            {{ d | translate:{type: 'date'} }}
+            {{ d | translate: { type: 'date' } }}
           </button>
         </mat-menu>
       </div>

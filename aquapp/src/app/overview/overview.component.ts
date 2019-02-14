@@ -72,6 +72,7 @@ export class OverviewComponent implements OnInit {
   icamDates: Date[];
 
   subscription: Subscription;
+  loading = true;
 
   constructor(
     private apiService: ApiService,
@@ -138,6 +139,7 @@ export class OverviewComponent implements OnInit {
       }
     }
     this.addFigures();
+    this.loading = false;
   }
 
   addFigures(icampffDate: string = 'Latest available') {
