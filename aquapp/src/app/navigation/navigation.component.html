@@ -1,0 +1,56 @@
+<div *ngIf="blackList.indexOf(url) === -1">
+  <div *ngIf="!opened; then openMenuButton; else menu"></div>
+  <ng-template #openMenuButton>
+    <button
+      @fadeInOut
+      mat-icon-button
+      mat-raised-button
+      color="accent"
+      (click)="opened = true"
+      matTooltip="{{ 'Open navigation' | translate }}"
+    >
+      <mat-icon svgIcon="more_horiz"></mat-icon>
+    </button>
+  </ng-template>
+
+  <ng-template #menu>
+    <button
+      @fadeInOut
+      mat-icon-button
+      mat-raised-button
+      color="warn"
+      (click)="opened = false"
+      matTooltip="{{ 'Close' | translate }}"
+    >
+      <mat-icon svgIcon="close"></mat-icon>
+    </button>
+    <button
+      @fadeInOut
+      mat-icon-button
+      mat-raised-button
+      (click)="location.back()"
+      matTooltip="{{ 'Previous page' | translate }}"
+    >
+      <mat-icon svgIcon="navigate_before"></mat-icon>
+    </button>
+    <button
+      @fadeInOut
+      mat-icon-button
+      mat-raised-button
+      (click)="location.forward()"
+      matTooltip="{{ 'Next page' | translate }}"
+    >
+      <mat-icon svgIcon="navigate_next"></mat-icon>
+    </button>
+    <button
+      @fadeInOut
+      color="accent"
+      mat-icon-button
+      mat-raised-button
+      (click)="home()"
+      matTooltip="{{ 'Overview' | translate }}"
+    >
+      <mat-icon svgIcon="home"></mat-icon>
+    </button>
+  </ng-template>
+</div>
