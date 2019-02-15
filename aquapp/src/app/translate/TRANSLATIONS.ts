@@ -216,6 +216,18 @@ export const TRANSLATIONS = [
   {
     en: 'Close',
     es: 'Cerrar'
+  },
+  {
+    en: 'Loading',
+    es: 'Cargando'
+  },
+  {
+    en: 'Error loading data',
+    es: 'Error cargando datos'
+  },
+  {
+    en: 'Retry',
+    es: 'Reintentar'
   }, // Node sensors
   {
     en: 'Dissolved Oxygen (DO)',

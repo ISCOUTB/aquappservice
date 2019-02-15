@@ -17,11 +17,31 @@ import { UrlService } from '../url/url.service';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '../translate/translate.service';
 import { TranslatePipe } from '../translate/translate.pipe';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from '@angular/animations';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  styleUrls: ['./overview.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      state(
+        'void',
+        style({
+          opacity: 0,
+          height: '0px',
+          display: 'none'
+        })
+      ),
+      transition('void <=> *', animate(225))
+    ])
+  ]
 })
 export class OverviewComponent implements OnInit {
   mapOptions = {
@@ -73,6 +93,7 @@ export class OverviewComponent implements OnInit {
 
   subscription: Subscription;
   loading = true;
+  failed = false;
 
   constructor(
     private apiService: ApiService,
@@ -108,28 +129,40 @@ export class OverviewComponent implements OnInit {
   }
 
   async getData() {
+    this.loading = true;
+    this.failed = false;
     await this.apiService
       .getAllWaterBodies()
       .toPromise()
-      .then(wbs => (this.waterBodies = wbs));
+      .then(
+        wbs => (this.waterBodies = wbs),
+        () => {
+          this.failed = true;
+          this.loading = false;
+        }
+      );
     for (const waterBody of this.waterBodies) {
       await this.apiService
         .getAllIcampff(waterBody.id)
         .toPromise()
-        .then(ia => this.icampffAvgsPerWaterBody.push(ia));
+        .then(
+          ia => this.icampffAvgsPerWaterBody.push(ia),
+          () => {
+            this.failed = true;
+            this.loading = false;
+          }
+        );
     }
     await this.apiService
       .getAllNodes()
       .toPromise()
-      .then(page => (this.nodes = page.items));
-    if (
-      this.nodes === undefined ||
-      this.waterBodies === undefined ||
-      this.icampffAvgsPerWaterBody === undefined
-    ) {
-      this.messageService.show('Error al cargar los datos, recargue la página');
-      return;
-    }
+      .then(
+        page => (this.nodes = page.items),
+        () => {
+          this.failed = true;
+          this.loading = false;
+        }
+      );
     this.icamDates = [];
     for (const icampffAvgs of this.icampffAvgsPerWaterBody) {
       for (const icampffAvg of icampffAvgs) {
@@ -137,6 +170,9 @@ export class OverviewComponent implements OnInit {
           this.icamDates.push(icampffAvg.date);
         }
       }
+    }
+    if (this.failed) {
+      return;
     }
     this.addFigures();
     this.loading = false;

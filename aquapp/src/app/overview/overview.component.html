@@ -1,15 +1,31 @@
-<div *ngIf="loading" class="background"></div>
-<div *ngIf="loading" class="grand-parent-login-container">
+<div @fadeInOut *ngIf="loading || failed" class="background"></div>
+<div @fadeInOut *ngIf="loading" class="grand-parent-login-container">
   <div class="parent-login-container">
-    <mat-spinner
-      [diameter]="200"
-      [ngStyle]="{ margin: '0 auto' }"
-    ></mat-spinner>
+    <div [ngStyle]="{ margin: '0 auto', width: '300px' }">
+      <mat-spinner [diameter]="200"></mat-spinner>
+    </div>
   </div>
 </div>
-<div
-  [ngStyle]="{ width: '100%', height: 'calc(100% - 54px)' }"
->
+<div @fadeInOut *ngIf="failed" class="grand-parent-login-container">
+  <div class="parent-login-container">
+    <div [ngStyle]="{ margin: '0 auto', width: '300px' }">
+      <h1>
+        {{ 'Error loading data' | translate }}
+      </h1>
+      <button
+        [ngStyle]="{ margin: '0 auto'}"
+        mat-raised-button
+        mat-icon-button
+        color="accent"
+        (click)="getData()"
+        matTooltip="{{ 'Retry' | translate }}"
+      >
+        <mat-icon svgIcon="refresh"></mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<div [ngStyle]="{ width: '100%', height: 'calc(100% - 54px)' }">
   <div
     *ngIf="mapOptions"
     leaflet
