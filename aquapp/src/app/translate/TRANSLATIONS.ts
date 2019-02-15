@@ -138,6 +138,10 @@ export const TRANSLATIONS = [
     es: 'Acerca de'
   },
   {
+    en: 'Sections',
+    es: 'Secciones'
+  },
+  {
     en: 'Language',
     es: 'Idioma'
   },
@@ -690,5 +694,21 @@ export const TRANSLATIONS = [
   {
       en: 'All stations',
       es: 'Todas las estaciones'
+  }, // NAVIGATION
+  {
+    en: 'Close',
+    es: 'Cerrar'
+  },
+  {
+    en: 'Next page',
+    es: 'Página siguiente'
+  },
+  {
+    en: 'Previous page',
+    es: 'Página anterior'
+  },
+  {
+    en: 'Overview',
+    es: 'Vista general'
   }
 ];
