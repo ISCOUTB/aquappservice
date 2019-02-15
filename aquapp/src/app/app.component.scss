@@ -1,0 +1,11 @@
+.navigation {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10000;
+  opacity: 0.6;
+}
+
+.navigation:hover {
+  opacity: 1;
+}
