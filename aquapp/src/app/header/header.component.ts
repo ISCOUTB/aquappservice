@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Router, ActivatedRoute, RoutesRecognized } from '@angular/router';
+import { Router, RoutesRecognized } from '@angular/router';
 import { ApiService } from '../api/api.service';
 import { Location } from '@angular/common';
 import { MessageService } from '../message/message.service';
@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit {
   // Routes that doesn't require to be logged in (so, the logout button has to be)
   // hidden
   freeRoutes = [
+    '/',
     '/vista-general',
     '/404',
     '/acerca-de',
@@ -47,6 +48,8 @@ export class HeaderComponent implements OnInit {
 
   // Routes in which the header has to be hidden
   noHeaderRoutes = ['/inicio-de-sesion'];
+
+  url: string;
 
   @Output()
   reloadFiguresInOverview: EventEmitter<any> = new EventEmitter();
@@ -63,6 +66,7 @@ export class HeaderComponent implements OnInit {
         : 'Español';
     this.router.events.subscribe(event => {
       if (event instanceof RoutesRecognized) {
+        this.url = event.url.indexOf('#') !== -1 ? event.url.split('#')[0] : event.url.split('?')[0];
         try {
           this.pageFull = event.state.root.children[0].data['title'];
           this.page =

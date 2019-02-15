@@ -57,7 +57,7 @@
     <button
       mat-button
       routerLink="/acerca-de"
-      *ngIf="router.url !== '/acerca-de'"
+      *ngIf="url !== '/acerca-de'"
     >
       {{ 'About' | translate }}
     </button>
@@ -65,7 +65,7 @@
   <div
     @fadeInOut
     [ngStyle]="{ float: 'right', display: 'block' }"
-    *ngIf="freeRoutes.indexOf(router.url.split('?')[0]) === -1"
+    *ngIf="freeRoutes.indexOf(url) === -1"
   >
     <button
       mat-button
