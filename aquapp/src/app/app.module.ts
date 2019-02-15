@@ -60,6 +60,7 @@ import { NgxDygraphsModule } from 'ngx-dygraphs';
 import { TranslatePipe } from './translate/translate.pipe';
 import { TranslateService } from './translate/translate.service';
 import { AboutComponent } from './about/about.component';
+import { NavigationComponent } from './navigation/navigation.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { AboutComponent } from './about/about.component';
     ExportDataFormComponent,
     ExportDataResultComponent,
     TranslatePipe,
-    AboutComponent
+    AboutComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
@@ -252,6 +254,10 @@ export class AppModule {
     iconRegistry.addSvgIcon(
       'cross-browser',
       sanitizer.bypassSecurityTrustResourceUrl('assets/cross-browser.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'more_vert',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/more_vert.svg')
     );
   }
 }
