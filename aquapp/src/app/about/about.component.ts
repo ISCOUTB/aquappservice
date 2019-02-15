@@ -18,7 +18,6 @@ import { ActivatedRoute } from '@angular/router';
         'void',
         style({
           opacity: 0,
-          height: '0px',
           display: 'none',
         })
       ),
@@ -31,7 +30,7 @@ export class AboutComponent implements OnInit {
   sidenavOpened = false;
   selectedNavElement: string;
   selectedNavElementStyle = {
-    'background-color': '#333',
+    'background-color': '#3f51b5',
     color: 'white'
   };
   constructor(private activatedRoute: ActivatedRoute) {
