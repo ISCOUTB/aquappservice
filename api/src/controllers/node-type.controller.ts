@@ -10,6 +10,18 @@ import {authenticate, AuthenticationBindings} from '@loopback/authentication';
 import {NodeType} from '../models';
 
 export class NodeTypeController {
+  /**
+   * 
+   * @param nodeTypeRepository Node types repository
+   * @param nodeRepository Node repository
+   * @param sensorRepository Sensors repository
+   * @param user Information about the currently authenticated
+   *  user (if any). This information is provided by the callback function
+   *  in the method verifyBearer of the class AuthStrategyProvider in
+   *  auth-strategy.provider.ts (the payload of the token).
+   *  The second parameter makes it possible to have unprotected methods
+   *  like getElemets.
+   */
   constructor(
     @repository(NodeTypeRepository)
     public nodeTypeRepository: NodeTypeRepository,
@@ -19,6 +31,11 @@ export class NodeTypeController {
     private user: {name: string; id: string; token: string; type: number},
   ) {}
 
+  /**
+   * Get a page of node types
+   * @param pageIndex Page number, 0 to N
+   * @param pageSize Number of elements
+   */
   @get('/node-types')
   async getElements(
     @param.query.number('pageIndex') pageIndex: number,
@@ -43,6 +60,10 @@ export class NodeTypeController {
     };
   }
 
+  /**
+   * Creates a new node type
+   * @param body New node type
+   */
   @authenticate('BearerStrategy', {type: -1})
   @post('/node-types')
   async newElement(@requestBody() body: NodeType) {
@@ -52,6 +73,10 @@ export class NodeTypeController {
       .then(() => Promise.resolve({}), () => Promise.reject({}));
   }
 
+  /**
+   * Deletes a node type by its id
+   * @param id Id of the node type to be deleted
+   */
   @authenticate('BearerStrategy', {type: -1})
   @del('/node-types')
   async delElement(@param.query.string('id') id: string) {
@@ -89,6 +114,10 @@ export class NodeTypeController {
       });
   }
 
+  /**
+   * Updates a node type with new data
+   * @param body New node type data
+   */
   @authenticate('BearerStrategy', {type: -1})
   @put('/node-types')
   async editElement(
