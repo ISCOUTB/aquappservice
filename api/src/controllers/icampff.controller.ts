@@ -1,10 +1,6 @@
 import {inject} from '@loopback/context';
 import {get, param, put, post, del, requestBody} from '@loopback/openapi-v3';
 import {
-  NodeTypeRepository,
-  NodeRepository,
-  SensorRepository,
-  DatumRepository,
   NodeDataRepository,
   WaterBodyRepository,
   IcampffCacheRepository,
@@ -15,12 +11,19 @@ import {IcampffCache, WaterBody, Datum, NodeData} from '../models';
 import * as fetch from 'node-fetch';
 
 export class IcampffController {
+  /**
+   *
+   * @param nodeDataRepository Node data repository
+   * @param waterBodyRepository Water body repository
+   * @param icampffCacheRepository ICAMpff cache repository
+   * @param user Information about the currently authenticated
+   *  user (if any). This information is provided by the callback function
+   *  in the method verifyBearer of the class AuthStrategyProvider in
+   *  auth-strategy.provider.ts (the payload of the token).
+   *  The second parameter makes it possible to have unprotected methods
+   *  like getElemets.
+   */
   constructor(
-    @repository(DatumRepository) public datumRepository: DatumRepository,
-    @repository(NodeRepository) public nodeRepository: NodeRepository,
-    @repository(NodeTypeRepository)
-    public nodeTypeRepository: NodeTypeRepository,
-    @repository(SensorRepository) public sensorRepository: SensorRepository,
     @repository(NodeDataRepository)
     public nodeDataRepository: NodeDataRepository,
     @repository(WaterBodyRepository)
@@ -31,6 +34,13 @@ export class IcampffController {
     private user: {name: string; id: string; token: string; type: number},
   ) {}
 
+  /**
+   * Returns an array of ICAMpff caches arrays, for every node that belongs to
+   * the water body specified by waterBodyId
+   * @param waterBodyId Id of the water body that the ICAMpff caches belongs to
+   * @param pageIndex Page number, 0 to N
+   * @param pageSize Number of elements
+   */
   @get('/icampff-caches')
   async getElements(
     @param.query.string('waterBodyId') waterBodyId: string,
@@ -77,6 +87,13 @@ export class IcampffController {
     };
   }
 
+  /**
+   * Returns an array with the averages of the ICAMpff values with its
+   * date for every node that belongs to the water body
+   * @param waterBodyId Id of the water body the ICAMpff averages belong to
+   * @param pageIndex Page number, 0 to N
+   * @param pageSize Number of elements
+   */
   @get('/icampff-avg-caches')
   async getAvgCaches(
     @param.query.string('waterBodyId') waterBodyId: string,
@@ -133,6 +150,9 @@ export class IcampffController {
     };
   }
 
+  /**
+   * Generates the caches for every node in every water body
+   */
   @authenticate('BearerStrategy', {type: -1})
   @put('/icampff-caches')
   async buildCaches() {
@@ -328,6 +348,16 @@ export class IcampffController {
     console.log('Icampff cache build process finished');
   }
 
+  /**
+   * This is operation allows you to add the values for each
+   * parameter that's needed to calculate an ICAMpff for a node,
+   * without adding the values of the sensors one by one.
+   * 
+   * @param body Data necessary to calculate an ICAMpff for a WQ node.
+   * The values array has the values of each parameter needed to
+   * calculate the ICAMpff in the same order as described in the
+   * 'variables' constant in this method.
+   */
   @authenticate('BearerStrategy', {type: -1})
   @post('/icampff')
   async newIcampff(@requestBody()
@@ -379,6 +409,14 @@ export class IcampffController {
     }
   }
 
+  /**
+   * For every node that belongs to the water body,
+   * deletes all the data for the sensors specified by
+   * the constant 'variables' in the date provided by
+   * the parameter date.
+   * @param waterBodyId Id of the water body
+   * @param date Date of the ICAMpff to be deleted
+   */
   @authenticate('BearerStrategy', {type: -1})
   @del('/icampff')
   async delIcampff(
@@ -431,6 +469,9 @@ export class IcampffController {
     }
   }
 
+  /**
+   * Deletes all ICAMpff caches.
+   */
   @authenticate('BearerStrategy', {type: -1})
   @del('/icampff-caches')
   async delIcampffCaches() {
