@@ -11,6 +11,19 @@ import {authenticate, AuthenticationBindings} from '@loopback/authentication';
 import {Node, NodeData, WaterBody} from '../models';
 
 export class NodeController {
+  /**
+   * 
+   * @param nodeRepository Node repository
+   * @param waterBodyRepository Water body repository
+   * @param sensorRepository Sensor repository
+   * @param nodeDataRepository Node data repository
+   * @param user Information about the currently authenticated
+   *  user (if any). This information is provided by the callback function
+   *  in the method verifyBearer of the class AuthStrategyProvider in
+   *  auth-strategy.provider.ts (the payload of the token).
+   *  The second parameter makes it possible to have unprotected methods
+   *  like getElemets.
+   */
   constructor(
     @repository(NodeRepository)
     public nodeRepository: NodeRepository,
@@ -23,6 +36,14 @@ export class NodeController {
     private user: {name: string; id: string; token: string; type: number},
   ) {}
 
+  /**
+   * Get a node page (filtered by the water body they belong to, if waterBodyId
+   * is provided).
+   * @param waterBodyId Id of the water body that the nodes belong to
+   * @param nodeTypeId Type of the nodes
+   * @param pageIndex Page number, 0 to N
+   * @param pageSize Number of elements
+   */
   @get('/nodes')
   async getElements(
     @param.query.string('waterBodyId') waterBodyId: string,
@@ -74,6 +95,11 @@ export class NodeController {
     };
   }
 
+  /**
+   * Creates a new node, and its node data definition
+   * depending on their node type id.
+   * @param body New node
+   */
   @authenticate('BearerStrategy', {type: -1})
   @post('/nodes')
   async newElement(@requestBody() body: Node) {
@@ -112,6 +138,10 @@ export class NodeController {
     );
   }
 
+  /**
+   * Deletes a node by its id
+   * @param id Id of the node to be deleted
+   */
   @authenticate('BearerStrategy', {type: -1})
   @del('/nodes')
   async delElement(@param.query.string('id') id: string) {
@@ -151,6 +181,10 @@ export class NodeController {
     });
   }
 
+  /**
+   * Replaces the data of a node except for its id
+   * @param body New node data
+   */
   @authenticate('BearerStrategy', {type: -1})
   @put('/nodes')
   async editElement(
