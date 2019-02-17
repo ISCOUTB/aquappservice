@@ -65,7 +65,7 @@ export class ExportDataController {
   ) {
     let result: string = '';
     let minDate: Date = new Date();
-    let maxDate: Date = new Date();
+    let maxDate: Date = new Date('1900-01-01');
     const st1 = entity1Start
       ? new Date(entity1Start).getTime()
       : new Date('1900-01-01').getTime();
