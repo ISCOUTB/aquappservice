@@ -5,6 +5,11 @@ import {repository} from '@loopback/repository';
 import {User} from '../models';
 import {authenticate, AuthenticationBindings} from '@loopback/authentication';
 
+/**
+ * This controller was created to login the admin user (KAMI), and to
+ * create other users (with the admin user), in case new types of
+ * users with specific permissions (to be implemented) are needed.
+ */
 export class UserController {
   constructor(
     @repository(UserRepository) public usersRepo: UserRepository,
@@ -12,12 +17,19 @@ export class UserController {
     private user: {name: string; id: string; token: string; type: number},
   ) {}
 
+  /**
+   * User login with HTTP basic authentication
+   */
   @authenticate('BasicStrategy')
   @post('/users/login')
   async login() {
     return {token: this.user.token};
   }
 
+  /**
+   * Creates a new user
+   * @param user New user
+   */
   @authenticate('BearerStrategy', {type: -1})
   @post('/users/new-admin')
   async newAdmin(@requestBody() user: User) {
@@ -26,7 +38,12 @@ export class UserController {
       .then(() => Promise.resolve({}), () => Promise.reject({}));
   }
 
-  @authenticate('BearerStrategy', {type: -2})
+  /**
+   * Get a page of users
+   * @param pageIndex Page number, 0 to N
+   * @param pageSize Elements per page
+   */
+  @authenticate('BearerStrategy', {type: -1})
   @get('/users/get')
   async getUsers(
     @param.query.number('pageIndex') pageIndex: number,
@@ -45,7 +62,11 @@ export class UserController {
     };
   }
 
-  @authenticate('BearerStrategy', {type: -2})
+  /**
+   * Delete a user by its id
+   * @param id Id of the user to be deleted
+   */
+  @authenticate('BearerStrategy', {type: -1})
   @del('/users/del')
   async delUser(@param.query.string('id') id: string) {
     return await this.usersRepo
@@ -53,7 +74,13 @@ export class UserController {
       .then(() => Promise.resolve({}), () => Promise.reject({}));
   }
 
-  @authenticate('BearerStrategy', {type: -2})
+  /**
+   * Edits a user, replacing its properties
+   * by the corresponding property in body,
+   * except for the id, which remains the same.
+   * @param body New user data
+   */
+  @authenticate('BearerStrategy', {type: -1})
   @put('/users/edit')
   async editUser(@requestBody() body: User) {
     return await this.usersRepo.findById(body.id).then(
