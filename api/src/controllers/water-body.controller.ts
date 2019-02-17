@@ -5,7 +5,21 @@ import {repository} from '@loopback/repository';
 import {authenticate, AuthenticationBindings} from '@loopback/authentication';
 import {WaterBody} from '../models';
 
+/**
+ * Water body CRUD operations
+ */
 export class WaterBodyController {
+  /**
+   * 
+   * @param waterBodyRepository Water body repository
+   * @param user Information about the currently authenticated
+   *  user (if any). This information is provided by the callback function
+   *  in the method verifyBearer of the class AuthStrategyProvider in
+   *  auth-strategy.provider.ts (the payload of the token).
+   *  The second parameter makes it possible to have unprotected methods
+   *  like getElemets.
+   * @param nodeRepository Node repository
+   */
   constructor(
     @repository(WaterBodyRepository)
     private waterBodyRepository: WaterBodyRepository,
@@ -15,6 +29,12 @@ export class WaterBodyController {
     public nodeRepository: NodeRepository,
   ) {}
 
+  /**
+   * 
+   * @param id Id of the water body
+   * @param pageIndex Page number, 0 to N.
+   * @param pageSize Number of elements
+   */
   @get('/water-bodies')
   async getElements(
     @param.query.string('id') id: string,
@@ -45,6 +65,10 @@ export class WaterBodyController {
     };
   }
 
+  /**
+   * Creates a new water body
+   * @param body New water body
+   */
   @authenticate('BearerStrategy', {type: -1})
   @post('/water-bodies')
   async newElement(@requestBody() body: WaterBody) {
@@ -54,6 +78,10 @@ export class WaterBodyController {
       .then(() => Promise.resolve({}), () => Promise.reject({}));
   }
 
+  /**
+   * Deletes a water body
+   * @param id Id of the water body to be deleted
+   */
   @authenticate('BearerStrategy', {type: -1})
   @del('/water-bodies')
   async delElement(@param.query.string('id') id: string) {
@@ -79,6 +107,11 @@ export class WaterBodyController {
       });
   }
 
+  /**
+   * Updates every field of a water body with
+   * new data, except for its id.
+   * @param body New water body data
+   */
   @authenticate('BearerStrategy', {type: -1})
   @put('/water-bodies')
   async editElement(
