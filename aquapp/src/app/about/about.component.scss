@@ -30,9 +30,9 @@ mat-sidenav {
 
 .sidenav-open-button {
     position: fixed;
-    position: -webkit-sticky;
-    bottom: 5px;
-    left: 5px;
+    position: -webkit-fixed;
+    bottom: 2px;
+    left: 2px;
     opacity: 0.6;
     z-index: 10000;
 }
