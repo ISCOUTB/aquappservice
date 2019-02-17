@@ -12,6 +12,21 @@ import {repository} from '@loopback/repository';
 import {verify as verifyToken, sign as signToken} from 'jsonwebtoken';
 
 export class AuthStrategyProvider implements Provider<Strategy | undefined> {
+  /**
+   * 
+   * @param metadata Data provided by the authenticate decorator used
+   * in the endpoints, per example:
+   * @authenticate('BearerStrategy', {type: -1}),
+   * @post('/water-bodies')
+   * async newElement(@requestBody() body: WaterBody) {
+   * ...
+   * }
+   * In this case, metadata is {type: -1, strategy: 'BearerStrategy'}, 
+   * which indicates that the only user allowed to use the endpoint is the
+   * admin user, and that the authentication method is token bearer.
+   * 
+   * @param usersRepo Users repository
+   */
   constructor(
     @inject(AuthenticationBindings.METADATA)
     private metadata: AuthenticationMetadata,
@@ -58,6 +73,15 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
     }
   }
 
+  /**
+   * Verify the user credentials. This follows the HTTP basic
+   * authentication schema https://tools.ietf.org/html/rfc7617.
+   * @param username Name of the user (KAMI for the admin)
+   * @param password Password of the user
+   * @param cb Callback function provided by passport-http,
+   *  this is used to communicate to passport-http if
+   *  the authentication process was successful or not. 
+   */
   async verifyBasic(
     username: string,
     password: string,
@@ -103,17 +127,25 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
               process.env.SECRET_KEY || 'th349th',
             ),
             type: user.userType,
-          }); // User found
+          }); // User found, successful login.
         },
         reason => {
-          cb(reason, false);
+          cb(reason, false);  // Failed login attempt
         },
       )
       .catch(reason => {
-        cb(reason, false);
+        cb(reason, false);  // Failed login attempt
       });
   }
 
+  /**
+   * Verify the user credentials. The authentication schema is
+   * bearer token.
+   * @param token Base64 encoded string
+   * @param cb Callback function provided by passport-http,
+   *  this is used to communicate to passport-http-bearer if
+   *  the authentication process was successful or not. 
+   */
   async verifyBearer(
     token: string,
     // tslint:disable-next-line:no-any
@@ -146,11 +178,11 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
         await this.usersRepo.findById(payload.id).then(
           user => {
             if (!user.enabled) {
-              throw new Error();
+              throw new Error();  // The user was disabled, so it's not allowed to log in
             }
           },
           () => {
-            throw new Error();
+            throw new Error();  // MongoDB error
           },
         );
       }
