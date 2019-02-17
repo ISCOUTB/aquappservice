@@ -152,6 +152,11 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
     cb: (err: Error | null, user?: any) => void,
   ) {
     try {
+      /**
+       * In case the authentication is successful, this payload
+       * will be available to be injected in any controller via
+       * AUTHENTICATION_BINDINGS.CURRENT_USER
+       */
       // tslint:disable-next-line:no-any
       let payload: any = verifyToken(
         token,
