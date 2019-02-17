@@ -1,12 +1,6 @@
 import {inject} from '@loopback/context';
 import {get} from '@loopback/openapi-v3';
-import {
-  NodeTypeRepository,
-  NodeRepository,
-  SensorRepository,
-  DatumRepository,
-  NodeDataRepository,
-} from '../repositories';
+import {NodeDataRepository} from '../repositories';
 import {repository} from '@loopback/repository';
 import {authenticate, AuthenticationBindings} from '@loopback/authentication';
 // import {Datum, Node, NodeType, Sensor} from '../models';
@@ -14,19 +8,29 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {Datum, NodeData} from '../models';
 
+/**
+ * Controller responsible for loading initial data to the database.
+ */
 export class SeedController {
+  /**
+   * @param nodeDataRepository Node data repository
+   * @param user Information about the currently authenticated
+   *  user (if any). This information is provided by the callback function
+   *  in the method verifyBearer of the class AuthStrategyProvider in
+   *  auth-strategy.provider.ts (the payload of the token).
+   *  The second parameter makes it possible to have unprotected methods
+   *  like getElemets.
+   */
   constructor(
-    @repository(DatumRepository) public datumRepository: DatumRepository,
-    @repository(NodeRepository) public nodeRepository: NodeRepository,
-    @repository(NodeTypeRepository)
-    public nodeTypeRepository: NodeTypeRepository,
-    @repository(SensorRepository) public sensorRepository: SensorRepository,
     @repository(NodeDataRepository)
     public nodeDataRepository: NodeDataRepository,
     @inject(AuthenticationBindings.CURRENT_USER, {optional: true})
     private user: {name: string; id: string; token: string; type: number},
   ) {}
 
+  /**
+   * Load node data to the specified nodes in the const nodes
+   */
   @authenticate('BearerStrategy', {type: -1})
   @get('/seed-node-data')
   async seedNodeData() {
@@ -53,7 +57,7 @@ export class SeedController {
         .find()
         .then(nds => nds.filter(n => n.nodeId === node));
 
-      if (nodeDataList.some(n => !!n.data.length)) {
+      if (nodeDataList.some(n => !!n.data.length)) {  // DON'T SEED IF THERE'S DATA
         console.log(`Hey, ${node} has already some data in it, skipping...`);
         continue;
       }
