@@ -6,6 +6,15 @@ import {authenticate, AuthenticationBindings} from '@loopback/authentication';
 import {Datum} from '../models';
 
 export class DataController {
+  /**
+   * @param nodeDataRepository Node repository
+   * @param user Information about the currently authenticated
+   *  user (if any). This information is provided by the callback function
+   *  in the method verifyBearer of the class AuthStrategyProvider in
+   *  auth-strategy.provider.ts (the payload of the token).
+   *  The second parameter makes it possible to have unprotected methods
+   *  like getElemets.
+   */
   constructor(
     @repository(NodeDataRepository)
     public nodeDataRepository: NodeDataRepository,
@@ -13,6 +22,17 @@ export class DataController {
     private user: {name: string; id: string; token: string; type: number},
   ) {}
 
+  /**
+   * Exports a portion of the data of the node specified by
+   * the parameter nodeId, data in the date range start <= date <= end.
+   *
+   * @param nodeId Id of the node
+   * @param variable Sensor
+   * @param start Start date
+   * @param end end date
+   * @param pageIndex Page number, 0 to N
+   * @param pageSize Number of elements
+   */
   @get('/data')
   async getElements(
     @param.query.string('nodeId') nodeId: string,
@@ -60,6 +80,12 @@ export class DataController {
     };
   }
 
+  /**
+   * Delete a datum of a node
+   * @param nodeId Id of the node
+   * @param variable Sensor
+   * @param date date of the datum
+   */
   @authenticate('BearerStrategy', {type: -1})
   @del('/data')
   async delElement(
@@ -91,6 +117,12 @@ export class DataController {
       );
   }
 
+  /**
+   * Creates a new datum
+   * @param body New datum
+   * @param nodeId Id of the node
+   * @param variable Sensor
+   */
   @authenticate('BearerStrategy', {type: -1})
   @post('/data')
   async addElement(
@@ -117,6 +149,14 @@ export class DataController {
       );
   }
 
+  /**
+   * Modifies the properties of a datum of a sensor (specified by the
+   * parameter variable) with the date provided by the parameter date.
+   * @param body New datum data
+   * @param id Id of the node
+   * @param date Date of the datum
+   * @param variable Sensor
+   */
   @authenticate('BearerStrategy', {type: -1})
   @put('/data')
   async editElement(
@@ -124,9 +164,13 @@ export class DataController {
     body: Datum,
     @param.query.string('id') id: string,
     @param.query.string('date') date: string,
+    @param.query.string('variable') variable: string,
   ) {
     return await this.nodeDataRepository
-      .findOne({where: {nodeId: id}}, {strictObjectIDCoercion: true})
+      .findOne(
+        {where: {and: [{nodeId: id}, {variable: variable}]}},
+        {strictObjectIDCoercion: true},
+      )
       .then(
         nodeData => {
           if (!nodeData) {

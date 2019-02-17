@@ -166,7 +166,8 @@ export class NodeDataComponent implements OnInit {
       .editDatum(
         datum,
         this.nodeId,
-        new Date(this.expandedElement.date).toISOString()
+        new Date(this.expandedElement.date).toISOString(),
+        this.variable
       )
       .subscribe(
         () => {

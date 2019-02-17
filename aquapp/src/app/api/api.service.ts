@@ -414,7 +414,7 @@ export class ApiService {
     );
   }
 
-  editDatum(datum: Datum, id: string, date: string) {
+  editDatum(datum: Datum, id: string, date: string, variable: string) {
     return this.http.put(this.apiUrl + 'data', datum, {
       headers: {
         'conten-type': 'application/json',
@@ -422,7 +422,8 @@ export class ApiService {
       },
       params: {
         id: id,
-        date: date
+        date: date,
+        variable: variable
       }
     });
   }
