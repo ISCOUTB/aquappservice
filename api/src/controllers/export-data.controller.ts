@@ -10,6 +10,18 @@ import {AuthenticationBindings} from '@loopback/authentication';
 import {Datum, IcampffCache, WaterBody} from '../models';
 
 export class ExportDataController {
+  /**
+   *
+   * @param nodeDataRepository Node data repository
+   * @param icampffCacheRepository ICAMpff caches repository
+   * @param waterBodyRepository Water bodies repository
+   * @param user Information about the currently authenticated
+   *  user (if any). This information is provided by the callback function
+   *  in the method verifyBearer of the class AuthStrategyProvider in
+   *  auth-strategy.provider.ts (the payload of the token).
+   *  The second parameter makes it possible to have unprotected methods
+   *  like getElemets.
+   */
   constructor(
     @repository(NodeDataRepository)
     public nodeDataRepository: NodeDataRepository,
@@ -21,6 +33,23 @@ export class ExportDataController {
     private user: {name: string; id: string; token: string; type: number},
   ) {}
 
+  /**
+   * This returns a csv file (as a string) and the min and max dates
+   * that appear in the data. This csv file is going to be used
+   * in the frontend by Dygraphs.
+   * @param entity1Id Id of a node or water body
+   * @param entity1Type 'node' or 'waterBody'
+   * @param entity1Variable Sensor (if entity1Type === 'node')
+   * @param entity1Start Remove data that has a date < than this
+   * @param entity1End  Remove data that has a date > than this
+   * @param entity2Id Id of a node or water body, that's going to be
+   * compared to the data of the node or water body with id
+   * entity1Id.
+   * @param entity2Type 'node' or 'waterBody'
+   * @param entity2Variable Sensor (if entity2Type === 'node')
+   * @param entity2Start  Remove data that has a date < than this
+   * @param entity2End  Remove data that has a date > than this
+   */
   @get('/export-data-csv')
   async exportData(
     @param.query.string('entity1Id') entity1Id: string,
@@ -310,7 +339,7 @@ export class ExportDataController {
               : [],
           );
         for (const node1Datum of nodeData) {
-          result += `${(new Date(node1Datum.date)).toISOString()},${
+          result += `${new Date(node1Datum.date).toISOString()},${
             node1Datum.value
           }\n`;
         }
@@ -329,7 +358,9 @@ export class ExportDataController {
           }),
         );
         for (const icampff of waterBodyData) {
-          result += `${(new Date(icampff.date)).toISOString()},${icampff.value}\n`;
+          result += `${new Date(icampff.date).toISOString()},${
+            icampff.value
+          }\n`;
         }
       }
     }
@@ -337,6 +368,11 @@ export class ExportDataController {
     return {data: result, minDate: minDate, maxDate: maxDate};
   }
 
+  /**
+   * Returns an array with the averages of the ICAMpff values with its
+   * date for every node that belongs to the water body
+   * @param waterBodyId Id of the water body
+   */
   async getIcampffAvgCaches(waterBodyId: string) {
     let icampffCaches: IcampffCache[][] = [];
     let avgs: {date: Date; value: number}[] = [];
