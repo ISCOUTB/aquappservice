@@ -13,8 +13,8 @@ and cd to the root of the project, then:
 
 \$ docker-compose -f "docker-compose-new-prod.yml" up
 
-**Remember to write an .env file in api/ first with the api secret and admin password!.**,
-otherwise the app will use default placeholders.
+**Remember to write an .env file in api/ first with the api secret and admin password!**,
+otherwise the app will use placeholders.
 
 ### For development
 
