@@ -4,7 +4,31 @@ AquApp is a web-based platform created to carry out the monitoring and subsequen
 
 ## Setup
 
-This new version uses [loopback 4](https://v4.loopback.io/) and [angular](https://angular.io/).
+This new version uses [loopback 4](https://v4.loopback.io/) and [angular](https://angular.io/). This new version
+also uses [Mongodb](https://www.mongodb.com/), you can install it on your machine, or if you have docker, create
+a docker container:
+
+\$ docker run -d -p 27017:271017 --name aquappmdb mongo:4.0.4.
+
+You have to map aquappdatabase to 127.0.0.1 in your /etc/hosts file, adding the following line:
+127.0.0.1 aquappdatabase
+
+Install loopback cli and angular cli.
+\$ npm install -g @loopback/cli
+\$ npm install -g @angular/cli
+
+Install their dependencies (run the following command in the api and aquapp directories):
+\$ npm install
+
+Start the api
+\$ cd api
+\$ npm start
+To stop it run `npm stop`.
+
+Start the development server for the frontend:
+\$ cd aquapp
+\$ ng serve
+To stop it just pres CTRL + C.
 
 ### For production.
 
