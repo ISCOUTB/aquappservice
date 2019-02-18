@@ -11,6 +11,8 @@ import {
   transition,
   trigger
 } from '@angular/animations';
+import { MessageService } from 'src/app/message/message.service';
+import { TranslateService } from 'src/app/translate/translate.service';
 
 @Component({
   selector: 'app-export-data-form',
@@ -52,14 +54,30 @@ export class ExportDataFormComponent implements OnInit {
 
   nodes: Node[];
   waterBodies: WaterBody[];
+
+  validDates: Date[];
+
+  filterDates = (d: Date, validDates = this.validDates) => {
+    return validDates.some(validDate => {
+      return (
+        validDate.getFullYear() === d.getFullYear() &&
+        validDate.getMonth() === d.getMonth() &&
+        validDate.getDate() === d.getDate()
+      );
+    });
+  }
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService,
+    private translateService: TranslateService
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.entity1Id = params['entity1Id'];
       this.entity1Type = params['entity1Type'];
+      this.entity1Variable = params['variable'];
       this.getData();
     });
   }
@@ -110,7 +128,27 @@ export class ExportDataFormComponent implements OnInit {
     } else {
       const index = this.waterBodies.findIndex(n => n.id === this.entity1Id);
       this.entity1Name = this.waterBodies[index].name;
+      await this.apiService
+        .getValidDates(this.entity1Id, 'waterBody')
+        .toPromise()
+        .then(
+          (validDates: string[]) =>
+            (this.validDates = validDates.map(validDate => new Date(validDate)))
+        );
     }
+    this.loading = false;
+  }
+
+  async getValidDates() {
+    this.loading = true;
+    await this.apiService
+      .getValidDates(this.entity1Id, 'node', this.entity1Variable)
+      .toPromise()
+      .then(
+        (validDates: string[]) =>
+          (this.validDates = validDates.map(validDate => new Date(validDate))),
+        () => (this.failed = true)
+      );
     this.loading = false;
   }
 
@@ -125,6 +163,20 @@ export class ExportDataFormComponent implements OnInit {
   }
 
   export() {
+    if (this.entity1Type === 'node' && this.entity1Variable === undefined) {
+      this.messageService.show(
+        this.translateService.translate('Select the variable')
+      );
+      return;
+    }
+    if (this.entity2Type === 'node' && this.entity2Variable === undefined) {
+      this.messageService.show(
+        this.translateService.translate(
+          'Select the variable of the second node'
+        )
+      );
+      return;
+    }
     this.router.navigate(['resultado-exportar-datos'], {
       queryParams: {
         entity1Id: this.entity1Id,

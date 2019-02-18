@@ -411,4 +411,45 @@ export class ExportDataController {
 
     return avgs;
   }
+
+  /**
+   * Get the dates when there are data for a given sensor
+   * of a node or water body
+   * @param entityId Id of a node or water body
+   * @param entityType 'node' or 'waterBody'
+   * @param variable Sensor
+   */
+  @get('/valid-dates')
+  async validDates(
+    @param.query.string('entityId') entityId: string,
+    @param.query.string('entityType') entityType: string,
+    @param.query.string('variable') variable: string,
+  ) {
+    if (entityType === 'node') {
+      return await this.nodeDataRepository
+        .findOne(
+          {
+            where: {and: [{nodeId: entityId}, {variable: variable}]},
+          },
+          {strictObjectIDCoercion: true},
+        )
+        .then(
+          nodeData => {
+            if (!nodeData) {
+              return Promise.reject({status: 404});
+            }
+            return Promise.resolve(
+              nodeData.data
+                .filter(datum => datum.value !== '-1')
+                .map(datum => new Date(datum.date).toISOString()),
+            );
+          },
+          () => Promise.reject({status: 500}),
+        );
+    } else {
+      return this.getIcampffAvgCaches(entityId).then(avgCaches =>
+        avgCaches.map(avgCache => avgCache.date.toISOString()),
+      );
+    }
+  }
 }

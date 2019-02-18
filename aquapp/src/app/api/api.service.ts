@@ -642,4 +642,22 @@ export class ApiService {
       }
     );
   }
+
+  // MISC
+
+  // VALID DATES
+
+  getValidDates(entityId: string, entityType: string, variable?: string) {
+    return this.http.get<string[]>(this.apiUrl + 'valid-dates', {
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      },
+      params: {
+        entityId: entityId,
+        variable: variable,
+        entityType: entityType
+      }
+    });
+  }
 }

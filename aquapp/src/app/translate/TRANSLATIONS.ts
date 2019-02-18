@@ -690,6 +690,22 @@ export const TRANSLATIONS = [
   {
     en: 'Water body to be compared with',
     es: 'Cuerpo de agua con el que será comparado'
+  },
+  {
+    en: 'Select the variable',
+    es: 'Seleccione la variable'
+  },
+  {
+    en: 'Select the variable of the second node',
+    es: 'Seleccione la variable del segundo nodo'
+  },
+  {
+    en: 'It seems that the selected node has no data for this variable.',
+    es: 'Al parecer el nodo seleccionado no tiene datos para esta variable.'
+  },
+  {
+    en: 'It seems that the selected water body has no data.',
+    es: 'Al parecer el cuerpo de agua seleccionado no tiene datos.'
   },  // Node types
   {
       en: 'Water Quality',

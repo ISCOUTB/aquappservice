@@ -38,6 +38,7 @@
                   <mat-option
                     *ngFor="let sensor of entity1Sensors"
                     [value]="sensor.variable"
+                    (click)="getValidDates()"
                   >
                     {{ sensor.variable }}
                   </mat-option>
@@ -160,12 +161,18 @@
                 [matDatepicker]="pickerst"
                 [(ngModel)]="entity1Start"
                 name="ndatumdate"
+                [disabled]="validDates === undefined"
+                [matDatepickerFilter]="filterDates"
               />
               <mat-datepicker-toggle
                 matSuffix
                 [for]="pickerst"
               ></mat-datepicker-toggle>
-              <mat-datepicker touchUi #pickerst></mat-datepicker>
+              <mat-datepicker
+                touchUi
+                [disabled]="validDates === undefined"
+                #pickerst
+              ></mat-datepicker>
             </mat-form-field>
           </form>
         </td>
@@ -180,17 +187,40 @@
                 [matDatepicker]="pickered"
                 [(ngModel)]="entity1End"
                 name="ndatumdate"
+                [disabled]="validDates === undefined"
+                [matDatepickerFilter]="filterDates"
               />
               <mat-datepicker-toggle
                 matSuffix
                 [for]="pickered"
               ></mat-datepicker-toggle>
-              <mat-datepicker touchUi #pickered></mat-datepicker>
+              <mat-datepicker
+                touchUi
+                [disabled]="validDates === undefined"
+                #pickered
+              ></mat-datepicker>
             </mat-form-field>
           </form>
         </td>
       </tr>
     </table>
+
+    <div *ngIf="validDates !== undefined && !validDates.length">
+      <div
+        *ngIf="entity1Type === 'node'; then entity1IsANode; else entity1IsWB"
+      ></div>
+      <ng-template #entity1IsANode>
+        <b>{{
+          'It seems that the selected node has no data for this variable.'
+            | translate
+        }}</b>
+      </ng-template>
+      <ng-template #entity1IsWB>
+        <b>{{
+          'It seems that the selected water body has no data.' | translate
+        }}</b></ng-template
+      >
+    </div>
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button mat-icon-button color="accent" (click)="export()">
