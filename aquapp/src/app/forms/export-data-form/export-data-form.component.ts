@@ -75,6 +75,7 @@ export class ExportDataFormComponent implements OnInit {
           this.nodes = page.items;
         },
         () => {
+          this.loading = false;
           this.failed = true;
         }
       );
@@ -88,6 +89,7 @@ export class ExportDataFormComponent implements OnInit {
         },
         () => {
           this.failed = true;
+          this.loading = false;
         }
       );
 
@@ -98,7 +100,13 @@ export class ExportDataFormComponent implements OnInit {
       await this.apiService
         .getAllSensors(this.nodes[index].nodeTypeId)
         .toPromise()
-        .then(s => (this.entity1Sensors = s));
+        .then(
+          s => (this.entity1Sensors = s),
+          () => {
+            this.failed = true;
+            this.loading = false;
+          }
+        );
     } else {
       const index = this.waterBodies.findIndex(n => n.id === this.entity1Id);
       this.entity1Name = this.waterBodies[index].name;
