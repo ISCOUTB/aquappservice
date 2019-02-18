@@ -97,7 +97,6 @@ export class OverviewComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
-    private messageService: MessageService,
     private urlService: UrlService,
     private translateService: TranslateService,
     private translatePipe: TranslatePipe
