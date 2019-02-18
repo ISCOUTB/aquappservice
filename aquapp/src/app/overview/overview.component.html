@@ -70,7 +70,7 @@
             *ngFor="let nodeType of nodeTypes"
             (click)="selectNodeType(nodeType.id)"
           >
-            {{ nodeType.name }}
+            {{ nodeType.name | translate }}
           </button>
           <button mat-menu-item (click)="selectNodeType('All stations')">
             {{ 'All stations' | translate }}
