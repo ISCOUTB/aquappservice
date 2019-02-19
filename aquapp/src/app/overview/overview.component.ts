@@ -6,7 +6,8 @@ import {
   geoJSON,
   FeatureGroup,
   Marker,
-  DivIcon
+  DivIcon,
+  latLngBounds
 } from 'leaflet';
 import { ApiService } from '../api/api.service';
 import { MessageService } from '../message/message.service';
@@ -265,6 +266,11 @@ export class OverviewComponent implements OnInit {
       `);
       marker.addTo(this.map);
       this.markers.push(marker);
+    }
+    if (this.markers.length) {
+      this.map.fitBounds(
+        latLngBounds(this.markers.map(marker => marker.getLatLng()))
+      );
     }
   }
 
