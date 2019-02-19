@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { tileLayer, latLng, Map, geoJSON, FeatureGroup, map } from 'leaflet';
+import { tileLayer, latLng, Map, geoJSON, FeatureGroup } from 'leaflet';
 import { MessageService } from 'src/app/message/message.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/api/api.service';

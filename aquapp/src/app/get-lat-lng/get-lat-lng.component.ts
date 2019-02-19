@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { tileLayer, latLng, Map, map, Marker, Icon, DivIcon } from 'leaflet';
+import { tileLayer, latLng, Map, Marker, DivIcon } from 'leaflet';
 
 @Component({
   selector: 'app-get-lat-lng',

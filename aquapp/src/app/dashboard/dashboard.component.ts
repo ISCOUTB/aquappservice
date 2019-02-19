@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   animate,
-  state,
   style,
   transition,
   trigger
