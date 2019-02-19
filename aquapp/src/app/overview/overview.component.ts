@@ -387,6 +387,7 @@ export class OverviewComponent implements OnInit {
       }
     }
     if (!found) {
+      this.selectedNodeType = nodeType;
       this.removeMarkers();
       this.addMarkers();
     }
