@@ -9,6 +9,6 @@ docker-compose2.yml
 */**/*.pyc
 build/*
 tests/
-import/*
+imports/*
 backups/*
 databasenew/*
