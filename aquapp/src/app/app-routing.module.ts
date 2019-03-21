@@ -21,7 +21,7 @@ import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
   {
-    path: 'vista-general',
+    path: '',
     component: OverviewComponent,
     data: { title: 'Vista general' }
   },
@@ -35,7 +35,7 @@ const routes: Routes = [
     component: LoginComponent,
     data: { title: 'Iniciar Sesión' }
   },
-  { path: '', redirectTo: '/vista-general', pathMatch: 'full' },
+  { path: '', redirectTo: '/', pathMatch: 'full' },
   {
     path: 'tipos-de-nodos',
     component: NodeTypesComponent,
