@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, NgZone } from '@angular/core';
 import {
   tileLayer,
   latLng,
@@ -24,6 +24,8 @@ import {
   transition,
   trigger
 } from '@angular/animations';
+import { MessageService } from '../message/message.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-overview',
@@ -97,9 +99,11 @@ export class OverviewComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
-    private urlService: UrlService,
     private translateService: TranslateService,
-    private translatePipe: TranslatePipe
+    private translatePipe: TranslatePipe,
+    private router: Router,
+    private elementRef: ElementRef,
+    private ngZone: NgZone
   ) {
     this.subscription = this.translateService.reload$.subscribe(rmessage => {
       this.reloadFigures();
@@ -249,21 +253,37 @@ export class OverviewComponent implements OnInit {
         title: node.name,
         icon: ico
       });
-      const exportDataUrl: string = this.urlService.gen(
-        ['formulario-exportar-datos'],
-        {
-          entity1Id: node.id,
-          entity1Type: 'node'
-        }
-      );
       marker.bindPopup(`
         <h1>${node.name}</h1>
         <p>${this.translateService.translate('Location')}: ${node.location}</p>
-        <a href="${exportDataUrl}">${this.translateService.translate(
+        <a class="passive-link" data-url="formulario-exportar-datos" data-entity1Id="${
+          node.id
+        }">${this.translateService.translate(
         'Export data'
       )}</a>
       `);
       marker.addTo(this.map);
+
+      const self = this;
+      marker.on('popupopen', function() {
+        // add event listener to newly added a.merch-link element
+        self.elementRef.nativeElement
+          .querySelector('.passive-link')
+          .addEventListener('click', e => {
+            // get id from attribute
+            const url = e.target.getAttribute('data-url');
+            const id = e.target.getAttribute('data-entity1Id');
+            self.ngZone.run(() => {
+              self.router.navigate([url], {
+                queryParams: {
+                  entity1Id: id,
+                  entity1Type: 'node'
+                }
+              });
+            });
+          });
+      });
+
       this.markers.push(marker);
     }
     if (this.markers.length) {
@@ -317,13 +337,6 @@ export class OverviewComponent implements OnInit {
           fillOpacity: 0.7
         }
       });
-      const exportDataUrl: string = this.urlService.gen(
-        ['formulario-exportar-datos'],
-        {
-          entity1Id: waterBody.id,
-          entity1Type: 'waterBody'
-        }
-      );
       geojson.eachLayer(layer => {
         layer.bindPopup(`
           <h1>${waterBody.name}</h1>
@@ -348,10 +361,31 @@ export class OverviewComponent implements OnInit {
           { type: 'date', fullDate: true }
         )}
           </p>
-          <a href="${exportDataUrl}">${this.translateService.translate(
+          <a class="passive-link" data-url="formulario-exportar-datos" data-entity1Id="${
+            waterBody.id
+          }">${this.translateService.translate(
           'Export data'
         )}</a>
         `);
+        const self = this;
+        layer.on('popupopen', function() {
+          // add event listener to newly added a.merch-link element
+          self.elementRef.nativeElement
+            .querySelector('.passive-link')
+            .addEventListener('click', e => {
+              // get id from attribute
+              const url = e.target.getAttribute('data-url');
+              const id = e.target.getAttribute('data-entity1Id');
+              self.ngZone.run(() => {
+                self.router.navigate([url], {
+                  queryParams: {
+                    entity1Id: id,
+                    entity1Type: 'waterBody'
+                  }
+                });
+              });
+            });
+        });
         this.figures.addLayer(layer);
       });
       index++;
