@@ -59,6 +59,7 @@ import { TranslatePipe } from './translate/translate.pipe';
 import { TranslateService } from './translate/translate.service';
 import { AboutComponent } from './about/about.component';
 import { NavigationComponent } from './navigation/navigation.component';
+import { CordovaService } from './cordova/cordova.service';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,7 @@ import { NavigationComponent } from './navigation/navigation.component';
     ExportDataResultComponent,
     TranslatePipe,
     AboutComponent,
-    NavigationComponent
+    NavigationComponent,
   ],
   imports: [
     BrowserModule,
@@ -123,7 +124,8 @@ import { NavigationComponent } from './navigation/navigation.component';
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-GB' },
     TranslateService,
-    TranslatePipe
+    TranslatePipe,
+    CordovaService
   ],
   bootstrap: [AppComponent]
 })
