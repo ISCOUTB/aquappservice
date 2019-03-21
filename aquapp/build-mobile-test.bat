@@ -1,0 +1,1 @@
+ng build --aot --build-optimizer --base-href ./ --output-path ../aquapp-mobile/www
