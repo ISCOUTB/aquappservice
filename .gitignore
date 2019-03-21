@@ -12,3 +12,4 @@ tests/
 imports/*
 backups/*
 databasenew/*
+.docker-compose-new-test.yml.swp
