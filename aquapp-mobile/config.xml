@@ -2,11 +2,9 @@
 <widget id="co.edu.utb.aquapp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>AquApp</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        AquApp project
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
-    </author>
+    <icon density="mdpi" src="res/icon/android/icon-48-mdpi.png" />
     <content src="index.html" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
