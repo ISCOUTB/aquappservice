@@ -21,7 +21,10 @@ export class CordovaService {
     return _window().cordova;
   }
   get onCordova(): Boolean {
-    return !!_window().cordova;
+    return (
+      document.URL.indexOf('http://') === -1 &&
+      document.URL.indexOf('https://') === -1
+    );
   }
   public onResume(): void {
     this.resume.next(true);
