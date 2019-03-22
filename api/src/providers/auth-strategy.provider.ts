@@ -13,18 +13,18 @@ import {verify as verifyToken, sign as signToken} from 'jsonwebtoken';
 
 export class AuthStrategyProvider implements Provider<Strategy | undefined> {
   /**
-   * 
+   *
    * @param metadata Data provided by the authenticate decorator used
    * in the endpoints, per example:
-   * @authenticate('BearerStrategy', {type: -1}),
+   * @authenticate('BearerStrategy', {whiteList: ['superuser']}),
    * @post('/water-bodies')
    * async newElement(@requestBody() body: WaterBody) {
    * ...
    * }
-   * In this case, metadata is {type: -1, strategy: 'BearerStrategy'}, 
-   * which indicates that the only user allowed to use the endpoint is the
-   * admin user, and that the authentication method is token bearer.
-   * 
+   * In this case, metadata is {whiteList: ['superuser'], strategy: 'BearerStrategy'},
+   * which indicates that the only type of user allowed to use the endpoint is superuser,
+   * and that the authentication method is token bearer.
+   *
    * @param usersRepo Users repository
    */
   constructor(
@@ -80,7 +80,7 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
    * @param password Password of the user
    * @param cb Callback function provided by passport-http,
    *  this is used to communicate to passport-http if
-   *  the authentication process was successful or not. 
+   *  the authentication process was successful or not.
    */
   async verifyBasic(
     username: string,
@@ -88,7 +88,7 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
     cb: (
       err: Error | null,
       user?:
-        | {name: string; id: string | undefined; token: string; type: number}
+        | {name: string; id: string | undefined; token: string; type: string}
         | false,
     ) => void,
   ) {
@@ -98,14 +98,14 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
         id: '',
         name: 'KAMI',
         token: signToken(
-          {name: 'KAMI', id: '', type: -1},
+          {name: 'KAMI', id: '', type: 'superuser'},
           process.env.SECRET_KEY || 'th349th',
         ),
-        type: -1,
+        type: 'superuser',
       });
       return;
     }
-    // find user by name & password (For regular users, and enterprises)
+    // find user by name & password (For regular users)
     await this.usersRepo
       .find()
       .then(
@@ -123,18 +123,18 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
             id: user.id,
             name: user.name,
             token: signToken(
-              {name: username, id: user.id, type: user.userType},
+              {name: username, id: user.id, type: user.type},
               process.env.SECRET_KEY || 'th349th',
             ),
-            type: user.userType,
+            type: user.type,
           }); // User found, successful login.
         },
         reason => {
-          cb(reason, false);  // Failed login attempt
+          cb(reason, false); // Failed login attempt
         },
       )
       .catch(reason => {
-        cb(reason, false);  // Failed login attempt
+        cb(reason, false); // Failed login attempt
       });
   }
 
@@ -144,7 +144,7 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
    * @param token Base64 encoded string
    * @param cb Callback function provided by passport-http,
    *  this is used to communicate to passport-http-bearer if
-   *  the authentication process was successful or not. 
+   *  the authentication process was successful or not.
    */
   async verifyBearer(
     token: string,
@@ -162,20 +162,15 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
         token,
         process.env.SECRET_KEY || 'th349th',
       );
-      // tslint:disable-next-line:no-any
-      const metadata: any = this.metadata.options || {type: -2};
       /**
        * If metadata.type is -2, then any user is fine. If it's -3, then all
        * admins are allowed to operate, but if it's any other value, it must
        * be the same as payload.type.
        */
-      if (
-        metadata.type === -2
-          ? false
-          : metadata.type === -3
-          ? payload.type !== 0
-          : payload.type !== metadata.type
-      ) {
+      // tslint:disable-next-line:no-any
+      const options: any = this.metadata.options;
+      const whiteList: string[] = options.whiteList || ['superuser'];
+      if (whiteList.indexOf(payload.type) === -1 && whiteList.indexOf('any') === -1) {
         throw new Error();
       }
       if (payload.name !== 'KAMI') {
@@ -183,11 +178,11 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
         await this.usersRepo.findById(payload.id).then(
           user => {
             if (!user.enabled) {
-              throw new Error();  // The user was disabled, so it's not allowed to log in
+              throw new Error(); // The user was disabled, so it's not allowed to log in
             }
           },
           () => {
-            throw new Error();  // MongoDB error
+            throw new Error(); // MongoDB error
           },
         );
       }

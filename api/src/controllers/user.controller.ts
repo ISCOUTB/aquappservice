@@ -14,7 +14,7 @@ export class UserController {
   constructor(
     @repository(UserRepository) public usersRepo: UserRepository,
     @inject(AuthenticationBindings.CURRENT_USER, {optional: true})
-    private user: {name: string; id: string; token: string; type: number},
+    private user: {name: string; id: string; token: string; type: string},
   ) {}
 
   /**
@@ -30,7 +30,7 @@ export class UserController {
    * Creates a new user
    * @param user New user
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @post('/users/new-admin')
   async newAdmin(@requestBody() user: User) {
     return await this.usersRepo
@@ -43,7 +43,7 @@ export class UserController {
    * @param pageIndex Page number, 0 to N
    * @param pageSize Elements per page
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @get('/users/get')
   async getUsers(
     @param.query.number('pageIndex') pageIndex: number,
@@ -66,7 +66,7 @@ export class UserController {
    * Delete a user by its id
    * @param id Id of the user to be deleted
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @del('/users/del')
   async delUser(@param.query.string('id') id: string) {
     return await this.usersRepo
@@ -80,7 +80,7 @@ export class UserController {
    * except for the id, which remains the same.
    * @param body New user data
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @put('/users/edit')
   async editUser(@requestBody() body: User) {
     return await this.usersRepo.findById(body.id).then(

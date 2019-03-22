@@ -21,7 +21,7 @@ export class SensorController {
     public nodeTypeRepository: NodeTypeRepository,
     @repository(SensorRepository) public sensorRepository: SensorRepository,
     @inject(AuthenticationBindings.CURRENT_USER, {optional: true})
-    private user: {name: string; id: string; token: string; type: number},
+    private user: {name: string; id: string; token: string; type: string},
   ) {}
 
   /**
@@ -59,7 +59,7 @@ export class SensorController {
    * Creates a new sensor
    * @param body New sensor
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @post('/sensors')
   async newElement(@requestBody() body: Sensor) {
     body.userId = this.user.id;
@@ -72,7 +72,7 @@ export class SensorController {
    * Deletes a sensor by its id
    * @param id Id of the sensor to be deleted
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @del('/sensors')
   async delElement(@param.query.string('id') id: string) {
     return await this.sensorRepository
@@ -85,7 +85,7 @@ export class SensorController {
    * except for its id.
    * @param body New sensor data
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @put('/sensors')
   async editElement(
     @requestBody()

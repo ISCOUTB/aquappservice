@@ -33,7 +33,7 @@ export class NodeController {
     @repository(NodeDataRepository)
     public nodeDataRepository: NodeDataRepository,
     @inject(AuthenticationBindings.CURRENT_USER, {optional: true})
-    private user: {name: string; id: string; token: string; type: number},
+    private user: {name: string; id: string; token: string; type: string},
   ) {}
 
   /**
@@ -100,7 +100,7 @@ export class NodeController {
    * depending on their node type id.
    * @param body New node
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @post('/nodes')
   async newElement(@requestBody() body: Node) {
     body.userId = this.user.id;
@@ -142,7 +142,7 @@ export class NodeController {
    * Deletes a node by its id
    * @param id Id of the node to be deleted
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @del('/nodes')
   async delElement(@param.query.string('id') id: string) {
     return await this.nodeRepository.findById(id).then(async (node: Node) => {
@@ -185,7 +185,7 @@ export class NodeController {
    * Replaces the data of a node except for its id
    * @param body New node data
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @put('/nodes')
   async editElement(
     @requestBody()

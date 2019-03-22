@@ -19,7 +19,7 @@ export class DataController {
     @repository(NodeDataRepository)
     public nodeDataRepository: NodeDataRepository,
     @inject(AuthenticationBindings.CURRENT_USER, {optional: true})
-    private user: {name: string; id: string; token: string; type: number},
+    private user: {name: string; id: string; token: string; type: string},
   ) {}
 
   /**
@@ -86,7 +86,7 @@ export class DataController {
    * @param variable Sensor
    * @param date date of the datum
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {types: ['superuser']})
   @del('/data')
   async delElement(
     @param.query.string('nodeId') nodeId: string,
@@ -123,7 +123,7 @@ export class DataController {
    * @param nodeId Id of the node
    * @param variable Sensor
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {types: ['superuser']})
   @post('/data')
   async addElement(
     @requestBody()
@@ -157,7 +157,7 @@ export class DataController {
    * @param date Date of the datum
    * @param variable Sensor
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {types: ['superuser']})
   @put('/data')
   async editElement(
     @requestBody()

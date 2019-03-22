@@ -30,7 +30,7 @@ export class ExportDataController {
     @repository(WaterBodyRepository)
     private waterBodyRepository: WaterBodyRepository,
     @inject(AuthenticationBindings.CURRENT_USER, {optional: true})
-    private user: {name: string; id: string; token: string; type: number},
+    private user: {name: string; id: string; token: string; type: string},
   ) {}
 
   /**

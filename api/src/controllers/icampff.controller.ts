@@ -31,7 +31,7 @@ export class IcampffController {
     @repository(IcampffCacheRepository)
     private icampffCacheRepository: IcampffCacheRepository,
     @inject(AuthenticationBindings.CURRENT_USER, {optional: true})
-    private user: {name: string; id: string; token: string; type: number},
+    private user: {name: string; id: string; token: string; type: string},
   ) {}
 
   /**
@@ -153,7 +153,7 @@ export class IcampffController {
   /**
    * Generates the caches for every node in every water body
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @put('/icampff-caches')
   async buildCaches() {
     const waterBodies: WaterBody[] = await this.waterBodyRepository
@@ -358,7 +358,7 @@ export class IcampffController {
    * calculate the ICAMpff in the same order as described in the
    * 'variables' constant in this method.
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @post('/icampff')
   async newIcampff(@requestBody()
   body: {
@@ -417,7 +417,7 @@ export class IcampffController {
    * @param waterBodyId Id of the water body
    * @param date Date of the ICAMpff to be deleted
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @del('/icampff')
   async delIcampff(
     @param.query.string('waterBodyId') waterBodyId: string,
@@ -472,7 +472,7 @@ export class IcampffController {
   /**
    * Deletes all ICAMpff caches.
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @del('/icampff-caches')
   async delIcampffCaches() {
     return await this.icampffCacheRepository

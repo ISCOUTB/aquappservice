@@ -27,11 +27,11 @@ export class User extends Entity {
   email: string;
 
   @property({
-    type: 'number',
+    type: 'string',
     required: true,
     default: 0,
   })
-  userType: number;
+  type: string;
 
   @property({
     type: 'boolean',

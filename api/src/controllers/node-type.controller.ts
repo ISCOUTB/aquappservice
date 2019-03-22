@@ -11,7 +11,6 @@ import {NodeType} from '../models';
 
 export class NodeTypeController {
   /**
-   * 
    * @param nodeTypeRepository Node types repository
    * @param nodeRepository Node repository
    * @param sensorRepository Sensors repository
@@ -28,7 +27,7 @@ export class NodeTypeController {
     @repository(NodeRepository) public nodeRepository: NodeRepository,
     @repository(SensorRepository) public sensorRepository: SensorRepository,
     @inject(AuthenticationBindings.CURRENT_USER, {optional: true})
-    private user: {name: string; id: string; token: string; type: number},
+    private user: {name: string; id: string; token: string; type: string},
   ) {}
 
   /**
@@ -64,7 +63,7 @@ export class NodeTypeController {
    * Creates a new node type
    * @param body New node type
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @post('/node-types')
   async newElement(@requestBody() body: NodeType) {
     body.userId = this.user.id;
@@ -77,7 +76,7 @@ export class NodeTypeController {
    * Deletes a node type by its id
    * @param id Id of the node type to be deleted
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @del('/node-types')
   async delElement(@param.query.string('id') id: string) {
     return await this.nodeTypeRepository
@@ -118,7 +117,7 @@ export class NodeTypeController {
    * Updates a node type with new data
    * @param body New node type data
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @put('/node-types')
   async editElement(
     @requestBody()

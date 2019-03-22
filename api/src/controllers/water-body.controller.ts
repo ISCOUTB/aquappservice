@@ -24,7 +24,7 @@ export class WaterBodyController {
     @repository(WaterBodyRepository)
     private waterBodyRepository: WaterBodyRepository,
     @inject(AuthenticationBindings.CURRENT_USER, {optional: true})
-    private user: {name: string; id: string; token: string; type: number},
+    private user: {name: string; id: string; token: string; type: string},
     @repository(NodeRepository)
     public nodeRepository: NodeRepository,
   ) {}
@@ -69,7 +69,7 @@ export class WaterBodyController {
    * Creates a new water body
    * @param body New water body
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @post('/water-bodies')
   async newElement(@requestBody() body: WaterBody) {
     body.userId = this.user.id;
@@ -82,7 +82,7 @@ export class WaterBodyController {
    * Deletes a water body
    * @param id Id of the water body to be deleted
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @del('/water-bodies')
   async delElement(@param.query.string('id') id: string) {
     return await this.waterBodyRepository
@@ -112,7 +112,7 @@ export class WaterBodyController {
    * new data, except for its id.
    * @param body New water body data
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @put('/water-bodies')
   async editElement(
     @requestBody()

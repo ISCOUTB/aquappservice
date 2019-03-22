@@ -25,13 +25,13 @@ export class SeedController {
     @repository(NodeDataRepository)
     public nodeDataRepository: NodeDataRepository,
     @inject(AuthenticationBindings.CURRENT_USER, {optional: true})
-    private user: {name: string; id: string; token: string; type: number},
+    private user: {name: string; id: string; token: string; type: string},
   ) {}
 
   /**
    * Load node data to the specified nodes in the const nodes
    */
-  @authenticate('BearerStrategy', {type: -1})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @get('/seed-node-data')
   async seedNodeData() {
     const nodes: string[] = [
