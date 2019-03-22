@@ -9,6 +9,7 @@ import {
   transition,
   trigger
 } from '@angular/animations';
+import { CordovaService } from '../cordova/cordova.service';
 
 @Component({
   selector: 'app-export-data-result',
@@ -47,7 +48,8 @@ export class ExportDataResultComponent implements OnInit {
   entity2Name: string;
   constructor(
     private apiService: ApiService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public cordovaService: CordovaService
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.entityCount = params['entity1Id'] && params['entity2Id'] ? 2 : 1;

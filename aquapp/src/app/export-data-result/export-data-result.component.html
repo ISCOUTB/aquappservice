@@ -35,7 +35,7 @@
       click cualquier parte del gráfico para reiniciar el zoom.
     </p>
   </mat-card-content>
-  <mat-card-actions>
+  <mat-card-actions *ngIf="!cordovaService.onCordova">
     <button
       mat-raised-button
       mat-icon-button
