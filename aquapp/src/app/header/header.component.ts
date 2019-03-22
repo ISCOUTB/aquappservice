@@ -11,6 +11,7 @@ import {
   transition,
   trigger
 } from '@angular/animations';
+import { CordovaService } from '../cordova/cordova.service';
 
 @Component({
   selector: 'app-header',
@@ -58,7 +59,8 @@ export class HeaderComponent implements OnInit {
     private apiService: ApiService,
     private location: Location,
     private messageService: MessageService,
-    public translateService: TranslateService
+    public translateService: TranslateService,
+    public cordovaService: CordovaService
   ) {
     this.selectedLanguage =
       this.translateService.getCurrentLanguage() === 'es'
