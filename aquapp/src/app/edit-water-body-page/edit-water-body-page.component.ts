@@ -18,6 +18,7 @@ export class EditWaterBodyPageComponent implements OnInit {
   geojson: any;
   name: string;
   id: string;
+  nodes: string[];
   redirectTo: string;
   importedData: string;
 
@@ -69,6 +70,7 @@ export class EditWaterBodyPageComponent implements OnInit {
       this.apiService.getAWaterBody(params['id']).subscribe(
         wb => {
           this.name = wb.name;
+          this.nodes = wb.nodes;
           this.geojson = wb.geojson;
           this.id = wb.id;
           this.loading = false;
@@ -150,6 +152,7 @@ export class EditWaterBodyPageComponent implements OnInit {
     wb.name = this.name;
     wb.id = this.id;
     wb.geojson = JSON.stringify(figure.features[0]);
+    wb.nodes = this.nodes;
     this.apiService.editWaterBody(wb).subscribe(() => {
       this.messageService.show('Cambios guardados');
       this.location.back();
