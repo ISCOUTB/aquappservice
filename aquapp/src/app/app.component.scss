@@ -1,4 +1,4 @@
-.navigation {
+.navigation-top-with-offset {
   position: fixed;
   top: 56px;
   right: 10px;
@@ -6,6 +6,18 @@
   opacity: 0.6;
 }
 
-.navigation:hover {
+.navigation-top {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 10000;
+  opacity: 0.6;
+}
+
+.navigation-top-with-offset:hover {
+  opacity: 1;
+}
+
+.navigation-top:hover {
   opacity: 1;
 }
