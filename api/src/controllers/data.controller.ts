@@ -1,6 +1,6 @@
 import {inject} from '@loopback/context';
 import {get, post, del, put, requestBody, param} from '@loopback/openapi-v3';
-import {NodeDataRepository} from '../repositories';
+import {NodeDataRepository, UserRepository} from '../repositories';
 import {repository} from '@loopback/repository';
 import {authenticate, AuthenticationBindings} from '@loopback/authentication';
 import {Datum} from '../models';
@@ -18,6 +18,8 @@ export class DataController {
   constructor(
     @repository(NodeDataRepository)
     public nodeDataRepository: NodeDataRepository,
+    @repository(UserRepository)
+    public userRepository: UserRepository,
     @inject(AuthenticationBindings.CURRENT_USER, {optional: true})
     private user: {name: string; id: string; token: string; type: string},
   ) {}
@@ -86,7 +88,7 @@ export class DataController {
    * @param variable Sensor
    * @param date date of the datum
    */
-  @authenticate('BearerStrategy', {types: ['superuser']})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @del('/data')
   async delElement(
     @param.query.string('nodeId') nodeId: string,
@@ -123,7 +125,7 @@ export class DataController {
    * @param nodeId Id of the node
    * @param variable Sensor
    */
-  @authenticate('BearerStrategy', {types: ['superuser']})
+  @authenticate('BearerStrategy', {whiteList: ['superuser', 'node']})
   @post('/data')
   async addElement(
     @requestBody()
@@ -131,6 +133,12 @@ export class DataController {
     @param.query.string('nodeId') nodeId: string,
     @param.query.string('variable') variable: string,
   ) {
+    // Make sure the node user can only add data to its assignated node
+    if (this.user.type === 'node') {
+      nodeId = await this.userRepository
+        .findById(this.user.id)
+        .then(user => user.entity);
+    }
     return await this.nodeDataRepository
       .findOne(
         {where: {and: [{nodeId: nodeId}, {variable: variable}]}},
@@ -157,7 +165,7 @@ export class DataController {
    * @param date Date of the datum
    * @param variable Sensor
    */
-  @authenticate('BearerStrategy', {types: ['superuser']})
+  @authenticate('BearerStrategy', {whiteList: ['superuser']})
   @put('/data')
   async editElement(
     @requestBody()

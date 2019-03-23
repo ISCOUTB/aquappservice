@@ -171,6 +171,7 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
       const options: any = this.metadata.options;
       const whiteList: string[] = options.whiteList || ['superuser'];
       if (whiteList.indexOf(payload.type) === -1 && whiteList.indexOf('any') === -1) {
+        console.log(whiteList, payload, 'DAMN!');
         throw new Error();
       }
       if (payload.name !== 'KAMI') {

@@ -678,14 +678,16 @@ export class ApiService {
     });
   }
 
-  newUser(name: string, password: string, email: string) {
+  newUser(name: string, password: string, email: string, entity: string, type: string) {
     return this.http.post<User>(
       this.apiUrl + 'users',
       {
         name: name,
         password: password,
         email: email,
-        enabled: true
+        enabled: true,
+        entity: entity,
+        type: type
       },
       {
         headers: {

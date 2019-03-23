@@ -59,6 +59,7 @@ export class UsersComponent implements OnInit {
   expandedUserRealName: string;
   expandedUserRealLastName: string;
   expandedUserType: string;
+  expandedUserEntity: string;
   editting = false;
 
   toBeDeleted: User;
@@ -72,6 +73,7 @@ export class UsersComponent implements OnInit {
   newUserPassword = 'ejemplo';
   newUserEmail = 'ejemplo@falso.com';
   newUserType = 'node';
+  newUserEntity = '';
 
   userTypes = ['node', 'waterBody', 'HMFactors', 'weatherStation'];
 
@@ -132,7 +134,9 @@ export class UsersComponent implements OnInit {
       .newUser(
         this.newUserName,
         this.newUserPassword,
-        this.newUserEmail
+        this.newUserEmail,
+        this.newUserEntity,
+        this.newUserType
       )
       .subscribe(
         () => {
@@ -182,6 +186,7 @@ export class UsersComponent implements OnInit {
     this.expandedUserPassword = this.expandedElement.password;
     this.expandedUserEnabled = this.expandedElement.enabled || false;
     this.expandedUserType = this.expandedElement.type;
+    this.expandedUserEntity = this.expandedElement.entity;
     this.editting = false;
   }
 
@@ -194,6 +199,7 @@ export class UsersComponent implements OnInit {
     this.expandedUserRealLastName = undefined;
     this.expandedUserRealName = undefined;
     this.expandedUserType = undefined;
+    this.expandedUserEntity = undefined;
   }
 
   saveUser() {

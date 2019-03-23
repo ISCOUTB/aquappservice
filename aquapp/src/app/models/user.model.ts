@@ -5,4 +5,5 @@ export class User {
   enabled: boolean;
   email: string;
   type: string;
+  entity: string;
 }

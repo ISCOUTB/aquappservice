@@ -29,7 +29,6 @@ export class User extends Entity {
   @property({
     type: 'string',
     required: true,
-    default: 0,
   })
   type: string;
 
@@ -39,6 +38,12 @@ export class User extends Entity {
     default: true
   })
   enabled: boolean;
+
+  @property({
+    type: 'string',
+    required: true
+  })
+  entity: string;
 
   constructor(data?: Partial<User>) {
     super(data);

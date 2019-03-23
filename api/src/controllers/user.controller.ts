@@ -89,6 +89,7 @@ export class UserController {
         user.email = body.email ? body.email : user.email;
         user.password = body.password ? body.password : user.password;
         user.enabled = body.enabled;
+        user.entity = body.entity;
         this.usersRepo.save(user);
         Promise.resolve({});
       },
