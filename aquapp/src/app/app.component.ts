@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { TranslateService } from './translate/translate.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from './services/translate/translate.service';
 
 @Component({
   selector: 'app-root',

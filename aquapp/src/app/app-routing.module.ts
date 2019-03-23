@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { LoginComponent } from './login/login.component';
-import { OverviewComponent } from './overview/overview.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { NodeTypesComponent } from './node-types/node-types.component';
-import { NodesComponent } from './nodes/nodes.component';
-import { SensorsComponent } from './sensors/sensors.component';
-import { IcampffComponent } from './icampff/icampff.component';
-import { NodeDataComponent } from './node-data/node-data.component';
-import { WaterBodiesComponent } from './water-bodies/water-bodies.component';
-import { SeedComponent } from './seed/seed.component';
-import { GetNodeDataFormComponent } from './forms/get-node-data-form/get-node-data-form.component';
-import { WaterBodyNodesComponent } from './water-body-nodes/water-body-nodes.component';
-import { EditWaterBodyPageComponent } from './edit-water-body-page/edit-water-body-page.component';
-import { EditNodeFormComponent } from './forms/edit-node-form/edit-node-form.component';
-import { ExportDataFormComponent } from './forms/export-data-form/export-data-form.component';
-import { ExportDataResultComponent } from './export-data-result/export-data-result.component';
-import { AboutComponent } from './about/about.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { LoginComponent } from './components/forms/login/login.component';
+import { OverviewComponent } from './components/overview/overview.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { NodeTypesComponent } from './components/node-types/node-types.component';
+import { NodesComponent } from './components/nodes/nodes.component';
+import { SensorsComponent } from './components/sensors/sensors.component';
+import { IcampffComponent } from './components/icampff/icampff.component';
+import { NodeDataComponent } from './components/node-data/node-data.component';
+import { WaterBodiesComponent } from './components/water-bodies/water-bodies.component';
+import { SeedComponent } from './components/seed/seed.component';
+import { GetNodeDataFormComponent } from './components/forms/get-node-data-form/get-node-data-form.component';
+import { WaterBodyNodesComponent } from './components/water-body-nodes/water-body-nodes.component';
+import { EditWaterBodyPageComponent } from './components/forms/edit-water-body-page/edit-water-body-page.component';
+import { EditNodeFormComponent } from './components/forms/edit-node/edit-node.component';
+import { ExportDataFormComponent } from './components/forms/export-data/export-data.component';
+import { ExportDataResultComponent } from './components/export-data-result/export-data-result.component';
+import { AboutComponent } from './components/about/about.component';
 
 const routes: Routes = [
   {
