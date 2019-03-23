@@ -1,0 +1,141 @@
+mat-toolbar {
+    div {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+}
+
+mat-card {
+    margin: 10px;
+    width: 50%;
+    min-width: 300px;
+    margin: 5px auto;
+}
+
+form {
+    width: 400px;
+}
+
+.controls {
+    height: 48px;
+}
+
+.page {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-expansion-panel {
+    width: 50%;
+    margin: 10px auto;
+}
+
+button {
+    margin: 5px;
+}
+
+mat-expansion-panel:hover {
+    margin-bottom: 25px;
+}
+
+.container {
+    position: relative;
+    height: calc(100% - 120px);
+    background-color: white;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+mat-toolbar {
+    height: 64px;
+}
+
+.controls {
+    height: 48px;
+}
+
+.table-container {
+    position: relative;
+    height: calc(100% - 56px);
+    overflow: auto;
+}
+
+table {
+    width: 100%;
+}
+
+.loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Column Widths */
+.mat-column-number,
+.mat-column-state {
+    max-width: 64px;
+}
+
+.mat-column-created {
+    max-width: 124px;
+}
+
+table {
+    width: 100%;
+}
+
+tr.detail-row {
+    height: 0;
+}
+
+tr.element-row:not(.expanded-row):hover {
+    background: #f5f5f5;
+}
+
+tr.element-row:not(.expanded-row):active {
+    background: #efefef;
+}
+
+.element-row td {
+    border-bottom-width: 0;
+}
+
+.element-detail {
+    overflow: hidden;
+    /*display: flex;*/
+}
+
+.element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+}
+
+.element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+}
+
+.element-description {
+    padding: 16px;
+}
+
+.element-description-attribution {
+    opacity: 0.5;
+}

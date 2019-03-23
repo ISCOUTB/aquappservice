@@ -57,6 +57,8 @@ import { ExportDataResultComponent } from './components/export-data-result/expor
 import { NgxDygraphsModule } from 'ngx-dygraphs';
 import { AboutComponent } from './components/about/about.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { UsersComponent } from './components/users/users.component';
+
 import { CordovaService } from './services/cordova/cordova.service';
 import { TranslatePipe } from './services/translate/translate.pipe';
 import { TranslateService } from './services/translate/translate.service';
@@ -88,6 +90,7 @@ import { TranslateService } from './services/translate/translate.service';
     TranslatePipe,
     AboutComponent,
     NavigationComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,

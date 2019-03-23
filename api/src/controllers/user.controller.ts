@@ -31,7 +31,7 @@ export class UserController {
    * @param user New user
    */
   @authenticate('BearerStrategy', {whiteList: ['superuser']})
-  @post('/users/new-admin')
+  @post('/users')
   async newAdmin(@requestBody() user: User) {
     return await this.usersRepo
       .create(new User(user))
@@ -44,7 +44,7 @@ export class UserController {
    * @param pageSize Elements per page
    */
   @authenticate('BearerStrategy', {whiteList: ['superuser']})
-  @get('/users/get')
+  @get('/users')
   async getUsers(
     @param.query.number('pageIndex') pageIndex: number,
     @param.query.number('pageSize') pageSize: number,
@@ -67,7 +67,7 @@ export class UserController {
    * @param id Id of the user to be deleted
    */
   @authenticate('BearerStrategy', {whiteList: ['superuser']})
-  @del('/users/del')
+  @del('/users')
   async delUser(@param.query.string('id') id: string) {
     return await this.usersRepo
       .deleteById(id)
@@ -81,7 +81,7 @@ export class UserController {
    * @param body New user data
    */
   @authenticate('BearerStrategy', {whiteList: ['superuser']})
-  @put('/users/edit')
+  @put('/users')
   async editUser(@requestBody() body: User) {
     return await this.usersRepo.findById(body.id).then(
       user => {

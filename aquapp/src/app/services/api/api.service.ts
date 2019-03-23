@@ -12,6 +12,7 @@ import { Datum } from 'src/app/models/datum.model';
 import { WaterBody } from 'src/app/models/water-body.model';
 import { IcampffAvg } from 'src/app/models/icampff-avg.model';
 import { filter } from 'rxjs/operators';
+import { User } from 'src/app/models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -657,6 +658,67 @@ export class ApiService {
         entityId: entityId,
         variable: variable,
         entityType: entityType
+      }
+    });
+  }
+
+  // USERS
+
+  getUsers(name: string, pageIndex: number, pageSize: number) {
+    return this.http.get<Page<User[]>>(this.apiUrl + 'users', {
+      params: {
+        name: name,
+        pageSize: pageSize.toString(),
+        pageIndex: pageIndex.toString()
+      },
+      headers: {
+        'conten-type': 'application/json',
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  newUser(
+    name: string,
+    password: string,
+    email: string,
+    realName: string,
+    realLastName: string
+  ) {
+    return this.http.post<User>(
+      this.apiUrl + 'users',
+      {
+        name: name,
+        password: password,
+        email: email,
+        enabled: true,
+        realName: realName,
+        realLastName: realLastName
+      },
+      {
+        headers: {
+          'conten-type': 'application/json',
+          Authorization: 'Bearer ' + this.token
+        }
+      }
+    );
+  }
+
+  deleteUser(id: string) {
+    return this.http.delete(this.apiUrl + 'users', {
+      headers: {
+        Authorization: 'Bearer ' + this.token
+      },
+      params: {
+        id: id
+      }
+    });
+  }
+
+  editUser(user: User) {
+    return this.http.put(this.apiUrl + 'users', user, {
+      headers: {
+        Authorization: 'Bearer ' + this.token
       }
     });
   }

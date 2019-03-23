@@ -18,6 +18,7 @@ import { EditNodeFormComponent } from './components/forms/edit-node/edit-node.co
 import { ExportDataFormComponent } from './components/forms/export-data/export-data.component';
 import { ExportDataResultComponent } from './components/export-data-result/export-data-result.component';
 import { AboutComponent } from './components/about/about.component';
+import { UsersComponent } from './components/users/users.component';
 
 const routes: Routes = [
   {
@@ -105,6 +106,11 @@ const routes: Routes = [
     path: 'acerca-de',
     component: AboutComponent,
     data: { title: 'Acerca de' }
+  },
+  {
+    path: 'usuarios',
+    component: UsersComponent,
+    data: { title: 'Usuarios' }
   },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '/404' }

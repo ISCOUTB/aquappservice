@@ -1,0 +1,297 @@
+<div
+  class="controls"
+  [@newExpand]="!creatingNewElement ? 'expanded' : 'collapsed'"
+>
+  <button
+      mat-icon-button
+      mat-raised-button
+      color="primary"
+      (click)="refresh()"
+      matTooltip="Refrescar"
+  >
+      <mat-icon svgIcon="refresh"></mat-icon>
+  </button>
+  <button
+      mat-icon-button
+      mat-raised-button
+      color="primary"
+      (click)="creatingNewElement = true"
+      matTooltip="Nuevo cliente"
+  >
+      <mat-icon svgIcon="add"></mat-icon>
+  </button>
+</div>
+
+<div
+  [@newExpand]="!creatingNewElement ? 'expanded' : 'collapsed'"
+  class="container mat-elevation-z8 data-table"
+>
+  <div class="loading-shade" *ngIf="isLoadingResults">
+      <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+
+  <div class="table-container">
+      <table
+          mat-table
+          [dataSource]="data"
+          class="table"
+          matSort
+          matSortActive="created"
+          matSortDisableClear
+          matSortDirection="asc"
+          multiTemplateDataRows
+      >
+          <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Nombre</th>
+              <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="enabled">
+              <th mat-header-cell *matHeaderCellDef>Habilitado</th>
+              <td mat-cell *matCellDef="let row">{{ row.enabled ? 'Sí' : 'No' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef>Tipo</th>
+              <td mat-cell *matCellDef="let row">row.userType</td>
+          </ng-container>
+
+          <ng-container matColumnDef="expandedDetail">
+              <td
+                  mat-cell
+                  *matCellDef="let element"
+                  [attr.colspan]="displayedColumns.length"
+              >
+                  <div
+                      class="element-detail"
+                      [@detailExpand]="
+                          element == expandedElement
+                              ? 'expanded'
+                              : 'collapsed'
+                      "
+                  >
+                      <button
+                          mat-icon-button
+                          mat-raised-button
+                          color="warn"
+                          (click)="confirmUserDeletion(element)"
+                          matTooltip="Eliminar cliente"
+                      >
+                          <mat-icon svgIcon="remove"></mat-icon>
+                      </button>
+                      <button
+                          mat-icon-button
+                          mat-raised-button
+                          color="primary"
+                          (click)="deselectUser()"
+                          matTooltip="Cerrar"
+                      >
+                          <mat-icon svgIcon="close"></mat-icon>
+                      </button>
+                      <button
+                          mat-icon-button
+                          mat-raised-button
+                          color="primary"
+                          (click)="editting = !editting"
+                          matTooltip="Editar"
+                      >
+                          <mat-icon svgIcon="edit"></mat-icon>
+                      </button>
+                      <br />
+                      <form>
+                          <mat-form-field>
+                              <input
+                                  type="text"
+                                  matInput
+                                  placeholder="Nombre"
+                                  [(ngModel)]="expandedUserName"
+                                  name="euname"
+                                  [disabled]="!editting"
+                              />
+                          </mat-form-field>
+
+                          <mat-form-field>
+                              <input
+                                  type="text"
+                                  matInput
+                                  placeholder="Contraseña"
+                                  [(ngModel)]="expandedUserPassword"
+                                  name="eupass"
+                                  [disabled]="!editting"
+                              />
+                          </mat-form-field>
+
+                          <mat-form-field>
+                              <input
+                                  type="email"
+                                  matInput
+                                  placeholder="Email"
+                                  [(ngModel)]="expandedUserEmail"
+                                  name="eumail"
+                                  [disabled]="!editting"
+                              />
+                          </mat-form-field>
+
+                          <mat-form-field>
+                              <input
+                                  type="text"
+                                  matInput
+                                  placeholder="Nombres reales"
+                                  [(ngModel)]="expandedUserRealName"
+                                  name="eurn"
+                                  [disabled]="!editting"
+                              />
+                          </mat-form-field>
+
+                          <mat-form-field>
+                              <input
+                                  type="text"
+                                  matInput
+                                  placeholder="Apellidos reales"
+                                  [(ngModel)]="expandedUserRealLastName"
+                                  name="eurln"
+                                  [disabled]="!editting"
+                              />
+                          </mat-form-field>
+
+                          <mat-checkbox
+                              [(ngModel)]="expandedUserEnabled"
+                              [disabled]="!editting"
+                              name="isEnabled"
+                              >Habilitado</mat-checkbox
+                          >
+                      </form>
+
+                      <mat-form-field>
+                          <mat-select placeholder="Tipo de usuario" [(value)]="expandedUserType">
+                              <mat-option *ngFor="let type of userTypes" [value]="type">
+                                  {{type}}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+
+                      <button
+                          mat-icon-button
+                          mat-raised-button
+                          color="accent"
+                          (click)="saveUser()"
+                          *ngIf="editting"
+                          matTooltip="Guardar cambios"
+                      >
+                          <mat-icon svgIcon="check"></mat-icon>
+                      </button>
+                  </div>
+              </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              class="element-row"
+              [class.expanded-row]="expandedElement === row"
+              (click)="this.selectUser(row)"
+          ></tr>
+          <tr
+              mat-row
+              *matRowDef="let row; columns: ['expandedDetail']"
+              class="detail-row"
+          ></tr>
+      </table>
+  </div>
+
+  <mat-paginator
+      [length]="resultsLength"
+      [pageSize]="pageSize"
+  ></mat-paginator>
+</div>
+
+<mat-card
+  class="new-user-form"
+  [@newExpand]="creatingNewElement ? 'expanded' : 'collapsed'"
+>
+  <mat-card-title>Crear nuevo usuario</mat-card-title>
+  <mat-card-content>
+      <form>
+          <mat-form-field>
+              <input
+                  type="text"
+                  matInput
+                  placeholder="Nombre"
+                  [(ngModel)]="newUserName"
+                  name="username"
+              />
+          </mat-form-field>
+
+          <mat-form-field>
+              <input
+                  type="text"
+                  matInput
+                  placeholder="Contraseña"
+                  [(ngModel)]="newUserPassword"
+                  name="pass"
+              />
+          </mat-form-field>
+
+          <mat-form-field>
+              <input
+                  type="email"
+                  matInput
+                  placeholder="Email"
+                  [(ngModel)]="newUserEmail"
+                  name="mail"
+              />
+          </mat-form-field>
+
+          <mat-form-field>
+              <input
+                  type="text"
+                  matInput
+                  placeholder="Nombres"
+                  [(ngModel)]="newUserRealName"
+                  name="names"
+              />
+          </mat-form-field>
+
+          <mat-form-field>
+              <input
+                  type="text"
+                  matInput
+                  placeholder="Apellidos"
+                  [(ngModel)]="newUserRealLastName"
+                  name="lastnames"
+              />
+          </mat-form-field>
+
+          <mat-form-field>
+              <mat-select placeholder="Tipo de usuario" [(value)]="newUserType">
+                  <mat-option *ngFor="let type of userTypes" [value]="type">
+                      {{type}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </form>
+  </mat-card-content>
+  <mat-card-actions>
+      <button
+          mat-button
+          mat-icon-button
+          mat-raised-button
+          color="primary"
+          (click)="newUser()"
+          matTooltip="Crear"
+      >
+          <mat-icon svgIcon="add"></mat-icon>
+      </button>
+      <button
+          mat-button
+          mat-icon-button
+          mat-raised-button
+          color="accent"
+          (click)="creatingNewElement = false"
+          matTooltip="Cancelar"
+      >
+          <mat-icon svgIcon="close"></mat-icon>
+      </button>
+  </mat-card-actions>
+</mat-card>
