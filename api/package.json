@@ -29,6 +29,7 @@
     "migrate": "node ./dist/src/migrate",
     "prestart": "npm run build",
     "start": "pm2 start ecosystem.config.js --env production",
+    "start:watch": "pm2 start ecosystem.config.js --env development --watch",
     "stop": "pm2 stop ecosystem.config.js --env production",
     "prepublishOnly": "npm run test"
   },
