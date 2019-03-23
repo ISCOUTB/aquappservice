@@ -1,6 +1,7 @@
 <div
   class="controls"
   [@newExpand]="!creatingNewElement ? 'expanded' : 'collapsed'"
+  @fadeIn
 >
   <button
       mat-icon-button
@@ -14,9 +15,9 @@
   <button
       mat-icon-button
       mat-raised-button
-      color="primary"
+      color="accent"
       (click)="creatingNewElement = true"
-      matTooltip="Nuevo cliente"
+      matTooltip="Nuevo usuario"
   >
       <mat-icon svgIcon="add"></mat-icon>
   </button>
@@ -25,6 +26,7 @@
 <div
   [@newExpand]="!creatingNewElement ? 'expanded' : 'collapsed'"
   class="container mat-elevation-z8 data-table"
+  @fadeIn
 >
   <div class="loading-shade" *ngIf="isLoadingResults">
       <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
@@ -75,7 +77,7 @@
                           mat-raised-button
                           color="warn"
                           (click)="confirmUserDeletion(element)"
-                          matTooltip="Eliminar cliente"
+                          matTooltip="Eliminar usuario"
                       >
                           <mat-icon svgIcon="remove"></mat-icon>
                       </button>
