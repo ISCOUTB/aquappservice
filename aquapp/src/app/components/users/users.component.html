@@ -246,26 +246,6 @@
           </mat-form-field>
 
           <mat-form-field>
-              <input
-                  type="text"
-                  matInput
-                  placeholder="Nombres"
-                  [(ngModel)]="newUserRealName"
-                  name="names"
-              />
-          </mat-form-field>
-
-          <mat-form-field>
-              <input
-                  type="text"
-                  matInput
-                  placeholder="Apellidos"
-                  [(ngModel)]="newUserRealLastName"
-                  name="lastnames"
-              />
-          </mat-form-field>
-
-          <mat-form-field>
               <mat-select placeholder="Tipo de usuario" [(value)]="newUserType">
                   <mat-option *ngFor="let type of userTypes" [value]="type">
                       {{type}}

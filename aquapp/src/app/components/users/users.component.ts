@@ -71,11 +71,9 @@ export class UsersComponent implements OnInit {
   newUserName = 'ejemplo';
   newUserPassword = 'ejemplo';
   newUserEmail = 'ejemplo@falso.com';
-  newUserRealName = 'ejemplo';
-  newUserRealLastName = 'falso';
-  newUserType = 'admin';
+  newUserType = 'node';
 
-  userTypes = ['admin', 'godfather'];
+  userTypes = ['node', 'waterBody', 'HMFactors', 'weatherStation'];
 
   name = '';
 
@@ -134,9 +132,7 @@ export class UsersComponent implements OnInit {
       .newUser(
         this.newUserName,
         this.newUserPassword,
-        this.newUserEmail,
-        this.newUserRealName,
-        this.newUserRealLastName
+        this.newUserEmail
       )
       .subscribe(
         () => {
