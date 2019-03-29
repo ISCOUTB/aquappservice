@@ -1,0 +1,1 @@
+npx lb-tsc es2017 --outDir dist --watch

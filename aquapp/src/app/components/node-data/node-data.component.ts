@@ -158,10 +158,8 @@ export class NodeDataComponent implements OnInit {
 
   saveDatum() {
     const datum = new Datum();
-    datum.id = this.expandedElement.id;
-    datum.date = this.expandedDatumDate;
+    datum.date = new Date(this.expandedDatumDate);
     datum.value = this.expandedDatumValue;
-    // datum.variable = this.expandedDatumVariable;
     this.apiService
       .editDatum(
         datum,
