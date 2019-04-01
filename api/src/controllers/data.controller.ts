@@ -182,12 +182,14 @@ export class DataController {
       .then(
         nodeData => {
           if (!nodeData) {
+            console.log('Node data not found');
             return Promise.reject({});
           }
           const index = nodeData.data.findIndex(
-            datum => datum.date.toString() === date,
+            datum => (new Date(datum.date)).toISOString() === date,
           );
           if (index === -1) {
+            console.log('Datum not found');
             return Promise.reject({});
           }
           nodeData.data[index] = new Datum(body);
