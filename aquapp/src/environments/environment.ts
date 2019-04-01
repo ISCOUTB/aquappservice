@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://aquapp.utb.edu.co:8080/'
+  apiUrl: 'http://localhost:3000/'
 };
 
 /*
