@@ -25,7 +25,7 @@ export class TranslatePipe implements PipeTransform {
   transform(value: any, args?: any): any {
     if (args && value !== 'Latest available' && args.type === 'date') {
       const date = new Date(value);
-      return `${date.getDate() + 1}-${this.translateService.translate(
+      return `${date.getDate()}-${this.translateService.translate(
         args.fullDate
           ? this.monthNames[date.getMonth()]
           : this.monthNames[date.getMonth()].slice(0, 3)
