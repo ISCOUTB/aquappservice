@@ -450,12 +450,14 @@ export class IcampffController {
           )
           .then(nd => nd);
         if (!nodeData) {
+          console.log('Node data not found');
           continue;
         }
         const index = nodeData.data.findIndex(
-          datum => datum.date.toString() === date,
+          datum => (new Date(datum.date)).toISOString() === date,
         );
         if (index === -1) {
+          console.log('Datum not found');
           continue;
         }
         nodeData.data.splice(index, 1);
