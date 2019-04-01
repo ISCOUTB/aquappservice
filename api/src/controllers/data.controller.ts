@@ -106,7 +106,7 @@ export class DataController {
             return Promise.reject({status: 400});
           }
           const index = nodeData.data.findIndex(
-            datum => datum.date.toString() === date,
+            datum => (new Date(datum.date)).toISOString() === date,
           );
           if (index === -1) {
             return Promise.reject({status: 400});
