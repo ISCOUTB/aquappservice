@@ -219,22 +219,13 @@ export class IcampffComponent implements OnInit {
       index++;
     }
     await Promise.all(promises).then(
-      () => this.messageService.show('Icampff creado, actualizando cachés'),
+      () => this.messageService.show('Icampff creado'),
       () =>
         this.messageService.show(
           'Error creando alguno de los valores, borre el nuevo icampff creado, los cachés y vuelva a intentar'
         )
     );
-    await this.apiService
-      .buildIcampffCaches()
-      .toPromise()
-      .then(
-        () => {
-          this.messageService.show('Cachés actualizados');
-          this.refresh();
-        },
-        () => this.messageService.show('Error actualizando los cachés')
-      );
+    this.messageService.show('Desea actualizar los cachés?', 'Sí', this, 'buildCache');
   }
 
   updateValue(i: number, j: number, value: string) {
@@ -248,6 +239,7 @@ export class IcampffComponent implements OnInit {
   }
 
   async buildCache() {
+    this.messageService.show('Construyendo cachés, por favor espere');
     await this.apiService
       .buildIcampffCaches()
       .toPromise()
