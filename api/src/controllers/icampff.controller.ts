@@ -125,7 +125,11 @@ export class IcampffController {
     }
 
     if (icampffCaches.length) {
-      for (let index = 0; index < icampffCaches[0].length; index++) {
+      for (
+        let index = 0;
+        index < Math.min(...icampffCaches.map(cache => cache.length));
+        index++
+      ) {
         let value = 0;
         for (const cache of icampffCaches) {
           value += cache[index].value;
@@ -267,19 +271,6 @@ export class IcampffController {
           }/po4/${phosphatesData[index].value}/dbo/${
             biochemicalOxygendDemandData[index].value
           }/cla/${chlorophyllAData[index].value}`;
-          /**
-           * console.log(
-          node,
-          dissolvedOxygenData.length,
-          nitrateData.length,
-          totalSuspendedSolidsData.length,
-          thermotolerantColiformsData.length,
-          pHData.length,
-          chlorophyllAData.length,
-          biochemicalOxygendDemandData.length,
-          phosphatesData.length,
-        );
-           */
           try {
             // Try to find an icampff cache with the same hash
             await this.icampffCacheRepository
@@ -352,7 +343,7 @@ export class IcampffController {
    * This is operation allows you to add the values for each
    * parameter that's needed to calculate an ICAMpff for a node,
    * without adding the values of the sensors one by one.
-   * 
+   *
    * @param body Data necessary to calculate an ICAMpff for a WQ node.
    * The values array has the values of each parameter needed to
    * calculate the ICAMpff in the same order as described in the
@@ -454,7 +445,7 @@ export class IcampffController {
           continue;
         }
         const index = nodeData.data.findIndex(
-          datum => (new Date(datum.date)).toISOString() === date,
+          datum => new Date(datum.date).toISOString() === date,
         );
         if (index === -1) {
           console.log('Datum not found');
