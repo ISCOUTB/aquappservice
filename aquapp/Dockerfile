@@ -16,6 +16,9 @@ RUN npm install -g @angular/cli
 RUN rm /etc/nginx/sites-enabled/default
 COPY ./config/aquapp.conf /etc/nginx/sites-enabled/aquapp
 
+COPY ../ssl/utb.edu.co.crt /etc/ssl/utb.edu.co.crt
+COPY ../ssl/utb.edu.co.key /etc/ssl/utb.edu.co.key
+
 WORKDIR /aquapp
 
 # Copy all files to /aquapp

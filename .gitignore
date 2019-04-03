@@ -11,5 +11,6 @@ build/*
 tests/
 imports/*
 backups/*
+ssl/*
 databasenew/*
 .docker-compose-new-test.yml.swp
