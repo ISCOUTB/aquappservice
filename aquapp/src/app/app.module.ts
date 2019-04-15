@@ -62,6 +62,7 @@ import { UsersComponent } from './components/users/users.component';
 import { CordovaService } from './services/cordova/cordova.service';
 import { TranslatePipe } from './services/translate/translate.pipe';
 import { TranslateService } from './services/translate/translate.service';
+import { IcampffLeyendComponent } from './layers/icampff/leyend/icampff-leyend.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { TranslateService } from './services/translate/translate.service';
     TranslatePipe,
     AboutComponent,
     NavigationComponent,
-    UsersComponent
+    UsersComponent,
+    IcampffLeyendComponent
   ],
   imports: [
     BrowserModule,
@@ -134,133 +136,45 @@ import { TranslateService } from './services/translate/translate.service';
 })
 export class AppModule {
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon(
+    for (const icon of [
       'add',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/add.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'close',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/close.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'exit_to_app',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/exit_to_app.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'home',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/home.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'how_to_vote',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/how_to_vote.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'more_horiz',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/more_horiz.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'navigate_before',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/navigate_before.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'navigate_next',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/navigate_next.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'people',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/people.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'refresh',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/refresh.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'view_quilt',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/view_quilt.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'remove',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/remove.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'center_focus_strong',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/center_focus_strong.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'call_received',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/call_received.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'call_made',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/call_made.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'edit',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/edit.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'check',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/check.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'timeline',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/timeline.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'save_alt',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/save_alt.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'help',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/help.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'sensor',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/sensor.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'data',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/data.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'node',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/node.svg')
-    );
-    iconRegistry.addSvgIcon(
+      'background',
       'cache',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/cache.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'filter',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/filter.svg')
-    );
-    iconRegistry.addSvgIcon(
       'calendar',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/calendar.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'data2',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/data2.svg')
-    );
-    iconRegistry.addSvgIcon(
+      'call_made',
+      'call_received',
+      'center_focus_strong',
+      'check',
+      'close',
       'cool',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/cool.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'download',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/download.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'unchained',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/unchained.svg')
-    );
-    iconRegistry.addSvgIcon(
       'cross-browser',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/cross-browser.svg')
-    );
-    iconRegistry.addSvgIcon(
+      'data',
+      'data2',
+      'download',
+      'edit',
+      'exit_to_app',
+      'filter',
+      'help',
+      'home',
+      'how_to_vote',
+      'more_horiz',
       'more_vert',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/more_vert.svg')
-    );
+      'navigate_before',
+      'navigate_next',
+      'node',
+      'people',
+      'refresh',
+      'remove',
+      'save_alt',
+      'sensor',
+      'timeline',
+      'unchained',
+      'view_quilt'
+    ]) {
+      iconRegistry.addSvgIcon(
+        icon,
+        sanitizer.bypassSecurityTrustResourceUrl(`assets/${icon}.svg`)
+      );
+    }
   }
 }
