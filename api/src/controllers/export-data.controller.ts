@@ -399,7 +399,11 @@ export class ExportDataController {
     }
 
     if (icampffCaches.length) {
-      for (let index = 0; index < icampffCaches[0].length; index++) {
+      for (
+        let index = 0;
+        index < Math.min(...icampffCaches.map(ic => ic.length));
+        index++
+      ) {
         let value = 0;
         for (const cache of icampffCaches) {
           value += cache[index].value;
@@ -440,7 +444,7 @@ export class ExportDataController {
             }
             return Promise.resolve(
               nodeData.data
-                .filter(datum => datum.value !== '-1')
+                .filter(datum => datum && datum.value !== '-1')
                 .map(datum => new Date(datum.date).toISOString()),
             );
           },
