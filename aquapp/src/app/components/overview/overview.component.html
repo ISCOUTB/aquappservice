@@ -149,30 +149,7 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <div class="leaflet-bottom leaflet-left floating-controls">
-        <!--<button
-          mat-button
-          [matMenuTriggerFor]="filterMenu"
-          class="leaflet-control"
-        >
-          <mat-icon svgIcon="filter"></mat-icon>
-          <span [ngStyle]="{ 'margin-left': '10px' }">{{
-            selectedNodeType | translate
-          }}</span>
-        </button>
-        <mat-menu #filterMenu="matMenu">
-          <button
-            mat-menu-item
-            *ngFor="let nodeType of nodeTypes"
-            (click)="selectNodeType(nodeType.id)"
-          >
-            {{ nodeType.name | translate }}
-          </button>
-          <button mat-menu-item (click)="selectNodeType('All stations')">
-            {{ 'All stations' | translate }}
-          </button>
-        </mat-menu>-->
-      </div>
+      <div class="leaflet-bottom leaflet-left floating-controls"></div>
     </div>
   </div>
 </div>
