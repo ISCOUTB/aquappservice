@@ -52,8 +52,6 @@ export class HeaderComponent implements OnInit {
 
   url: string;
 
-  @Output()
-  reloadFiguresInOverview: EventEmitter<any> = new EventEmitter();
   constructor(
     public router: Router,
     private apiService: ApiService,
@@ -104,8 +102,6 @@ export class HeaderComponent implements OnInit {
       this.translateService.getCurrentLanguage() === 'es'
         ? 'English'
         : 'Español';
-    if (this.router.url.split('?')[0] === '/vista-general') {
-      this.reloadFiguresInOverview.emit();
-    }
+    this.translateService.reload('reload');
   }
 }

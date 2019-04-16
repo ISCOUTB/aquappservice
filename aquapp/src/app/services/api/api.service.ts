@@ -325,11 +325,14 @@ export class ApiService {
     });
   }
 
-  getAllNodes() {
+  getAllNodes(nodeTypeId = '') {
     return this.http.get<Page<Node[]>>(this.apiUrl + 'nodes', {
       headers: {
         'conten-type': 'application/json',
         Authorization: 'Bearer ' + this.token
+      },
+      params: {
+        nodeTypeId: nodeTypeId
       }
     });
   }

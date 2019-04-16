@@ -1,0 +1,31 @@
+<div class="container">
+  <button mat-button [matMenuTriggerFor]="dateMenu" class="leaflet-control">
+    <mat-icon svgIcon="calendar"></mat-icon>
+    <span [ngStyle]="{ 'margin-left': '10px' }">
+      {{ 'ICAMpff date' | translate }}
+      <span
+        [ngStyle]="{
+          position: 'absolute',
+          'margin-top': '15px',
+          'margin-left': '-123px',
+          'font-size': '10px',
+          width: '100%'
+        }"
+      >
+        {{
+          selectedDate === 'Latest available'
+            ? (selectedDate | translate)
+            : (selectedDate | date: 'dd/MM/yyyy')
+        }}
+      </span>
+    </span>
+  </button>
+  <mat-menu #dateMenu="matMenu">
+    <button mat-menu-item *ngFor="let d of icamDates" (click)="selectDate(d)">
+      {{ d | date: 'dd/MM/yyyy' }}
+    </button>
+    <button mat-menu-item (click)="selectDate('Latest available')">
+      {{ 'Latest available' | translate }}
+    </button>
+  </mat-menu>
+</div>

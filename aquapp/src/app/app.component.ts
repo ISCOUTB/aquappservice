@@ -1,8 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { TranslateService } from './services/translate/translate.service';
-import { NavigationComponent } from './components/navigation/navigation.component';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +31,4 @@ export class AppComponent {
     });
   }
 
-  reloadFiguresInOverview() {
-    this.translateService.reload('reload');
-  }
 }

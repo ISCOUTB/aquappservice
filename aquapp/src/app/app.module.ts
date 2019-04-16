@@ -27,7 +27,8 @@ import {
   MatMenuModule,
   MatSidenavModule,
   MatListModule,
-  MatDividerModule
+  MatDividerModule,
+  MatButtonToggleModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/forms/login/login.component';
@@ -60,9 +61,17 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { UsersComponent } from './components/users/users.component';
 
 import { CordovaService } from './services/cordova/cordova.service';
-import { TranslatePipe } from './services/translate/translate.pipe';
+import { TranslatePipe } from './pipes/translate/translate.pipe';
 import { TranslateService } from './services/translate/translate.service';
-import { IcampffLeyendComponent } from './layers/icampff/leyend/icampff-leyend.component';
+import { IcampffLegendComponent } from './layers/icampff/legend/icampff-legend.component';
+import { IcampffControlComponent } from './layers/icampff/controls/icampff-control.component';
+import { PluginComponentDirective } from './directives/plugin-component/plugin-component.directive';
+import { WaterQualityControlComponent } from './layers/water-quality/controls/water-quality-control.component';
+import { WaterQualityLegendComponent } from './layers/water-quality/legend/water-quality-legend.component';
+import { WeatherStationControlComponent } from './layers/weather-station/controls/weather-station-control.component';
+import { WeatherStationLegendComponent } from './layers/weather-station/legend/weather-station-legend.component';
+import { HydroMFControlComponent } from './layers/hydro-metereologic-factors/controls/hydro-metereologic-factors-control.component';
+import { HydroMFLegendComponent } from './layers/hydro-metereologic-factors/legend/hydro-metereologic-factors-legend.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +101,15 @@ import { IcampffLeyendComponent } from './layers/icampff/leyend/icampff-leyend.c
     AboutComponent,
     NavigationComponent,
     UsersComponent,
-    IcampffLeyendComponent
+    IcampffLegendComponent,
+    IcampffControlComponent,
+    PluginComponentDirective,
+    WaterQualityControlComponent,
+    WaterQualityLegendComponent,
+    WeatherStationControlComponent,
+    WeatherStationLegendComponent,
+    HydroMFControlComponent,
+    HydroMFLegendComponent
   ],
   imports: [
     BrowserModule,
@@ -124,7 +141,8 @@ import { IcampffLeyendComponent } from './layers/icampff/leyend/icampff-leyend.c
     NgxDygraphsModule,
     MatSidenavModule,
     MatListModule,
-    MatDividerModule
+    MatDividerModule,
+    MatButtonToggleModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-GB' },
@@ -132,7 +150,17 @@ import { IcampffLeyendComponent } from './layers/icampff/leyend/icampff-leyend.c
     TranslatePipe,
     CordovaService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    IcampffControlComponent,
+    IcampffLegendComponent,
+    WaterQualityControlComponent,
+    WaterQualityLegendComponent,
+    WeatherStationControlComponent,
+    WeatherStationLegendComponent,
+    HydroMFControlComponent,
+    HydroMFLegendComponent
+  ]
 })
 export class AppModule {
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
@@ -169,7 +197,13 @@ export class AppModule {
       'sensor',
       'timeline',
       'unchained',
-      'view_quilt'
+      'view_quilt',
+      'expand_less',
+      'expand_more',
+      'layers',
+      'layers_clear',
+      'pin_drop',
+      'settings'
     ]) {
       iconRegistry.addSvgIcon(
         icon,

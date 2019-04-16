@@ -17,7 +17,7 @@
         mat-raised-button
         mat-icon-button
         color="accent"
-        (click)="getData()"
+        (click)="updateLayers()"
         matTooltip="{{ 'Retry' | translate }}"
       >
         <mat-icon svgIcon="refresh"></mat-icon>
@@ -35,26 +35,122 @@
   >
     <div class="leaflet-control-container">
       <div class="leaflet-top leaflet-right">
-        <mat-card class="legend leaflet-control">
-          <mat-card-content>
-            {{ 'ICAMpff (estuary) values' | translate }} <br />
-            <i style="background:#555555"></i> {{ 'Unavailable' | translate
-            }}<br />
-            <i style="background:#FB1502"></i>
-            {{ 'Poor' | translate }} (0–25)<br />
-            <i style="background:#F57702"></i>
-            {{ 'Inadequate' | translate }} (26–50)<br />
-            <i style="background:#F9F107"></i>
-            {{ 'Acceptable' | translate }} (51–70)<br />
-            <i style="background:#49C502"></i>
-            {{ 'Adequate' | translate }} (71–90)<br />
-            <i style="background:#0032FF"></i> {{ 'Optimal' | translate }} (91 -
-            100)
+        <mat-button-toggle-group
+          class="leaflet-control"
+          #group="matButtonToggleGroup"
+        >
+          <mat-button-toggle
+            (click)="menu === 'layers' ? (menu = '') : (menu = 'layers')"
+            value="layers"
+            name="layers-menu"
+            [checked]="menu === 'layers'"
+            matTooltip="{{ 'Layers' | translate }}"
+          >
+            <mat-icon svgIcon="layers"></mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle
+            (click)="
+              menu === 'legend' ? (menu = '') : (menu = 'legend');
+              selectLayerLegend(layerLegend)
+            "
+            value="legend"
+            name="legend-menu"
+            [checked]="menu === 'legend'"
+            matTooltip="{{ 'Legend' | translate }}"
+          >
+            <mat-icon svgIcon="pin_drop"></mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle
+            (click)="
+              menu === 'controls' ? (menu = '') : (menu = 'controls');
+              selectLayerControl(layerControl)
+            "
+            value="controls"
+            name="controls-menu"
+            [checked]="menu === 'controls'"
+            matTooltip="{{ 'Controls' | translate }}"
+          >
+            <mat-icon svgIcon="settings"></mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+        <mat-card
+          [ngStyle]="{ display: menu ? 'inherit' : 'none' }"
+          class="leaflet-control"
+        >
+          <mat-card-content [ngStyle]="{ width: '200px' }" @fadeInOut>
+            <div [ngStyle]="{ 'text-align': 'center' }"></div>
+            <div>
+              <div
+                [ngStyle]="{
+                  display: menu === 'layers' ? 'inherit' : 'none',
+                  'margin-top': '5px'
+                }"
+              >
+                <mat-checkbox
+                  [ngStyle]="{ display: 'block' }"
+                  *ngFor="let layer of dataLayers; let i = index"
+                  [(ngModel)]="layerSwitches[i]"
+                  >{{ layer.name | translate }}</mat-checkbox
+                >
+                <br />
+                <div
+                  [ngStyle]="{ 'text-align': 'center', 'margin-top': '5px' }"
+                >
+                  <button
+                    mat-icon-button
+                    (click)="updateLayers()"
+                    matTooltip="{{ 'Update' | translate }}"
+                  >
+                    <mat-icon svgIcon="check"></mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div
+                [ngStyle]="{
+                  display: menu === 'legend' ? 'inherit' : 'none',
+                  'margin-top': '5px'
+                }"
+              >
+                <mat-form-field>
+                  <mat-label>{{ 'Layer' | translate }}</mat-label>
+                  <mat-select [(value)]="layerLegend">
+                    <mat-option
+                      *ngFor="let layer of activeLayers"
+                      (click)="selectLayerLegend(layer)"
+                      [value]="layer"
+                    >
+                      {{ layer | translate }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <ng-template #legend appPluginComponent></ng-template>
+              </div>
+              <div
+                [ngStyle]="{
+                  display: menu === 'controls' ? 'inherit' : 'none',
+                  'margin-top': '5px'
+                }"
+              >
+                <mat-form-field>
+                  <mat-label>{{ 'Layer' | translate }}</mat-label>
+                  <mat-select [(value)]="layerControl">
+                    <mat-option
+                      *ngFor="let layer of activeLayers"
+                      (click)="selectLayerControl(layer)"
+                      [value]="layer"
+                    >
+                      {{ layer | translate }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <ng-template #controls appPluginComponent></ng-template>
+              </div>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>
       <div class="leaflet-bottom leaflet-left floating-controls">
-        <button
+        <!--<button
           mat-button
           [matMenuTriggerFor]="filterMenu"
           class="leaflet-control"
@@ -75,38 +171,7 @@
           <button mat-menu-item (click)="selectNodeType('All stations')">
             {{ 'All stations' | translate }}
           </button>
-        </mat-menu>
-
-        <button
-          mat-button
-          [matMenuTriggerFor]="dateMenu"
-          class="leaflet-control"
-        >
-          <mat-icon svgIcon="calendar"></mat-icon>
-          <span [ngStyle]="{ 'margin-left': '10px' }">
-            {{ 'ICAMpff date' | translate }}
-            <span
-              [ngStyle]="{
-                position: 'absolute',
-                'margin-top': '15px',
-                'margin-left': '-123px',
-                'font-size': '10px',
-                width: '100%'
-              }"
-            >
-              {{ selectedDate | translate: { type: 'date' } }}
-            </span>
-          </span>
-        </button>
-        <mat-menu #dateMenu="matMenu">
-          <button
-            mat-menu-item
-            *ngFor="let d of icamDates"
-            (click)="selectDate(d)"
-          >
-            {{ d | translate: { type: 'date' } }}
-          </button>
-        </mat-menu>
+        </mat-menu>-->
       </div>
     </div>
   </div>

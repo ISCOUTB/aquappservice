@@ -228,6 +228,26 @@ export const TRANSLATIONS = [
   {
     en: 'Retry',
     es: 'Reintentar'
+  },
+  {
+    en: 'Layers',
+    es: 'Capas'
+  },
+  {
+    en: 'Layer',
+    es: 'Capa'
+  },
+  {
+    en: 'Legend',
+    es: 'Leyenda'
+  },
+  {
+    en: 'Controls',
+    es: 'Controles'
+  },
+  {
+    en: 'Update',
+    es: 'Actualizar'
   }, // Node sensors
   {
     en: 'Dissolved Oxygen (DO)',
