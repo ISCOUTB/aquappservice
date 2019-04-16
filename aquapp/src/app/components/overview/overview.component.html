@@ -46,7 +46,10 @@
             [checked]="menu === 'layers'"
             matTooltip="{{ 'Layers' | translate }}"
           >
-            <mat-icon svgIcon="layers"></mat-icon>
+            <mat-icon
+              [ngStyle]="{ color: '#3f51b5' }"
+              svgIcon="layers"
+            ></mat-icon>
           </mat-button-toggle>
           <mat-button-toggle
             (click)="
@@ -58,7 +61,10 @@
             [checked]="menu === 'legend'"
             matTooltip="{{ 'Legend' | translate }}"
           >
-            <mat-icon svgIcon="pin_drop"></mat-icon>
+            <mat-icon
+              [ngStyle]="{ color: '#3f51b5' }"
+              svgIcon="pin_drop"
+            ></mat-icon>
           </mat-button-toggle>
           <mat-button-toggle
             (click)="
@@ -70,7 +76,10 @@
             [checked]="menu === 'controls'"
             matTooltip="{{ 'Controls' | translate }}"
           >
-            <mat-icon svgIcon="settings"></mat-icon>
+            <mat-icon
+              [ngStyle]="{ color: '#3f51b5' }"
+              svgIcon="settings"
+            ></mat-icon>
           </mat-button-toggle>
         </mat-button-toggle-group>
         <mat-card
@@ -88,6 +97,7 @@
               >
                 <mat-checkbox
                   [ngStyle]="{ display: 'block' }"
+                  color="primary"
                   *ngFor="let layer of dataLayers; let i = index"
                   [(ngModel)]="layerSwitches[i]"
                   >{{ layer.name | translate }}</mat-checkbox
@@ -98,6 +108,8 @@
                 >
                   <button
                     mat-icon-button
+                    mat-stroked-button
+                    color="primary"
                     (click)="updateLayers()"
                     matTooltip="{{ 'Update' | translate }}"
                   >
