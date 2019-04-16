@@ -771,5 +771,10 @@ export const TRANSLATIONS = [
   {
     en: 'Overview',
     es: 'Vista general'
+  },
+  // LAYERS
+  {
+    en: 'No controls available',
+    es: 'No hay controles disponibles'
   }
 ];

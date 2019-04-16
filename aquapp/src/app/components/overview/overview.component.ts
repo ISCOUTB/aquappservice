@@ -106,6 +106,8 @@ export class OverviewComponent implements OnInit {
           dataLayer.add();
         }
       }
+      this.selectLayerControl(this.layerControl);
+      this.selectLayerLegend(this.layerLegend);
     });
     window.onresize = () => {
       if (this.map) {
