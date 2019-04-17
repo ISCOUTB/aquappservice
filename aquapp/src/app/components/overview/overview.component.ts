@@ -4,7 +4,6 @@ import {
   ElementRef,
   NgZone,
   ComponentFactoryResolver,
-  ViewChild,
   ViewChildren,
   QueryList
 } from '@angular/core';
@@ -12,12 +11,7 @@ import {
   tileLayer,
   latLng,
   Map,
-  geoJSON,
-  FeatureGroup,
-  Marker,
-  DivIcon,
   latLngBounds,
-  LatLngBounds
 } from 'leaflet';
 import { Subscription } from 'rxjs';
 import {
@@ -28,12 +22,9 @@ import {
   trigger
 } from '@angular/animations';
 import { Router } from '@angular/router';
-import { WaterBody } from 'src/app/models/water-body.model';
-import { IcampffAvg } from 'src/app/models/icampff-avg.model';
 import { ApiService } from 'src/app/services/api/api.service';
 import { TranslateService } from 'src/app/services/translate/translate.service';
 import { TranslatePipe } from 'src/app/pipes/translate/translate.pipe';
-import { Node } from 'src/app/models/node.model';
 import { LayerBase } from 'src/app/layers/layer-base.model';
 import { IcampffLayer } from 'src/app/layers/icampff/icampff.layer';
 import { PluginComponentDirective } from 'src/app/directives/plugin-component/plugin-component.directive';
