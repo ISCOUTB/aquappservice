@@ -41,7 +41,7 @@
     </a>
   </div>
   <div @fadeInOut [ngStyle]="{ margin: '0 auto' }"></div>
-  <div
+  <!--<div
     @fadeInOut
     *ngIf="
       freeRoutes.indexOf(router.url.split('?')[0]) !== -1 &&
@@ -53,7 +53,7 @@
         {{ 'Donate' | translate }}
       </button>
     </a>
-  </div>
+  </div>-->
   <div @fadeInOut>
     <button mat-button (click)="toggleLanguage()">
       {{ selectedLanguage }}
