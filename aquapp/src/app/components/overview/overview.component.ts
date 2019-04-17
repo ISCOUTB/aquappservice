@@ -186,7 +186,7 @@ export class OverviewComponent implements OnInit {
           }
         }
       });
-    }, 100);
+    }, 225);
     this.map.fitBounds(mapBounds);
   }
 
@@ -217,7 +217,7 @@ export class OverviewComponent implements OnInit {
           }
         }
       });
-    }, 100);
+    }, 225);
     this.fixMap();
   }
 
