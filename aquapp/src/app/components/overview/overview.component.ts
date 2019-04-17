@@ -151,27 +151,42 @@ export class OverviewComponent implements OnInit {
   }
 
   updateLayers() {
+    this.loading = true;
+    this.failed = false;
     let i = 0;
     this.activeLayers = [];
     const mapBounds = latLngBounds(
       latLng(10.33509, -75.584991),
       latLng(10.472579, -75.449138)
     );
-    for (const layer of this.dataLayers) {
-      if (layer.status === 'on' && !this.layerSwitches[i]) {
-        layer.remove();
-      } else if (layer.status === 'off' && this.layerSwitches[i]) {
-        layer.add();
-      }
-      if (layer.status === 'on') {
-        this.activeLayers.push(layer.name);
-        const layerBounds = layer.getBounds();
-        if (layerBounds) {
-          mapBounds.extend(layerBounds);
+    setTimeout(() => {
+      const promises: Promise<void>[] = [];
+      for (const layer of this.dataLayers) {
+        if (layer.status === 'on' && !this.layerSwitches[i]) {
+          layer.remove();
+        } else if (layer.status === 'off' && this.layerSwitches[i]) {
+          promises.push(layer.add());
+        } else if (layer.status === 'error' && this.layerSwitches[i]) {
+          promises.push(layer.add());
         }
+        if (layer.status === 'on') {
+          this.activeLayers.push(layer.name);
+          const layerBounds = layer.getBounds();
+          if (layerBounds) {
+            mapBounds.extend(layerBounds);
+          }
+        }
+        i++;
       }
-      i++;
-    }
+      Promise.all(promises).then(() => {
+        this.loading = false;
+        for (const dataLayer of this.dataLayers) {
+          if (dataLayer.status === 'error') {
+            this.failed = true;
+          }
+        }
+      });
+    }, 100);
     this.map.fitBounds(mapBounds);
   }
 
@@ -184,21 +199,24 @@ export class OverviewComponent implements OnInit {
       this.activeLayers.push(this.dataLayers[1].name);
       this.dataLayers.push(new WeatherStationLayer(this));
       this.dataLayers.push(new HydroMetereologicFactorsLayer(this));
+      const promises: Promise<void>[] = [];
       for (const dataLayer of this.dataLayers) {
         if (this.activeLayers.indexOf(dataLayer.name) !== -1) {
-          dataLayer.add();
+          promises.push(dataLayer.add());
           this.layerSwitches.push(true);
         } else {
           dataLayer.status = 'off';
           this.layerSwitches.push(false);
         }
       }
-      this.loading = false;
-      for (const dataLayer of this.dataLayers) {
-        if (dataLayer.status === 'error') {
-          this.failed = true;
+      Promise.all(promises).then(() => {
+        this.loading = false;
+        for (const dataLayer of this.dataLayers) {
+          if (dataLayer.status === 'error') {
+            this.failed = true;
+          }
         }
-      }
+      });
     }, 100);
     this.fixMap();
   }

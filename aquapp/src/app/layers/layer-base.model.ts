@@ -5,7 +5,7 @@ export interface LayerBase {
     status: string;
     description: string;
     map: Map;
-    add(): void;
+    add(): Promise<void>;
     remove(): void;
     showLegend(): void;
     showControls(): void;

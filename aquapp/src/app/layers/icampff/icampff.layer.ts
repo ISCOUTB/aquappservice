@@ -54,6 +54,9 @@ export class IcampffLayer implements FigureLayer {
         .getAllWaterBodies()
         .toPromise()
         .then(wbs => (this.waterBodies = wbs), () => (this.status = 'error'));
+      if (this.status === 'error') {
+        return;
+      }
       for (const waterBody of this.waterBodies) {
         await this.apiService
           .getAllIcampff(waterBody.id)
@@ -63,9 +66,6 @@ export class IcampffLayer implements FigureLayer {
             () => (this.status = 'error')
           );
       }
-    }
-    if (this.status === 'error') {
-      return;
     }
     this.addWaterBodies('Latest available');
     this.icamDates = [];
