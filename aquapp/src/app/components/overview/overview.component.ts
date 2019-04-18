@@ -132,8 +132,8 @@ export class AquAppComponent implements OnInit {
     let i = 0;
     this.activeLayers = [];
     const mapBounds = latLngBounds(
-      latLng(10.33509, -75.584991),
-      latLng(10.472579, -75.449138)
+      latLng(10.400885, -75.554942),
+      latLng(10.452121, -75.505814)
     );
     setTimeout(() => {
       const promises: Promise<void>[] = [];
@@ -145,25 +145,25 @@ export class AquAppComponent implements OnInit {
         } else if (layer.status === 'error' && this.layerSwitches[i]) {
           promises.push(layer.add());
         }
-        if (layer.status === 'on') {
-          this.activeLayers.push(layer.name);
-          const layerBounds = layer.getBounds();
-          if (layerBounds) {
-            mapBounds.extend(layerBounds);
-          }
-        }
         i++;
       }
       Promise.all(promises).then(() => {
         this.loading = false;
-        for (const dataLayer of this.dataLayers) {
-          if (dataLayer.status === 'error') {
+        for (const layer of this.dataLayers) {
+          if (layer.status === 'error') {
             this.failed = true;
           }
+          if (layer.status === 'on') {
+            this.activeLayers.push(layer.name);
+            const layerBounds = layer.getBounds();
+            if (layerBounds) {
+              mapBounds.extend(layerBounds);
+            }
+          }
         }
+        this.map.fitBounds(mapBounds);
       });
     }, 225);
-    this.map.fitBounds(mapBounds);
   }
 
   onMapReady(map: Map) {
