@@ -11,7 +11,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 import { NgZone, ComponentFactoryResolver } from '@angular/core';
 import { TranslateService } from 'src/app/services/translate/translate.service';
 import { TranslatePipe } from 'src/app/pipes/translate/translate.pipe';
-import { AquAppComponent } from 'src/app/components/overview/overview.component';
+import { AquAppComponent } from 'src/app/components/aquapp/aquapp.component';
 import { Node } from 'src/app/models/node.model';
 import { WaterQualityControlComponent } from './controls/water-quality-control.component';
 import { WaterQualityLegendComponent } from './legend/water-quality-legend.component';

@@ -28,9 +28,9 @@ import { WeatherStationLayer } from 'src/app/layers/weather-station/weather-stat
 import { HydroMetereologicFactorsLayer } from 'src/app/layers/hydro-metereologic-factors/hydro-metereologic-factors.layer';
 
 @Component({
-  selector: 'app-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss'],
+  selector: 'app-aquapp',
+  templateUrl: './aquapp.component.html',
+  styleUrls: ['./aquapp.component.scss'],
   animations: [
     trigger('fadeInOut', [
       state(
