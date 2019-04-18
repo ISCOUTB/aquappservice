@@ -7,12 +7,7 @@ import {
   ViewChildren,
   QueryList
 } from '@angular/core';
-import {
-  tileLayer,
-  latLng,
-  Map,
-  latLngBounds,
-} from 'leaflet';
+import { tileLayer, latLng, Map, latLngBounds } from 'leaflet';
 import { Subscription } from 'rxjs';
 import {
   animate,
@@ -47,10 +42,16 @@ import { HydroMetereologicFactorsLayer } from 'src/app/layers/hydro-metereologic
         })
       ),
       transition('void <=> *', animate(225))
+    ]),
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: '0', height: 0, display: 'none' }),
+        animate('0.5s ease-out', style({ opacity: '1', height: '*' }))
+      ])
     ])
   ]
 })
-export class OverviewComponent implements OnInit {
+export class AquAppComponent implements OnInit {
   mapOptions = {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -76,8 +77,7 @@ export class OverviewComponent implements OnInit {
   dataLayers: LayerBase[] = [];
   activeLayers: string[] = [];
   layerSwitches: boolean[] = [];
-  layerLegend: string;
-  layerControl: string;
+  selectedLayer: string;
 
   @ViewChildren(PluginComponentDirective) pluginComponents: QueryList<any>;
 
@@ -97,8 +97,7 @@ export class OverviewComponent implements OnInit {
           dataLayer.add();
         }
       }
-      this.selectLayerControl(this.layerControl);
-      this.selectLayerLegend(this.layerLegend);
+      this.selectLayer(this.selectedLayer);
     });
     window.onresize = () => {
       if (this.map) {
@@ -109,7 +108,7 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit() {}
 
-  selectLayerLegend(layer: string) {
+  selectLayer(layer: string) {
     if (!layer) {
       return;
     }
@@ -119,26 +118,11 @@ export class OverviewComponent implements OnInit {
           return;
         }
         dataLayer.showLegend();
-        break;
-      }
-    }
-    this.layerLegend = layer;
-  }
-
-  selectLayerControl(layer: string) {
-    if (!layer) {
-      return;
-    }
-    for (const dataLayer of this.dataLayers) {
-      if (dataLayer.name === layer) {
-        if (dataLayer.status === 'off') {
-          return;
-        }
         dataLayer.showControls();
         break;
       }
     }
-    this.layerControl = layer;
+    this.selectedLayer = layer;
   }
 
   updateLayers() {
@@ -202,6 +186,7 @@ export class OverviewComponent implements OnInit {
       }
       Promise.all(promises).then(() => {
         this.loading = false;
+        this.selectLayer(this.dataLayers[0].name);
         for (const dataLayer of this.dataLayers) {
           if (dataLayer.status === 'error') {
             this.failed = true;

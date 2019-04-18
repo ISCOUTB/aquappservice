@@ -51,7 +51,7 @@
               svgIcon="layers"
             ></mat-icon>
           </mat-button-toggle>
-          <mat-button-toggle
+          <!--          <mat-button-toggle
             (click)="
               menu === 'legend' ? (menu = '') : (menu = 'legend');
               selectLayerLegend(layerLegend)
@@ -80,13 +80,13 @@
               [ngStyle]="{ color: '#3f51b5' }"
               svgIcon="settings"
             ></mat-icon>
-          </mat-button-toggle>
+          </mat-button-toggle>-->
         </mat-button-toggle-group>
         <mat-card
           [ngStyle]="{ display: menu ? 'inherit' : 'none' }"
           class="leaflet-control"
         >
-          <mat-card-content [ngStyle]="{ width: '200px' }" @fadeInOut>
+          <mat-card-content [ngStyle]="{ width: '200px' }">
             <div [ngStyle]="{ 'text-align': 'center' }"></div>
             <div>
               <div
@@ -117,51 +117,32 @@
                   </button>
                 </div>
               </div>
-              <div
-                [ngStyle]="{
-                  display: menu === 'legend' ? 'inherit' : 'none',
-                  'margin-top': '5px'
-                }"
-              >
-                <mat-form-field>
-                  <mat-label>{{ 'Layer' | translate }}</mat-label>
-                  <mat-select [(value)]="layerLegend">
-                    <mat-option
-                      *ngFor="let layer of activeLayers"
-                      (click)="selectLayerLegend(layer)"
-                      [value]="layer"
-                    >
-                      {{ layer | translate }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <ng-template #legend appPluginComponent></ng-template>
-              </div>
-              <div
-                [ngStyle]="{
-                  display: menu === 'controls' ? 'inherit' : 'none',
-                  'margin-top': '5px'
-                }"
-              >
-                <mat-form-field>
-                  <mat-label>{{ 'Layer' | translate }}</mat-label>
-                  <mat-select [(value)]="layerControl">
-                    <mat-option
-                      *ngFor="let layer of activeLayers"
-                      (click)="selectLayerControl(layer)"
-                      [value]="layer"
-                    >
-                      {{ layer | translate }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <ng-template #controls appPluginComponent></ng-template>
-              </div>
             </div>
           </mat-card-content>
         </mat-card>
       </div>
-      <div class="leaflet-bottom leaflet-left floating-controls"></div>
+      <div
+        class="leaflet-bottom leaflet-left floating-controls"
+      >
+        <mat-card class="leaflet-control">
+          <mat-card-content>
+            <mat-form-field>
+              <mat-label>{{ 'Layer' | translate }}</mat-label>
+              <mat-select [(value)]="selectedLayer">
+                <mat-option
+                  *ngFor="let layer of activeLayers"
+                  (click)="selectLayer(layer)"
+                  [value]="layer"
+                >
+                  {{ layer | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <ng-template #legend appPluginComponent></ng-template>
+            <ng-template #controls appPluginComponent></ng-template>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
   </div>
 </div>

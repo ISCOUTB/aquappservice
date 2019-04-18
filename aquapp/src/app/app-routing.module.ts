@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/forms/login/login.component';
-import { OverviewComponent } from './components/overview/overview.component';
+import { AquAppComponent } from './components/overview/overview.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { NodeTypesComponent } from './components/node-types/node-types.component';
 import { NodesComponent } from './components/nodes/nodes.component';
@@ -23,7 +23,7 @@ import { UsersComponent } from './components/users/users.component';
 const routes: Routes = [
   {
     path: '',
-    component: OverviewComponent,
+    component: AquAppComponent,
     data: { title: 'Vista general' }
   },
   {

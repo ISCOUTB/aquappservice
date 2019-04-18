@@ -6,7 +6,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 import { NgZone, ComponentFactoryResolver } from '@angular/core';
 import { TranslateService } from 'src/app/services/translate/translate.service';
 import { TranslatePipe } from 'src/app/pipes/translate/translate.pipe';
-import { OverviewComponent } from 'src/app/components/overview/overview.component';
+import { AquAppComponent } from 'src/app/components/overview/overview.component';
 import { Node } from 'src/app/models/node.model';
 
 export class HydroMetereologicFactorsLayer implements MarkerLayer {
@@ -20,10 +20,10 @@ export class HydroMetereologicFactorsLayer implements MarkerLayer {
   ngZone: NgZone;
   translateService: TranslateService;
   translatePipe: TranslatePipe;
-  parent: OverviewComponent;
+  parent: AquAppComponent;
   componentFactoryResolver: ComponentFactoryResolver;
 
-  constructor(parent: OverviewComponent) {
+  constructor(parent: AquAppComponent) {
     this.parent = parent;
     this.componentFactoryResolver = this.parent.componentFactoryResolver;
     this.map = this.parent.map;
@@ -153,13 +153,11 @@ export class HydroMetereologicFactorsLayer implements MarkerLayer {
     this.status = 'off';
     this.removeMarkers();
     // Remove leyend and controls
-    if (this.parent.layerLegend === this.name) {
-      const viewContainerRef = this.parent.pluginComponents.toArray()[0]
+    if (this.parent.selectedLayer === this.name) {
+      let viewContainerRef = this.parent.pluginComponents.toArray()[0]
         .viewContainerRef;
       viewContainerRef.clear();
-    }
-    if (this.parent.layerControl === this.name) {
-      const viewContainerRef = this.parent.pluginComponents.toArray()[1]
+      viewContainerRef = this.parent.pluginComponents.toArray()[1]
         .viewContainerRef;
       viewContainerRef.clear();
     }

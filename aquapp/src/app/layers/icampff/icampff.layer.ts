@@ -13,7 +13,7 @@ import { IcampffAvg } from 'src/app/models/icampff-avg.model';
 import { NgZone } from '@angular/core';
 import { TranslateService } from 'src/app/services/translate/translate.service';
 import { TranslatePipe } from 'src/app/pipes/translate/translate.pipe';
-import { OverviewComponent } from 'src/app/components/overview/overview.component';
+import { AquAppComponent } from 'src/app/components/overview/overview.component';
 import { ComponentFactoryResolver } from '@angular/core/src/render3';
 import { IcampffControlComponent } from './controls/icampff-control.component';
 import { IcampffLegendComponent } from './legend/icampff-legend.component';
@@ -33,11 +33,11 @@ export class IcampffLayer implements FigureLayer {
   ngZone: NgZone;
   translateService: TranslateService;
   translatePipe: TranslatePipe;
-  parent: OverviewComponent;
+  parent: AquAppComponent;
   componentFactoryResolver: ComponentFactoryResolver;
   icamDates: Date[];
 
-  constructor(parent: OverviewComponent) {
+  constructor(parent: AquAppComponent) {
     this.parent = parent;
     this.componentFactoryResolver = this.parent.componentFactoryResolver;
     this.map = this.parent.map;

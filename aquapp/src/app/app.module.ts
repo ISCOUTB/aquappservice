@@ -33,7 +33,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/forms/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { OverviewComponent } from './components/overview/overview.component';
+import { AquAppComponent } from './components/overview/overview.component';
 import { HeaderComponent } from './components/header/header.component';
 import { WaterBodiesComponent } from './components/water-bodies/water-bodies.component';
 import { NodesComponent } from './components/nodes/nodes.component';
@@ -78,7 +78,7 @@ import { HydroMFLegendComponent } from './layers/hydro-metereologic-factors/lege
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    OverviewComponent,
+    AquAppComponent,
     HeaderComponent,
     WaterBodiesComponent,
     NodesComponent,

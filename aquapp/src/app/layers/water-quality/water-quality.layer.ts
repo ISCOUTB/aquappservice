@@ -11,7 +11,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 import { NgZone, ComponentFactoryResolver } from '@angular/core';
 import { TranslateService } from 'src/app/services/translate/translate.service';
 import { TranslatePipe } from 'src/app/pipes/translate/translate.pipe';
-import { OverviewComponent } from 'src/app/components/overview/overview.component';
+import { AquAppComponent } from 'src/app/components/overview/overview.component';
 import { Node } from 'src/app/models/node.model';
 import { WaterQualityControlComponent } from './controls/water-quality-control.component';
 import { WaterQualityLegendComponent } from './legend/water-quality-legend.component';
@@ -27,10 +27,10 @@ export class WaterQualityLayer implements MarkerLayer {
   ngZone: NgZone;
   translateService: TranslateService;
   translatePipe: TranslatePipe;
-  parent: OverviewComponent;
+  parent: AquAppComponent;
   componentFactoryResolver: ComponentFactoryResolver;
 
-  constructor(parent: OverviewComponent) {
+  constructor(parent: AquAppComponent) {
     this.parent = parent;
     this.componentFactoryResolver = this.parent.componentFactoryResolver;
     this.map = this.parent.map;
