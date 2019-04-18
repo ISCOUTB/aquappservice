@@ -225,13 +225,11 @@ export class IcampffLayer implements FigureLayer {
   remove(): void {
     this.status = 'off';
     // Remove leyend and controls
-    if (this.parent.layerLegend === this.name) {
-      const viewContainerRef = this.parent.pluginComponents.toArray()[0]
+    if (this.parent.selectedLayer === this.name) {
+      let viewContainerRef = this.parent.pluginComponents.toArray()[0]
         .viewContainerRef;
       viewContainerRef.clear();
-    }
-    if (this.parent.layerControl === this.name) {
-      const viewContainerRef = this.parent.pluginComponents.toArray()[1]
+      viewContainerRef = this.parent.pluginComponents.toArray()[1]
         .viewContainerRef;
       viewContainerRef.clear();
     }
