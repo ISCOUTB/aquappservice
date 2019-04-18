@@ -162,6 +162,9 @@ export class AquAppComponent implements OnInit {
           }
         }
         this.map.fitBounds(mapBounds);
+        if (this.activeLayers.indexOf(this.selectedLayer) !== -1) {
+          this.selectLayer(this.selectedLayer);
+        }
       });
     }, 225);
   }
