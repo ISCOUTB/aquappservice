@@ -40,50 +40,24 @@
           #group="matButtonToggleGroup"
         >
           <mat-button-toggle
-            (click)="menu === 'layers' ? (menu = '') : (menu = 'layers')"
+            (click)="showLayers = !showLayers"
             value="layers"
             name="layers-menu"
-            [checked]="menu === 'layers'"
-            matTooltip="{{ 'Layers' | translate }}"
+            [checked]="showLayers"
+            matTooltip="{{
+              showLayers
+                ? ('Hide layer menu' | translate)
+                : ('Show layer menu' | translate)
+            }}"
           >
             <mat-icon
               [ngStyle]="{ color: '#3f51b5' }"
               svgIcon="layers"
             ></mat-icon>
           </mat-button-toggle>
-          <!--          <mat-button-toggle
-            (click)="
-              menu === 'legend' ? (menu = '') : (menu = 'legend');
-              selectLayerLegend(layerLegend)
-            "
-            value="legend"
-            name="legend-menu"
-            [checked]="menu === 'legend'"
-            matTooltip="{{ 'Legend' | translate }}"
-          >
-            <mat-icon
-              [ngStyle]="{ color: '#3f51b5' }"
-              svgIcon="pin_drop"
-            ></mat-icon>
-          </mat-button-toggle>
-          <mat-button-toggle
-            (click)="
-              menu === 'controls' ? (menu = '') : (menu = 'controls');
-              selectLayerControl(layerControl)
-            "
-            value="controls"
-            name="controls-menu"
-            [checked]="menu === 'controls'"
-            matTooltip="{{ 'Controls' | translate }}"
-          >
-            <mat-icon
-              [ngStyle]="{ color: '#3f51b5' }"
-              svgIcon="settings"
-            ></mat-icon>
-          </mat-button-toggle>-->
         </mat-button-toggle-group>
         <mat-card
-          [ngStyle]="{ display: menu ? 'inherit' : 'none' }"
+          [ngStyle]="{ display: showLayers ? 'inherit' : 'none' }"
           class="leaflet-control"
         >
           <mat-card-content [ngStyle]="{ width: '200px' }">
@@ -91,7 +65,7 @@
             <div>
               <div
                 [ngStyle]="{
-                  display: menu === 'layers' ? 'inherit' : 'none',
+                  display: showLayers ? 'inherit' : 'none',
                   'margin-top': '5px'
                 }"
               >
@@ -121,10 +95,11 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <div
-        class="leaflet-bottom leaflet-left floating-controls"
-      >
-        <mat-card class="leaflet-control">
+      <div class="leaflet-bottom leaflet-left floating-controls">
+        <mat-card
+          [ngStyle]="{ display: showControls ? 'inherit' : 'none' }"
+          class="leaflet-control"
+        >
           <mat-card-content>
             <mat-form-field>
               <mat-label>{{ 'Layer' | translate }}</mat-label>
@@ -142,6 +117,27 @@
             <ng-template #controls appPluginComponent></ng-template>
           </mat-card-content>
         </mat-card>
+        <mat-button-toggle-group
+          class="leaflet-control"
+          #group="matButtonToggleGroup"
+        >
+          <mat-button-toggle
+            (click)="showControls = !showControls"
+            value="controls"
+            name="controls-menu"
+            [checked]="showControls"
+            matTooltip="{{
+              showControls
+                ? ('Hide legend and controls' | translate)
+                : ('Show legend and controls' | translate)
+            }}"
+          >
+            <mat-icon
+              [ngStyle]="{ color: '#3f51b5' }"
+              svgIcon="settings"
+            ></mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
       </div>
     </div>
   </div>

@@ -776,5 +776,21 @@ export const TRANSLATIONS = [
   {
     en: 'No controls available',
     es: 'No hay controles disponibles'
+  },
+  {
+    en: 'Show legend and controls',
+    es: 'Mostrar leyenda y controles'
+  },
+  {
+    en: 'Hide legend and controls',
+    es: 'Ocultar leyenda y controles'
+  },
+  {
+    en: 'Show layer menu',
+    es: 'Mostrar menú de capas'
+  },
+  {
+    en: 'Hide layer menu',
+    es: 'Ocultar menú de capas'
   }
 ];

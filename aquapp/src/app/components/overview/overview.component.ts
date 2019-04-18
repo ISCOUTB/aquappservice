@@ -73,7 +73,8 @@ export class AquAppComponent implements OnInit {
   loading = true;
   failed = false;
 
-  menu = '';
+  showLayers = true;
+  showControls = true;
   dataLayers: LayerBase[] = [];
   activeLayers: string[] = [];
   layerSwitches: boolean[] = [];
