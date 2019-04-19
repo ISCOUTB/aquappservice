@@ -10,10 +10,10 @@ import { MatPaginator, MatSort } from '@angular/material';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IcampffAvg } from 'src/app/models/icampff-avg.model';
+import { IcampffAvg } from 'src/app/modules/aquapp/models/icampff-avg.model';
 import { ApiService } from 'src/app/services/api/api.service';
 import { MessageService } from 'src/app/services/message/message.service';
-import { WaterBody } from 'src/app/models/water-body.model';
+import { WaterBody } from 'src/app/modules/aquapp/models/water-body.model';
 import { Node } from 'src/app/models/node.model';
 
 @Component({

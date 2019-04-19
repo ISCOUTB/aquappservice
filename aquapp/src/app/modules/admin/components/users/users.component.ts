@@ -10,7 +10,7 @@ import { MatPaginator, MatSort } from '@angular/material';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user.model';
+import { User } from 'src/app/modules/admin/models/user.model';
 import { ApiService } from 'src/app/services/api/api.service';
 import { MessageService } from 'src/app/services/message/message.service';
 

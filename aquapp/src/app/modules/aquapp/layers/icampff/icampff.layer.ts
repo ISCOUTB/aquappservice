@@ -1,7 +1,7 @@
 import { Map, FeatureGroup, geoJSON, LatLngBounds } from 'leaflet';
-import { WaterBody } from 'src/app/models/water-body.model';
+import { WaterBody } from 'src/app/modules/aquapp/models/water-body.model';
 import { ApiService } from 'src/app/services/api/api.service';
-import { IcampffAvg } from 'src/app/models/icampff-avg.model';
+import { IcampffAvg } from 'src/app/modules/aquapp/models/icampff-avg.model';
 import { NgZone } from '@angular/core';
 import { TranslateService } from 'src/app/services/translate/translate.service';
 import { TranslatePipe } from 'src/app/pipes/translate/translate.pipe';

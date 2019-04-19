@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
 import { saveAs } from 'file-saver';
 import { Location } from '@angular/common';
-import { WaterBody } from 'src/app/models/water-body.model';
+import { WaterBody } from 'src/app/modules/aquapp/models/water-body.model';
 
 @Component({
   selector: 'app-edit-water-body-page',

@@ -9,10 +9,10 @@ import { NodeType } from 'src/app/models/node-type.model';
 import { Sensor } from 'src/app/models/sensor.model';
 import { Node } from 'src/app/models/node.model';
 import { Datum } from 'src/app/models/datum.model';
-import { WaterBody } from 'src/app/models/water-body.model';
-import { IcampffAvg } from 'src/app/models/icampff-avg.model';
+import { WaterBody } from 'src/app/modules/aquapp/models/water-body.model';
+import { IcampffAvg } from 'src/app/modules/aquapp/models/icampff-avg.model';
 import { filter } from 'rxjs/operators';
-import { User } from 'src/app/models/user.model';
+import { User } from 'src/app/modules/admin/models/user.model';
 
 @Injectable({
   providedIn: 'root'

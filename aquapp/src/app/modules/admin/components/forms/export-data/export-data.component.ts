@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
-import { WaterBody } from 'src/app/models/water-body.model';
+import { WaterBody } from 'src/app/modules/aquapp/models/water-body.model';
 import { Node } from 'src/app/models/node.model';
 import { Sensor } from 'src/app/models/sensor.model';
 import {

@@ -10,7 +10,7 @@ import { MatPaginator, MatSort } from '@angular/material';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { WaterBody } from 'src/app/models/water-body.model';
+import { WaterBody } from 'src/app/modules/aquapp/models/water-body.model';
 import { ApiService } from 'src/app/services/api/api.service';
 import { MessageService } from 'src/app/services/message/message.service';
 import { EditWaterBodyDiagComponent } from '../forms/edit-water-body-dialog/edit-water-body-dialog.component';
