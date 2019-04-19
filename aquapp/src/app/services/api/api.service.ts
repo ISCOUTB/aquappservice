@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { StorageService } from '../storage/storage.service';
+import { StorageService } from '../../modules/utils/storage/services/storage/storage.service';
 import { MessageService } from '../message/message.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { Page } from 'src/app/models/page.model';

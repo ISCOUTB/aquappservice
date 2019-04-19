@@ -47,6 +47,7 @@ import { WeatherStationControlComponent } from './layers/weather-station/control
 import { WeatherStationLegendComponent } from './layers/weather-station/legend/weather-station-legend.component';
 import { HydroMFControlComponent } from './layers/hydro-metereologic-factors/controls/hydro-metereologic-factors-control.component';
 import { HydroMFLegendComponent } from './layers/hydro-metereologic-factors/legend/hydro-metereologic-factors-legend.component';
+import { StorageModule } from '../utils/storage/storage.module';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { HydroMFLegendComponent } from './layers/hydro-metereologic-factors/lege
     TranslationModule,
     RouterModule,
     CordovaModule,
-    PluginComponentModule
+    PluginComponentModule,
+    StorageModule
   ],
   entryComponents: [
     IcampffControlComponent,

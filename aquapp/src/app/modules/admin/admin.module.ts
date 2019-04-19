@@ -50,6 +50,7 @@ import { TranslationModule } from '../utils/translation/translation.module';
 import { EditNodeFormComponent } from './components/forms/edit-node/edit-node.component';
 import { RouterModule } from '@angular/router';
 import { CordovaModule } from '../utils/cordova/cordova.module';
+import { StorageModule } from '../utils/storage/storage.module';
 
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import { CordovaModule } from '../utils/cordova/cordova.module';
     MatMenuModule,
     TranslationModule,
     RouterModule,
-    CordovaModule
+    CordovaModule,
+    StorageModule
   ]
 })
 export class AdminModule {}
