@@ -9,7 +9,7 @@ import {
   trigger
 } from '@angular/animations';
 import { ApiService } from 'src/app/services/api/api.service';
-import { CordovaService } from 'src/app/services/cordova/cordova.service';
+import { CordovaService } from 'src/app/modules/utils/cordova/services/cordova/cordova.service';
 
 @Component({
   selector: 'app-export-data-result',
