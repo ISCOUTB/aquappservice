@@ -272,7 +272,6 @@ export class ApiService {
     coordinates: number[],
     status: string,
     nodeTypeId: string,
-    waterBodyId?: string,
     id?: string
   ) {
     return this.http.post(
@@ -285,15 +284,13 @@ export class ApiService {
             coordinates: coordinates,
             status: status,
             nodeTypeId: nodeTypeId,
-            waterBodyId: waterBodyId
           }
         : {
             name: name,
             location: location,
             coordinates: coordinates,
             status: status,
-            nodeTypeId: nodeTypeId,
-            waterBodyId: waterBodyId
+            nodeTypeId: nodeTypeId
           },
       {
         headers: {

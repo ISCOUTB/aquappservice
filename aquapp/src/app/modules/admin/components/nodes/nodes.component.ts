@@ -178,7 +178,6 @@ export class NodesComponent implements OnInit {
     node.location = this.expandedNodeLocation;
     node.coordinates = [this.expandedNodeLatitude, this.expandedNodeLongitude];
     node.nodeTypeId = this.expandedNodeNodeTypeId;
-    node.waterBodyId = this.expandedNodewaterBodyId;
     this.apiService.editNode(node).subscribe(
       () => {
         this.editting = false;
@@ -231,7 +230,6 @@ export class NodesComponent implements OnInit {
                 node.coordinates,
                 node.status,
                 node.nodeTypeId,
-                node.waterBodyId,
                 node.id
               )
               .toPromise()
