@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { TranslateService } from './services/translate/translate.service';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +12,7 @@ export class AppComponent {
 
   navigationClass = 'navigation';
 
-  constructor(
-    private translateService: TranslateService,
-    private router: Router
-  ) {
+  constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (environment.production) {
@@ -30,5 +26,4 @@ export class AppComponent {
       }
     });
   }
-
 }
