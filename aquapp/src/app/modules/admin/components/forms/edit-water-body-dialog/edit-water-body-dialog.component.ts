@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { tileLayer, latLng, Map, geoJSON, FeatureGroup } from 'leaflet';
-import { MessageService } from 'src/app/services/message/message.service';
+import { MessageService } from 'src/app/modules/utils/message/services/message/message.service';
 
 @Component({
   selector: 'app-edit-water-body-dialog',

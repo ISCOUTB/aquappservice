@@ -51,6 +51,7 @@ import { EditNodeFormComponent } from './components/forms/edit-node/edit-node.co
 import { RouterModule } from '@angular/router';
 import { CordovaModule } from '../utils/cordova/cordova.module';
 import { StorageModule } from '../utils/storage/storage.module';
+import { MessageModule } from '../utils/message/message.module';
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import { StorageModule } from '../utils/storage/storage.module';
     TranslationModule,
     RouterModule,
     CordovaModule,
-    StorageModule
+    StorageModule,
+    MessageModule
   ]
 })
 export class AdminModule {}

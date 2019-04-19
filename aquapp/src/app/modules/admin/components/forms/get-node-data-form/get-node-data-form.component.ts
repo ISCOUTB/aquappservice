@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MessageService } from 'src/app/services/message/message.service';
+import { MessageService } from 'src/app/modules/utils/message/services/message/message.service';
 import { ApiService } from 'src/app/services/api/api.service';
 import {
   animate,

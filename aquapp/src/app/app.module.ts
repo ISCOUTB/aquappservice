@@ -20,6 +20,8 @@ import { CommonModule } from '@angular/common';
 import { TranslationModule } from './modules/utils/translation/translation.module';
 import { CordovaModule } from './modules/utils/cordova/cordova.module';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { MessageModule } from './modules/utils/message/message.module';
+import { StorageModule } from './modules/utils/storage/storage.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     MatIconModule,
     MatToolbarModule,
     TranslationModule,
-    CordovaModule
+    CordovaModule,
+    MessageModule,
+    StorageModule
   ],
   providers: [],
   bootstrap: [AppComponent],

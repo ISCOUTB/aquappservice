@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
 import { Node } from 'src/app/models/node.model';
-import { MessageService } from 'src/app/services/message/message.service';
+import { MessageService } from 'src/app/modules/utils/message/services/message/message.service';
 import { Location } from '@angular/common';
 
 @Component({

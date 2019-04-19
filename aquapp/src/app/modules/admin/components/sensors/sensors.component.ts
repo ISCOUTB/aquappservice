@@ -12,7 +12,7 @@ import {
 } from '@angular/animations';
 import { Sensor } from 'src/app/models/sensor.model';
 import { ApiService } from 'src/app/services/api/api.service';
-import { MessageService } from 'src/app/services/message/message.service';
+import { MessageService } from 'src/app/modules/utils/message/services/message/message.service';
 
 @Component({
   selector: 'app-sensors',

@@ -12,7 +12,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { NodeType } from 'src/app/models/node-type.model';
 import { ApiService } from 'src/app/services/api/api.service';
-import { MessageService } from 'src/app/services/message/message.service';
+import { MessageService } from 'src/app/modules/utils/message/services/message/message.service';
 
 @Component({
   selector: 'app-node-types',

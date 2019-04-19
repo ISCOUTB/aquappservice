@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { NodeType } from 'src/app/models/node-type.model';
 import { WaterBody } from 'src/app/modules/aquapp/models/water-body.model';
 import { ApiService } from 'src/app/services/api/api.service';
-import { MessageService } from 'src/app/services/message/message.service';
+import { MessageService } from 'src/app/modules/utils/message/services/message/message.service';
 import { Node } from 'src/app/models/node.model';
 
 @Component({
