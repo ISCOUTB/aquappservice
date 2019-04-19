@@ -7,7 +7,7 @@ import { MessageService } from 'src/app/services/message/message.service';
   templateUrl: './edit-water-body-dialog.component.html',
   styleUrls: ['./edit-water-body-dialog.component.scss']
 })
-export class EditWaterBodyDialogComponent implements OnInit {
+export class EditWaterBodyDiagComponent implements OnInit {
   @Input() geojson: any;
   importedData: string;
   mapOptions = {

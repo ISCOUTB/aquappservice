@@ -1,166 +1,49 @@
-import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './modules/utils/routing/app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  MatButtonModule,
-  MatCheckboxModule,
-  MatIconModule,
-  MatToolbarModule,
-  MatTooltipModule,
-  MatSnackBarModule,
   MatIconRegistry,
-  MatFormFieldModule,
-  MatInputModule,
-  MatCardModule,
-  MatGridListModule,
-  MatTableModule,
-  MatSortModule,
-  MatPaginatorModule,
-  MatProgressSpinnerModule,
-  MatSelectModule,
-  MAT_DATE_LOCALE,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatMenuModule,
-  MatSidenavModule,
-  MatListModule,
-  MatDividerModule,
-  MatButtonToggleModule
+  MatTooltipModule,
+  MatButtonModule,
+  MatIconModule,
+  MatToolbarModule
 } from '@angular/material';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginComponent } from './components/forms/login/login.component';
-import { DashboardComponent } from './components/aquapp/dashboard/dashboard.component';
-import { AquAppComponent } from './components/aquapp/aquapp.component';
-import { HeaderComponent } from './components/aquapp/header/header.component';
-import { WaterBodiesComponent } from './components/aquapp/water-bodies/water-bodies.component';
-import { NodesComponent } from './components/aquapp/nodes/nodes.component';
-import { NodeTypesComponent } from './components/aquapp/node-types/node-types.component';
-import { SensorsComponent } from './components/aquapp/sensors/sensors.component';
-import { NodeDataComponent } from './components/aquapp/node-data/node-data.component';
-import { IcampffComponent } from './components/aquapp/icampff/icampff.component';
-import { HttpClientModule } from '@angular/common/http';
-import { NotFoundComponent } from './components/aquapp/not-found/not-found.component';
-import { SeedComponent } from './components/aquapp/seed/seed.component';
-import { GetNodeDataFormComponent } from './components/aquapp/forms/get-node-data-form/get-node-data-form.component';
-import { GetLatLngComponent } from './components/aquapp/forms/get-lat-lng/get-lat-lng.component';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
-import { WaterBodyNodesComponent } from './components/aquapp/water-body-nodes/water-body-nodes.component';
-import { EditWaterBodyDialogComponent } from './components/aquapp/forms/edit-water-body-dialog/edit-water-body-dialog.component';
-import { EditWaterBodyPageComponent } from './components/aquapp/forms/edit-water-body-page/edit-water-body-page.component';
-import { FileUploadComponent } from './components/utils/fileupload/fileupload.component';
-import { EditNodeFormComponent } from './components/aquapp/forms/edit-node/edit-node.component';
-import { ExportDataFormComponent } from './components/aquapp/forms/export-data/export-data.component';
-import { ExportDataResultComponent } from './components/aquapp/export-data-result/export-data-result.component';
-import { NgxDygraphsModule } from 'ngx-dygraphs';
-import { AboutComponent } from './components/aquapp/about/about.component';
-import { NavigationComponent } from './components/aquapp/navigation/navigation.component';
-import { UsersComponent } from './components/aquapp/users/users.component';
 
-import { CordovaService } from './services/cordova/cordova.service';
-import { TranslatePipe } from './pipes/translate/translate.pipe';
-import { TranslateService } from './services/translate/translate.service';
-import { IcampffLegendComponent } from './layers/icampff/legend/icampff-legend.component';
-import { IcampffControlComponent } from './layers/icampff/controls/icampff-control.component';
-import { PluginComponentDirective } from './directives/plugin-component/plugin-component.directive';
-import { WaterQualityControlComponent } from './layers/water-quality/controls/water-quality-control.component';
-import { WaterQualityLegendComponent } from './layers/water-quality/legend/water-quality-legend.component';
-import { WeatherStationControlComponent } from './layers/weather-station/controls/weather-station-control.component';
-import { WeatherStationLegendComponent } from './layers/weather-station/legend/weather-station-legend.component';
-import { HydroMFControlComponent } from './layers/hydro-metereologic-factors/controls/hydro-metereologic-factors-control.component';
-import { HydroMFLegendComponent } from './layers/hydro-metereologic-factors/legend/hydro-metereologic-factors-legend.component';
+import { AdminModule } from './modules/admin/admin.module';
+import { AquappModule } from './modules/aquapp/aquapp.module';
+import { NavigationComponent } from './modules/admin/components/navigation/navigation.component';
+import { HeaderComponent } from './modules/aquapp/components/header/header.component';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { TranslationModule } from './modules/utils/translation/translation.module';
+import { CordovaModule } from './modules/utils/cordova/cordova.module';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    DashboardComponent,
-    AquAppComponent,
-    HeaderComponent,
-    WaterBodiesComponent,
-    NodesComponent,
-    NodeTypesComponent,
-    SensorsComponent,
-    NodeDataComponent,
-    IcampffComponent,
-    NotFoundComponent,
-    SeedComponent,
-    GetNodeDataFormComponent,
-    GetLatLngComponent,
-    WaterBodyNodesComponent,
-    EditWaterBodyDialogComponent,
-    EditWaterBodyPageComponent,
-    FileUploadComponent,
-    EditNodeFormComponent,
-    ExportDataFormComponent,
-    ExportDataResultComponent,
-    TranslatePipe,
-    AboutComponent,
     NavigationComponent,
-    UsersComponent,
-    IcampffLegendComponent,
-    IcampffControlComponent,
-    PluginComponentDirective,
-    WaterQualityControlComponent,
-    WaterQualityLegendComponent,
-    WeatherStationControlComponent,
-    WeatherStationLegendComponent,
-    HydroMFControlComponent,
-    HydroMFLegendComponent
+    HeaderComponent,
+    NotFoundComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
+    AdminModule,
+    AquappModule,
+    RouterModule,
+    MatTooltipModule,
     MatButtonModule,
-    MatCheckboxModule,
     MatIconModule,
     MatToolbarModule,
-    MatTooltipModule,
-    HttpClientModule,
-    MatSnackBarModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule,
-    MatGridListModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    LeafletModule.forRoot(),
-    LeafletDrawModule.forRoot(),
-    MatMenuModule,
-    NgxDygraphsModule,
-    MatSidenavModule,
-    MatListModule,
-    MatDividerModule,
-    MatButtonToggleModule
+    TranslationModule,
+    CordovaModule
   ],
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'es-GB' },
-    TranslateService,
-    TranslatePipe,
-    CordovaService
-  ],
+  providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [
-    IcampffControlComponent,
-    IcampffLegendComponent,
-    WaterQualityControlComponent,
-    WaterQualityLegendComponent,
-    WeatherStationControlComponent,
-    WeatherStationLegendComponent,
-    HydroMFControlComponent,
-    HydroMFLegendComponent
-  ]
+  exports: []
 })
 export class AppModule {
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {

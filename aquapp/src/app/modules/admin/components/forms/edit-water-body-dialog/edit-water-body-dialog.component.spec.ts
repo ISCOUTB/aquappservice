@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditWaterBodyDialogComponent } from './edit-water-body-dialog.component';
+import { EditWaterBodyDiagComponent } from './edit-water-body-dialog.component';
 
 describe('EditWaterBodyDialogComponent', () => {
-  let component: EditWaterBodyDialogComponent;
-  let fixture: ComponentFixture<EditWaterBodyDialogComponent>;
+  let component: EditWaterBodyDiagComponent;
+  let fixture: ComponentFixture<EditWaterBodyDiagComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditWaterBodyDialogComponent ]
+      declarations: [ EditWaterBodyDiagComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditWaterBodyDialogComponent);
+    fixture = TestBed.createComponent(EditWaterBodyDiagComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

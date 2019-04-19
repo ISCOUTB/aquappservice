@@ -1,20 +1,13 @@
-import { MarkerLayer } from '../marker-layer.model';
-import {
-  Map,
-  Marker,
-  DivIcon,
-  latLngBounds,
-  LatLng,
-  LatLngBounds
-} from 'leaflet';
+import { Map, Marker, DivIcon, latLngBounds, LatLngBounds } from 'leaflet';
 import { WeatherStationLegendComponent } from './legend/weather-station-legend.component';
 import { WeatherStationControlComponent } from './controls/weather-station-control.component';
 import { ApiService } from 'src/app/services/api/api.service';
 import { NgZone, ComponentFactoryResolver } from '@angular/core';
 import { TranslateService } from 'src/app/services/translate/translate.service';
 import { TranslatePipe } from 'src/app/pipes/translate/translate.pipe';
-import { AquAppComponent } from 'src/app/components/aquapp/aquapp.component';
+import { AquAppComponent } from 'src/app/modules/aquapp/components/home/aquapp.component';
 import { Node } from 'src/app/models/node.model';
+import { MarkerLayer } from 'src/app/layers/marker-layer.model';
 
 export class WeatherStationLayer implements MarkerLayer {
   name = 'Weather Station';

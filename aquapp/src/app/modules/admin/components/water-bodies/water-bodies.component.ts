@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { WaterBody } from 'src/app/models/water-body.model';
 import { ApiService } from 'src/app/services/api/api.service';
 import { MessageService } from 'src/app/services/message/message.service';
-import { EditWaterBodyDialogComponent } from '../forms/edit-water-body-dialog/edit-water-body-dialog.component';
+import { EditWaterBodyDiagComponent } from '../forms/edit-water-body-dialog/edit-water-body-dialog.component';
 
 @Component({
   selector: 'app-water-bodies',
@@ -72,8 +72,8 @@ export class WaterBodiesComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(EditWaterBodyDialogComponent)
-  editFigure: EditWaterBodyDialogComponent;
+  @ViewChild(EditWaterBodyDiagComponent)
+  editFigure: EditWaterBodyDiagComponent;
 
   constructor(
     private apiService: ApiService,

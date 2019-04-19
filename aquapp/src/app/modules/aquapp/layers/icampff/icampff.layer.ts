@@ -1,22 +1,15 @@
-import { FigureLayer } from '../figure-layer.model';
-import {
-  Map,
-  FeatureGroup,
-  geoJSON,
-  LatLngBounds,
-  latLngBounds,
-  LatLng
-} from 'leaflet';
+import { Map, FeatureGroup, geoJSON, LatLngBounds } from 'leaflet';
 import { WaterBody } from 'src/app/models/water-body.model';
 import { ApiService } from 'src/app/services/api/api.service';
 import { IcampffAvg } from 'src/app/models/icampff-avg.model';
 import { NgZone } from '@angular/core';
 import { TranslateService } from 'src/app/services/translate/translate.service';
 import { TranslatePipe } from 'src/app/pipes/translate/translate.pipe';
-import { AquAppComponent } from 'src/app/components/aquapp/aquapp.component';
+import { AquAppComponent } from 'src/app/modules/aquapp/components/home/aquapp.component';
 import { ComponentFactoryResolver } from '@angular/core/src/render3';
 import { IcampffControlComponent } from './controls/icampff-control.component';
 import { IcampffLegendComponent } from './legend/icampff-legend.component';
+import { FigureLayer } from 'src/app/layers/figure-layer.model';
 
 export class IcampffLayer implements FigureLayer {
   name = 'ICAMpff';

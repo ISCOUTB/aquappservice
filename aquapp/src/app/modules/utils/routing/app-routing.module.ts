@@ -1,24 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardComponent } from './components/aquapp/dashboard/dashboard.component';
-import { LoginComponent } from './components/forms/login/login.component';
-import { AquAppComponent } from './components/aquapp/aquapp.component';
-import { NotFoundComponent } from './components/aquapp/not-found/not-found.component';
-import { NodeTypesComponent } from './components/aquapp/node-types/node-types.component';
-import { NodesComponent } from './components/aquapp/nodes/nodes.component';
-import { SensorsComponent } from './components/aquapp/sensors/sensors.component';
-import { IcampffComponent } from './components/aquapp/icampff/icampff.component';
-import { NodeDataComponent } from './components/aquapp/node-data/node-data.component';
-import { WaterBodiesComponent } from './components/aquapp/water-bodies/water-bodies.component';
-import { SeedComponent } from './components/aquapp/seed/seed.component';
-import { GetNodeDataFormComponent } from './components/aquapp/forms/get-node-data-form/get-node-data-form.component';
-import { WaterBodyNodesComponent } from './components/aquapp/water-body-nodes/water-body-nodes.component';
-import { EditWaterBodyPageComponent } from './components/aquapp/forms/edit-water-body-page/edit-water-body-page.component';
-import { EditNodeFormComponent } from './components/aquapp/forms/edit-node/edit-node.component';
-import { ExportDataFormComponent } from './components/aquapp/forms/export-data/export-data.component';
-import { ExportDataResultComponent } from './components/aquapp/export-data-result/export-data-result.component';
-import { AboutComponent } from './components/aquapp/about/about.component';
-import { UsersComponent } from './components/aquapp/users/users.component';
+import { DashboardComponent } from '../../admin/components/dashboard/dashboard.component';
+import { AquAppComponent } from '../../aquapp/components/home/aquapp.component';
+import { NotFoundComponent } from '../../../components/not-found/not-found.component';
+import { NodeTypesComponent } from '../../admin/components/node-types/node-types.component';
+import { NodesComponent } from '../../admin/components/nodes/nodes.component';
+import { SensorsComponent } from '../../admin/components/sensors/sensors.component';
+import { IcampffComponent } from '../../admin/components/icampff/icampff.component';
+import { NodeDataComponent } from '../../admin/components/node-data/node-data.component';
+import { WaterBodiesComponent } from '../../admin/components/water-bodies/water-bodies.component';
+import { SeedComponent } from '../../admin/components/seed/seed.component';
+import { GetNodeDataFormComponent } from '../../admin/components/forms/get-node-data-form/get-node-data-form.component';
+import { WaterBodyNodesComponent } from '../../admin/components/water-body-nodes/water-body-nodes.component';
+import { EditWaterBodyPageComponent } from '../../admin/components/forms/edit-water-body-page/edit-water-body-page.component';
+import { EditNodeFormComponent } from '../../admin/components/forms/edit-node/edit-node.component';
+import { ExportDataFormComponent } from '../../admin/components/forms/export-data/export-data.component';
+import { ExportDataResultComponent } from '../../aquapp/components/export-data-result/export-data-result.component';
+import { AboutComponent } from '../../aquapp/components/about/about.component';
+import { UsersComponent } from '../../admin/components/users/users.component';
+import { LoginComponent } from '../../admin/components/forms/login/login.component';
 
 const routes: Routes = [
   {

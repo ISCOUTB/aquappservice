@@ -21,11 +21,11 @@ import { ApiService } from 'src/app/services/api/api.service';
 import { TranslateService } from 'src/app/services/translate/translate.service';
 import { TranslatePipe } from 'src/app/pipes/translate/translate.pipe';
 import { LayerBase } from 'src/app/layers/layer-base.model';
-import { IcampffLayer } from 'src/app/layers/icampff/icampff.layer';
-import { PluginComponentDirective } from 'src/app/directives/plugin-component/plugin-component.directive';
-import { WaterQualityLayer } from 'src/app/layers/water-quality/water-quality.layer';
-import { WeatherStationLayer } from 'src/app/layers/weather-station/weather-station.layer';
-import { HydroMetereologicFactorsLayer } from 'src/app/layers/hydro-metereologic-factors/hydro-metereologic-factors.layer';
+import { PluginComponentDirective } from 'src/app/modules/utils/plugin-component/directives/plugin-component/plugin-component.directive';
+import { IcampffLayer } from '../../layers/icampff/icampff.layer';
+import { WaterQualityLayer } from '../../layers/water-quality/water-quality.layer';
+import { WeatherStationLayer } from '../../layers/weather-station/weather-station.layer';
+import { HydroMetereologicFactorsLayer } from '../../layers/hydro-metereologic-factors/hydro-metereologic-factors.layer';
 
 @Component({
   selector: 'app-aquapp',

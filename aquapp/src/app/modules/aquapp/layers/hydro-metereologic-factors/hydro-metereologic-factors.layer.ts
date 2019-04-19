@@ -1,23 +1,16 @@
-import { MarkerLayer } from '../marker-layer.model';
-import {
-  Map,
-  Marker,
-  latLngBounds,
-  DivIcon,
-  LatLng,
-  LatLngBounds
-} from 'leaflet';
+import { Map, Marker, LatLngBounds, latLngBounds, DivIcon } from 'leaflet';
+import { HydroMFLegendComponent } from './legend/hydro-metereologic-factors-legend.component';
+import { HydroMFControlComponent } from './controls/hydro-metereologic-factors-control.component';
 import { ApiService } from 'src/app/services/api/api.service';
 import { NgZone, ComponentFactoryResolver } from '@angular/core';
 import { TranslateService } from 'src/app/services/translate/translate.service';
 import { TranslatePipe } from 'src/app/pipes/translate/translate.pipe';
-import { AquAppComponent } from 'src/app/components/aquapp/aquapp.component';
+import { AquAppComponent } from 'src/app/modules/aquapp/components/home/aquapp.component';
 import { Node } from 'src/app/models/node.model';
-import { WaterQualityControlComponent } from './controls/water-quality-control.component';
-import { WaterQualityLegendComponent } from './legend/water-quality-legend.component';
+import { MarkerLayer } from 'src/app/layers/marker-layer.model';
 
-export class WaterQualityLayer implements MarkerLayer {
-  name = 'Water Quality';
+export class HydroMetereologicFactorsLayer implements MarkerLayer {
+  name = 'Hydro-Metereologic Factors';
   status: string;
   description: string;
   map: Map;
@@ -44,7 +37,7 @@ export class WaterQualityLayer implements MarkerLayer {
     this.status = 'on';
     if (!this.nodes) {
       await this.apiService
-        .getAllNodes('59c9d9019a892016ca4be412')
+        .getAllNodes('59c9d9019a892016ca4be413')
         .toPromise()
         .then(
           page => (this.nodes = page.items),
@@ -78,7 +71,7 @@ export class WaterQualityLayer implements MarkerLayer {
           break;
       }
 
-      const nodeTypeName = this.translateService.translate('WQ');
+      const nodeTypeName = this.translateService.translate('HF');
 
       const ico = new DivIcon({
         className: 'xolonium',
@@ -175,7 +168,7 @@ export class WaterQualityLayer implements MarkerLayer {
       .viewContainerRef;
     viewContainerRef.clear();
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      WaterQualityLegendComponent
+      HydroMFLegendComponent
     );
     viewContainerRef.createComponent(componentFactory, 0);
   }
@@ -186,7 +179,7 @@ export class WaterQualityLayer implements MarkerLayer {
       .viewContainerRef;
     viewContainerRef.clear();
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      WaterQualityControlComponent
+      HydroMFControlComponent
     );
     viewContainerRef.createComponent(componentFactory, 0);
   }
