@@ -42,11 +42,6 @@ export class Node extends Entity {
   @property({
     type: 'string',
   })
-  waterBodyId?: string;
-
-  @property({
-    type: 'string',
-  })
   userId?: string;
 
   constructor(data?: Partial<Node>) {

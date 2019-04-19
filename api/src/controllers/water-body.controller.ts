@@ -10,7 +10,7 @@ import {WaterBody} from '../models';
  */
 export class WaterBodyController {
   /**
-   * 
+   *
    * @param waterBodyRepository Water body repository
    * @param user Information about the currently authenticated
    *  user (if any). This information is provided by the callback function
@@ -30,7 +30,7 @@ export class WaterBodyController {
   ) {}
 
   /**
-   * 
+   *
    * @param id Id of the water body
    * @param pageIndex Page number, 0 to N.
    * @param pageSize Number of elements
@@ -86,25 +86,8 @@ export class WaterBodyController {
   @del('/water-bodies')
   async delElement(@param.query.string('id') id: string) {
     return await this.waterBodyRepository
-      .findById(id)
-      .then(async (waterBody: WaterBody) => {
-        // Disassociate all its nodes
-        await this.nodeRepository.find().then(
-          nodes => {
-            for (const node of nodes) {
-              if (node.waterBodyId === waterBody.id) {
-                node.waterBodyId = undefined;
-                this.nodeRepository.save(node);
-              }
-            }
-          },
-          () => {},
-        );
-
-        return await this.waterBodyRepository
-          .deleteById(id)
-          .then(() => Promise.resolve({}), () => Promise.reject({}));
-      });
+      .deleteById(id)
+      .then(() => Promise.resolve({}), () => Promise.reject({}));
   }
 
   /**

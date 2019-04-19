@@ -5,5 +5,4 @@ export class Node {
   coordinates: number[];
   status: string;
   nodeTypeId: string;
-  waterBodyId?: string;
 }

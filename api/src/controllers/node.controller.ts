@@ -199,7 +199,6 @@ export class NodeController {
           ? body.coordinates
           : node.coordinates;
         node.status = body.status ? body.status : node.status;
-        node.waterBodyId = body.waterBodyId;
         this.nodeRepository.save(node);
         return Promise.resolve({});
       },
