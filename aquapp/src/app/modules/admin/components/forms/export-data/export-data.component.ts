@@ -12,7 +12,7 @@ import {
   trigger
 } from '@angular/animations';
 import { MessageService } from 'src/app/services/message/message.service';
-import { TranslateService } from 'src/app/services/translate/translate.service';
+import { TranslateService } from 'src/app/modules/utils/translation/services/translate/translate.service';
 
 @Component({
   selector: 'app-export-data',

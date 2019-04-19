@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DATE_LOCALE } from '@angular/material';
-import { TranslateService } from 'src/app/services/translate/translate.service';
-import { TranslatePipe } from 'src/app/pipes/translate/translate.pipe';
+import { TranslateService } from 'src/app/modules/utils/translation/services/translate/translate.service';
+import { TranslatePipe } from 'src/app/modules/utils/translation/pipes/translate/translate.pipe';
 
 @NgModule({
   declarations: [TranslatePipe],

@@ -3,8 +3,8 @@ import { WeatherStationLegendComponent } from './legend/weather-station-legend.c
 import { WeatherStationControlComponent } from './controls/weather-station-control.component';
 import { ApiService } from 'src/app/services/api/api.service';
 import { NgZone, ComponentFactoryResolver } from '@angular/core';
-import { TranslateService } from 'src/app/services/translate/translate.service';
-import { TranslatePipe } from 'src/app/pipes/translate/translate.pipe';
+import { TranslateService } from 'src/app/modules/utils/translation/services/translate/translate.service';
+import { TranslatePipe } from 'src/app/modules/utils/translation/pipes/translate/translate.pipe';
 import { AquAppComponent } from 'src/app/modules/aquapp/components/home/aquapp.component';
 import { Node } from 'src/app/models/node.model';
 import { MarkerLayer } from 'src/app/layers/marker-layer.model';

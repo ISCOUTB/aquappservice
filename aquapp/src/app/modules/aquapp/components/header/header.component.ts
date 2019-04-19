@@ -10,7 +10,7 @@ import {
 } from '@angular/animations';
 import { ApiService } from 'src/app/services/api/api.service';
 import { MessageService } from 'src/app/services/message/message.service';
-import { TranslateService } from 'src/app/services/translate/translate.service';
+import { TranslateService } from 'src/app/modules/utils/translation/services/translate/translate.service';
 import { CordovaService } from 'src/app/services/cordova/cordova.service';
 
 @Component({
