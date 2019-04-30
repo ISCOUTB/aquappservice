@@ -18,6 +18,7 @@ export async function main(options: ApplicationConfig = {}) {
     options.rest.cert = fs.readFileSync('/etc/ssl/utb.edu.co.crt');
   } catch (error) {
     console.log('Certificate not found, using empty files', error);
+    options.rest.protocol = 'http';
     options.rest.key = '';
     options.rest.cert = '';
   }
