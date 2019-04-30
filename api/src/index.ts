@@ -3,6 +3,8 @@ import {ApplicationConfig} from '@loopback/core';
 
 export {AquappApi};
 
+import * as fs from 'fs';
+
 export async function main(options: ApplicationConfig = {}) {
   if (!options) options = {};
   if (!options.rest) options.rest = {};
@@ -10,6 +12,9 @@ export async function main(options: ApplicationConfig = {}) {
   // They're also required for deployment
   options.rest.port = process.env.APP_PORT || 3000;
   options.rest.host = process.env.APP_HOST || '0.0.0.0';
+  options.rest.protocol = 'https';
+  options.rest.key = fs.readFileSync('/etc/ssl/utb.edu.co.key');
+  options.rest.cert = fs.readFileSync('/etc/ssl/ut.edu.co.crt');
   const app = new AquappApi(options);
   await app.boot();
   await app.start();
