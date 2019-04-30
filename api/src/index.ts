@@ -13,8 +13,14 @@ export async function main(options: ApplicationConfig = {}) {
   options.rest.port = process.env.APP_PORT || 3000;
   options.rest.host = process.env.APP_HOST || '0.0.0.0';
   options.rest.protocol = 'https';
-  options.rest.key = fs.readFileSync('/etc/ssl/utb.edu.co.key');
-  options.rest.cert = fs.readFileSync('/etc/ssl/ut.edu.co.crt');
+  try {
+    options.rest.key = fs.readFileSync('/etc/ssl/utb.edu.co.key');
+    options.rest.cert = fs.readFileSync('/etc/ssl/utb.edu.co.crt');
+  } catch (error) {
+    console.log('Certificate not found, using empty files', error);
+    options.rest.key = '';
+    options.rest.cert = '';
+  }
   const app = new AquappApi(options);
   await app.boot();
   await app.start();
