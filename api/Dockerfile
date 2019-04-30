@@ -24,5 +24,8 @@ RUN npm install
 RUN npm start
 RUN npm stop
 
+COPY ./ssl/utb.edu.co.crt /etc/ssl/utb.edu.co.crt
+COPY ./ssl/utb.edu.co.key /etc/ssl/utb.edu.co.key
+
 # Start the app with pm2
 CMD pm2 start ecosystem.config.js --env production --no-daemon
