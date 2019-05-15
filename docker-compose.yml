@@ -1,6 +1,7 @@
 version: '2.1'
 
 services:
+  
   aquappdatabase:
     image: "mongo:4.0.5"
     ports:
@@ -24,3 +25,20 @@ services:
       - 443:443
     depends_on:
       - api
+  
+  grafana:
+    image: "grafana/grafana"
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./grafana-storage:/var/lib/grafana
+  
+  prometheus:
+    build: ./prometheus
+    ports:
+      - 9090:9090
+      - 8090:8090
+    depends_on:
+      - grafana
