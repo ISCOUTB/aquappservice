@@ -1,26 +1,42 @@
 <div @fadeInOut *ngIf="loading || failed" class="background"></div>
 <div @fadeInOut *ngIf="loading" class="grand-parent-login-container">
   <div class="parent-login-container">
-    <mat-spinner
-      [ngStyle]="{ margin: '0 auto' }"
-      [diameter]="200"
-    ></mat-spinner>
+    <div class="loading wave">
+      {{ 'Loading' | translate }}
+    </div>
   </div>
 </div>
 <div @fadeInOut *ngIf="failed" class="grand-parent-login-container">
   <div class="parent-login-container">
-    <h1 [ngStyle]="{ margin: '0 auto', width: '300px' }">
+    <h1
+      [ngStyle]="{
+        margin: '0 auto',
+        width: '90%',
+        'font-size': '8vw',
+        'text-align': 'center',
+        color: 'rgba(0, 0, 0, 0.7)'
+      }"
+    >
       {{ 'Error loading data' | translate }}
     </h1>
-    <div [ngStyle]="{ margin: '15px auto', width: '40px' }">
+    <div [ngStyle]="{ margin: '15px auto', width: '100px' }">
       <button
-        mat-raised-button
+        mat-stroked-button
         mat-icon-button
         color="accent"
         (click)="updateLayers()"
         matTooltip="{{ 'Retry' | translate }}"
+        [ngStyle]="{ 'margin-right': '20px' }"
       >
-        <mat-icon svgIcon="refresh"></mat-icon>
+        <mat-icon svgIcon="refresh"></mat-icon></button
+      ><button
+        mat-stroked-button
+        mat-icon-button
+        color="primary"
+        (click)="removeFailedLayers()"
+        matTooltip="{{ 'Remove layers that failed to load' | translate }}"
+      >
+        <mat-icon svgIcon="close"></mat-icon>
       </button>
     </div>
   </div>

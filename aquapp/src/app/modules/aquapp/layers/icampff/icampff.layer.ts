@@ -216,6 +216,10 @@ export class IcampffLayer implements FigureLayer {
   }
 
   remove(): void {
+    if (this.status === 'on') {
+      this.removeFigures();
+      this.parent.fixMap();
+    }
     this.status = 'off';
     // Remove leyend and controls
     if (this.parent.selectedLayer === this.name) {
@@ -226,7 +230,5 @@ export class IcampffLayer implements FigureLayer {
         .viewContainerRef;
       viewContainerRef.clear();
     }
-    this.removeFigures();
-    this.parent.fixMap();
   }
 }

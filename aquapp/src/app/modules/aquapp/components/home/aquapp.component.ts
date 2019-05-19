@@ -100,11 +100,11 @@ export class AquAppComponent implements OnInit {
       }
       this.selectLayer(this.selectedLayer);
     });
-    window.onresize = () => {
+    window.addEventListener('resize', () => {
       if (this.map) {
         this.fixMap();
       }
-    };
+    });
   }
 
   ngOnInit() {}
@@ -197,7 +197,7 @@ export class AquAppComponent implements OnInit {
           }
         }
       });
-    }, 225);
+    }, 300);
     this.fixMap();
   }
 
@@ -207,5 +207,18 @@ export class AquAppComponent implements OnInit {
       width: '100%'
     };
     this.map.invalidateSize();
+  }
+
+  async removeFailedLayers() {
+    for (const layer of this.dataLayers) {
+      if (layer.status === 'error') {
+        await layer.remove();
+        this.layerSwitches[
+          this.dataLayers.findIndex(l => l.name === layer.name)
+        ] = false;
+      }
+    }
+    this.loading = false;
+    this.failed = false;
   }
 }

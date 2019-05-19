@@ -150,8 +150,10 @@ export class HydroMetereologicFactorsLayer implements MarkerLayer {
   }
 
   remove(): void {
+    if (this.status === 'on') {
+      this.removeMarkers();
+    }
     this.status = 'off';
-    this.removeMarkers();
     // Remove leyend and controls
     if (this.parent.selectedLayer === this.name) {
       let viewContainerRef = this.parent.pluginComponents.toArray()[0]

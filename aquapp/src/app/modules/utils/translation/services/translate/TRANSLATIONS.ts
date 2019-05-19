@@ -100,7 +100,7 @@ export const TRANSLATIONS = [
     en: 'December',
     es: 'Diciembre'
   },
-  // Overview component translations
+  // AquApp component translations
   {
     en: 'Latest available',
     es: 'La más reciente disponible'
@@ -248,6 +248,14 @@ export const TRANSLATIONS = [
   {
     en: 'Update',
     es: 'Actualizar'
+  },
+  {
+    en: 'Loading',
+    es: 'Cargando'
+  },
+  {
+    en: 'Remove layers that failed to load',
+    es: 'Remover las capas que fallaron en cargar'
   }, // Node sensors
   {
     en: 'Dissolved Oxygen (DO)',
@@ -603,7 +611,7 @@ export const TRANSLATIONS = [
   {
     en:
       // tslint:disable-next-line:max-line-length
-      'You are free to type your comments in our project\'s Wiki, where we may provide you with additional in-depth information about the project.',
+      "You are free to type your comments in our project's Wiki, where we may provide you with additional in-depth information about the project.",
     // tslint:disable-next-line:max-line-length
     es: `Usted es libre de escribirnos agregando un mensaje en nuestra wiki. En esta wiki (alojada en Github) podemos además brindarle información a fondo sobre el proyecto.`
   },
@@ -669,14 +677,16 @@ export const TRANSLATIONS = [
     es: '¿Qué es el sistema interno de caños y lagunas de Cartagena de Indias?'
   },
   {
-      en: 'Why AquApp?',
-      es: '¿Por qué AquApp?'
+    en: 'Why AquApp?',
+    es: '¿Por qué AquApp?'
   },
   {
-      // tslint:disable-next-line:max-line-length
-      en: 'The lagoon system is considered an intertidal estuarine system. It is home to fauna and flora that depend on the mangrove, which are sensitive to changes in several physical-chemical and biological parameters (pH, temperature, salinity, nitrates, electrical conductivity, dissolved oxygen, feacal and total coliforms, just to mention some) that may or may not favor the survival of permanent and temporary species. Plus, its ecosystemic services may be also compromised: hydrological regime regulation, carbon dioxide removal, erosion control, microclimate and nutrients regulation, solids retention, among others. As one may see, the water quality of this lagoon system must be continuously monitored and followed-up and AquApp makes that possible. The best part: it is freely available for all users!',
-      // tslint:disable-next-line:max-line-length
-      es: 'El sistema lagunar es considerado un ecosistema estuarino intramareal boscoso. Alberga, a lo largo de su recorrido, fauna y flora que dependen de los manglares, los cuales son muy sensibles a los cambios en los valores de diferentes parámetros fisicoquímicos y microbiológicos (pH, temperatura, salinidad, nitratos, conductividad eléctrica, oxígeno disuelto, coliformes totales y fecales, entre otros) que pueden o no favorecer a la supervivencia de las especies permanentes y temporales de este ecosistema; además de, potencialmente, afectar los servicios ecosistémicos que el manglar ofrece (regulación del régimen hidrológico, remoción de dióxido de carbono, control de erosión, regulación de nutrientes y el microclima, hábitat de especies, retención de sólidos, etc.). En consecuencia, la calidad del agua (medio que sostiene el ecosistema) y su continuo monitoreo y seguimiento se hace primordial y AquApp hace posible dicho seguimiento de manera gratuita para todos los usuarios.'
+    // tslint:disable-next-line:max-line-length
+    en:
+      'The lagoon system is considered an intertidal estuarine system. It is home to fauna and flora that depend on the mangrove, which are sensitive to changes in several physical-chemical and biological parameters (pH, temperature, salinity, nitrates, electrical conductivity, dissolved oxygen, feacal and total coliforms, just to mention some) that may or may not favor the survival of permanent and temporary species. Plus, its ecosystemic services may be also compromised: hydrological regime regulation, carbon dioxide removal, erosion control, microclimate and nutrients regulation, solids retention, among others. As one may see, the water quality of this lagoon system must be continuously monitored and followed-up and AquApp makes that possible. The best part: it is freely available for all users!',
+    // tslint:disable-next-line:max-line-length
+    es:
+      'El sistema lagunar es considerado un ecosistema estuarino intramareal boscoso. Alberga, a lo largo de su recorrido, fauna y flora que dependen de los manglares, los cuales son muy sensibles a los cambios en los valores de diferentes parámetros fisicoquímicos y microbiológicos (pH, temperatura, salinidad, nitratos, conductividad eléctrica, oxígeno disuelto, coliformes totales y fecales, entre otros) que pueden o no favorecer a la supervivencia de las especies permanentes y temporales de este ecosistema; además de, potencialmente, afectar los servicios ecosistémicos que el manglar ofrece (regulación del régimen hidrológico, remoción de dióxido de carbono, control de erosión, regulación de nutrientes y el microclima, hábitat de especies, retención de sólidos, etc.). En consecuencia, la calidad del agua (medio que sostiene el ecosistema) y su continuo monitoreo y seguimiento se hace primordial y AquApp hace posible dicho seguimiento de manera gratuita para todos los usuarios.'
   },
   {
     en: 'Additional information',
@@ -684,16 +694,20 @@ export const TRANSLATIONS = [
   },
   {
     // tslint:disable-next-line:max-line-length
-    en: 'The system is composed of 6 water bodies: Las Quintas swamp, Bazurto bayou, San Lázaro lagoon, Chambacú lagoon, El Cabrero lagoon, and Juan Angola bayou (which includes the parallel channel located along side Rafael Núñez airport). These water bodies are not only interconnected, but also they connect the Cartagena bay (through Las Quintas swamp and San Lazaro lagoon) with the Caribbean Sea (through La Virgen swamp, which, in turn, is connected to lagoon system through Juan Angola bayou).',
+    en:
+      'The system is composed of 6 water bodies: Las Quintas swamp, Bazurto bayou, San Lázaro lagoon, Chambacú lagoon, El Cabrero lagoon, and Juan Angola bayou (which includes the parallel channel located along side Rafael Núñez airport). These water bodies are not only interconnected, but also they connect the Cartagena bay (through Las Quintas swamp and San Lazaro lagoon) with the Caribbean Sea (through La Virgen swamp, which, in turn, is connected to lagoon system through Juan Angola bayou).',
 
     // tslint:disable-next-line:max-line-length
-    es: 'El sistema interno de caños y lagunas de Cartagena de Indias está conformado por 6 cuerpos de agua: ciénaga de Las Quintas, caño de Bazurto, laguna de San Lázaro, laguna de Chambacú, laguna del Cabrero y caño Juan Angola (que incluye lo que se conoce como el canal paralelo). Estos cuerpos de agua no solo están interconectados entre sí, sino que también conectan a la bahía de Cartagena (a través de la ciénaga de Las Quintas y la laguna de San Lázaro) con el mar Caribe (a través de la ciénaga de La Virgen, cual está conectada al sistema lagunar por medio del caño Juan Angola).'
+    es:
+      'El sistema interno de caños y lagunas de Cartagena de Indias está conformado por 6 cuerpos de agua: ciénaga de Las Quintas, caño de Bazurto, laguna de San Lázaro, laguna de Chambacú, laguna del Cabrero y caño Juan Angola (que incluye lo que se conoce como el canal paralelo). Estos cuerpos de agua no solo están interconectados entre sí, sino que también conectan a la bahía de Cartagena (a través de la ciénaga de Las Quintas y la laguna de San Lázaro) con el mar Caribe (a través de la ciénaga de La Virgen, cual está conectada al sistema lagunar por medio del caño Juan Angola).'
   },
   {
     // tslint:disable-next-line:max-line-length
-    en: 'Over the years, the lagoon system water quality has gradually deteriorated. Furthermore, it has not only lost water surface area and mangrove biomass (area covered by mangrove), but also the cross section area of all water bodies, chiefly due to: (a) sediments and contaminants carried out by runoff from all the urban watersheds that drain into the lagoon system, (b) legal and illegal human settlements alongside the water bodies, (c) mangrove felling, and (d) solid waste disposed of alongside and into the water bodies. All these negatively impact the water quality, the self-purification capacity, and the hydrodynamics, which determines the fate and concentration of contaminants.',
+    en:
+      'Over the years, the lagoon system water quality has gradually deteriorated. Furthermore, it has not only lost water surface area and mangrove biomass (area covered by mangrove), but also the cross section area of all water bodies, chiefly due to: (a) sediments and contaminants carried out by runoff from all the urban watersheds that drain into the lagoon system, (b) legal and illegal human settlements alongside the water bodies, (c) mangrove felling, and (d) solid waste disposed of alongside and into the water bodies. All these negatively impact the water quality, the self-purification capacity, and the hydrodynamics, which determines the fate and concentration of contaminants.',
     // tslint:disable-next-line:max-line-length
-    es: 'A través de los años, la calidad del agua del sistema lagunar se ha venido deteriorando. Además, ha perdido no solo área superficial del espejo de agua y biomasa de manglar (áreas cubiertas de manglar), sino también área de la sección transversal de los cuerpos de agua, debido principalmente a: (a) sedimentos y contaminantes arrastrados por la escorrentía proveniente de las cuencas que drenan hacia el sistema lagunar, (b) asentamientos legales e ilegales a lo largo de las orillas, (c) tala del manglar y (d) mala disposición de residuos sólidos a lo largo de las orillas y dentro de los cuerpos de agua. Estas condiciones afectan de manera directa la calidad de los cuerpos de agua, su capacidad de autodepuración y la hidrodinámica que determina el destino y concentración de los contaminantes.'
+    es:
+      'A través de los años, la calidad del agua del sistema lagunar se ha venido deteriorando. Además, ha perdido no solo área superficial del espejo de agua y biomasa de manglar (áreas cubiertas de manglar), sino también área de la sección transversal de los cuerpos de agua, debido principalmente a: (a) sedimentos y contaminantes arrastrados por la escorrentía proveniente de las cuencas que drenan hacia el sistema lagunar, (b) asentamientos legales e ilegales a lo largo de las orillas, (c) tala del manglar y (d) mala disposición de residuos sólidos a lo largo de las orillas y dentro de los cuerpos de agua. Estas condiciones afectan de manera directa la calidad de los cuerpos de agua, su capacidad de autodepuración y la hidrodinámica que determina el destino y concentración de los contaminantes.'
   },
   // EXPORT FORM COMPONENT
   {
@@ -739,22 +753,22 @@ export const TRANSLATIONS = [
   {
     en: 'It seems that the selected water body has no data.',
     es: 'Al parecer el cuerpo de agua seleccionado no tiene datos.'
-  },  // Node types
+  }, // Node types
   {
-      en: 'Water Quality',
-      es: 'Calidad del agua'
+    en: 'Water Quality',
+    es: 'Calidad del agua'
   },
   {
-      en: 'Hydro-Metereologic Factors',
-      es: 'Factores hidrometereológicos'
+    en: 'Hydro-Metereologic Factors',
+    es: 'Factores hidrometereológicos'
   },
   {
-      en: 'Weather Station',
-      es: 'Estación del clima'
+    en: 'Weather Station',
+    es: 'Estación del clima'
   },
   {
-      en: 'All stations',
-      es: 'Todas las estaciones'
+    en: 'All stations',
+    es: 'Todas las estaciones'
   }, // NAVIGATION
   {
     en: 'Close',
