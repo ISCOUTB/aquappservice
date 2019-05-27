@@ -15,3 +15,4 @@ aquapp/config/utb.edu.co.*
 databasenew/*
 .docker-compose-new-test.yml.swp
 grafana-storage/*
+influxdb-data/*
