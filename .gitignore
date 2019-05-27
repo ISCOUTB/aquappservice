@@ -15,5 +15,3 @@ aquapp/config/utb.edu.co.*
 databasenew/*
 .docker-compose-new-test.yml.swp
 grafana-storage/*
-grafana/grafana.ini
-prometheus/prometheus.yml
