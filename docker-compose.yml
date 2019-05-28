@@ -7,9 +7,9 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./databasenew:/data/db
-      - ./imports:/imports
-      - ./backups:/backups
+      - ./data/aquappdatabase:/data/db
+      - ./data/imports:/imports
+      - ./data/backups:/backups
 
   api:
     build: ./api
@@ -35,7 +35,7 @@ services:
       - 2003:2003
       - 8083:8083
     volumes:
-      - ./influxdb-data:/var/lib/influxdb
+      - ./data/influxdb:/var/lib/influxdb
 
   grafana:
     image: "grafana/grafana"
@@ -44,7 +44,7 @@ services:
     volumes:
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
       - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
-      - ./grafana-storage:/var/lib/grafana
+      - ./data/grafana:/var/lib/grafana
   
   prometheus:
     build: ./prometheus
